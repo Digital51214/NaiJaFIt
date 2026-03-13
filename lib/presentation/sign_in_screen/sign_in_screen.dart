@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:naijafit/presentation/goal_selection_screen/goal_selection_screen.dart';
-import 'package:naijafit/presentation/main_dashboard_screen/main_dashboard_screen.dart';
-import 'package:sizer/sizer.dart';
+import 'package:naijafit/presentation/Onboarding_screen.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-
 import '../../core/app_export.dart';
 import '../../routes/app_routes.dart';
 import '../../services/auth_service.dart';

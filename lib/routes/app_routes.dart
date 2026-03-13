@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:naijafit/presentation/Onboarding_screen.dart';
 import '../presentation/splash_screen.dart';
 import '../presentation/food_logging_screen/food_logging_screen.dart';
 import '../presentation/challenge_identification_screen/challenge_identification_screen.dart';
 import '../presentation/main_dashboard_screen/main_dashboard_screen.dart';
 import '../presentation/personal_stats_screen/personal_stats_screen.dart';
 import '../presentation/premium_subscription_screen/premium_subscription_screen.dart';
-import '../presentation/goal_selection_screen/goal_selection_screen.dart';
 import '../presentation/sign_in_screen/sign_in_screen.dart';
 import '../presentation/sign_up_screen/sign_up_screen.dart';
 import '../presentation/forgot_password_screen/forgot_password_screen.dart';
