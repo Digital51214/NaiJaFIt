@@ -1,0 +1,54 @@
+name: naijafit
+description: A new Flutter project.
+publish_to: none
+version: 1.0.0+1
+
+environment:
+  sdk: ">=3.9.0 <4.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # CRITICAL: Core UI and responsive design
+  supabase_flutter: ^2.9.1
+  sizer: ^2.0.15
+  flutter_svg: ^2.0.9
+  google_fonts: ^6.1.0
+  shared_preferences: ^2.2.2
+  web: ^1.1.1
+  google_sign_in: ^6.2.2
+  animate_do: ^3.1.2
+
+  # Feature dependencies
+  cached_network_image: ^3.3.1
+  connectivity_plus: ^6.1.4
+  dio: ^5.7.0
+  fluttertoast: ^8.2.4
+  fl_chart: ^0.65.0
+  percent_indicator: ^4.2.5
+  flutter_stripe: ^11.5.0
+  flutter_stripe_web: ^6.1.0
+  image_picker: ^1.0.4
+  http: ^1.2.0
+  intl: any
+  universal_html: ^2.2.4
+
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+  flutter_launcher_icons: ^0.14.4
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/images/app_logo.png"
+  remove_alpha_ios: true # Ensures transparent background works properly
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/
+    - assets/images/
