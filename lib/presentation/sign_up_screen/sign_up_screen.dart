@@ -222,7 +222,10 @@ class _SignUpScreenState extends State<SignUpScreen>
 
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Sign up failed: ${e.toString()}'),
+          content: Text(
+            'Sign up failed: ${e.toString()}',
+            style: const TextStyle(fontFamily: "Poppin"),
+          ),
           backgroundColor: Theme.of(context).colorScheme.error,
         ),
       );
@@ -235,21 +238,31 @@ class _SignUpScreenState extends State<SignUpScreen>
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Account Already Exists'),
+        title: const Text(
+          'Account Already Exists',
+          style: TextStyle(fontFamily: "Poppin"),
+        ),
         content: const Text(
           'An account with this email already exists. Would you like to sign in instead?',
+          style: TextStyle(fontFamily: "Poppin"),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(),
-            child: const Text('Cancel'),
+            child: const Text(
+              'Cancel',
+              style: TextStyle(fontFamily: "Poppin"),
+            ),
           ),
           ElevatedButton(
             onPressed: () {
               Navigator.of(context).pop();
               Navigator.of(context).pushReplacementNamed(AppRoutes.signIn);
             },
-            child: const Text('Go to Sign In'),
+            child: const Text(
+              'Go to Sign In',
+              style: TextStyle(fontFamily: "Poppin"),
+            ),
           ),
         ],
       ),
@@ -297,6 +310,7 @@ class _SignUpScreenState extends State<SignUpScreen>
                             style: TextStyle(
                               fontSize: 24,
                               fontWeight: FontWeight.w700,
+                              fontFamily: "Poppin",
                               color: Colors.black,
                               height: 1.2,
                             ),
@@ -318,6 +332,7 @@ class _SignUpScreenState extends State<SignUpScreen>
                             style: TextStyle(
                               fontSize: 12,
                               fontWeight: FontWeight.w400,
+                              fontFamily: "Poppin",
                               color: Colors.black87,
                             ),
                           ),
@@ -434,6 +449,7 @@ class _SignUpScreenState extends State<SignUpScreen>
         keyboardType: TextInputType.name,
         style: const TextStyle(
           fontSize: 14,
+          fontFamily: "Poppin",
           color: Colors.black,
         ),
         decoration: InputDecoration(
@@ -441,6 +457,7 @@ class _SignUpScreenState extends State<SignUpScreen>
           hintStyle: TextStyle(
             color: Colors.grey.shade500,
             fontSize: 10,
+            fontFamily: "Poppin",
             fontWeight: FontWeight.w400,
           ),
           filled: true,
@@ -477,6 +494,7 @@ class _SignUpScreenState extends State<SignUpScreen>
               width: 1,
             ),
           ),
+          errorStyle: const TextStyle(fontFamily: "Poppin"),
         ),
         validator: (value) {
           if (value == null || value.trim().isEmpty) {
@@ -500,6 +518,7 @@ class _SignUpScreenState extends State<SignUpScreen>
         keyboardType: TextInputType.emailAddress,
         style: const TextStyle(
           fontSize: 14,
+          fontFamily: "Poppin",
           color: Colors.black,
         ),
         decoration: InputDecoration(
@@ -507,6 +526,7 @@ class _SignUpScreenState extends State<SignUpScreen>
           hintStyle: TextStyle(
             color: Colors.grey.shade500,
             fontSize: 10,
+            fontFamily: "Poppin",
             fontWeight: FontWeight.w400,
           ),
           filled: true,
@@ -543,6 +563,7 @@ class _SignUpScreenState extends State<SignUpScreen>
               width: 1,
             ),
           ),
+          errorStyle: const TextStyle(fontFamily: "Poppin"),
         ),
         validator: (value) {
           if (value == null || value.trim().isEmpty) {
@@ -569,6 +590,7 @@ class _SignUpScreenState extends State<SignUpScreen>
         obscureText: !_isPasswordVisible,
         style: const TextStyle(
           fontSize: 14,
+          fontFamily: "Poppin",
           color: Colors.black,
         ),
         decoration: InputDecoration(
@@ -576,6 +598,7 @@ class _SignUpScreenState extends State<SignUpScreen>
           hintStyle: TextStyle(
             color: Colors.grey.shade500,
             fontSize: 10,
+            fontFamily: "Poppin",
             fontWeight: FontWeight.w400,
           ),
           filled: true,
@@ -624,6 +647,7 @@ class _SignUpScreenState extends State<SignUpScreen>
               width: 1,
             ),
           ),
+          errorStyle: const TextStyle(fontFamily: "Poppin"),
         ),
         validator: (value) {
           if (value == null || value.trim().isEmpty) {
@@ -650,6 +674,7 @@ class _SignUpScreenState extends State<SignUpScreen>
         obscureText: !_isConfirmPasswordVisible,
         style: const TextStyle(
           fontSize: 14,
+          fontFamily: "Poppin",
           color: Colors.black,
         ),
         decoration: InputDecoration(
@@ -657,6 +682,7 @@ class _SignUpScreenState extends State<SignUpScreen>
           hintStyle: TextStyle(
             color: Colors.grey.shade500,
             fontSize: 10,
+            fontFamily: "Poppin",
             fontWeight: FontWeight.w400,
           ),
           filled: true,
@@ -672,7 +698,9 @@ class _SignUpScreenState extends State<SignUpScreen>
               });
             },
             icon: Icon(
-              _isConfirmPasswordVisible ? Icons.visibility_off : Icons.visibility,
+              _isConfirmPasswordVisible
+                  ? Icons.visibility_off
+                  : Icons.visibility,
               color: const Color(0xFF0A8A2A),
               size: 22,
             ),
@@ -705,6 +733,7 @@ class _SignUpScreenState extends State<SignUpScreen>
               width: 1,
             ),
           ),
+          errorStyle: const TextStyle(fontFamily: "Poppin"),
         ),
         validator: (value) {
           if (value == null || value.trim().isEmpty) {
@@ -737,7 +766,8 @@ class _SignUpScreenState extends State<SignUpScreen>
                 color: const Color(0xFF067C1F),
                 width: 1,
               ),
-              color: _isAgreed ? const Color(0xFF067C1F) : Colors.transparent,
+              color:
+              _isAgreed ? const Color(0xFF067C1F) : Colors.transparent,
             ),
             child: _isAgreed
                 ? const Icon(
@@ -757,19 +787,25 @@ class _SignUpScreenState extends State<SignUpScreen>
                 'I agree with all ',
                 style: TextStyle(
                   fontSize: 10,
+                  fontFamily: "Poppin",
                   color: Colors.black,
                   fontWeight: FontWeight.w400,
                 ),
               ),
-
               GestureDetector(
                 onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context)=>TermsAndConditions()));
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => TermsAndConditions(),
+                    ),
+                  );
                 },
                 child: const Text(
                   'Terms & Conditions',
                   style: TextStyle(
                     fontSize: 10,
+                    fontFamily: "Poppin",
                     color: Color(0xFF0A8A2A),
                     fontWeight: FontWeight.w600,
                     decoration: TextDecoration.underline,
@@ -777,24 +813,29 @@ class _SignUpScreenState extends State<SignUpScreen>
                   ),
                 ),
               ),
-
               const Text(
                 ' and ',
                 style: TextStyle(
                   fontSize: 10,
+                  fontFamily: "Poppin",
                   color: Colors.black,
                   fontWeight: FontWeight.w400,
                 ),
               ),
-
               GestureDetector(
                 onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context)=>PrivacyPolicy()));
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => PrivacyPolicy(),
+                    ),
+                  );
                 },
                 child: const Text(
                   'Privacy Policy',
                   style: TextStyle(
                     fontSize: 10,
+                    fontFamily: "Poppin",
                     color: Color(0xFF0A8A2A),
                     fontWeight: FontWeight.w600,
                     decoration: TextDecoration.underline,
@@ -804,7 +845,7 @@ class _SignUpScreenState extends State<SignUpScreen>
               ),
             ],
           ),
-        )
+        ),
       ],
     );
   }
@@ -819,10 +860,10 @@ class _SignUpScreenState extends State<SignUpScreen>
             : () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => const SignInScreen()),
+            MaterialPageRoute(
+              builder: (context) => const SignInScreen(),
+            ),
           );
-
-          // Agar signup API chalani ho to neeche wali line use kar lena:
           // _handleSignUp();
         },
         style: ElevatedButton.styleFrom(
@@ -862,6 +903,7 @@ class _SignUpScreenState extends State<SignUpScreen>
             ),
             style: TextStyle(
               fontSize: 14,
+              fontFamily: "Poppin",
               fontWeight: FontWeight.w700,
               color: Colors.white,
               height: 1.0,
@@ -882,6 +924,7 @@ class _SignUpScreenState extends State<SignUpScreen>
             'Already have an account? ',
             style: TextStyle(
               fontSize: 14,
+              fontFamily: "Poppin",
               color: Colors.black,
               fontWeight: FontWeight.w400,
             ),
@@ -894,6 +937,7 @@ class _SignUpScreenState extends State<SignUpScreen>
               'Sign In',
               style: TextStyle(
                 fontSize: 14,
+                fontFamily: "Poppin",
                 color: Color(0xFF0A8A2A),
                 fontWeight: FontWeight.w700,
                 decoration: TextDecoration.underline,

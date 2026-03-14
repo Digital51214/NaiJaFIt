@@ -42,7 +42,6 @@ class _TermsAndConditionsState extends State<TermsAndConditions>
         curve: const Interval(0.0, 0.20, curve: Curves.easeOutCubic),
       ),
     );
-
     _headerFade = Tween<double>(begin: 0, end: 1).animate(
       CurvedAnimation(
         parent: _controller,
@@ -59,7 +58,6 @@ class _TermsAndConditionsState extends State<TermsAndConditions>
         curve: const Interval(0.20, 0.45, curve: Curves.easeOutCubic),
       ),
     );
-
     _introFade = Tween<double>(begin: 0, end: 1).animate(
       CurvedAnimation(
         parent: _controller,
@@ -76,7 +74,6 @@ class _TermsAndConditionsState extends State<TermsAndConditions>
         curve: const Interval(0.45, 0.75, curve: Curves.easeOutCubic),
       ),
     );
-
     _bodyFade = Tween<double>(begin: 0, end: 1).animate(
       CurvedAnimation(
         parent: _controller,
@@ -93,7 +90,6 @@ class _TermsAndConditionsState extends State<TermsAndConditions>
         curve: const Interval(0.75, 1.00, curve: Curves.easeOutCubic),
       ),
     );
-
     _moreFade = Tween<double>(begin: 0, end: 1).animate(
       CurvedAnimation(
         parent: _controller,
@@ -117,6 +113,7 @@ class _TermsAndConditionsState extends State<TermsAndConditions>
       text,
       style: TextStyle(
         fontSize: screenWidth * 0.043,
+        fontFamily: "Poppin",
         height: 1.55,
         fontWeight: FontWeight.w400,
         color: const Color(0xFF2B2B2B),
@@ -139,7 +136,7 @@ class _TermsAndConditionsState extends State<TermsAndConditions>
             children: [
               SizedBox(height: screenHeight * 0.045),
 
-              // Header: Back button, Title, Logo
+              // Header
               SlideTransition(
                 position: _headerSlide,
                 child: FadeTransition(
@@ -172,6 +169,7 @@ class _TermsAndConditionsState extends State<TermsAndConditions>
                         child: Text(
                           'Terms & Conditions',
                           style: TextStyle(
+                            fontFamily: "Poppin",
                             fontWeight: FontWeight.w700,
                             fontSize: 20,
                             color: Colors.black,
@@ -180,7 +178,6 @@ class _TermsAndConditionsState extends State<TermsAndConditions>
                         ),
                       ),
 
-                      // Right logo
                       Container(
                         height: screenHeight * 0.08,
                         width: screenWidth * 0.18,
@@ -205,6 +202,7 @@ class _TermsAndConditionsState extends State<TermsAndConditions>
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      // Paragraph 1
                       SlideTransition(
                         position: _introSlide,
                         child: FadeTransition(
@@ -218,6 +216,7 @@ class _TermsAndConditionsState extends State<TermsAndConditions>
 
                       SizedBox(height: screenHeight * 0.03),
 
+                      // Paragraph 2
                       SlideTransition(
                         position: _bodySlide,
                         child: FadeTransition(
@@ -234,6 +233,7 @@ class _TermsAndConditionsState extends State<TermsAndConditions>
 
                       SizedBox(height: screenHeight * 0.025),
 
+                      // Paragraph 3
                       SlideTransition(
                         position: _bodySlide,
                         child: FadeTransition(
@@ -250,6 +250,7 @@ class _TermsAndConditionsState extends State<TermsAndConditions>
 
                       SizedBox(height: screenHeight * 0.025),
 
+                      // Paragraph 4
                       SlideTransition(
                         position: _moreSlide,
                         child: FadeTransition(

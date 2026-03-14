@@ -14,7 +14,7 @@ dependencies:
   supabase_flutter: ^2.9.1
   sizer: ^2.0.15
   flutter_svg: ^2.0.9
-  google_fonts: ^6.1.0
+  google_fonts: ^8.0.2
   shared_preferences: ^2.2.2
   web: ^1.1.1
   google_sign_in: ^6.2.2
@@ -52,3 +52,9 @@ flutter:
   assets:
     - assets/
     - assets/images/
+
+
+fonts:
+  - family: Poppin
+    fonts:
+      - asset: assets/fonts/Poppins-Regular.ttf

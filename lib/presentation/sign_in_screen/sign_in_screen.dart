@@ -238,7 +238,10 @@ class _SignInScreenState extends State<SignInScreen>
 
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text(errorMessage),
+          content: Text(
+            errorMessage,
+            style: const TextStyle(fontFamily: "Poppin"),
+          ),
           backgroundColor: Theme.of(context).colorScheme.error,
           duration: const Duration(seconds: 4),
           behavior: SnackBarBehavior.floating,
@@ -290,6 +293,7 @@ class _SignInScreenState extends State<SignInScreen>
                             style: TextStyle(
                               fontSize: 24,
                               fontWeight: FontWeight.w700,
+                              fontFamily: "Poppin",
                               color: Colors.black,
                               height: 1.2,
                             ),
@@ -311,6 +315,7 @@ class _SignInScreenState extends State<SignInScreen>
                             style: TextStyle(
                               fontSize: 12,
                               fontWeight: FontWeight.w400,
+                              fontFamily: "Poppin",
                               color: Colors.black87,
                             ),
                           ),
@@ -382,11 +387,14 @@ class _SignInScreenState extends State<SignInScreen>
   Widget _buildTopLogo(Size size) {
     return Center(
       child: Container(
-        height: size.height*0.2,
-        width: size.width*0.6,
+        height: size.height * 0.2,
+        width: size.width * 0.6,
         decoration: BoxDecoration(
           color: Colors.transparent,
-          image: DecorationImage(image: AssetImage("assets/images/LOGO.png"),fit: BoxFit.cover)
+          image: DecorationImage(
+            image: AssetImage("assets/images/LOGO.png"),
+            fit: BoxFit.cover,
+          ),
         ),
       ),
     );
@@ -396,7 +404,7 @@ class _SignInScreenState extends State<SignInScreen>
     return Container(
       height: 45,
       width: double.infinity,
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         color: Colors.transparent,
       ),
       child: TextFormField(
@@ -404,6 +412,7 @@ class _SignInScreenState extends State<SignInScreen>
         keyboardType: TextInputType.emailAddress,
         style: const TextStyle(
           fontSize: 14,
+          fontFamily: "Poppin",
           color: Colors.black,
         ),
         decoration: InputDecoration(
@@ -411,6 +420,7 @@ class _SignInScreenState extends State<SignInScreen>
           hintStyle: TextStyle(
             color: Colors.grey.shade500,
             fontSize: 10,
+            fontFamily: "Poppin",
             fontWeight: FontWeight.w400,
           ),
           filled: true,
@@ -447,6 +457,7 @@ class _SignInScreenState extends State<SignInScreen>
               width: 1,
             ),
           ),
+          errorStyle: const TextStyle(fontFamily: "Poppin"),
         ),
         validator: (value) {
           if (value == null || value.trim().isEmpty) {
@@ -465,7 +476,7 @@ class _SignInScreenState extends State<SignInScreen>
     return Container(
       height: 45,
       width: double.infinity,
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         color: Colors.transparent,
       ),
       child: TextFormField(
@@ -473,6 +484,7 @@ class _SignInScreenState extends State<SignInScreen>
         obscureText: !_isPasswordVisible,
         style: const TextStyle(
           fontSize: 14,
+          fontFamily: "Poppin",
           color: Colors.black,
         ),
         decoration: InputDecoration(
@@ -480,6 +492,7 @@ class _SignInScreenState extends State<SignInScreen>
           hintStyle: TextStyle(
             color: Colors.grey.shade500,
             fontSize: 10,
+            fontFamily: "Poppin",
             fontWeight: FontWeight.w400,
           ),
           filled: true,
@@ -528,6 +541,7 @@ class _SignInScreenState extends State<SignInScreen>
               width: 1,
             ),
           ),
+          errorStyle: const TextStyle(fontFamily: "Poppin"),
         ),
         validator: (value) {
           if (value == null || value.trim().isEmpty) {
@@ -562,7 +576,9 @@ class _SignInScreenState extends State<SignInScreen>
                     color: Colors.black54,
                     width: 1,
                   ),
-                  color: _rememberMe ? const Color(0xFF0A8A2A) : Colors.transparent,
+                  color: _rememberMe
+                      ? const Color(0xFF0A8A2A)
+                      : Colors.transparent,
                 ),
                 child: _rememberMe
                     ? const Icon(
@@ -577,6 +593,7 @@ class _SignInScreenState extends State<SignInScreen>
                 'Remember Me',
                 style: TextStyle(
                   fontSize: 10,
+                  fontFamily: "Poppin",
                   color: Colors.black,
                   fontWeight: FontWeight.w400,
                 ),
@@ -598,6 +615,7 @@ class _SignInScreenState extends State<SignInScreen>
             'Forget Password?',
             style: TextStyle(
               fontSize: 10,
+              fontFamily: "Poppin",
               color: Color(0xFF0A8A2A),
               fontWeight: FontWeight.w600,
               decoration: TextDecoration.underline,
@@ -624,8 +642,6 @@ class _SignInScreenState extends State<SignInScreen>
             ),
                 (Route<dynamic> route) => false,
           );
-
-          // Agar auth call chalani ho to neeche wali line use kar lena:
           // _handleSignIn();
         },
         style: ElevatedButton.styleFrom(
@@ -665,6 +681,7 @@ class _SignInScreenState extends State<SignInScreen>
             ),
             style: TextStyle(
               fontSize: 14,
+              fontFamily: "Poppin",
               fontWeight: FontWeight.w700,
               color: Colors.white,
               height: 1.0,
@@ -674,6 +691,7 @@ class _SignInScreenState extends State<SignInScreen>
       ),
     );
   }
+
   Widget _buildSignUpPrompt() {
     return Center(
       child: Wrap(
@@ -681,9 +699,10 @@ class _SignInScreenState extends State<SignInScreen>
         crossAxisAlignment: WrapCrossAlignment.center,
         children: [
           const Text(
-            "Don’t have an account? ",
+            "Don't have an account? ",
             style: TextStyle(
               fontSize: 14,
+              fontFamily: "Poppin",
               color: Colors.black,
               fontWeight: FontWeight.w400,
             ),
@@ -696,6 +715,7 @@ class _SignInScreenState extends State<SignInScreen>
               'Sign Up',
               style: TextStyle(
                 fontSize: 14,
+                fontFamily: "Poppin",
                 color: Color(0xFF0A8A2A),
                 fontWeight: FontWeight.w700,
                 decoration: TextDecoration.underline,

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:naijafit/presentation/Updatepassword_screen.dart';
 import 'package:sizer/sizer.dart';
+
 class VerifyScreen extends StatefulWidget {
   const VerifyScreen({super.key});
 
@@ -13,14 +14,12 @@ class _VerifyScreenState extends State<VerifyScreen>
     with SingleTickerProviderStateMixin {
   final _formKey = GlobalKey<FormState>();
 
-  // OTP controllers & focus nodes (6 boxes)
   final List<TextEditingController> _otpControllers =
   List.generate(6, (_) => TextEditingController());
   final List<FocusNode> _otpFocusNodes = List.generate(6, (_) => FocusNode());
 
   bool _isLoading = false;
 
-  // Animations
   late final AnimationController _controller;
 
   late final Animation<Offset> _topSlide;
@@ -39,14 +38,15 @@ class _VerifyScreenState extends State<VerifyScreen>
   void initState() {
     super.initState();
 
-    // init animation controller
     _controller = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 1000),
     );
 
-    _topSlide = Tween<Offset>(begin: const Offset(0, -0.35), end: Offset.zero)
-        .animate(
+    _topSlide = Tween<Offset>(
+      begin: const Offset(0, -0.35),
+      end: Offset.zero,
+    ).animate(
       CurvedAnimation(
         parent: _controller,
         curve: const Interval(0.00, 0.20, curve: Curves.easeOutCubic),
@@ -59,13 +59,15 @@ class _VerifyScreenState extends State<VerifyScreen>
       ),
     );
 
-    _shieldSlide =
-        Tween<Offset>(begin: const Offset(0, -0.10), end: Offset.zero).animate(
-          CurvedAnimation(
-            parent: _controller,
-            curve: const Interval(0.15, 0.40, curve: Curves.easeOutCubic),
-          ),
-        );
+    _shieldSlide = Tween<Offset>(
+      begin: const Offset(0, -0.10),
+      end: Offset.zero,
+    ).animate(
+      CurvedAnimation(
+        parent: _controller,
+        curve: const Interval(0.15, 0.40, curve: Curves.easeOutCubic),
+      ),
+    );
     _shieldFade = Tween<double>(begin: 0, end: 1).animate(
       CurvedAnimation(
         parent: _controller,
@@ -73,13 +75,15 @@ class _VerifyScreenState extends State<VerifyScreen>
       ),
     );
 
-    _otpSlide =
-        Tween<Offset>(begin: const Offset(0, 0.35), end: Offset.zero).animate(
-          CurvedAnimation(
-            parent: _controller,
-            curve: const Interval(0.38, 0.70, curve: Curves.easeOutCubic),
-          ),
-        );
+    _otpSlide = Tween<Offset>(
+      begin: const Offset(0, 0.35),
+      end: Offset.zero,
+    ).animate(
+      CurvedAnimation(
+        parent: _controller,
+        curve: const Interval(0.38, 0.70, curve: Curves.easeOutCubic),
+      ),
+    );
     _otpFade = Tween<double>(begin: 0, end: 1).animate(
       CurvedAnimation(
         parent: _controller,
@@ -87,13 +91,15 @@ class _VerifyScreenState extends State<VerifyScreen>
       ),
     );
 
-    _buttonSlide =
-        Tween<Offset>(begin: const Offset(0, 0.45), end: Offset.zero).animate(
-          CurvedAnimation(
-            parent: _controller,
-            curve: const Interval(0.60, 1.00, curve: Curves.easeOutCubic),
-          ),
-        );
+    _buttonSlide = Tween<Offset>(
+      begin: const Offset(0, 0.45),
+      end: Offset.zero,
+    ).animate(
+      CurvedAnimation(
+        parent: _controller,
+        curve: const Interval(0.60, 1.00, curve: Curves.easeOutCubic),
+      ),
+    );
     _buttonFade = Tween<double>(begin: 0, end: 1).animate(
       CurvedAnimation(
         parent: _controller,
@@ -104,9 +110,6 @@ class _VerifyScreenState extends State<VerifyScreen>
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (mounted) _controller.forward();
     });
-
-    // NOTE: removed automatic requestFocus here so keyboard won't open automatically.
-    // Users can tap any OTP box to focus and type.
   }
 
   @override
@@ -122,14 +125,12 @@ class _VerifyScreenState extends State<VerifyScreen>
   }
 
   void _onOtpChanged(String value, int index) {
-    // keep only last char if pasted multiple
     String text = value;
     if (text.length > 1) {
       text = text.substring(text.length - 1);
       _otpControllers[index].text = text;
     }
 
-    // move focus / unfocus accordingly
     if (text.isNotEmpty) {
       if (index + 1 < _otpFocusNodes.length) {
         _otpFocusNodes[index + 1].requestFocus();
@@ -142,11 +143,10 @@ class _VerifyScreenState extends State<VerifyScreen>
       }
     }
 
-    // place cursor at end (defensive)
     _otpControllers[index].selection = TextSelection.fromPosition(
-        TextPosition(offset: _otpControllers[index].text.length));
+      TextPosition(offset: _otpControllers[index].text.length),
+    );
 
-    // trigger AnimatedSwitcher to animate new character
     setState(() {});
   }
 
@@ -154,10 +154,14 @@ class _VerifyScreenState extends State<VerifyScreen>
       _otpControllers.map((c) => c.text.trim()).join();
 
   Future<void> _handleVerify() async {
-    // simple validation: all 6 boxes filled
     if (_enteredOtp.length < 6) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Please enter the 6-digit code')),
+        const SnackBar(
+          content: Text(
+            'Please enter the 6-digit code',
+            style: TextStyle(fontFamily: "Poppin"),
+          ),
+        ),
       );
       return;
     }
@@ -165,30 +169,32 @@ class _VerifyScreenState extends State<VerifyScreen>
     setState(() => _isLoading = true);
 
     try {
-      // NOTE: No API changes — keep this as UI-only placeholder.
-      // If you have verification API, call it here.
       await Future.delayed(const Duration(seconds: 1));
 
-      // For now, show success and navigate to ChangePasswordScreen:
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Code verified')),
+        const SnackBar(
+          content: Text(
+            'Code verified',
+            style: TextStyle(fontFamily: "Poppin"),
+          ),
+        ),
       );
 
-      // -------------------------
-      // <-- THIS IS THE NEW NAVIGATION:
-      // After successful verify, go to ChangePasswordScreen
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
           builder: (context) => const ChangePasswordScreen(),
         ),
       );
-      // -------------------------
-
     } catch (e) {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Verification failed: ${e.toString()}')),
+        SnackBar(
+          content: Text(
+            'Verification failed: ${e.toString()}',
+            style: const TextStyle(fontFamily: "Poppin"),
+          ),
+        ),
       );
     } finally {
       if (mounted) setState(() => _isLoading = false);
@@ -207,25 +213,22 @@ class _VerifyScreenState extends State<VerifyScreen>
   }
 
   Widget _buildOtpBox(int index, double boxSize) {
-    // We use a Stack to keep the editable TextFormField (with transparent text)
-    // and an AnimatedSwitcher overlay that shows the visible digit with animation.
     return SizedBox(
       width: boxSize,
-      height: boxSize*1.3,
+      height: boxSize * 1.3,
       child: Stack(
         alignment: Alignment.center,
         children: [
-          // Invisible text inside real TextFormField so keyboard + caret remain functional.
           TextFormField(
             controller: _otpControllers[index],
             focusNode: _otpFocusNodes[index],
-            autofocus: false, // explicitly false so keyboard won't open automatically
+            autofocus: false,
             textAlign: TextAlign.center,
             keyboardType: TextInputType.number,
             style: TextStyle(
-              // hide the raw character to avoid double text; caret will still show.
               color: Colors.transparent,
               fontSize: 18.sp,
+              fontFamily: "Poppin",
               fontWeight: FontWeight.w700,
             ),
             cursorColor: const Color(0xFF0A8A2A),
@@ -237,13 +240,17 @@ class _VerifyScreenState extends State<VerifyScreen>
               contentPadding: const EdgeInsets.symmetric(vertical: 8),
               enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12),
-                borderSide:
-                BorderSide(color: Colors.grey.shade300, width: 1.0),
+                borderSide: BorderSide(
+                  color: Colors.grey.shade300,
+                  width: 1.0,
+                ),
               ),
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12),
-                borderSide:
-                const BorderSide(color: Color(0xFF0A8A2A), width: 1.4),
+                borderSide: const BorderSide(
+                  color: Color(0xFF0A8A2A),
+                  width: 1.4,
+                ),
               ),
             ),
             inputFormatters: [
@@ -252,13 +259,13 @@ class _VerifyScreenState extends State<VerifyScreen>
             onChanged: (val) => _onOtpChanged(val, index),
           ),
 
-          // Visible animated digit
-          // AnimatedSwitcher switches when its child Key changes (we use the current text as key)
           AnimatedSwitcher(
             duration: const Duration(milliseconds: 200),
             transitionBuilder: (child, animation) {
-              // scale + fade for a professional feel
-              return ScaleTransition(scale: animation, child: FadeTransition(opacity: animation, child: child));
+              return ScaleTransition(
+                scale: animation,
+                child: FadeTransition(opacity: animation, child: child),
+              );
             },
             child: _otpControllers[index].text.isNotEmpty
                 ? Text(
@@ -266,11 +273,11 @@ class _VerifyScreenState extends State<VerifyScreen>
               key: ValueKey<String>(_otpControllers[index].text),
               style: TextStyle(
                 fontSize: 18.sp,
+                fontFamily: "Poppin",
                 fontWeight: FontWeight.w700,
                 color: Colors.black,
               ),
             )
-            // empty placeholder keeps size consistent
                 : SizedBox(
               key: const ValueKey<String>('empty'),
               width: boxSize * 0.01,
@@ -287,8 +294,7 @@ class _VerifyScreenState extends State<VerifyScreen>
     final theme = Theme.of(context);
     final size = MediaQuery.of(context).size;
 
-    // OTP box size responsive
-    final double boxSize = size.width * 0.12; // about 12% of width
+    final double boxSize = size.width * 0.12;
 
     return Scaffold(
       backgroundColor: theme.scaffoldBackgroundColor,
@@ -297,7 +303,7 @@ class _VerifyScreenState extends State<VerifyScreen>
           padding: EdgeInsets.symmetric(horizontal: 6.w, vertical: 2.h),
           child: Column(
             children: [
-              // Top header: back circle, title, small logo
+              // Top header
               _animatedEntry(
                 slide: _topSlide,
                 fade: _topFade,
@@ -309,8 +315,8 @@ class _VerifyScreenState extends State<VerifyScreen>
                       child: Container(
                         width: 13.5.w,
                         height: 13.5.w,
-                        decoration: BoxDecoration(
-                          color: const Color(0xFFEAF6EA),
+                        decoration: const BoxDecoration(
+                          color: Color(0xFFEAF6EA),
                           shape: BoxShape.circle,
                         ),
                         child: const Center(
@@ -330,6 +336,7 @@ class _VerifyScreenState extends State<VerifyScreen>
                         'Verify',
                         style: TextStyle(
                           fontSize: 20,
+                          fontFamily: "Poppin",
                           fontWeight: FontWeight.w700,
                           color: Colors.black,
                           height: 1.1,
@@ -337,7 +344,6 @@ class _VerifyScreenState extends State<VerifyScreen>
                       ),
                     ),
 
-                    // small logo at top-right
                     Container(
                       height: size.height * 0.08,
                       width: size.width * 0.18,
@@ -355,7 +361,7 @@ class _VerifyScreenState extends State<VerifyScreen>
 
               SizedBox(height: 7.h),
 
-              // Shield / center image
+              // Shield image
               _animatedEntry(
                 slide: _shieldSlide,
                 fade: _shieldFade,
@@ -365,8 +371,9 @@ class _VerifyScreenState extends State<VerifyScreen>
                     width: size.width * 0.45,
                     decoration: const BoxDecoration(
                       image: DecorationImage(
-                        image:
-                        AssetImage("assets/images/forgetpasswordimage.png"),
+                        image: AssetImage(
+                          "assets/images/forgetpasswordimage.png",
+                        ),
                         fit: BoxFit.contain,
                       ),
                     ),
@@ -376,13 +383,14 @@ class _VerifyScreenState extends State<VerifyScreen>
 
               SizedBox(height: 5.h),
 
-              // Title + subtitle
+              // Title
               Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
                   'Enter Code',
                   style: TextStyle(
                     fontSize: 20.sp,
+                    fontFamily: "Poppin",
                     fontWeight: FontWeight.w800,
                     color: Colors.black,
                   ),
@@ -391,12 +399,14 @@ class _VerifyScreenState extends State<VerifyScreen>
 
               SizedBox(height: 1.h),
 
+              // Subtitle
               Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
                   'Enter code to verify your Identity',
                   style: TextStyle(
                     fontSize: 11.5.sp,
+                    fontFamily: "Poppin",
                     color: Colors.black54,
                     fontWeight: FontWeight.w400,
                   ),
@@ -405,7 +415,7 @@ class _VerifyScreenState extends State<VerifyScreen>
 
               SizedBox(height: 2.h),
 
-              // OTP boxes (animated)
+              // OTP boxes
               _animatedEntry(
                 slide: _otpSlide,
                 fade: _otpFade,
@@ -419,7 +429,7 @@ class _VerifyScreenState extends State<VerifyScreen>
 
               SizedBox(height: 2.h),
 
-              // Verify button (animated)
+              // Verify button
               _animatedEntry(
                 slide: _buttonSlide,
                 fade: _buttonFade,
@@ -431,7 +441,10 @@ class _VerifyScreenState extends State<VerifyScreen>
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xFF067C1F),
                       foregroundColor: Colors.white,
-                      padding: EdgeInsets.symmetric(vertical: 10,horizontal: 0),
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 10,
+                        horizontal: 0,
+                      ),
                       elevation: 0,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(28),
@@ -442,7 +455,7 @@ class _VerifyScreenState extends State<VerifyScreen>
                       ),
                     ),
                     child: _isLoading
-                        ? SizedBox(
+                        ? const SizedBox(
                       height: 22,
                       width: 22,
                       child: CircularProgressIndicator(
@@ -455,6 +468,7 @@ class _VerifyScreenState extends State<VerifyScreen>
                       'Verify',
                       style: TextStyle(
                         fontSize: 14,
+                        fontFamily: "Poppin",
                         fontWeight: FontWeight.w700,
                         color: Colors.white,
                       ),

@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:sizer/sizer.dart';
 
-/// Page 6 — Personal Stats
 class Page6PersonalStats extends StatefulWidget {
   final Function(bool) onNextEnabled;
   final Function(String, dynamic) onDataUpdate;
@@ -44,23 +42,22 @@ class _Page6PersonalStatsState extends State<Page6PersonalStats>
   ];
 
   final List<Map<String, dynamic>> _genderOptions = [
-    {'id': 'male', 'label': 'Male', 'icon': Icons.male},
+    {'id': 'male',   'label': 'Male',   'icon': Icons.male},
     {'id': 'female', 'label': 'Female', 'icon': Icons.female},
-    {'id': 'other', 'label': 'Other', 'icon': Icons.person_outline},
+    {'id': 'other',  'label': 'Other',  'icon': Icons.person_outline},
   ];
 
-  // ── Dropdown system
-  final LayerLink _ageLink = LayerLink();
-  final LayerLink _heightLink = LayerLink();
+  final LayerLink _ageLink      = LayerLink();
+  final LayerLink _heightLink   = LayerLink();
   final LayerLink _activityLink = LayerLink();
 
   OverlayEntry? _overlayEntry;
-  LayerLink? _activeLink;
-  bool _dropdownOpen = false;
+  LayerLink?    _activeLink;
+  bool          _dropdownOpen = false;
 
   late final AnimationController _anim;
-  late final Animation<double> _fade;
-  late final Animation<Offset> _slide;
+  late final Animation<double>   _fade;
+  late final Animation<Offset>   _slide;
 
   bool get _isFormValid =>
       _age != null &&
@@ -100,9 +97,8 @@ class _Page6PersonalStatsState extends State<Page6PersonalStats>
   Future<void> _handleNext() async {
     if (!_isFormValid) return;
 
-    // BMR calculation
     final double heightCm =
-    _heightUnit == 'Cm' ? _height! : _height! * 30.48; // Ft → Cm
+    _heightUnit == 'Cm' ? _height! : _height! * 30.48;
     double bmr = _gender == 'male'
         ? (10 * 70) + (6.25 * heightCm) - (5 * _age!) + 5
         : (10 * 70) + (6.25 * heightCm) - (5 * _age!) - 161;
@@ -136,7 +132,6 @@ class _Page6PersonalStatsState extends State<Page6PersonalStats>
     widget.navigateNext();
   }
 
-  // ── Dropdown functions
   void _toggleDropdown(LayerLink link) {
     if (_dropdownOpen && _activeLink == link) {
       _closeDropdown();
@@ -153,9 +148,7 @@ class _Page6PersonalStatsState extends State<Page6PersonalStats>
     _overlayEntry?.remove();
     _overlayEntry = null;
     _activeLink = null;
-    if (mounted) {
-      setState(() => _dropdownOpen = false);
-    }
+    if (mounted) setState(() => _dropdownOpen = false);
   }
 
   void _selectDropdownValue(String value) {
@@ -169,7 +162,6 @@ class _Page6PersonalStatsState extends State<Page6PersonalStats>
         widget.onDataUpdate('activityLevel', value);
       }
     });
-
     _checkForm();
     _closeDropdown();
   }
@@ -215,7 +207,6 @@ class _Page6PersonalStatsState extends State<Page6PersonalStats>
                     mainAxisSize: MainAxisSize.min,
                     children: items.map((item) {
                       final bool selected = selectedValue == item;
-
                       return GestureDetector(
                         onTap: () => _selectDropdownValue(item),
                         child: Container(
@@ -232,8 +223,9 @@ class _Page6PersonalStatsState extends State<Page6PersonalStats>
                               Expanded(
                                 child: Text(
                                   item,
-                                  style: GoogleFonts.poppins(
+                                  style: TextStyle(
                                     fontSize: 12.sp,
+                                    fontFamily: "Poppin",
                                     fontWeight: FontWeight.w500,
                                     color: selected
                                         ? const Color(0xFF2E7D32)
@@ -280,16 +272,22 @@ class _Page6PersonalStatsState extends State<Page6PersonalStats>
           controller: ctrl,
           keyboardType: TextInputType.number,
           onChanged: onChanged,
-          style: GoogleFonts.poppins(fontSize: 12.sp, color: Colors.black87),
+          style: TextStyle(
+            fontSize: 12.sp,
+            fontFamily: "Poppin",
+            color: Colors.black87,
+          ),
           decoration: InputDecoration(
             hintText: hint,
-            hintStyle: GoogleFonts.poppins(
+            hintStyle: TextStyle(
               fontSize: 10,
+              fontFamily: "Poppin",
               color: Colors.grey[400],
             ),
             filled: true,
             fillColor: Colors.white,
-            contentPadding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 0),
+            contentPadding:
+            EdgeInsets.symmetric(horizontal: 5.w, vertical: 0),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(30),
               borderSide: BorderSide(color: Colors.grey[300]!),
@@ -301,7 +299,10 @@ class _Page6PersonalStatsState extends State<Page6PersonalStats>
             suffixIcon: GestureDetector(
               onTap: () => _toggleDropdown(link),
               child: Container(
-                margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 7),
+                margin: const EdgeInsets.symmetric(
+                  vertical: 8,
+                  horizontal: 7,
+                ),
                 padding: EdgeInsets.symmetric(horizontal: 3.w),
                 decoration: BoxDecoration(
                   color: const Color(0xFFE8F5E9),
@@ -312,8 +313,9 @@ class _Page6PersonalStatsState extends State<Page6PersonalStats>
                   children: [
                     Text(
                       unit,
-                      style: GoogleFonts.poppins(
+                      style: TextStyle(
                         fontSize: 11.sp,
+                        fontFamily: "Poppin",
                         fontWeight: FontWeight.w600,
                         color: const Color(0xFF2E7D32),
                       ),
@@ -360,8 +362,9 @@ class _Page6PersonalStatsState extends State<Page6PersonalStats>
             children: [
               Text(
                 _activityLevel ?? 'Activity Level',
-                style: GoogleFonts.poppins(
+                style: TextStyle(
                   fontSize: 8.3.sp,
+                  fontFamily: "Poppin",
                   color: _activityLevel != null
                       ? Colors.black87
                       : const Color(0xFF2E7D32),
@@ -394,22 +397,29 @@ class _Page6PersonalStatsState extends State<Page6PersonalStats>
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              // Title
               Text(
                 'Tell Us About Yourself',
-                style: GoogleFonts.poppins(
+                style: TextStyle(
                   fontSize: 20.sp,
+                  fontFamily: "Poppin",
                   fontWeight: FontWeight.w700,
                   color: Colors.black,
                 ),
               ),
+
               SizedBox(height: 0.5.h),
+
+              // Subtitle
               Text(
                 'This will help us a lot to tailor a very well plan for you',
-                style: GoogleFonts.poppins(
+                style: TextStyle(
                   fontSize: 11.sp,
+                  fontFamily: "Poppin",
                   color: Colors.grey[600],
                 ),
               ),
+
               SizedBox(height: 3.h),
 
               // Age field
@@ -423,6 +433,7 @@ class _Page6PersonalStatsState extends State<Page6PersonalStats>
                   _checkForm();
                 },
               ),
+
               SizedBox(height: 1.h),
 
               // Height field
@@ -436,10 +447,12 @@ class _Page6PersonalStatsState extends State<Page6PersonalStats>
                   _checkForm();
                 },
               ),
+
               SizedBox(height: 1.h),
 
               // Activity Level dropdown
               _activityDropdownField(),
+
               SizedBox(height: 3.h),
 
               // Gender cards
@@ -463,7 +476,10 @@ class _Page6PersonalStatsState extends State<Page6PersonalStats>
                         duration: const Duration(milliseconds: 200),
                         height: 120,
                         width: 140,
-                        padding: EdgeInsets.symmetric(vertical: 2.h,horizontal: 12),
+                        padding: EdgeInsets.symmetric(
+                          vertical: 2.h,
+                          horizontal: 12,
+                        ),
                         decoration: BoxDecoration(
                           color: isSelected
                               ? const Color(0xFFE8F5E9)
@@ -495,19 +511,26 @@ class _Page6PersonalStatsState extends State<Page6PersonalStats>
                                 size: 6.w,
                               ),
                             ),
+
                             SizedBox(height: 1.h),
+
+                            // Gender label
                             Text(
                               g['label'],
-                              style: GoogleFonts.poppins(
+                              style: TextStyle(
                                 fontSize: 11.sp,
+                                fontFamily: "Poppin",
                                 fontWeight: FontWeight.w600,
                                 color: Colors.black87,
                               ),
                             ),
+
+                            // Selected / Select
                             Text(
                               isSelected ? 'Selected' : 'Select',
-                              style: GoogleFonts.poppins(
+                              style: TextStyle(
                                 fontSize: 9.sp,
+                                fontFamily: "Poppin",
                                 color: isSelected
                                     ? const Color(0xFF2E7D32)
                                     : Colors.grey[500],
@@ -523,6 +546,7 @@ class _Page6PersonalStatsState extends State<Page6PersonalStats>
                   },
                 ),
               ),
+
               SizedBox(height: 2.h),
             ],
           ),

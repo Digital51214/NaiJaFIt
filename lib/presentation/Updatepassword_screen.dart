@@ -4,7 +4,6 @@ import 'package:sizer/sizer.dart';
 import '../../core/app_export.dart';
 import '../../services/auth_service.dart';
 
-// Added import for SignIn screen - update if your path differs
 import 'package:naijafit/presentation/sign_in_screen/sign_in_screen.dart';
 
 class ChangePasswordScreen extends StatefulWidget {
@@ -25,7 +24,6 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen>
   bool _isConfirmVisible = false;
   bool _isLoading = false;
 
-  // animations
   late final AnimationController _controller;
 
   late final Animation<Offset> _topSlide;
@@ -52,13 +50,15 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen>
       duration: const Duration(milliseconds: 1100),
     );
 
-    _topSlide =
-        Tween<Offset>(begin: const Offset(0, -0.35), end: Offset.zero).animate(
-          CurvedAnimation(
-            parent: _controller,
-            curve: const Interval(0.00, 0.18, curve: Curves.easeOutCubic),
-          ),
-        );
+    _topSlide = Tween<Offset>(
+      begin: const Offset(0, -0.35),
+      end: Offset.zero,
+    ).animate(
+      CurvedAnimation(
+        parent: _controller,
+        curve: const Interval(0.00, 0.18, curve: Curves.easeOutCubic),
+      ),
+    );
     _topFade = Tween<double>(begin: 0, end: 1).animate(
       CurvedAnimation(
         parent: _controller,
@@ -66,13 +66,15 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen>
       ),
     );
 
-    _lockSlide =
-        Tween<Offset>(begin: const Offset(0, -0.10), end: Offset.zero).animate(
-          CurvedAnimation(
-            parent: _controller,
-            curve: const Interval(0.15, 0.38, curve: Curves.easeOutCubic),
-          ),
-        );
+    _lockSlide = Tween<Offset>(
+      begin: const Offset(0, -0.10),
+      end: Offset.zero,
+    ).animate(
+      CurvedAnimation(
+        parent: _controller,
+        curve: const Interval(0.15, 0.38, curve: Curves.easeOutCubic),
+      ),
+    );
     _lockFade = Tween<double>(begin: 0, end: 1).animate(
       CurvedAnimation(
         parent: _controller,
@@ -147,29 +149,34 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen>
     setState(() => _isLoading = true);
 
     try {
-      // Replace the following block with your real API call if needed.
-      // Example:
-      // await AuthService.instance.changePassword(newPassword: _passwordController.text.trim());
       await Future.delayed(const Duration(seconds: 1));
 
       if (!mounted) return;
 
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Password changed successfully')),
+        const SnackBar(
+          content: Text(
+            'Password changed successfully',
+            style: TextStyle(fontFamily: "Poppin"),
+          ),
+        ),
       );
 
-      // ---------- NEW NAVIGATION ----------
-      // Navigate to SignInScreen and clear the stack so user goes to login screen
       Navigator.of(context).pushAndRemoveUntil(
-        MaterialPageRoute(builder: (context) => const SignInScreen()),
+        MaterialPageRoute(
+          builder: (context) => const SignInScreen(),
+        ),
             (route) => false,
       );
-      // ------------------------------------
-
     } catch (e) {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Failed to change password: ${e.toString()}')),
+        SnackBar(
+          content: Text(
+            'Failed to change password: ${e.toString()}',
+            style: const TextStyle(fontFamily: "Poppin"),
+          ),
+        ),
       );
     } finally {
       if (mounted) setState(() => _isLoading = false);
@@ -200,7 +207,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen>
             key: _formKey,
             child: Column(
               children: [
-                // Header: back circle, title, logo
+                // Header
                 _animatedEntry(
                   slide: _topSlide,
                   fade: _topFade,
@@ -212,8 +219,8 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen>
                         child: Container(
                           width: 13.5.w,
                           height: 13.5.w,
-                          decoration: BoxDecoration(
-                            color: const Color(0xFFEAF6EA),
+                          decoration: const BoxDecoration(
+                            color: Color(0xFFEAF6EA),
                             shape: BoxShape.circle,
                           ),
                           child: const Center(
@@ -233,6 +240,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen>
                           'Change',
                           style: TextStyle(
                             fontSize: 20,
+                            fontFamily: "Poppin",
                             fontWeight: FontWeight.w700,
                             color: Colors.black,
                             height: 1.1,
@@ -240,7 +248,6 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen>
                         ),
                       ),
 
-                      // small logo at top-right
                       Container(
                         height: size.height * 0.08,
                         width: size.width * 0.18,
@@ -258,7 +265,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen>
 
                 SizedBox(height: 6.h),
 
-                // lock image
+                // Lock image
                 _animatedEntry(
                   slide: _lockSlide,
                   fade: _lockFade,
@@ -282,13 +289,14 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen>
 
                 SizedBox(height: 4.h),
 
-                // Title + subtitle
+                // Title
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
                     'Change Password',
                     style: TextStyle(
                       fontSize: 24,
+                      fontFamily: "Poppin",
                       fontWeight: FontWeight.w800,
                       color: Colors.black,
                     ),
@@ -297,12 +305,14 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen>
 
                 SizedBox(height: 1.h),
 
+                // Subtitle
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
                     'Enter New password',
                     style: TextStyle(
                       fontSize: 11.5.sp,
+                      fontFamily: "Poppin",
                       color: Colors.black54,
                       fontWeight: FontWeight.w400,
                     ),
@@ -318,38 +328,56 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen>
                   child: Container(
                     height: 45,
                     width: double.infinity,
-                    decoration: const BoxDecoration(color: Colors.transparent),
+                    decoration:
+                    const BoxDecoration(color: Colors.transparent),
                     child: TextFormField(
                       controller: _passwordController,
                       obscureText: !_isPasswordVisible,
-                      style: TextStyle(fontSize: 12.sp),
+                      style: TextStyle(
+                        fontSize: 12.sp,
+                        fontFamily: "Poppin",
+                      ),
                       decoration: InputDecoration(
                         hintText: 'Password...',
                         hintStyle: TextStyle(
                           color: Colors.grey.shade500,
                           fontSize: 10,
+                          fontFamily: "Poppin",
                         ),
                         filled: true,
                         fillColor: Colors.transparent,
-                        contentPadding:
-                        const EdgeInsets.symmetric(horizontal: 18, vertical: 12),
+                        contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 18,
+                          vertical: 12,
+                        ),
                         suffixIcon: IconButton(
                           icon: Icon(
-                            _isPasswordVisible ? Icons.visibility_off : Icons.visibility,
+                            _isPasswordVisible
+                                ? Icons.visibility_off
+                                : Icons.visibility,
                             color: const Color(0xFF0A8A2A),
                           ),
                           onPressed: () {
-                            setState(() => _isPasswordVisible = !_isPasswordVisible);
+                            setState(() =>
+                            _isPasswordVisible = !_isPasswordVisible);
                           },
                         ),
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(30),
-                          borderSide: BorderSide(color: Colors.grey.shade300, width: 1),
+                          borderSide: BorderSide(
+                            color: Colors.grey.shade300,
+                            width: 1,
+                          ),
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(30),
-                          borderSide: const BorderSide(color: Color(0xFF0A8A2A), width: 1.2),
+                          borderSide: const BorderSide(
+                            color: Color(0xFF0A8A2A),
+                            width: 1.2,
+                          ),
                         ),
+                        errorStyle:
+                        const TextStyle(fontFamily: "Poppin"),
                       ),
                       validator: (value) {
                         if (value == null || value.trim().isEmpty) {
@@ -364,53 +392,72 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen>
                   ),
                 ),
 
-                SizedBox(height: 5),
+                const SizedBox(height: 5),
 
-                // Confirm Password
+                // Confirm Password field
                 _animatedEntry(
                   slide: _confirmSlide,
                   fade: _confirmFade,
                   child: Container(
                     height: 45,
                     width: double.infinity,
-                    decoration: const BoxDecoration(color: Colors.transparent),
+                    decoration:
+                    const BoxDecoration(color: Colors.transparent),
                     child: TextFormField(
                       controller: _confirmController,
                       obscureText: !_isConfirmVisible,
-                      style: TextStyle(fontSize: 12.sp),
+                      style: TextStyle(
+                        fontSize: 12.sp,
+                        fontFamily: "Poppin",
+                      ),
                       decoration: InputDecoration(
                         hintText: 'Confirm Password...',
                         hintStyle: TextStyle(
                           color: Colors.grey.shade500,
                           fontSize: 10,
+                          fontFamily: "Poppin",
                         ),
                         filled: true,
                         fillColor: Colors.transparent,
-                        contentPadding:
-                        const EdgeInsets.symmetric(horizontal: 18, vertical: 12),
+                        contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 18,
+                          vertical: 12,
+                        ),
                         suffixIcon: IconButton(
                           icon: Icon(
-                            _isConfirmVisible ? Icons.visibility_off : Icons.visibility,
+                            _isConfirmVisible
+                                ? Icons.visibility_off
+                                : Icons.visibility,
                             color: const Color(0xFF0A8A2A),
                           ),
                           onPressed: () {
-                            setState(() => _isConfirmVisible = !_isConfirmVisible);
+                            setState(() =>
+                            _isConfirmVisible = !_isConfirmVisible);
                           },
                         ),
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(30),
-                          borderSide: BorderSide(color: Colors.grey.shade300, width: 1),
+                          borderSide: BorderSide(
+                            color: Colors.grey.shade300,
+                            width: 1,
+                          ),
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(30),
-                          borderSide: const BorderSide(color: Color(0xFF0A8A2A), width: 1.2),
+                          borderSide: const BorderSide(
+                            color: Color(0xFF0A8A2A),
+                            width: 1.2,
+                          ),
                         ),
+                        errorStyle:
+                        const TextStyle(fontFamily: "Poppin"),
                       ),
                       validator: (value) {
                         if (value == null || value.trim().isEmpty) {
                           return 'Please confirm password';
                         }
-                        if (value.trim() != _passwordController.text.trim()) {
+                        if (value.trim() !=
+                            _passwordController.text.trim()) {
                           return 'Passwords do not match';
                         }
                         return null;
@@ -429,12 +476,16 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen>
                     width: double.infinity,
                     height: 45,
                     child: ElevatedButton(
-                      onPressed: _isLoading ? null : _handleChangePassword,
+                      onPressed:
+                      _isLoading ? null : _handleChangePassword,
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color(0xFF067C1F),
                         foregroundColor: Colors.white,
                         elevation: 0,
-                        padding: EdgeInsets.symmetric(vertical: 0,horizontal: 0),
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 0,
+                          horizontal: 0,
+                        ),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(28),
                           side: const BorderSide(
@@ -444,18 +495,21 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen>
                         ),
                       ),
                       child: _isLoading
-                          ? SizedBox(
+                          ? const SizedBox(
                         height: 22,
                         width: 22,
                         child: CircularProgressIndicator(
                           strokeWidth: 2.2,
-                          valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                          valueColor: AlwaysStoppedAnimation<Color>(
+                            Colors.white,
+                          ),
                         ),
                       )
                           : const Text(
                         'Change',
                         style: TextStyle(
                           fontSize: 14,
+                          fontFamily: "Poppin",
                           fontWeight: FontWeight.w700,
                           color: Colors.white,
                         ),
@@ -463,6 +517,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen>
                     ),
                   ),
                 ),
+
                 SizedBox(height: 6.h),
               ],
             ),

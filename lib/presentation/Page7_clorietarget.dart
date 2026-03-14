@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:sizer/sizer.dart';
 
-/// Page 7 — Calorie Target Display
 class Page7CalorieTargetDisplay extends StatefulWidget {
   final Map<String, dynamic> onboardingData;
   final Function(bool) onNextEnabled;
@@ -14,21 +12,25 @@ class Page7CalorieTargetDisplay extends StatefulWidget {
   });
 
   @override
-  State<Page7CalorieTargetDisplay> createState() => _Page7CalorieTargetDisplayState();
+  State<Page7CalorieTargetDisplay> createState() =>
+      _Page7CalorieTargetDisplayState();
 }
 
-class _Page7CalorieTargetDisplayState extends State<Page7CalorieTargetDisplay>
+class _Page7CalorieTargetDisplayState
+    extends State<Page7CalorieTargetDisplay>
     with SingleTickerProviderStateMixin {
   late final AnimationController _anim;
-  late final Animation<double>  _fade;
-  late final Animation<Offset>  _slide;
+  late final Animation<double> _fade;
+  late final Animation<Offset> _slide;
   late Animation<int> _calorieAnim;
 
   bool _macroExpanded   = false;
   bool _summaryExpanded = false;
 
-  int    get _cals => widget.onboardingData['dailyCalories'] as int? ?? 2057;
-  String get _goal => widget.onboardingData['fitnessGoal']  as String? ?? 'lose_weight';
+  int get _cals =>
+      widget.onboardingData['dailyCalories'] as int? ?? 2057;
+  String get _goal =>
+      widget.onboardingData['fitnessGoal'] as String? ?? 'lose_weight';
 
   Map<String, dynamic> get _macros {
     final Map<String, Map<String, double>> ratios = {
@@ -38,9 +40,9 @@ class _Page7CalorieTargetDisplayState extends State<Page7CalorieTargetDisplay>
     };
     final r = ratios[_goal] ?? ratios['lose_weight']!;
     return {
-      'protein': ((_cals * r['protein']!) / 4).round(),
-      'carbs':   ((_cals * r['carbs']!)   / 4).round(),
-      'fats':    ((_cals * r['fats']!)    / 9).round(),
+      'protein':    ((_cals * r['protein']!) / 4).round(),
+      'carbs':      ((_cals * r['carbs']!)   / 4).round(),
+      'fats':       ((_cals * r['fats']!)    / 9).round(),
       'proteinPct': r['protein']!,
       'carbsPct':   r['carbs']!,
       'fatsPct':    r['fats']!,
@@ -50,19 +52,29 @@ class _Page7CalorieTargetDisplayState extends State<Page7CalorieTargetDisplay>
   @override
   void initState() {
     super.initState();
-    _anim = AnimationController(vsync: this, duration: const Duration(milliseconds: 900));
-    _fade  = CurvedAnimation(parent: _anim, curve: Curves.easeOut).drive(Tween(begin: 0.0, end: 1.0));
+    _anim = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 900),
+    );
+    _fade = CurvedAnimation(parent: _anim, curve: Curves.easeOut)
+        .drive(Tween(begin: 0.0, end: 1.0));
     _slide = CurvedAnimation(parent: _anim, curve: Curves.easeOut)
         .drive(Tween(begin: const Offset(0, 0.08), end: Offset.zero));
-    _calorieAnim = IntTween(begin: 0, end: _cals)
-        .animate(CurvedAnimation(parent: _anim, curve: Curves.easeOutCubic));
+    _calorieAnim = IntTween(begin: 0, end: _cals).animate(
+      CurvedAnimation(parent: _anim, curve: Curves.easeOutCubic),
+    );
 
-    widget.onNextEnabled(true); // always enabled
-    WidgetsBinding.instance.addPostFrameCallback((_) { if (mounted) _anim.forward(); });
+    widget.onNextEnabled(true);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) _anim.forward();
+    });
   }
 
   @override
-  void dispose() { _anim.dispose(); super.dispose(); }
+  void dispose() {
+    _anim.dispose();
+    super.dispose();
+  }
 
   String _fmtGoal(String g) {
     switch (g) {
@@ -84,12 +96,29 @@ class _Page7CalorieTargetDisplayState extends State<Page7CalorieTargetDisplay>
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('Your Personalized plan',
-                  style: GoogleFonts.poppins(
-                      fontSize: 16.sp, fontWeight: FontWeight.w700, color: Colors.black)),
+              // Title
+              Text(
+                'Your Personalized plan',
+                style: TextStyle(
+                  fontSize: 16.sp,
+                  fontFamily: "Poppin",
+                  fontWeight: FontWeight.w700,
+                  color: Colors.black,
+                ),
+              ),
+
               SizedBox(height: 0.5.h),
-              Text('This is your personalized plan and summary of your target and details',
-                  style: GoogleFonts.poppins(fontSize: 11.5.sp, color: Colors.grey[600])),
+
+              // Subtitle
+              Text(
+                'This is your personalized plan and summary of your target and details',
+                style: TextStyle(
+                  fontSize: 11.5.sp,
+                  fontFamily: "Poppin",
+                  color: Colors.grey[600],
+                ),
+              ),
+
               SizedBox(height: 3.h),
 
               // Calorie card
@@ -101,68 +130,122 @@ class _Page7CalorieTargetDisplayState extends State<Page7CalorieTargetDisplay>
                 ),
                 child: Column(
                   children: [
-                    SizedBox(height: 3.h,),
-                    Text('Your Daily Calorie Target',
-                        style: GoogleFonts.poppins(
-                            fontSize: 11.7.sp, color: Colors.grey[600], fontWeight: FontWeight.w500)),
                     SizedBox(height: 3.h),
+
+                    // Card title
+                    Text(
+                      'Your Daily Calorie Target',
+                      style: TextStyle(
+                        fontSize: 11.7.sp,
+                        fontFamily: "Poppin",
+                        color: Colors.grey[600],
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+
+                    SizedBox(height: 3.h),
+
+                    // Animated calorie number
                     AnimatedBuilder(
                       animation: _calorieAnim,
                       builder: (_, __) => Text(
                         '${_calorieAnim.value}',
-                        style: GoogleFonts.poppins(
-                            fontSize: 29.sp, fontWeight: FontWeight.w800,
-                            color: const Color(0xFF2E7D32), height: 1),
+                        style: TextStyle(
+                          fontSize: 29.sp,
+                          fontFamily: "Poppin",
+                          fontWeight: FontWeight.w800,
+                          color: const Color(0xFF2E7D32),
+                          height: 1,
+                        ),
                       ),
                     ),
-                    SizedBox(height: 2.h,),
-                    Text('Calories',
-                        style: GoogleFonts.poppins(
-                            fontSize: 11.7.sp, color: Colors.grey[600], fontWeight: FontWeight.w500)),
-                    SizedBox(height: 3.h,),
+
+                    SizedBox(height: 2.h),
+
+                    // "Calories" label
+                    Text(
+                      'Calories',
+                      style: TextStyle(
+                        fontSize: 11.7.sp,
+                        fontFamily: "Poppin",
+                        color: Colors.grey[600],
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+
+                    SizedBox(height: 3.h),
                   ],
                 ),
               ),
+
               SizedBox(height: 1.5.h),
 
               // Macro Breakdown accordion
               _accordion(
                 title: 'Macro Breakdown',
                 expanded: _macroExpanded,
-                onTap: () => setState(() => _macroExpanded = !_macroExpanded),
+                onTap: () =>
+                    setState(() => _macroExpanded = !_macroExpanded),
                 child: Column(
                   children: [
                     SizedBox(height: 1.5.h),
-                    _macroRow('Protein', _macros['protein'] as int, _macros['proteinPct'] as double, Colors.orange),
+                    _macroRow(
+                      'Protein',
+                      _macros['protein'] as int,
+                      _macros['proteinPct'] as double,
+                      Colors.orange,
+                    ),
                     SizedBox(height: 1.h),
-                    _macroRow('Carbs',   _macros['carbs']   as int, _macros['carbsPct']   as double, const Color(0xFF2E7D32)),
+                    _macroRow(
+                      'Carbs',
+                      _macros['carbs'] as int,
+                      _macros['carbsPct'] as double,
+                      const Color(0xFF2E7D32),
+                    ),
                     SizedBox(height: 1.h),
-                    _macroRow('Fats',    _macros['fats']    as int, _macros['fatsPct']    as double, Colors.blue),
+                    _macroRow(
+                      'Fats',
+                      _macros['fats'] as int,
+                      _macros['fatsPct'] as double,
+                      Colors.blue,
+                    ),
                   ],
                 ),
               ),
+
               SizedBox(height: 1.5.h),
 
               // Plan Summary accordion
               _accordion(
                 title: 'Plan Summary',
                 expanded: _summaryExpanded,
-                onTap: () => setState(() => _summaryExpanded = !_summaryExpanded),
+                onTap: () =>
+                    setState(() => _summaryExpanded = !_summaryExpanded),
                 child: Padding(
                   padding: EdgeInsets.only(top: 1.5.h),
                   child: Column(
                     children: [
-                      _summaryRow('Goal',           _fmtGoal(_goal)),
+                      _summaryRow('Goal', _fmtGoal(_goal)),
                       SizedBox(height: 1.h),
-                      _summaryRow('Timeline',       widget.onboardingData['timeline']?.toString()       ?? 'Not set'),
+                      _summaryRow(
+                        'Timeline',
+                        widget.onboardingData['timeline']?.toString() ??
+                            'Not set',
+                      ),
                       SizedBox(height: 1.h),
-                      _summaryRow('Activity Level', widget.onboardingData['activityLevel']?.toString()  ?? 'Not set'),
+                      _summaryRow(
+                        'Activity Level',
+                        widget.onboardingData['activityLevel']
+                            ?.toString() ??
+                            'Not set',
+                      ),
                       SizedBox(height: 1.h),
                       _summaryRow('Daily Calories', '$_cals kcal'),
                     ],
                   ),
                 ),
               ),
+
               SizedBox(height: 2.h),
             ],
           ),
@@ -192,13 +275,23 @@ class _Page7CalorieTargetDisplayState extends State<Page7CalorieTargetDisplay>
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(title,
-                    style: GoogleFonts.poppins(
-                        fontSize: 12.sp, fontWeight: FontWeight.w600, color: const Color(0xFF2E7D32))),
+                // Accordion title
+                Text(
+                  title,
+                  style: TextStyle(
+                    fontSize: 12.sp,
+                    fontFamily: "Poppin",
+                    fontWeight: FontWeight.w600,
+                    color: const Color(0xFF2E7D32),
+                  ),
+                ),
                 AnimatedRotation(
                   turns: expanded ? 0.5 : 0,
                   duration: const Duration(milliseconds: 300),
-                  child: const Icon(Icons.keyboard_arrow_down, color: Color(0xFF2E7D32)),
+                  child: const Icon(
+                    Icons.keyboard_arrow_down,
+                    color: Color(0xFF2E7D32),
+                  ),
                 ),
               ],
             ),
@@ -209,25 +302,45 @@ class _Page7CalorieTargetDisplayState extends State<Page7CalorieTargetDisplay>
     );
   }
 
-  Widget _macroRow(String name, int grams, double pct, Color color) {
+  Widget _macroRow(
+      String name,
+      int grams,
+      double pct,
+      Color color,
+      ) {
     return Row(
       children: [
         SizedBox(
           width: 18.w,
-          child: Text(name, style: GoogleFonts.poppins(fontSize: 11.sp, fontWeight: FontWeight.w600)),
+          child: Text(
+            name,
+            style: TextStyle(
+              fontSize: 11.sp,
+              fontFamily: "Poppin",
+              fontWeight: FontWeight.w600,
+            ),
+          ),
         ),
         Expanded(
           child: ClipRRect(
             borderRadius: BorderRadius.circular(4),
             child: LinearProgressIndicator(
-              value: pct, minHeight: 8,
+              value: pct,
+              minHeight: 8,
               backgroundColor: Colors.grey[200],
               valueColor: AlwaysStoppedAnimation<Color>(color),
             ),
           ),
         ),
         SizedBox(width: 2.w),
-        Text('${grams}g', style: GoogleFonts.poppins(fontSize: 10.sp, color: Colors.grey[600])),
+        Text(
+          '${grams}g',
+          style: TextStyle(
+            fontSize: 10.sp,
+            fontFamily: "Poppin",
+            color: Colors.grey[600],
+          ),
+        ),
       ],
     );
   }
@@ -236,8 +349,23 @@ class _Page7CalorieTargetDisplayState extends State<Page7CalorieTargetDisplay>
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(label, style: GoogleFonts.poppins(fontSize: 11.sp, color: Colors.grey[600])),
-        Text(value,  style: GoogleFonts.poppins(fontSize: 11.sp, fontWeight: FontWeight.w600, color: Colors.black87)),
+        Text(
+          label,
+          style: TextStyle(
+            fontSize: 11.sp,
+            fontFamily: "Poppin",
+            color: Colors.grey[600],
+          ),
+        ),
+        Text(
+          value,
+          style: TextStyle(
+            fontSize: 11.sp,
+            fontFamily: "Poppin",
+            fontWeight: FontWeight.w600,
+            color: Colors.black87,
+          ),
+        ),
       ],
     );
   }

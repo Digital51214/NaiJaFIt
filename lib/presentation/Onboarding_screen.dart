@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:naijafit/presentation/Page1_goalselection.dart';
 import 'package:naijafit/presentation/Page2_goalsetting.dart';
 import 'package:naijafit/presentation/Page3_challengeidentification.dart';
@@ -8,7 +7,6 @@ import 'package:naijafit/presentation/Page5_professionalsupport.dart';
 import 'package:naijafit/presentation/Page6_personalstats.dart';
 import 'package:naijafit/presentation/Page7_clorietarget.dart';
 import 'package:sizer/sizer.dart';
-
 
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});
@@ -22,13 +20,11 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   int _currentPage = 0;
   final int _totalPages = 7;
 
-  // ✅ Shared data across all pages
   final Map<String, dynamic> _onboardingData = {};
 
   bool _isNextEnabled = false;
   bool _isLoading = false;
 
-  // ✅ Each page registers its own save+navigate logic here
   VoidCallback? _pageNextCallback;
 
   void _goToNextPage() {
@@ -65,7 +61,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   void _onPageChanged(int index) {
     setState(() {
       _currentPage = index;
-      _isNextEnabled = index == 3; // page 4 always enabled (no selection needed)
+      _isNextEnabled = index == 3;
       _pageNextCallback = null;
     });
   }
@@ -92,7 +88,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
   bool get _showSkip => _currentPage == 4;
   bool get _isLastPage => _currentPage == 6;
-  bool get _nextActive => _isNextEnabled || _currentPage == 3 || _currentPage == 6;
+  bool get _nextActive =>
+      _isNextEnabled || _currentPage == 3 || _currentPage == 6;
 
   @override
   void dispose() {
@@ -107,10 +104,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       body: SafeArea(
         child: Column(
           children: [
-
-            // ══════════════════════════════════════════════
-            // ✅ STATIC HEADER — always stays, never animates
-            // ══════════════════════════════════════════════
+            // ── Static Header ──
             Padding(
               padding: EdgeInsets.fromLTRB(5.w, 4.h, 5.w, 0),
               child: Row(
@@ -121,8 +115,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     child: Container(
                       width: 13.5.w,
                       height: 13.5.w,
-                      decoration: BoxDecoration(
-                        color: const Color(0xFFE8F5E9),
+                      decoration: const BoxDecoration(
+                        color: Color(0xFFE8F5E9),
                         shape: BoxShape.circle,
                       ),
                       child: const Icon(
@@ -144,9 +138,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
             SizedBox(height: 1.5.h),
 
-            // ══════════════════════════════════════════════
-            // ✅ STATIC PROGRESS BARS — bar fills on page change
-            // ══════════════════════════════════════════════
+            // ── Static Progress Bars ──
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 5.w),
               child: Column(
@@ -154,8 +146,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 children: [
                   Text(
                     'Step ${_currentPage + 1} of $_totalPages',
-                    style: GoogleFonts.poppins(
+                    style: TextStyle(
                       fontSize: 13.5.sp,
+                      fontFamily: "Poppin",
                       color: Colors.grey[600],
                       fontWeight: FontWeight.w500,
                     ),
@@ -187,17 +180,13 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
             SizedBox(height: 1.5.h),
 
-            // ══════════════════════════════════════════════
-            // ✅ ONLY THIS PART SLIDES — page content area
-            // ══════════════════════════════════════════════
+            // ── Page Content Area ──
             Expanded(
               child: PageView(
                 controller: _pageController,
                 physics: const NeverScrollableScrollPhysics(),
                 onPageChanged: _onPageChanged,
                 children: [
-
-                  // ── Page 1: Goal Selection ──
                   Page1GoalSelection(
                     onNextEnabled: _updateNextEnabled,
                     onDataUpdate: _updateData,
@@ -205,8 +194,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     setLoading: _setLoading,
                     navigateNext: _navigateNext,
                   ),
-
-                  // ── Page 2: Goal Setting Details ──
                   Page2GoalSettingDetails(
                     onNextEnabled: _updateNextEnabled,
                     onDataUpdate: _updateData,
@@ -214,8 +201,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     setLoading: _setLoading,
                     navigateNext: _navigateNext,
                   ),
-
-                  // ── Page 3: Challenge Identification ──
                   Page3ChallengeIdentification(
                     onNextEnabled: _updateNextEnabled,
                     onDataUpdate: _updateData,
@@ -223,14 +208,10 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     setLoading: _setLoading,
                     navigateNext: _navigateNext,
                   ),
-
-                  // ── Page 4: Weight Loss Expectations ──
                   Page4WeightLossExpectations(
                     onNextEnabled: _updateNextEnabled,
                     onDataUpdate: _updateData,
                   ),
-
-                  // ── Page 5: Professional Support ──
                   Page5ProfessionalSupport(
                     onNextEnabled: _updateNextEnabled,
                     onDataUpdate: _updateData,
@@ -238,8 +219,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     setLoading: _setLoading,
                     navigateNext: _navigateNext,
                   ),
-
-                  // ── Page 6: Personal Stats ──
                   Page6PersonalStats(
                     onNextEnabled: _updateNextEnabled,
                     onDataUpdate: _updateData,
@@ -247,8 +226,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     setLoading: _setLoading,
                     navigateNext: _navigateNext,
                   ),
-
-                  // ── Page 7: Calorie Target Display ──
                   Page7CalorieTargetDisplay(
                     onboardingData: _onboardingData,
                     onNextEnabled: _updateNextEnabled,
@@ -257,9 +234,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               ),
             ),
 
-            // ══════════════════════════════════════════════
-            // ✅ STATIC BOTTOM BUTTON — always stays fixed
-            // ══════════════════════════════════════════════
+            // ── Static Bottom Button ──
             Padding(
               padding: EdgeInsets.fromLTRB(5.w, 1.h, 5.w, 3.h),
               child: Column(
@@ -269,10 +244,14 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     width: double.infinity,
                     height: 45,
                     child: ElevatedButton(
-                      onPressed: _nextActive && !_isLoading ? _goToNextPage : null,
+                      onPressed:
+                      _nextActive && !_isLoading ? _goToNextPage : null,
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color(0xFF2E7D32),
-                        padding: EdgeInsets.symmetric(vertical: 0,horizontal: 0),
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 0,
+                          horizontal: 0,
+                        ),
                         disabledBackgroundColor: Colors.grey[300],
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(28),
@@ -290,10 +269,13 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       )
                           : Text(
                         _isLastPage ? 'Get Started!' : 'Next',
-                        style: GoogleFonts.poppins(
+                        style: TextStyle(
                           fontSize: 11.5.sp,
+                          fontFamily: "Poppin",
                           fontWeight: FontWeight.w600,
-                          color: _nextActive ? Colors.white : Colors.grey[500],
+                          color: _nextActive
+                              ? Colors.white
+                              : Colors.grey[500],
                         ),
                       ),
                     ),
@@ -306,8 +288,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       onPressed: _navigateNext,
                       child: Text(
                         'Skip for now',
-                        style: GoogleFonts.poppins(
+                        style: TextStyle(
                           fontSize: 12.sp,
+                          fontFamily: "Poppin",
                           color: const Color(0xFF2E7D32),
                           fontWeight: FontWeight.w500,
                         ),
@@ -322,8 +305,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       onPressed: _navigateNext,
                       child: Text(
                         'Save & Continue Later',
-                        style: GoogleFonts.poppins(
+                        style: TextStyle(
                           fontSize: 11.sp,
+                          fontFamily: "Poppin",
                           color: Colors.grey[500],
                           fontWeight: FontWeight.w500,
                         ),
@@ -339,5 +323,3 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     );
   }
 }
-
-

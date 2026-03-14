@@ -42,7 +42,6 @@ class _PrivacyPolicyState extends State<PrivacyPolicy>
         curve: const Interval(0.0, 0.2, curve: Curves.easeOutCubic),
       ),
     );
-
     _headerFade = Tween<double>(begin: 0, end: 1).animate(
       CurvedAnimation(
         parent: _controller,
@@ -59,7 +58,6 @@ class _PrivacyPolicyState extends State<PrivacyPolicy>
         curve: const Interval(0.2, 0.45, curve: Curves.easeOutCubic),
       ),
     );
-
     _introFade = Tween<double>(begin: 0, end: 1).animate(
       CurvedAnimation(
         parent: _controller,
@@ -76,7 +74,6 @@ class _PrivacyPolicyState extends State<PrivacyPolicy>
         curve: const Interval(0.45, 0.7, curve: Curves.easeOutCubic),
       ),
     );
-
     _infoFade = Tween<double>(begin: 0, end: 1).animate(
       CurvedAnimation(
         parent: _controller,
@@ -93,7 +90,6 @@ class _PrivacyPolicyState extends State<PrivacyPolicy>
         curve: const Interval(0.7, 1.0, curve: Curves.easeOutCubic),
       ),
     );
-
     _useFade = Tween<double>(begin: 0, end: 1).animate(
       CurvedAnimation(
         parent: _controller,
@@ -115,11 +111,12 @@ class _PrivacyPolicyState extends State<PrivacyPolicy>
   Widget _buildParagraph(String text, double screenWidth) {
     return Text(
       text,
-      style: TextStyle(
+      style: const TextStyle(
         fontSize: 13,
+        fontFamily: "Poppin",
         height: 1.55,
         fontWeight: FontWeight.w400,
-        color: const Color(0xFF2B2B2B),
+        color: Color(0xFF2B2B2B),
       ),
     );
   }
@@ -139,6 +136,7 @@ class _PrivacyPolicyState extends State<PrivacyPolicy>
             children: [
               SizedBox(height: screenHeight * 0.045),
 
+              // Header
               SlideTransition(
                 position: _headerSlide,
                 child: FadeTransition(
@@ -147,9 +145,7 @@ class _PrivacyPolicyState extends State<PrivacyPolicy>
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       GestureDetector(
-                        onTap: () {
-                          Navigator.pop(context);
-                        },
+                        onTap: () => Navigator.pop(context),
                         child: Container(
                           width: 13.5.w,
                           height: 13.5.w,
@@ -166,11 +162,14 @@ class _PrivacyPolicyState extends State<PrivacyPolicy>
                           ),
                         ),
                       ),
+
                       SizedBox(width: screenWidth * 0.04),
+
                       const Expanded(
                         child: Text(
                           "Privacy Policy",
                           style: TextStyle(
+                            fontFamily: "Poppin",
                             fontWeight: FontWeight.bold,
                             fontSize: 20,
                             color: Colors.black,
@@ -178,6 +177,7 @@ class _PrivacyPolicyState extends State<PrivacyPolicy>
                           ),
                         ),
                       ),
+
                       Container(
                         height: screenHeight * 0.08,
                         width: screenWidth * 0.18,
@@ -201,6 +201,7 @@ class _PrivacyPolicyState extends State<PrivacyPolicy>
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      // Paragraph 1
                       SlideTransition(
                         position: _introSlide,
                         child: FadeTransition(
@@ -214,6 +215,7 @@ class _PrivacyPolicyState extends State<PrivacyPolicy>
 
                       SizedBox(height: screenHeight * 0.035),
 
+                      // Paragraph 2
                       SlideTransition(
                         position: _infoSlide,
                         child: FadeTransition(
@@ -227,6 +229,7 @@ class _PrivacyPolicyState extends State<PrivacyPolicy>
 
                       SizedBox(height: screenHeight * 0.02),
 
+                      // Paragraph 3
                       SlideTransition(
                         position: _useSlide,
                         child: FadeTransition(

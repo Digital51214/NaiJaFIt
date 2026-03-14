@@ -23,93 +23,106 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
             children: [
               /// Main content
               Column(
-                children: [Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 10),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const SizedBox(height: 80),
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 10),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const SizedBox(height: 80),
 
-                      /// Heading + right circles
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Eat Smart.\nTrack Calories.\nStay Fit.',
+                        /// Heading + right circles
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Eat Smart.\nTrack Calories.\nStay Fit.',
+                              style: TextStyle(
+                                fontSize: 30,
+                                fontWeight: FontWeight.w700,
+                                fontFamily: "Poppin",
+                                color: Colors.black,
+                                height: 1.4,
+                              ),
+                            ),
+                            SizedBox(width: size.width * 0.05),
+                            Image(
+                              image: AssetImage("assets/images/circle.png"),
+                              height: 75,
+                              width: 48,
+                            ),
+                          ],
+                        ),
+
+                        const SizedBox(height: 16),
+
+                        /// Subtitle
+                        SizedBox(
+                          width: size.width * 0.82,
+                          child: Text(
+                            'Track your favorite Nigerian meals\nand stay on top of your daily calories',
                             style: TextStyle(
-                              fontSize: 30,
-                              fontWeight: FontWeight.w700,
-                              color: Colors.black,
-                              height: 1.4,
+                              fontSize: 16.2,
+                              fontWeight: FontWeight.w400,
+                              fontFamily: "Poppin",
+                              color: const Color(0xFF4A4A4A),
+                              height: 1.35,
                             ),
                           ),
-                          SizedBox(width: size.width*0.05,),
-                          Image(image: AssetImage("assets/images/circle.png")
-                            ,height: 75,width: 48,),
-                        ],
-                      ),
-
-                      const SizedBox(height: 16),
-
-                      /// Subtitle
-                      SizedBox(
-                        width: size.width * 0.82,
-                        child: Text(
-                          'Track your favorite Nigerian meals\nand stay on top of your daily calories',
-                          style: TextStyle(
-                            fontSize: 16.2,
-                            fontWeight: FontWeight.w400,
-                            color: const Color(0xFF4A4A4A),
-                            height: 1.35,
-                          ),
                         ),
-                      ),
 
-                      const SizedBox(height: 24),
+                        const SizedBox(height: 24),
 
-                      /// Circular Button
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context)=>SignInScreen()));
-                        },
-                        child: Container(
-                          height: 51,
-                          width: 51,
-                          decoration: BoxDecoration(
-                            color: Colors.transparent,
-                            shape: BoxShape.circle,
-                            border: Border.all(
-                              width: 1,
-                              color: Color(0xFF0B8F2F),
-                            )
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(2.0),
-                            child: Container(
-                              width: 49,
-                              height: 49,
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: const Color(0xFF0B8F2F),
+                        /// Circular Button
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => SignInScreen(),
                               ),
-                              child: const Center(
-                                child: Icon(
-                                  Icons.arrow_forward,
-                                  color: Colors.white,
-                                  size: 28,
+                            );
+                          },
+                          child: Container(
+                            height: 51,
+                            width: 51,
+                            decoration: BoxDecoration(
+                              color: Colors.transparent,
+                              shape: BoxShape.circle,
+                              border: Border.all(
+                                width: 1,
+                                color: Color(0xFF0B8F2F),
+                              ),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(2.0),
+                              child: Container(
+                                width: 49,
+                                height: 49,
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: const Color(0xFF0B8F2F),
+                                ),
+                                child: const Center(
+                                  child: Icon(
+                                    Icons.arrow_forward,
+                                    color: Colors.white,
+                                    size: 28,
+                                  ),
                                 ),
                               ),
                             ),
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
                   Spacer(),
-                  Image(image: AssetImage("assets/images/splashscreenimage.png"),width: double.infinity,)
-
+                  Image(
+                    image: AssetImage("assets/images/splashscreenimage.png"),
+                    width: double.infinity,
+                  ),
                 ],
               ),
             ],

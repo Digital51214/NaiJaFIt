@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:sizer/sizer.dart';
 import '../../services/auth_service.dart';
 
-/// Page 1 — Goal Selection
-/// Only contains scrollable content.
-/// Header, progress bars, and Next button live in OnboardingScreen.
 class Page1GoalSelection extends StatefulWidget {
   final Function(bool) onNextEnabled;
   final Function(String, dynamic) onDataUpdate;
@@ -36,22 +32,23 @@ class _Page1GoalSelectionState extends State<Page1GoalSelection>
     {'id': 'gain_weight',     'title': 'Gain Weight',     'icon': Icons.trending_up},
   ];
 
-  // ── entry animation ──
   late final AnimationController _anim;
-  late final Animation<double>  _fade;
-  late final Animation<Offset>  _slide;
+  late final Animation<double> _fade;
+  late final Animation<Offset> _slide;
 
   @override
   void initState() {
     super.initState();
 
-    _anim = AnimationController(vsync: this, duration: const Duration(milliseconds: 500));
-    _fade  = CurvedAnimation(parent: _anim, curve: Curves.easeOut)
+    _anim = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 500),
+    );
+    _fade = CurvedAnimation(parent: _anim, curve: Curves.easeOut)
         .drive(Tween(begin: 0.0, end: 1.0));
     _slide = CurvedAnimation(parent: _anim, curve: Curves.easeOut)
         .drive(Tween(begin: const Offset(0, 0.08), end: Offset.zero));
 
-    // Register the save+navigate callback for the shared Next button
     widget.registerNextCallback(_handleNext);
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -103,21 +100,30 @@ class _Page1GoalSelectionState extends State<Page1GoalSelection>
               // Title
               Text(
                 'What Goals Do you want to\nachieve?',
-                style: GoogleFonts.poppins(
+                style: TextStyle(
                   fontSize: 16.sp,
+                  fontFamily: "Poppin",
                   fontWeight: FontWeight.w700,
                   color: Colors.black,
                   height: 1.3,
                 ),
               ),
+
               SizedBox(height: 1.h),
+
+              // Subtitle
               Text(
                 'This Helps Naijafit top generate a plan for your calorie intake',
-                style: GoogleFonts.poppins(fontSize: 11.3.sp, color: Colors.grey[600]),
+                style: TextStyle(
+                  fontSize: 11.3.sp,
+                  fontFamily: "Poppin",
+                  color: Colors.grey[600],
+                ),
               ),
+
               SizedBox(height: 3.h),
 
-              // Goal Grid (2 columns)
+              // Goal Grid
               GridView.count(
                 crossAxisCount: 2,
                 shrinkWrap: true,
@@ -133,10 +139,14 @@ class _Page1GoalSelectionState extends State<Page1GoalSelection>
                       duration: const Duration(milliseconds: 200),
                       padding: EdgeInsets.all(3.w),
                       decoration: BoxDecoration(
-                        color: isSelected ? const Color(0xFFE8F5E9).withOpacity(0.7) : Colors.white,
+                        color: isSelected
+                            ? const Color(0xFFE8F5E9).withOpacity(0.7)
+                            : Colors.white,
                         borderRadius: BorderRadius.circular(25),
                         border: Border.all(
-                          color: isSelected ? const Color(0xFF47A312) : Colors.grey[300]!,
+                          color: isSelected
+                              ? const Color(0xFF47A312)
+                              : Colors.grey[300]!,
                           width: isSelected ? 1.2 : 1,
                         ),
                       ),
@@ -148,28 +158,47 @@ class _Page1GoalSelectionState extends State<Page1GoalSelection>
                             width: 13.5.w,
                             height: 13.5.w,
                             decoration: BoxDecoration(
-                              color: isSelected ? const Color(0xFFC8E6C9) : const Color(0xFFF5F5F5),
-                            shape: BoxShape.circle,
+                              color: isSelected
+                                  ? const Color(0xFFC8E6C9)
+                                  : const Color(0xFFF5F5F5),
+                              shape: BoxShape.circle,
                             ),
-                            child: Icon(goal['icon'] as IconData,
-                                color: isSelected?Color(0xFF2E7D32):Colors.black, size: 6.5.w),
+                            child: Icon(
+                              goal['icon'] as IconData,
+                              color: isSelected
+                                  ? const Color(0xFF2E7D32)
+                                  : Colors.black,
+                              size: 6.5.w,
+                            ),
                           ),
+
                           SizedBox(height: 0.8.h),
+
+                          // Goal title
                           Text(
                             goal['title'],
-                            style: GoogleFonts.poppins(
+                            style: TextStyle(
                               fontSize: 11.7.sp,
+                              fontFamily: "Poppin",
                               fontWeight: FontWeight.w600,
                               color: Colors.black87,
                             ),
                           ),
+
                           SizedBox(height: 0.1.h),
+
+                          // Selected / Select label
                           Text(
                             isSelected ? 'Selected' : 'Select',
-                            style: GoogleFonts.poppins(
+                            style: TextStyle(
                               fontSize: 8.5.sp,
-                              color: isSelected ? const Color(0xFF2E7D32) : Colors.grey[500],
-                              fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
+                              fontFamily: "Poppin",
+                              color: isSelected
+                                  ? const Color(0xFF2E7D32)
+                                  : Colors.grey[500],
+                              fontWeight: isSelected
+                                  ? FontWeight.w600
+                                  : FontWeight.w400,
                             ),
                           ),
                         ],

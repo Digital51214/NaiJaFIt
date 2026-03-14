@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:sizer/sizer.dart';
 
-/// Page 4 — Weight Loss Expectations (no selection needed, always enabled)
 class Page4WeightLossExpectations extends StatefulWidget {
   final Function(bool) onNextEnabled;
   final Function(String, dynamic) onDataUpdate;
@@ -22,24 +20,32 @@ class _Page4WeightLossExpectationsState
     extends State<Page4WeightLossExpectations>
     with SingleTickerProviderStateMixin {
   late final AnimationController _anim;
-  late final Animation<double>  _fade;
-  late final Animation<Offset>  _slide;
+  late final Animation<double> _fade;
+  late final Animation<Offset> _slide;
 
   @override
   void initState() {
     super.initState();
-    _anim  = AnimationController(vsync: this, duration: const Duration(milliseconds: 500));
-    _fade  = CurvedAnimation(parent: _anim, curve: Curves.easeOut).drive(Tween(begin: 0.0, end: 1.0));
+    _anim = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 500),
+    );
+    _fade = CurvedAnimation(parent: _anim, curve: Curves.easeOut)
+        .drive(Tween(begin: 0.0, end: 1.0));
     _slide = CurvedAnimation(parent: _anim, curve: Curves.easeOut)
         .drive(Tween(begin: const Offset(0, 0.08), end: Offset.zero));
 
-    // This page always allows Next
     widget.onNextEnabled(true);
-    WidgetsBinding.instance.addPostFrameCallback((_) { if (mounted) _anim.forward(); });
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) _anim.forward();
+    });
   }
 
   @override
-  void dispose() { _anim.dispose(); super.dispose(); }
+  void dispose() {
+    _anim.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -52,20 +58,40 @@ class _Page4WeightLossExpectationsState
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('What to expect with NaijaFit?',
-                  style: GoogleFonts.poppins(
-                      fontSize: 16.sp, fontWeight: FontWeight.w700, color: Colors.black)),
+              // Title
+              Text(
+                'What to expect with NaijaFit?',
+                style: TextStyle(
+                  fontSize: 16.sp,
+                  fontFamily: "Poppin",
+                  fontWeight: FontWeight.w700,
+                  color: Colors.black,
+                ),
+              ),
+
               SizedBox(height: 1.h),
+
+              // Subtitle
               Text(
                 'Evidence-based results from our community of successful users. Real data, realistic expectations',
-                style: GoogleFonts.poppins(fontSize: 12.sp, color: Colors.grey[600]),
+                style: TextStyle(
+                  fontSize: 12.sp,
+                  fontFamily: "Poppin",
+                  color: Colors.grey[600],
+                ),
               ),
+
               SizedBox(height: 3.h),
 
               // Success Rates Card
               Container(
                 width: double.infinity,
-                padding: EdgeInsets.only(top: 5.w,right: 4.w,left: 4.w,bottom: 7.w),
+                padding: EdgeInsets.only(
+                  top: 5.w,
+                  right: 4.w,
+                  left: 4.w,
+                  bottom: 7.w,
+                ),
                 decoration: BoxDecoration(
                   color: Colors.grey.withOpacity(0.1),
                   borderRadius: BorderRadius.circular(14),
@@ -73,29 +99,60 @@ class _Page4WeightLossExpectationsState
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SizedBox(height: 2,),
-                    Text('Success Rates by Weight Loss Goal',
-                        style: GoogleFonts.poppins(
-                            fontSize: 11.5.sp, fontWeight: FontWeight.w700, color: Colors.black87)),
+                    const SizedBox(height: 2),
+
+                    // Card title
+                    Text(
+                      'Success Rates by Weight Loss Goal',
+                      style: TextStyle(
+                        fontSize: 11.5.sp,
+                        fontFamily: "Poppin",
+                        fontWeight: FontWeight.w700,
+                        color: Colors.black87,
+                      ),
+                    ),
+
                     SizedBox(height: 1.h),
-                    Text('Based on 12-16 week programs',
-                        style: GoogleFonts.poppins(fontSize: 10.sp, color: Colors.grey[600])),
+
+                    // Card subtitle
+                    Text(
+                      'Based on 12-16 week programs',
+                      style: TextStyle(
+                        fontSize: 10.sp,
+                        fontFamily: "Poppin",
+                        color: Colors.grey[600],
+                      ),
+                    ),
+
                     SizedBox(height: 2.h),
-                    _progressRow(Icons.trending_down, '5Kg Loss',  '12 - 14 Weeks', 0.82),
+
+                    _progressRow(
+                      Icons.trending_down,
+                      '5Kg Loss',
+                      '12 - 14 Weeks',
+                      0.82,
+                    ),
+
                     SizedBox(height: 2.h),
-                    _progressRow(Icons.trending_up,   '10Kg Loss', '12 - 16 Weeks', 0.68),
+
+                    _progressRow(
+                      Icons.trending_up,
+                      '10Kg Loss',
+                      '12 - 16 Weeks',
+                      0.68,
+                    ),
                   ],
                 ),
               ),
+
               SizedBox(height: 4.h),
 
               // Feature cards
               SizedBox(
-                height: 115, // card ki height ke mutabiq adjust ho jayega
+                height: 115,
                 child: ListView(
                   scrollDirection: Axis.horizontal,
                   children: [
-
                     SizedBox(
                       width: 39.w,
                       height: 38.w,
@@ -104,7 +161,7 @@ class _Page4WeightLossExpectationsState
                         'Daily Chart',
                         'Track Meals and progress',
                         Colors.white,
-                        Color(0xFF2E7D32),
+                        const Color(0xFF2E7D32),
                       ),
                     ),
 
@@ -135,7 +192,6 @@ class _Page4WeightLossExpectationsState
                         const Color(0xFF2E7D32),
                       ),
                     ),
-
                   ],
                 ),
               ),
@@ -146,7 +202,12 @@ class _Page4WeightLossExpectationsState
     );
   }
 
-  Widget _progressRow(IconData icon, String label, String duration, double progress) {
+  Widget _progressRow(
+      IconData icon,
+      String label,
+      String duration,
+      double progress,
+      ) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -154,8 +215,24 @@ class _Page4WeightLossExpectationsState
           children: [
             Icon(icon, color: const Color(0xFF2E7D32), size: 6.w),
             SizedBox(width: 2.w),
-            Expanded(child: Text(label, style: GoogleFonts.poppins(fontSize: 10.sp, fontWeight: FontWeight.w600))),
-            Text(duration, style: GoogleFonts.poppins(fontSize: 8.2.sp, color: Colors.grey[600])),
+            Expanded(
+              child: Text(
+                label,
+                style: TextStyle(
+                  fontSize: 10.sp,
+                  fontFamily: "Poppin",
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ),
+            Text(
+              duration,
+              style: TextStyle(
+                fontSize: 8.2.sp,
+                fontFamily: "Poppin",
+                color: Colors.grey[600],
+              ),
+            ),
           ],
         ),
         SizedBox(height: 0.8.h),
@@ -165,39 +242,72 @@ class _Page4WeightLossExpectationsState
             value: progress,
             minHeight: 8,
             backgroundColor: Colors.grey[200],
-            valueColor: const AlwaysStoppedAnimation<Color>(Color(0xFF2E7D32)),
+            valueColor: const AlwaysStoppedAnimation<Color>(
+              Color(0xFF2E7D32),
+            ),
           ),
         ),
       ],
     );
   }
 
-  Widget _featureCard(IconData icon, String title, String sub, Color bg, Color iconColor) {
+  Widget _featureCard(
+      IconData icon,
+      String title,
+      String sub,
+      Color bg,
+      Color iconColor,
+      ) {
     return Container(
       height: 145,
       padding: EdgeInsets.all(3.w),
-      decoration: BoxDecoration(color: bg, borderRadius: BorderRadius.circular(12),border: Border.all(
-        width: 1,
-        color: Colors.grey.withOpacity(0.5),
-      ),),
+      decoration: BoxDecoration(
+        color: bg,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(
+          width: 1,
+          color: Colors.grey.withOpacity(0.5),
+        ),
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            width: 13.w, height: 13.w,
+            width: 13.w,
+            height: 13.w,
             decoration: BoxDecoration(
               color: Colors.grey.withOpacity(0.2),
               shape: BoxShape.circle,
             ),
             child: Icon(icon, color: iconColor, size: 7.w),
           ),
+
           SizedBox(height: 1.h),
-          Text(title,
-              style: GoogleFonts.poppins(fontSize: 11.5.sp, fontWeight: FontWeight.w700, color: Colors.black87)),
+
+          // Feature card title
+          Text(
+            title,
+            style: TextStyle(
+              fontSize: 11.5.sp,
+              fontFamily: "Poppin",
+              fontWeight: FontWeight.w700,
+              color: Colors.black87,
+            ),
+          ),
+
           SizedBox(height: 0.3.h),
-          Text(sub,
-              style: GoogleFonts.poppins(fontSize: 8, color: Colors.grey[600]),
-              maxLines: 2, overflow: TextOverflow.ellipsis),
+
+          // Feature card subtitle
+          Text(
+            sub,
+            style: TextStyle(
+              fontSize: 8,
+              fontFamily: "Poppin",
+              color: Colors.grey[600],
+            ),
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+          ),
         ],
       ),
     );
