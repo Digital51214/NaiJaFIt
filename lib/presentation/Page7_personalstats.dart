@@ -29,7 +29,7 @@ class _Page6PersonalStatsState extends State<Page6PersonalStats>
   int? _age;
   double? _height;
   String _heightUnit = 'Cm';
-  String _weightUnit = 'KG';
+  String _ageUnit = 'Yrs';
   String? _activityLevel;
   String? _gender;
 
@@ -42,27 +42,26 @@ class _Page6PersonalStatsState extends State<Page6PersonalStats>
   ];
 
   final List<Map<String, dynamic>> _genderOptions = [
-    {'id': 'male',   'label': 'Male',   'icon': Icons.male},
+    {'id': 'male', 'label': 'Male', 'icon': Icons.male},
     {'id': 'female', 'label': 'Female', 'icon': Icons.female},
-    {'id': 'other',  'label': 'Other',  'icon': Icons.person_outline},
+    {'id': 'other', 'label': 'Other', 'icon': Icons.transgender},
   ];
 
-  final LayerLink _ageLink      = LayerLink();
-  final LayerLink _heightLink   = LayerLink();
+  final LayerLink _ageLink = LayerLink();
+  final LayerLink _heightLink = LayerLink();
   final LayerLink _activityLink = LayerLink();
 
   OverlayEntry? _overlayEntry;
-  LayerLink?    _activeLink;
-  bool          _dropdownOpen = false;
+  LayerLink? _activeLink;
+  bool _dropdownOpen = false;
 
   late final AnimationController _anim;
-  late final Animation<double>   _fade;
-  late final Animation<Offset>   _slide;
+  late final Animation<double> _fade;
+  late final Animation<Offset> _slide;
 
   bool get _isFormValid =>
       _age != null &&
           _height != null &&
-          _activityLevel != null &&
           _gender != null;
 
   @override
@@ -99,6 +98,7 @@ class _Page6PersonalStatsState extends State<Page6PersonalStats>
 
     final double heightCm =
     _heightUnit == 'Cm' ? _height! : _height! * 30.48;
+
     double bmr = _gender == 'male'
         ? (10 * 70) + (6.25 * heightCm) - (5 * _age!) + 5
         : (10 * 70) + (6.25 * heightCm) - (5 * _age!) - 161;
@@ -124,7 +124,7 @@ class _Page6PersonalStatsState extends State<Page6PersonalStats>
     widget.onDataUpdate('age', _age);
     widget.onDataUpdate('height', _height);
     widget.onDataUpdate('heightUnit', _heightUnit);
-    widget.onDataUpdate('weightUnit', _weightUnit);
+    widget.onDataUpdate('ageUnit', _ageUnit);
     widget.onDataUpdate('activityLevel', _activityLevel);
     widget.onDataUpdate('gender', _gender);
     widget.onDataUpdate('dailyCalories', cals);
@@ -156,7 +156,7 @@ class _Page6PersonalStatsState extends State<Page6PersonalStats>
       if (_activeLink == _heightLink) {
         _heightUnit = value;
       } else if (_activeLink == _ageLink) {
-        _weightUnit = value;
+        _ageUnit = value;
       } else if (_activeLink == _activityLink) {
         _activityLevel = value;
         widget.onDataUpdate('activityLevel', value);
@@ -174,8 +174,8 @@ class _Page6PersonalStatsState extends State<Page6PersonalStats>
       items = ['Cm', 'Ft'];
       selectedValue = _heightUnit;
     } else if (link == _ageLink) {
-      items = ['KG', 'LBS'];
-      selectedValue = _weightUnit;
+      items = ['Yrs', 'Mon'];
+      selectedValue = _ageUnit;
     } else {
       items = _activityOptions;
       selectedValue = _activityLevel ?? '';
@@ -193,15 +193,22 @@ class _Page6PersonalStatsState extends State<Page6PersonalStats>
               showWhenUnlinked: false,
               followerAnchor: Alignment.topRight,
               targetAnchor: Alignment.bottomRight,
-              offset: const Offset(0, 4),
+              offset: const Offset(0, 6),
               child: Material(
                 color: Colors.transparent,
                 child: Container(
-                  width: link == _activityLink ? 90.w : 35.w,
+                  width: 35.w,
                   decoration: BoxDecoration(
                     color: Colors.white,
-                    borderRadius: BorderRadius.circular(12),
-                    border: Border.all(color: Colors.grey[200]!),
+                    borderRadius: BorderRadius.circular(14),
+                    border: Border.all(color: const Color(0xFFE2E2E2)),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.08),
+                        blurRadius: 14,
+                        offset: const Offset(0, 4),
+                      ),
+                    ],
                   ),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
@@ -213,22 +220,25 @@ class _Page6PersonalStatsState extends State<Page6PersonalStats>
                           width: double.infinity,
                           padding: EdgeInsets.symmetric(
                             horizontal: 4.w,
-                            vertical: 1.4.h,
+                            vertical: 1.5.h,
                           ),
-                          color: selected
-                              ? const Color(0xFFE8F5E9)
-                              : Colors.white,
+                          decoration: BoxDecoration(
+                            color: selected
+                                ? const Color(0xFFEAF3E6)
+                                : Colors.white,
+                            borderRadius: BorderRadius.circular(14),
+                          ),
                           child: Row(
                             children: [
                               Expanded(
                                 child: Text(
                                   item,
                                   style: TextStyle(
-                                    fontSize: 12.sp,
+                                    fontSize: 11.5.sp,
                                     fontFamily: "Poppin",
                                     fontWeight: FontWeight.w500,
                                     color: selected
-                                        ? const Color(0xFF2E7D32)
+                                        ? const Color(0xFF0B7A22)
                                         : Colors.black87,
                                   ),
                                 ),
@@ -236,8 +246,8 @@ class _Page6PersonalStatsState extends State<Page6PersonalStats>
                               if (selected)
                                 const Icon(
                                   Icons.check,
-                                  color: Color(0xFF2E7D32),
-                                  size: 16,
+                                  color: Color(0xFF0B7A22),
+                                  size: 18,
                                 ),
                             ],
                           ),
@@ -276,36 +286,45 @@ class _Page6PersonalStatsState extends State<Page6PersonalStats>
             fontSize: 12.sp,
             fontFamily: "Poppin",
             color: Colors.black87,
+            fontWeight: FontWeight.w500,
           ),
           decoration: InputDecoration(
             hintText: hint,
             hintStyle: TextStyle(
-              fontSize: 10,
+              fontSize: 11.8.sp,
               fontFamily: "Poppin",
-              color: Colors.grey[400],
+              color: const Color(0xFF9A9A9A),
+              fontWeight: FontWeight.w400,
             ),
             filled: true,
-            fillColor: Colors.white,
+            fillColor: Colors.transparent,
             contentPadding:
-            EdgeInsets.symmetric(horizontal: 5.w, vertical: 0),
+            EdgeInsets.symmetric(horizontal: 6.w, vertical: 0),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(30),
-              borderSide: BorderSide(color: Colors.grey[300]!),
+              borderSide: const BorderSide(
+                color: Color(0xFFD0D0D0),
+                width: 1.2,
+              ),
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(30),
-              borderSide: BorderSide(color: Colors.grey[300]!),
+              borderSide: const BorderSide(
+                color: Color(0xFFD0D0D0),
+                width: 1.2,
+              ),
             ),
             suffixIcon: GestureDetector(
               onTap: () => _toggleDropdown(link),
               child: Container(
-                margin: const EdgeInsets.symmetric(
-                  vertical: 8,
-                  horizontal: 7,
+                margin: const EdgeInsets.only(
+                  right: 8,
+                  top: 8,
+                  bottom: 8,
                 ),
-                padding: EdgeInsets.symmetric(horizontal: 3.w),
+                padding: EdgeInsets.symmetric(horizontal: 2.w),
                 decoration: BoxDecoration(
-                  color: const Color(0xFFE8F5E9),
+                  color: const Color(0xFFDDE8DF),
                   borderRadius: BorderRadius.circular(30),
                 ),
                 child: Row(
@@ -317,17 +336,17 @@ class _Page6PersonalStatsState extends State<Page6PersonalStats>
                         fontSize: 11.sp,
                         fontFamily: "Poppin",
                         fontWeight: FontWeight.w600,
-                        color: const Color(0xFF2E7D32),
+                        color: const Color(0xFF56A61F),
                       ),
                     ),
-                    SizedBox(width: 1.w),
+                    SizedBox(width: 1.2.w),
                     AnimatedRotation(
                       turns: isOpen ? 0.5 : 0,
                       duration: const Duration(milliseconds: 200),
                       child: const Icon(
-                        Icons.keyboard_arrow_down,
-                        color: Color(0xFF2E7D32),
-                        size: 16,
+                        Icons.keyboard_arrow_down_rounded,
+                        color: Color(0xFF0B7A22),
+                        size: 18,
                       ),
                     ),
                   ],
@@ -340,47 +359,70 @@ class _Page6PersonalStatsState extends State<Page6PersonalStats>
     );
   }
 
-  Widget _activityDropdownField() {
-    final bool isOpen = _dropdownOpen && _activeLink == _activityLink;
+  Widget _genderCard(Map<String, dynamic> g) {
+    final isSelected = _gender == g['id'];
 
-    return CompositedTransformTarget(
-      link: _activityLink,
-      child: GestureDetector(
-        onTap: () => _toggleDropdown(_activityLink),
-        child: Container(
-          height: 45,
-          padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 0.h),
-          decoration: BoxDecoration(
-            color: const Color(0xFFE8F5E9),
-            borderRadius: BorderRadius.circular(30),
-            border: Border.all(
-              color: const Color(0xFF2E7D32).withValues(alpha: 0.3),
+    return GestureDetector(
+      onTap: () {
+        setState(() => _gender = g['id']);
+        widget.onDataUpdate('gender', g['id']);
+        _checkForm();
+      },
+      child: AnimatedContainer(
+        height: 73,
+        duration: const Duration(milliseconds: 200),
+        width: double.infinity,
+        padding: EdgeInsets.symmetric(horizontal: 4.5.w,),
+        decoration: BoxDecoration(
+          color: isSelected ? const Color(0xFFEAF3E6) : Colors.white,
+          borderRadius: BorderRadius.circular(25),
+          border: Border.all(
+            color: isSelected
+                ? const Color(0xFF56B327)
+                : const Color(0xFFE1E1E1),
+            width: isSelected ? 1.5 : 1.2,
+          ),
+        ),
+        child: Row(
+          children: [
+            Container(
+              width: 43,
+              height: 43,
+              decoration: const BoxDecoration(
+                color: Color(0xFFDCE8D5),
+                shape: BoxShape.circle,
+              ),
+              child: Icon(
+                g['icon'] as IconData,
+                size: 7.5.w,
+                color: isSelected
+                    ? const Color(0xFF0B7A22)
+                    : Colors.black,
+              ),
             ),
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                _activityLevel ?? 'Activity Level',
+            SizedBox(width: 4.5.w),
+            Expanded(
+              child: Text(
+                g['label'],
                 style: TextStyle(
-                  fontSize: 8.3.sp,
+                  fontSize: 15.sp,
                   fontFamily: "Poppin",
-                  color: _activityLevel != null
-                      ? Colors.black87
-                      : const Color(0xFF2E7D32),
-                  fontWeight: FontWeight.w500,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.black,
                 ),
               ),
-              AnimatedRotation(
-                turns: isOpen ? 0.5 : 0,
-                duration: const Duration(milliseconds: 200),
-                child: const Icon(
-                  Icons.keyboard_arrow_down,
-                  color: Color(0xFF2E7D32),
-                ),
+            ),
+            Text(
+              isSelected ? 'Selected' : 'Select',
+              style: TextStyle(
+                fontSize: 11.8.sp,
+                fontFamily: "Poppin",
+                fontWeight:
+                isSelected ? FontWeight.w600 : FontWeight.w500,
+                color: const Color(0xFF56B327),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
@@ -393,41 +435,40 @@ class _Page6PersonalStatsState extends State<Page6PersonalStats>
       child: SlideTransition(
         position: _slide,
         child: SingleChildScrollView(
-          padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 2.h),
+          padding: EdgeInsets.symmetric(horizontal: 5.5.w, vertical: 1.5.h),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Title
               Text(
                 'Tell Us About Yourself',
                 style: TextStyle(
-                  fontSize: 20.sp,
+                  fontSize: 18.sp,
                   fontFamily: "Poppin",
                   fontWeight: FontWeight.w700,
                   color: Colors.black,
+                  height: 1.25,
                 ),
               ),
 
-              SizedBox(height: 0.5.h),
+              SizedBox(height: 1.2.h),
 
-              // Subtitle
               Text(
-                'This will help us a lot to tailor a very well plan for you',
+                'This will help us a lot to tailor a very well\nplan for you',
                 style: TextStyle(
-                  fontSize: 11.sp,
+                  fontSize: 12.sp,
                   fontFamily: "Poppin",
-                  color: Colors.grey[600],
+                  color: const Color(0xFF6E6E6E),
+                  height: 1.55,
                 ),
               ),
 
-              SizedBox(height: 3.h),
+              SizedBox(height: 3.8.h),
 
-              // Age field
               _inputField(
                 link: _ageLink,
                 ctrl: _ageCtrl,
-                hint: 'Age....',
-                unit: _weightUnit,
+                hint: 'Age...',
+                unit: _ageUnit,
                 onChanged: (v) {
                   setState(() => _age = int.tryParse(v));
                   _checkForm();
@@ -436,7 +477,6 @@ class _Page6PersonalStatsState extends State<Page6PersonalStats>
 
               SizedBox(height: 1.h),
 
-              // Height field
               _inputField(
                 link: _heightLink,
                 ctrl: _heightCtrl,
@@ -448,104 +488,14 @@ class _Page6PersonalStatsState extends State<Page6PersonalStats>
                 },
               ),
 
-              SizedBox(height: 1.h),
+              SizedBox(height: 2.3.h),
 
-              // Activity Level dropdown
-              _activityDropdownField(),
-
-              SizedBox(height: 3.h),
-
-              // Gender cards
-              SizedBox(
-                height: 120,
-                child: ListView.separated(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: _genderOptions.length,
-                  separatorBuilder: (_, __) => SizedBox(width: 3.w),
-                  itemBuilder: (context, index) {
-                    final g = _genderOptions[index];
-                    final isSelected = _gender == g['id'];
-
-                    return GestureDetector(
-                      onTap: () {
-                        setState(() => _gender = g['id']);
-                        widget.onDataUpdate('gender', g['id']);
-                        _checkForm();
-                      },
-                      child: AnimatedContainer(
-                        duration: const Duration(milliseconds: 200),
-                        height: 120,
-                        width: 140,
-                        padding: EdgeInsets.symmetric(
-                          vertical: 2.h,
-                          horizontal: 12,
-                        ),
-                        decoration: BoxDecoration(
-                          color: isSelected
-                              ? const Color(0xFFE8F5E9)
-                              : Colors.white,
-                          borderRadius: BorderRadius.circular(25),
-                          border: Border.all(
-                            color: isSelected
-                                ? const Color(0xFF2E7D32)
-                                : Colors.grey[300]!,
-                            width: isSelected ? 2 : 1,
-                          ),
-                        ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Container(
-                              width: 12.w,
-                              height: 12.w,
-                              decoration: BoxDecoration(
-                                color: isSelected
-                                    ? const Color(0xFFC8E6C9)
-                                    : Colors.grey[100],
-                                shape: BoxShape.circle,
-                              ),
-                              child: Icon(
-                                g['icon'] as IconData,
-                                color: const Color(0xFF2E7D32),
-                                size: 6.w,
-                              ),
-                            ),
-
-                            SizedBox(height: 1.h),
-
-                            // Gender label
-                            Text(
-                              g['label'],
-                              style: TextStyle(
-                                fontSize: 11.sp,
-                                fontFamily: "Poppin",
-                                fontWeight: FontWeight.w600,
-                                color: Colors.black87,
-                              ),
-                            ),
-
-                            // Selected / Select
-                            Text(
-                              isSelected ? 'Selected' : 'Select',
-                              style: TextStyle(
-                                fontSize: 9.sp,
-                                fontFamily: "Poppin",
-                                color: isSelected
-                                    ? const Color(0xFF2E7D32)
-                                    : Colors.grey[500],
-                                fontWeight: isSelected
-                                    ? FontWeight.w600
-                                    : FontWeight.w400,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    );
-                  },
-                ),
-              ),
+              ..._genderOptions.map((g) {
+                return Padding(
+                  padding: EdgeInsets.only(bottom: 1.h),
+                  child: _genderCard(g),
+                );
+              }).toList(),
 
               SizedBox(height: 2.h),
             ],

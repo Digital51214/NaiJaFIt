@@ -200,7 +200,6 @@ class _VerifyScreenState extends State<VerifyScreen>
       if (mounted) setState(() => _isLoading = false);
     }
   }
-
   Widget _animatedEntry({
     required Animation<Offset> slide,
     required Animation<double> fade,

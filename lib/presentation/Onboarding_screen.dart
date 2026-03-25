@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:naijafit/presentation/Nagarionsays_screen.dart';
 import 'package:naijafit/presentation/Page1_goalselection.dart';
 import 'package:naijafit/presentation/Page2_goalsetting.dart';
-import 'package:naijafit/presentation/Page3_challengeidentification.dart';
-import 'package:naijafit/presentation/Page4_wieghtlossexpectations.dart';
-import 'package:naijafit/presentation/Page5_professionalsupport.dart';
-import 'package:naijafit/presentation/Page6_personalstats.dart';
-import 'package:naijafit/presentation/Page7_clorietarget.dart';
+import 'package:naijafit/presentation/Page3_trackprogress.dart';
+import 'package:naijafit/presentation/Page4_challengeidentification.dart';
+import 'package:naijafit/presentation/Page5_wieghtlossexpectations.dart';
+import 'package:naijafit/presentation/Page6_professionalsupport.dart';
+import 'package:naijafit/presentation/Page7_personalstats.dart';
+import 'package:naijafit/presentation/Page8_activitycheck.dart';
+import 'package:naijafit/presentation/Page9_clorietarget.dart';
+import 'package:naijafit/widgets/custom_backbutton.dart';
 import 'package:sizer/sizer.dart';
 
 class OnboardingScreen extends StatefulWidget {
@@ -18,7 +22,7 @@ class OnboardingScreen extends StatefulWidget {
 class _OnboardingScreenState extends State<OnboardingScreen> {
   final PageController _pageController = PageController();
   int _currentPage = 0;
-  final int _totalPages = 7;
+  final int _totalPages = 9;
 
   final Map<String, dynamic> _onboardingData = {};
 
@@ -42,8 +46,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         curve: Curves.easeInOut,
       );
     } else {
-      Navigator.of(context, rootNavigator: true)
-          .pushNamed('/premium-subscription');
+      Navigator.push(context, MaterialPageRoute(builder: (context)=>WhatNigeriansAreSayingScreen()));
     }
   }
 
@@ -61,8 +64,14 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   void _onPageChanged(int index) {
     setState(() {
       _currentPage = index;
-      _isNextEnabled = index == 3;
       _pageNextCallback = null;
+
+      // Sirf Page 5 auto enabled rahega
+      if (_currentPage == 4 || _currentPage == 8) {
+        _isNextEnabled = true;
+      } else {
+        _isNextEnabled = false;
+      }
     });
   }
 
@@ -86,10 +95,10 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     }
   }
 
-  bool get _showSkip => _currentPage == 4;
-  bool get _isLastPage => _currentPage == 6;
-  bool get _nextActive =>
-      _isNextEnabled || _currentPage == 3 || _currentPage == 6;
+  bool get _isFinalPage => _currentPage == _totalPages - 1;
+
+  // Sirf Page 5 auto enabled, baaki pages apni condition se enable honge
+  bool get _nextActive => _currentPage == 4 || _isNextEnabled;
 
   @override
   void dispose() {
@@ -104,27 +113,15 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       body: SafeArea(
         child: Column(
           children: [
-            // ── Static Header ──
             Padding(
               padding: EdgeInsets.fromLTRB(5.w, 4.h, 5.w, 0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  GestureDetector(
-                    onTap: _goToPreviousPage,
-                    child: Container(
-                      width: 13.5.w,
-                      height: 13.5.w,
-                      decoration: const BoxDecoration(
-                        color: Color(0xFFE8F5E9),
-                        shape: BoxShape.circle,
-                      ),
-                      child: const Icon(
-                        Icons.chevron_left,
-                        color: Color(0xFF2E7D32),
-                        size: 30,
-                      ),
-                    ),
+                  CustomBackButton(
+                    onTap: () {
+                      _goToPreviousPage();
+                    },
                   ),
                   Image.asset(
                     'assets/images/LOGO.png',
@@ -138,7 +135,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
             SizedBox(height: 1.5.h),
 
-            // ── Static Progress Bars ──
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 5.w),
               child: Column(
@@ -180,7 +176,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
             SizedBox(height: 1.5.h),
 
-            // ── Page Content Area ──
             Expanded(
               child: PageView(
                 controller: _pageController,
@@ -195,6 +190,13 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     navigateNext: _navigateNext,
                   ),
                   Page2GoalSettingDetails(
+                    onNextEnabled: _updateNextEnabled,
+                    onDataUpdate: _updateData,
+                    registerNextCallback: _registerNextCallback,
+                    setLoading: _setLoading,
+                    navigateNext: _navigateNext,
+                  ),
+                  Page2GoalsettingPart2(
                     onNextEnabled: _updateNextEnabled,
                     onDataUpdate: _updateData,
                     registerNextCallback: _registerNextCallback,
@@ -226,6 +228,13 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     setLoading: _setLoading,
                     navigateNext: _navigateNext,
                   ),
+                  Page8ActivityLevel(
+                    onNextEnabled: _updateNextEnabled,
+                    onDataUpdate: _updateData,
+                    registerNextCallback: _registerNextCallback,
+                    setLoading: _setLoading,
+                    navigateNext: _navigateNext,
+                  ),
                   Page7CalorieTargetDisplay(
                     onboardingData: _onboardingData,
                     onNextEnabled: _updateNextEnabled,
@@ -234,87 +243,46 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               ),
             ),
 
-            // ── Static Bottom Button ──
             Padding(
               padding: EdgeInsets.fromLTRB(5.w, 1.h, 5.w, 3.h),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  SizedBox(
-                    width: double.infinity,
-                    height: 45,
-                    child: ElevatedButton(
-                      onPressed:
-                      _nextActive && !_isLoading ? _goToNextPage : null,
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFF2E7D32),
-                        padding: const EdgeInsets.symmetric(
-                          vertical: 0,
-                          horizontal: 0,
-                        ),
-                        disabledBackgroundColor: Colors.grey[300],
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(28),
-                        ),
-                        elevation: 0,
-                      ),
-                      child: _isLoading
-                          ? const SizedBox(
-                        width: 22,
-                        height: 22,
-                        child: CircularProgressIndicator(
-                          color: Colors.white,
-                          strokeWidth: 2,
-                        ),
-                      )
-                          : Text(
-                        _isLastPage ? 'Get Started!' : 'Next',
-                        style: TextStyle(
-                          fontSize: 11.5.sp,
-                          fontFamily: "Poppin",
-                          fontWeight: FontWeight.w600,
-                          color: _nextActive
-                              ? Colors.white
-                              : Colors.grey[500],
-                        ),
-                      ),
+              child: SizedBox(
+                width: double.infinity,
+                height: 45,
+                child: ElevatedButton(
+                  onPressed: _nextActive && !_isLoading ? _goToNextPage : null,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFF2E7D32),
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 0,
+                      horizontal: 0,
+                    ),
+                    disabledBackgroundColor: Colors.grey[300],
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(28),
+                    ),
+                    elevation: 0,
+                  ),
+                  child: _isLoading
+                      ? const SizedBox(
+                    width: 22,
+                    height: 22,
+                    child: CircularProgressIndicator(
+                      color: Colors.white,
+                      strokeWidth: 2,
+                    ),
+                  )
+                      : Text(
+                    _isFinalPage ? 'Get Started!' : 'Next',
+                    style: TextStyle(
+                      fontSize: 11.5.sp,
+                      fontFamily: "Poppin",
+                      fontWeight: FontWeight.w600,
+                      color: _nextActive
+                          ? Colors.white
+                          : Colors.grey[500],
                     ),
                   ),
-
-                  // Skip — only Page 5
-                  if (_showSkip) ...[
-                    SizedBox(height: 0.5.h),
-                    TextButton(
-                      onPressed: _navigateNext,
-                      child: Text(
-                        'Skip for now',
-                        style: TextStyle(
-                          fontSize: 12.sp,
-                          fontFamily: "Poppin",
-                          color: const Color(0xFF2E7D32),
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ),
-                  ],
-
-                  // Save & Continue Later — only Page 7
-                  if (_isLastPage) ...[
-                    SizedBox(height: 0.5.h),
-                    TextButton(
-                      onPressed: _navigateNext,
-                      child: Text(
-                        'Save & Continue Later',
-                        style: TextStyle(
-                          fontSize: 11.sp,
-                          fontFamily: "Poppin",
-                          color: Colors.grey[500],
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ),
-                  ],
-                ],
+                ),
               ),
             ),
           ],

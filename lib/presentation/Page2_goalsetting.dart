@@ -31,19 +31,17 @@ class _Page2GoalSettingDetailsState extends State<Page2GoalSettingDetails>
   double? _currentWeight;
   double? _targetWeight;
   String? _selectedTimeline;
+
   String _currentWeightUnit = 'KG';
   String _targetWeightUnit = 'KG';
 
   final LayerLink _layerLink1 = LayerLink();
   final LayerLink _layerLink2 = LayerLink();
   final LayerLink _timelineLink = LayerLink();
+
   OverlayEntry? _overlayEntry;
   bool _dropdownOpen = false;
   LayerLink? _activeLink;
-
-  bool _weeklyWeighIns = true;
-  bool _photoProgress = false;
-  bool _measurementTracking = false;
 
   final List<String> _timelineOptions = [
     '4 Weeks',
@@ -64,16 +62,24 @@ class _Page2GoalSettingDetailsState extends State<Page2GoalSettingDetails>
   @override
   void initState() {
     super.initState();
+
     _anim = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 500),
     );
-    _fade = CurvedAnimation(parent: _anim, curve: Curves.easeOut)
-        .drive(Tween(begin: 0.0, end: 1.0));
-    _slide = CurvedAnimation(parent: _anim, curve: Curves.easeOut)
-        .drive(Tween(begin: const Offset(0, 0.08), end: Offset.zero));
+
+    _fade = CurvedAnimation(
+      parent: _anim,
+      curve: Curves.easeOut,
+    ).drive(Tween(begin: 0.0, end: 1.0));
+
+    _slide = CurvedAnimation(
+      parent: _anim,
+      curve: Curves.easeOut,
+    ).drive(Tween(begin: const Offset(0, 0.06), end: Offset.zero));
 
     widget.registerNextCallback(_handleNext);
+
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (mounted) _anim.forward();
     });
@@ -88,7 +94,9 @@ class _Page2GoalSettingDetailsState extends State<Page2GoalSettingDetails>
     super.dispose();
   }
 
-  void _checkForm() => widget.onNextEnabled(_isFormValid);
+  void _checkForm() {
+    widget.onNextEnabled(_isFormValid);
+  }
 
   Future<void> _handleNext() async {
     if (!_isFormValid) return;
@@ -100,9 +108,6 @@ class _Page2GoalSettingDetailsState extends State<Page2GoalSettingDetails>
     widget.onDataUpdate('timeline', _selectedTimeline);
     widget.onDataUpdate('currentWeightUnit', _currentWeightUnit);
     widget.onDataUpdate('targetWeightUnit', _targetWeightUnit);
-    widget.onDataUpdate('weeklyWeighIns', _weeklyWeighIns);
-    widget.onDataUpdate('photoProgress', _photoProgress);
-    widget.onDataUpdate('measurementTracking', _measurementTracking);
 
     final user = AuthService.instance.currentUser;
     if (user != null) {
@@ -123,9 +128,8 @@ class _Page2GoalSettingDetailsState extends State<Page2GoalSettingDetails>
     } else {
       _closeDropdown();
       _activeLink = link;
-      _overlayEntry = link == _timelineLink
-          ? _buildTimelineOverlay()
-          : _buildUnitOverlay(link);
+      _overlayEntry =
+      link == _timelineLink ? _buildTimelineOverlay() : _buildUnitOverlay(link);
       Overlay.of(context).insert(_overlayEntry!);
       setState(() => _dropdownOpen = true);
     }
@@ -135,7 +139,9 @@ class _Page2GoalSettingDetailsState extends State<Page2GoalSettingDetails>
     _overlayEntry?.remove();
     _overlayEntry = null;
     _activeLink = null;
-    if (mounted) setState(() => _dropdownOpen = false);
+    if (mounted) {
+      setState(() => _dropdownOpen = false);
+    }
   }
 
   void _selectUnit(String unit) {
@@ -146,6 +152,7 @@ class _Page2GoalSettingDetailsState extends State<Page2GoalSettingDetails>
         _targetWeightUnit = unit;
       }
     });
+
     widget.onDataUpdate('currentWeightUnit', _currentWeightUnit);
     widget.onDataUpdate('targetWeightUnit', _targetWeightUnit);
     _closeDropdown();
@@ -171,19 +178,19 @@ class _Page2GoalSettingDetailsState extends State<Page2GoalSettingDetails>
               showWhenUnlinked: false,
               followerAnchor: Alignment.topRight,
               targetAnchor: Alignment.bottomRight,
-              offset: const Offset(0, 4),
+              offset: const Offset(0, 6),
               child: Material(
                 color: Colors.transparent,
                 child: Container(
                   width: 38.w,
                   decoration: BoxDecoration(
                     color: Colors.white,
-                    borderRadius: BorderRadius.circular(12),
-                    border: Border.all(color: Colors.grey[200]!),
+                    borderRadius: BorderRadius.circular(14),
+                    border: Border.all(color: const Color(0xFFE2E2E2)),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.black.withValues(alpha: 0.10),
-                        blurRadius: 12,
+                        color: Colors.black.withOpacity(0.08),
+                        blurRadius: 14,
                         offset: const Offset(0, 4),
                       ),
                     ],
@@ -192,7 +199,7 @@ class _Page2GoalSettingDetailsState extends State<Page2GoalSettingDetails>
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       _unitDropItem('KG', 'Kilogram'),
-                      Divider(height: 1, color: Colors.grey[100]),
+                      Divider(height: 1, color: Colors.grey[200]),
                       _unitDropItem('LBS', 'Pound'),
                     ],
                   ),
@@ -218,19 +225,19 @@ class _Page2GoalSettingDetailsState extends State<Page2GoalSettingDetails>
               showWhenUnlinked: false,
               followerAnchor: Alignment.topLeft,
               targetAnchor: Alignment.bottomLeft,
-              offset: const Offset(0, 4),
+              offset: const Offset(0, 6),
               child: Material(
                 color: Colors.transparent,
                 child: Container(
-                  width: 60.w,
+                  width: 55.w,
                   decoration: BoxDecoration(
                     color: Colors.white,
-                    borderRadius: BorderRadius.circular(12),
-                    border: Border.all(color: Colors.grey[200]!),
+                    borderRadius: BorderRadius.circular(14),
+                    border: Border.all(color: const Color(0xFFE2E2E2)),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.black.withValues(alpha: 0.10),
-                        blurRadius: 12,
+                        color: Colors.black.withOpacity(0.08),
+                        blurRadius: 14,
                         offset: const Offset(0, 4),
                       ),
                     ],
@@ -242,15 +249,16 @@ class _Page2GoalSettingDetailsState extends State<Page2GoalSettingDetails>
                       return GestureDetector(
                         onTap: () => _selectTimeline(opt),
                         child: Container(
+                          width: double.infinity,
                           padding: EdgeInsets.symmetric(
                             horizontal: 4.w,
-                            vertical: 1.4.h,
+                            vertical: 1.6.h,
                           ),
                           decoration: BoxDecoration(
                             color: isSelected
-                                ? const Color(0xFFE8F5E9)
+                                ? const Color(0xFFEAF3E6)
                                 : Colors.white,
-                            borderRadius: BorderRadius.circular(12),
+                            borderRadius: BorderRadius.circular(14),
                           ),
                           child: Row(
                             children: [
@@ -258,11 +266,11 @@ class _Page2GoalSettingDetailsState extends State<Page2GoalSettingDetails>
                                 child: Text(
                                   opt,
                                   style: TextStyle(
-                                    fontSize: 12.sp,
-                                    fontFamily: "Poppin",
+                                    fontSize: 11.5.sp,
+                                    fontFamily: 'Poppin',
                                     fontWeight: FontWeight.w500,
                                     color: isSelected
-                                        ? const Color(0xFF2E7D32)
+                                        ? const Color(0xFF0B7A22)
                                         : Colors.black87,
                                   ),
                                 ),
@@ -270,8 +278,8 @@ class _Page2GoalSettingDetailsState extends State<Page2GoalSettingDetails>
                               if (isSelected)
                                 const Icon(
                                   Icons.check,
-                                  color: Color(0xFF2E7D32),
-                                  size: 16,
+                                  size: 18,
+                                  color: Color(0xFF0B7A22),
                                 ),
                             ],
                           ),
@@ -290,6 +298,7 @@ class _Page2GoalSettingDetailsState extends State<Page2GoalSettingDetails>
 
   Widget _unitDropItem(String label, String sub) {
     bool isSelected = false;
+
     if (_activeLink == _layerLink1) {
       isSelected = _currentWeightUnit == label;
     } else if (_activeLink == _layerLink2) {
@@ -299,10 +308,10 @@ class _Page2GoalSettingDetailsState extends State<Page2GoalSettingDetails>
     return GestureDetector(
       onTap: () => _selectUnit(label),
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 1.4.h),
+        padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 1.6.h),
         decoration: BoxDecoration(
-          color: isSelected ? const Color(0xFFE8F5E9) : Colors.white,
-          borderRadius: BorderRadius.circular(12),
+          color: isSelected ? const Color(0xFFEAF3E6) : Colors.white,
+          borderRadius: BorderRadius.circular(14),
         ),
         child: Row(
           children: [
@@ -313,27 +322,32 @@ class _Page2GoalSettingDetailsState extends State<Page2GoalSettingDetails>
                   Text(
                     label,
                     style: TextStyle(
-                      fontSize: 12.sp,
-                      fontFamily: "Poppin",
+                      fontSize: 11.5.sp,
+                      fontFamily: 'Poppin',
                       fontWeight: FontWeight.w600,
                       color: isSelected
-                          ? const Color(0xFF2E7D32)
+                          ? const Color(0xFF0B7A22)
                           : Colors.black87,
                     ),
                   ),
+                  SizedBox(height: 0.2.h),
                   Text(
                     sub,
                     style: TextStyle(
                       fontSize: 9.sp,
-                      fontFamily: "Poppin",
-                      color: Colors.grey[500],
+                      fontFamily: 'Poppin',
+                      color: const Color(0xFF8A8A8A),
                     ),
                   ),
                 ],
               ),
             ),
             if (isSelected)
-              const Icon(Icons.check, color: Color(0xFF2E7D32), size: 16),
+              const Icon(
+                Icons.check,
+                size: 18,
+                color: Color(0xFF0B7A22),
+              ),
           ],
         ),
       ),
@@ -342,59 +356,59 @@ class _Page2GoalSettingDetailsState extends State<Page2GoalSettingDetails>
 
   @override
   Widget build(BuildContext context) {
-    final bool timelineOpen =
-        _dropdownOpen && _activeLink == _timelineLink;
+    final bool timelineOpen = _dropdownOpen && _activeLink == _timelineLink;
 
     return FadeTransition(
       opacity: _fade,
       child: SlideTransition(
         position: _slide,
         child: SingleChildScrollView(
-          padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 2.h),
+          padding: EdgeInsets.symmetric(horizontal: 5.5.w, vertical: 1.5.h),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Title
               Text(
-                "Let's set your target",
+                "Let’s set your target",
                 style: TextStyle(
-                  fontSize: 16.sp,
-                  fontFamily: "Poppin",
+                  fontSize: 19.sp,
+                  fontFamily: 'Poppin',
                   fontWeight: FontWeight.w700,
                   color: Colors.black,
+                  height: 1.25,
                 ),
               ),
 
-              SizedBox(height: 0.5.h),
+              SizedBox(height: 1.6.h),
 
-              // Subtitle
               Text(
-                'We will create a personalized plan based on your goals',
+                'We will create a personalized plan based\non your goals',
                 style: TextStyle(
-                  fontSize: 12.sp,
-                  fontFamily: "Poppin",
-                  color: Colors.grey[600],
+                  fontSize: 12.5.sp,
+                  fontFamily: 'Poppin',
+                  fontWeight: FontWeight.w400,
+                  color: const Color(0xFF6E6E6E),
+                  height: 1.55,
                 ),
               ),
 
-              SizedBox(height: 3.h),
+              SizedBox(height: 4.3.h),
 
-              // Weight Details label
               Text(
                 'Weight Details',
                 style: TextStyle(
                   fontSize: 13.sp,
-                  fontFamily: "Poppin",
+                  fontFamily: 'Poppin',
                   fontWeight: FontWeight.w600,
+                  color: Colors.black,
                 ),
               ),
 
-              SizedBox(height: 1.5.h),
+              SizedBox(height: 2.2.h),
 
               _weightField(
                 link: _layerLink1,
                 ctrl: _currentWeightCtrl,
-                hint: 'Enter Weight....',
+                hint: 'Enter Current Weight....',
                 unit: _currentWeightUnit,
                 onChange: (v) {
                   setState(() => _currentWeight = double.tryParse(v));
@@ -402,12 +416,12 @@ class _Page2GoalSettingDetailsState extends State<Page2GoalSettingDetails>
                 },
               ),
 
-              SizedBox(height: 1.h),
+              SizedBox(height: 1.4.h),
 
               _weightField(
                 link: _layerLink2,
                 ctrl: _targetWeightCtrl,
-                hint: 'Target Weight....',
+                hint: 'Enter Target Weight....',
                 unit: _targetWeightUnit,
                 onChange: (v) {
                   setState(() => _targetWeight = double.tryParse(v));
@@ -415,55 +429,56 @@ class _Page2GoalSettingDetailsState extends State<Page2GoalSettingDetails>
                 },
               ),
 
-              SizedBox(height: 3.h),
+              SizedBox(height: 4.h),
 
-              // Timeline label
               Text(
-                'Timeline',
+                'Timeline to achieve your target',
                 style: TextStyle(
-                  fontSize: 11.7.sp,
-                  fontFamily: "Poppin",
+                  fontSize: 13.sp,
+                  fontFamily: 'Poppin',
                   fontWeight: FontWeight.w600,
+                  color: Colors.black,
                 ),
               ),
 
-              SizedBox(height: 1.5.h),
+              SizedBox(height: 2.2.h),
 
-              // Timeline dropdown
               CompositedTransformTarget(
                 link: _timelineLink,
                 child: GestureDetector(
                   onTap: () => _toggleDropdown(_timelineLink),
                   child: Container(
                     height: 45,
-                    padding: EdgeInsets.symmetric(horizontal: 4.w),
+                    width: double.infinity,
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 5.5.w,
+                      vertical: 0.h,
+                    ),
                     decoration: BoxDecoration(
-                      color: const Color(0xFFE8F5E9),
+                      color: const Color(0xFFDDE8DF),
                       borderRadius: BorderRadius.circular(30),
-                      border: Border.all(
-                        color: const Color(0xFF2E7D32).withValues(alpha: 0.3),
-                      ),
+                      border: Border.all(color: const Color(0xFFCDCDCD)),
                     ),
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                          _selectedTimeline ?? 'Select Timeline',
-                          style: TextStyle(
-                            fontSize: 11.sp,
-                            fontFamily: "Poppin",
-                            color: _selectedTimeline != null
-                                ? Colors.black87
-                                : const Color(0xFF2E7D32),
-                            fontWeight: FontWeight.w500,
+                        Expanded(
+                          child: Text(
+                            _selectedTimeline ?? 'Select Timeline',
+                            style: TextStyle(
+                              fontSize: 10.sp,
+                              fontFamily: 'Poppin',
+                              fontWeight: FontWeight.w500,
+                              color: const Color(0xFF0B7A22),
+                            ),
                           ),
                         ),
                         AnimatedRotation(
                           turns: timelineOpen ? 0.5 : 0,
                           duration: const Duration(milliseconds: 200),
                           child: const Icon(
-                            Icons.keyboard_arrow_down,
-                            color: Color(0xFF2E7D32),
+                            Icons.keyboard_arrow_down_rounded,
+                            color: Color(0xFF0B7A22),
+                            size: 30,
                           ),
                         ),
                       ],
@@ -472,49 +487,7 @@ class _Page2GoalSettingDetailsState extends State<Page2GoalSettingDetails>
                 ),
               ),
 
-              SizedBox(height: 4.h),
-
-              // Progress Tracking label
-              Text(
-                'Progress Tracking',
-                style: TextStyle(
-                  fontSize: 13.sp,
-                  fontFamily: "Poppin",
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-
               SizedBox(height: 3.h),
-
-              _trackingRow(
-                Icons.hourglass_bottom,
-                'Weekly Weighs-in',
-                'Track Your weight every week',
-                _weeklyWeighIns,
-                    (v) => setState(() => _weeklyWeighIns = v),
-              ),
-
-              SizedBox(height: 2.h),
-
-              _trackingRow(
-                Icons.camera_alt_outlined,
-                'Photo Progress',
-                'Take progress photos',
-                _photoProgress,
-                    (v) => setState(() => _photoProgress = v),
-              ),
-
-              SizedBox(height: 2.h),
-
-              _trackingRow(
-                Icons.straighten,
-                'Measurement Tracking',
-                'Track body measurements',
-                _measurementTracking,
-                    (v) => setState(() => _measurementTracking = v),
-              ),
-
-              SizedBox(height: 2.h),
             ],
           ),
         ),
@@ -530,50 +503,60 @@ class _Page2GoalSettingDetailsState extends State<Page2GoalSettingDetails>
     required Function(String) onChange,
   }) {
     final bool isThisOpen = _dropdownOpen && _activeLink == link;
+
     return CompositedTransformTarget(
       link: link,
-      child: SizedBox(
+      child: Container(
         height: 45,
-        width: double.infinity,
         child: TextField(
           controller: ctrl,
           keyboardType: const TextInputType.numberWithOptions(decimal: true),
           onChanged: onChange,
           style: TextStyle(
-            fontSize: 12.sp,
-            fontFamily: "Poppin",
+            fontSize: 10.sp,
+            fontFamily: 'Poppin',
+            fontWeight: FontWeight.w500,
             color: Colors.black87,
           ),
           decoration: InputDecoration(
             hintText: hint,
             hintStyle: TextStyle(
-              fontSize: 10,
-              fontFamily: "Poppin",
-              color: Colors.grey[400],
+              fontSize: 10.sp,
+              fontFamily: 'Poppin',
+              fontWeight: FontWeight.w400,
+              color: const Color(0xFF9B9B9B),
             ),
             filled: true,
-            fillColor: Colors.white,
-            contentPadding:
-            EdgeInsets.symmetric(horizontal: 5.w, vertical: 0),
+            fillColor: Colors.transparent,
+            contentPadding: EdgeInsets.symmetric(
+              horizontal: 6.w,
+              vertical: 2.1.h,
+            ),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(30),
-              borderSide: BorderSide(color: Colors.grey[300]!),
+              borderSide: const BorderSide(
+                color: Color(0xFFCDCDCD),
+                width: 1.2,
+              ),
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(30),
-              borderSide: BorderSide(color: Colors.grey[300]!),
+              borderSide: const BorderSide(
+                color: Color(0xFFCDCDCD),
+                width: 1.2,
+              ),
             ),
             suffixIcon: GestureDetector(
               onTap: () => _toggleDropdown(link),
               child: Container(
-                height: 29,
-                margin: const EdgeInsets.symmetric(
-                  vertical: 8,
-                  horizontal: 7,
+                margin: const EdgeInsets.only(
+                  right: 8,
+                  top: 8,
+                  bottom: 8,
                 ),
-                padding: EdgeInsets.symmetric(horizontal: 3.w),
+                padding: EdgeInsets.symmetric(horizontal: 4.2.w),
                 decoration: BoxDecoration(
-                  color: const Color(0xFFE8F5E9),
+                  color: const Color(0xFFDDE8DF),
                   borderRadius: BorderRadius.circular(30),
                 ),
                 child: Row(
@@ -581,21 +564,21 @@ class _Page2GoalSettingDetailsState extends State<Page2GoalSettingDetails>
                   children: [
                     Text(
                       unit,
-                      style: const TextStyle(
-                        fontSize: 12,
-                        fontFamily: "Poppin",
+                      style: TextStyle(
+                        fontSize: 12.5.sp,
+                        fontFamily: 'Poppin',
                         fontWeight: FontWeight.w600,
-                        color: Color(0xFF2E7D32),
+                        color: const Color(0xFF56A61F),
                       ),
                     ),
-                    SizedBox(width: 1.w),
+                    SizedBox(width: 1.2.w),
                     AnimatedRotation(
                       turns: isThisOpen ? 0.5 : 0,
                       duration: const Duration(milliseconds: 200),
                       child: const Icon(
-                        Icons.keyboard_arrow_down,
-                        color: Color(0xFF2E7D32),
-                        size: 16,
+                        Icons.keyboard_arrow_down_rounded,
+                        color: Color(0xFF0B7A22),
+                        size: 22,
                       ),
                     ),
                   ],
@@ -604,60 +587,6 @@ class _Page2GoalSettingDetailsState extends State<Page2GoalSettingDetails>
             ),
           ),
         ),
-      ),
-    );
-  }
-
-  Widget _trackingRow(
-      IconData icon,
-      String title,
-      String sub,
-      bool val,
-      Function(bool) onChanged,
-      ) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8.0),
-      child: Row(
-        children: [
-          Container(
-            width: 12.w,
-            height: 12.w,
-            decoration: const BoxDecoration(
-              color: Color(0xFFE8F5E9),
-              shape: BoxShape.circle,
-            ),
-            child: Icon(icon, color: const Color(0xFF2E7D32), size: 7.w),
-          ),
-          SizedBox(width: 3.w),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  title,
-                  style: TextStyle(
-                    fontSize: 10.sp,
-                    fontFamily: "Poppin",
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-                Text(
-                  sub,
-                  style: TextStyle(
-                    fontSize: 9.sp,
-                    fontFamily: "Poppin",
-                    color: Colors.grey[500],
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Switch(
-            value: val,
-            onChanged: onChanged,
-            activeColor: const Color(0xFF2E7D32),
-          ),
-        ],
       ),
     );
   }

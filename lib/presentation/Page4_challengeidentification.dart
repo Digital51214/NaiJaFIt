@@ -30,21 +30,33 @@ class _Page3ChallengeIdentificationState
   final List<Map<String, dynamic>> _challenges = [
     {
       'id': 'poor_portion',
-      'title': 'Poor Portion Control',
-      'sub': 'Struggle with serving sizes',
+      'title': 'Lack for portion control',
+      'sub': 'Difficulty managing serving sizes',
       'image': 'assets/images/Vector1.png',
     },
     {
       'id': 'unhealthy',
-      'title': 'Unhealthy Eating',
-      'sub': 'Frequent junk or processed food',
+      'title': 'Unhealthy eating habits',
+      'sub': 'Consuming processed or junk foods regularly',
       'image': 'assets/images/Vector2.png',
     },
     {
       'id': 'low_activity',
-      'title': 'Low Physical Activity',
-      'sub': 'Minimal daily exercise',
+      'title': 'Lack of physical activities',
+      'sub': 'sedentary lifestyle with minimal exercise',
       'image': 'assets/images/Vector3.png',
+    },
+    {
+      'id': 'poor_portion',
+      'title': 'Nature of my job and daily schedules',
+      'sub': 'Busy schedule affecting meal planning',
+      'image': 'assets/images/Vector1.png',
+    },
+    {
+      'id': 'unhealthy',
+      'title': 'Lack of consistency',
+      'sub': 'Frequent junk or processed food',
+      'image': 'assets/images/Vector2.png',
     },
   ];
 
@@ -102,7 +114,7 @@ class _Page3ChallengeIdentificationState
               Text(
                 "What's the biggest challenge\nyou have in reaching your\ngoal?",
                 style: TextStyle(
-                  fontSize: 16.sp,
+                  fontSize: 19.sp,
                   fontFamily: "Poppin",
                   fontWeight: FontWeight.w700,
                   color: Colors.black,
@@ -116,7 +128,7 @@ class _Page3ChallengeIdentificationState
               Text(
                 'Select the challenge that resonates most with you',
                 style: TextStyle(
-                  fontSize: 11.5.sp,
+                  fontSize: 13.sp,
                   fontFamily: "Poppin",
                   color: Colors.grey[600],
                 ),
@@ -136,7 +148,7 @@ class _Page3ChallengeIdentificationState
                       duration: const Duration(milliseconds: 200),
                       padding: EdgeInsets.symmetric(
                         horizontal: 4.w,
-                        vertical: 2.h,
+                        vertical: 2.1.h,
                       ),
                       decoration: BoxDecoration(
                         color: Colors.white,

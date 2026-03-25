@@ -54,147 +54,112 @@ class _Page4WeightLossExpectationsState
       child: SlideTransition(
         position: _slide,
         child: SingleChildScrollView(
-          padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 2.h),
+          padding: EdgeInsets.symmetric(horizontal: 5.5.w, vertical: 1.5.h),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Title
               Text(
                 'What to expect with NaijaFit?',
                 style: TextStyle(
-                  fontSize: 16.sp,
+                  fontSize: 18.5.sp,
                   fontFamily: "Poppin",
                   fontWeight: FontWeight.w700,
                   color: Colors.black,
+                  height: 1.25,
                 ),
               ),
 
-              SizedBox(height: 1.h),
+              SizedBox(height: 1.2.h),
 
-              // Subtitle
               Text(
-                'Evidence-based results from our community of successful users. Real data, realistic expectations',
+                'Evidence-based results from our\ncommunity of successful users. Real data,\nrealistic expectations',
                 style: TextStyle(
-                  fontSize: 12.sp,
+                  fontSize: 11.8.sp,
                   fontFamily: "Poppin",
-                  color: Colors.grey[600],
+                  color: const Color(0xFF6E6E6E),
+                  height: 1.45,
                 ),
               ),
 
-              SizedBox(height: 3.h),
+              SizedBox(height: 3.2.h),
 
-              // Success Rates Card
               Container(
                 width: double.infinity,
-                padding: EdgeInsets.only(
-                  top: 5.w,
-                  right: 4.w,
-                  left: 4.w,
-                  bottom: 7.w,
-                ),
+                padding: EdgeInsets.symmetric(horizontal: 4.5.w, vertical: 2.3.h),
                 decoration: BoxDecoration(
-                  color: Colors.grey.withOpacity(0.1),
-                  borderRadius: BorderRadius.circular(14),
+                  color: const Color(0xFFF5F6F3),
+                  borderRadius: BorderRadius.circular(4.w),
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const SizedBox(height: 2),
-
-                    // Card title
                     Text(
-                      'Success Rates by Weight Loss Goal',
+                      'Success Rates by Weight Goal',
                       style: TextStyle(
-                        fontSize: 11.5.sp,
+                        fontSize: 12.5.sp,
                         fontFamily: "Poppin",
                         fontWeight: FontWeight.w700,
                         color: Colors.black87,
                       ),
                     ),
 
-                    SizedBox(height: 1.h),
+                    SizedBox(height: 0.6.h),
 
-                    // Card subtitle
                     Text(
                       'Based on 12-16 week programs',
                       style: TextStyle(
-                        fontSize: 10.sp,
+                        fontSize: 9.5.sp,
                         fontFamily: "Poppin",
-                        color: Colors.grey[600],
+                        color: const Color(0xFF6E6E6E),
                       ),
                     ),
 
-                    SizedBox(height: 2.h),
+                    SizedBox(height: 2.2.h),
 
                     _progressRow(
-                      Icons.trending_down,
+                      Icons.trending_down_rounded,
                       '5Kg Loss',
                       '12 - 14 Weeks',
-                      0.82,
+                      0.74,
                     ),
 
-                    SizedBox(height: 2.h),
+                    SizedBox(height: 2.3.h),
 
                     _progressRow(
-                      Icons.trending_up,
-                      '10Kg Loss',
+                      Icons.trending_up_rounded,
+                      '10Kg Gain',
                       '12 - 16 Weeks',
-                      0.68,
+                      0.74,
                     ),
                   ],
                 ),
               ),
 
-              SizedBox(height: 4.h),
+              SizedBox(height: 2.4.h),
 
-              // Feature cards
-              SizedBox(
-                height: 115,
-                child: ListView(
-                  scrollDirection: Axis.horizontal,
-                  children: [
-                    SizedBox(
-                      width: 39.w,
-                      height: 38.w,
-                      child: _featureCard(
-                        Icons.bar_chart,
-                        'Daily Chart',
-                        'Track Meals and progress',
-                        Colors.white,
-                        const Color(0xFF2E7D32),
-                      ),
-                    ),
-
-                    SizedBox(width: 3.w),
-
-                    SizedBox(
-                      width: 39.w,
-                      height: 38.w,
-                      child: _featureCard(
-                        Icons.camera_alt_outlined,
-                        'Weekly',
-                        'Visual progress tracking',
-                        Colors.white.withOpacity(0.2),
-                        const Color(0xFF2E7D32),
-                      ),
-                    ),
-
-                    SizedBox(width: 3.w),
-
-                    SizedBox(
-                      width: 39.w,
-                      height: 38.w,
-                      child: _featureCard(
-                        Icons.group_outlined,
-                        'Community',
-                        'Support & motivation',
-                        Colors.white,
-                        const Color(0xFF2E7D32),
-                      ),
-                    ),
-                  ],
-                ),
+              _featureCard(
+                Icons.notifications_none_rounded,
+                'Daily Chart',
+                'Track Meals and progress',
               ),
+
+              SizedBox(height: 1.4.h),
+
+              _featureCard(
+                Icons.camera_alt_outlined,
+                'Weekly',
+                'Visual Progress Tracking',
+              ),
+
+              SizedBox(height: 1.4.h),
+
+              _featureCard(
+                Icons.groups_2_outlined,
+                'Community',
+                'Support & motivation',
+              ),
+
+              SizedBox(height: 3.h),
             ],
           ),
         ),
@@ -213,37 +178,42 @@ class _Page4WeightLossExpectationsState
       children: [
         Row(
           children: [
-            Icon(icon, color: const Color(0xFF2E7D32), size: 6.w),
-            SizedBox(width: 2.w),
+            Icon(
+              icon,
+              color: const Color(0xFF56A61F),
+              size: 5.2.w,
+            ),
+            SizedBox(width: 2.3.w),
             Expanded(
               child: Text(
                 label,
                 style: TextStyle(
-                  fontSize: 10.sp,
+                  fontSize: 10.3.sp,
                   fontFamily: "Poppin",
                   fontWeight: FontWeight.w600,
+                  color: Colors.black,
                 ),
               ),
             ),
             Text(
               duration,
               style: TextStyle(
-                fontSize: 8.2.sp,
+                fontSize: 8.3.sp,
                 fontFamily: "Poppin",
-                color: Colors.grey[600],
+                color: const Color(0xFF7A7A7A),
               ),
             ),
           ],
         ),
         SizedBox(height: 0.8.h),
         ClipRRect(
-          borderRadius: BorderRadius.circular(4),
+          borderRadius: BorderRadius.circular(10),
           child: LinearProgressIndicator(
             value: progress,
-            minHeight: 8,
-            backgroundColor: Colors.grey[200],
+            minHeight: 0.65.h,
+            backgroundColor: const Color(0xFFE2E8DB),
             valueColor: const AlwaysStoppedAnimation<Color>(
-              Color(0xFF2E7D32),
+              Color(0xFF56A61F),
             ),
           ),
         ),
@@ -255,58 +225,58 @@ class _Page4WeightLossExpectationsState
       IconData icon,
       String title,
       String sub,
-      Color bg,
-      Color iconColor,
       ) {
     return Container(
-      height: 145,
-      padding: EdgeInsets.all(3.w),
+      width: double.infinity,
+      padding: EdgeInsets.symmetric(horizontal: 4.2.w, vertical: 2.1.h),
       decoration: BoxDecoration(
-        color: bg,
-        borderRadius: BorderRadius.circular(12),
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(7.w),
         border: Border.all(
           width: 1,
-          color: Colors.grey.withOpacity(0.5),
+          color: const Color(0xFFE3E3E3),
         ),
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      child: Row(
         children: [
           Container(
             width: 13.w,
             height: 13.w,
-            decoration: BoxDecoration(
-              color: Colors.grey.withOpacity(0.2),
+            decoration: const BoxDecoration(
+              color: Color(0xFFE1ECD7),
               shape: BoxShape.circle,
             ),
-            child: Icon(icon, color: iconColor, size: 7.w),
-          ),
-
-          SizedBox(height: 1.h),
-
-          // Feature card title
-          Text(
-            title,
-            style: TextStyle(
-              fontSize: 11.5.sp,
-              fontFamily: "Poppin",
-              fontWeight: FontWeight.w700,
-              color: Colors.black87,
+            child: Icon(
+              icon,
+              color: const Color(0xFF56A61F),
+              size: 6.5.w,
             ),
           ),
-
-          SizedBox(height: 0.3.h),
-
-          // Feature card subtitle
-          Text(
-            sub,
-            style: TextStyle(
-              fontSize: 8,
-              fontFamily: "Poppin",
-              color: Colors.grey[600],
+          SizedBox(width: 4.w),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  title,
+                  style: TextStyle(
+                    fontSize: 12.8.sp,
+                    fontFamily: "Poppin",
+                    fontWeight: FontWeight.w700,
+                    color: Colors.black87,
+                  ),
+                ),
+                SizedBox(height: 0.2.h),
+                Text(
+                  sub,
+                  style: TextStyle(
+                    fontSize: 9.2.sp,
+                    fontFamily: "Poppin",
+                    color: const Color(0xFF8A8A8A),
+                  ),
+                ),
+              ],
             ),
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
           ),
         ],
       ),
