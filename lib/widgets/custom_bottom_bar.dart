@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_nav_bar/google_nav_bar.dart';
 
 class CustomBottomBar extends StatelessWidget {
   final int currentIndex;
@@ -10,69 +11,88 @@ class CustomBottomBar extends StatelessWidget {
     required this.onTap,
   });
 
+  static const Color _darkGreen = Color(0xFF1B5E20);
+  static const Color _mediumGreen = Color(0xFF2E7D32);
+  static const Color _lightGreen = Color(0xFF81C784);
+
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
     return Container(
-      decoration: BoxDecoration(
-        color: Colors.green,
-        boxShadow: [
-          BoxShadow(
-            color: theme.shadowColor.withOpacity(0.1),
-            blurRadius: 8.0,
-            offset: const Offset(0, -2),
-          ),
-        ],
-      ),
+      color: Colors.white,
       child: SafeArea(
-        child: BottomNavigationBar(
-          currentIndex: currentIndex,
-          onTap: onTap,
-          type: BottomNavigationBarType.fixed,
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          selectedItemColor:
-          Colors.white,
-          unselectedItemColor:
-          Colors.white60,
-          selectedLabelStyle:
-          theme.bottomNavigationBarTheme.selectedLabelStyle,
-          unselectedLabelStyle:
-          theme.bottomNavigationBarTheme.unselectedLabelStyle,
-          selectedFontSize: 12,
-          unselectedFontSize: 12,
-          items: [
-            BottomNavigationBarItem(
-              icon: _buildIcon(Icons.dashboard_outlined, false),
-              activeIcon: _buildIcon(Icons.dashboard, true),
-              label: 'Dashboard',
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(30, 6, 30, 35),
+          child: Container(
+            height: 54,
+            decoration: BoxDecoration(
+              color: Colors.green.withOpacity(0.2),
+              borderRadius: BorderRadius.circular(40),
+              border: Border.all(
+                width: 1,
+                color: Colors.green.withOpacity(0.5)
+              ),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.18),
+                  blurRadius: 20,
+                  offset: const Offset(0, 6),
+                ),
+              ],
             ),
-            BottomNavigationBarItem(
-              icon: _buildIcon(Icons.restaurant_menu_outlined, false),
-              activeIcon: _buildIcon(Icons.restaurant_menu, true),
-              label: 'Food Log',
+            padding: const EdgeInsets.symmetric(horizontal: 6,),
+            child: GNav(
+              rippleColor: Colors.white24,
+              hoverColor: Colors.white10,
+              haptic: true,
+              curve: Curves.easeOutExpo,
+              duration: const Duration(milliseconds: 400),
+              activeColor: Colors.white,
+              color: Colors.white,
+              iconSize: 20,
+              gap: 1,
+              padding: const EdgeInsets.symmetric(horizontal: 1,),
+              tabBorderRadius: 30,
+              selectedIndex: currentIndex,
+              onTabChange: onTap,
+              tabs: [
+                _buildTab(0, 'assets/images/home.png', 'Home'),
+                _buildTab(1, 'assets/images/food.png', 'Food'),
+                _buildTab(2, 'assets/images/AI.png', 'AI Coach'),
+                _buildTab(3, 'assets/images/profile.png', 'Profile'),
+              ],
             ),
-            BottomNavigationBarItem(
-              icon: _buildIcon(Icons.psychology_outlined, false),
-              activeIcon: _buildIcon(Icons.psychology, true),
-              label: 'AI Insights',
-            ),
-            BottomNavigationBarItem(
-              icon: _buildIcon(Icons.person_outline, false),
-              activeIcon: _buildIcon(Icons.person, true),
-              label: 'Profile',
-            ),
-          ],
+          ),
         ),
       ),
     );
   }
 
-  Widget _buildIcon(IconData icon, bool isActive) {
-    return Padding(
-      padding: EdgeInsets.symmetric(vertical: 4.0),
-      child: Icon(icon, size: 24),
+  GButton _buildTab(int index, String imagePath, String text) {
+    final bool isSelected = currentIndex == index;
+
+    return GButton(
+      icon: Icons.circle,
+      text: text,
+      backgroundColor: isSelected ? _darkGreen : _lightGreen,
+      leading: Container(
+        padding: const EdgeInsets.all(8),
+        decoration: BoxDecoration(
+          color: isSelected ? Colors.transparent : Colors.green.withOpacity(0.3),
+          shape: BoxShape.circle,
+        ),
+        child: Image.asset(
+          imagePath,
+          width: 22,
+          height: 22,
+          color: Colors.white,
+          fit: BoxFit.contain,
+        ),
+      ),
+      textStyle: const TextStyle(
+        color: Colors.white,
+        fontSize: 16,
+        fontWeight: FontWeight.w700,
+      ),
     );
   }
 }

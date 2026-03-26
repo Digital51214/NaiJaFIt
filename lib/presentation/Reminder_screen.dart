@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:naijafit/presentation/Premium_screen.dart';
+import 'package:naijafit/widgets/custom_backbutton.dart';
 import 'package:sizer/sizer.dart';
 
 class ReminderScreen extends StatefulWidget {
@@ -58,22 +59,9 @@ class _PlanFreeTrialScreenState extends State<ReminderScreen>
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   // Back Button
-                  GestureDetector(
-                    onTap: () => Navigator.of(context).pop(),
-                    child: Container(
-                      width: 13.5.w,
-                      height: 13.5.w,
-                      decoration: const BoxDecoration(
-                        color: Color(0xFFE8F5E9),
-                        shape: BoxShape.circle,
-                      ),
-                      child: const Icon(
-                        Icons.chevron_left,
-                        color: Color(0xFF2E7D32),
-                        size: 30,
-                      ),
-                    ),
-                  ),
+                  CustomBackButton(onTap: (){
+                    Navigator.of(context).pop();
+                  }),
 
                   // Logo — replace path when ready
                   Image.asset(

@@ -4,7 +4,7 @@ import 'package:naijafit/presentation/food_logging_screen/food_logging_screen.da
 import 'package:naijafit/presentation/profile_settings_screen/profile_settings_screen.dart';
 
 import '../../widgets/custom_bottom_bar.dart';
-import './main_dashboard_screen_initial_page.dart';
+import './HomeScreen.dart';
 
 class MainDashboardScreen extends StatefulWidget {
   const MainDashboardScreen({super.key});
@@ -20,7 +20,7 @@ class _MainDashboardScreenState
 
   // ✅ Correct List Type (Widget)
   final List<Widget> screens = const [
-    MainDashboardScreenInitialPage(),
+    Homescreen(),
     FoodLoggingScreen(),
     AiNutritionInsightsScreen(),
     ProfileSettingsScreen(),
@@ -32,11 +32,7 @@ class _MainDashboardScreenState
       body: screens[currentIndex], // ✅ Simple & Correct
       bottomNavigationBar: CustomBottomBar(
         currentIndex: currentIndex,
-        onTap: (index) {
-          setState(() {
-            currentIndex = index;
-          });
-        },
+        onTap: (index) => setState(() => currentIndex = index),
       ),
     );
   }

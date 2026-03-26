@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:naijafit/presentation/checkout_screen.dart';
 import 'package:naijafit/widgets/custom_backbutton.dart';
 import 'package:sizer/sizer.dart';
 
@@ -71,7 +72,6 @@ class _PremiumSubscriptionScreenState extends State<PremiumSubscriptionScreen>
             if (!isLast)
               Container(
                 width: 1.5,
-                // ✅ CHANGED: 7.h → 4.5.h (dashed line height kam ki)
                 height: 5.5.h,
                 margin: EdgeInsets.symmetric(vertical: 0.3.h),
                 child: CustomPaint(
@@ -80,9 +80,7 @@ class _PremiumSubscriptionScreenState extends State<PremiumSubscriptionScreen>
               ),
           ],
         ),
-
         SizedBox(width: 4.w),
-
         Expanded(
           child: Padding(
             padding: EdgeInsets.only(top: 1.h),
@@ -132,13 +130,13 @@ class _PremiumSubscriptionScreenState extends State<PremiumSubscriptionScreen>
           AnimatedContainer(
             duration: const Duration(milliseconds: 200),
             width: 40.w,
-            padding: EdgeInsets.symmetric(vertical: 2.5.h, horizontal: 4.w),
+            padding: EdgeInsets.symmetric(vertical: 3.5.h, horizontal: 4.w),
             decoration: BoxDecoration(
               color: isSelected ? const Color(0xFFE8F5E9) : Colors.white,
-              borderRadius: BorderRadius.circular(18),
+              borderRadius: BorderRadius.circular(25),
               border: Border.all(
                 color: isSelected
-                    ? const Color(0xFF2E7D32)
+                    ? const Color(0xFF47A312)
                     : Colors.grey.shade300,
                 width: isSelected ? 2 : 1,
               ),
@@ -149,7 +147,7 @@ class _PremiumSubscriptionScreenState extends State<PremiumSubscriptionScreen>
                 Text(
                   title,
                   style: TextStyle(
-                    fontSize: 11.sp,
+                    fontSize: 12.sp,
                     fontFamily: "Poppin",
                     fontWeight: FontWeight.w700,
                     color: Colors.black,
@@ -159,7 +157,7 @@ class _PremiumSubscriptionScreenState extends State<PremiumSubscriptionScreen>
                 Text(
                   price,
                   style: TextStyle(
-                    fontSize: 11.sp,
+                    fontSize: 12.sp,
                     fontFamily: "Poppin",
                     fontWeight: FontWeight.w600,
                     color: Colors.black87,
@@ -176,8 +174,8 @@ class _PremiumSubscriptionScreenState extends State<PremiumSubscriptionScreen>
                 padding:
                 EdgeInsets.symmetric(horizontal: 3.w, vertical: 0.4.h),
                 decoration: BoxDecoration(
-                  color: const Color(0xFF2E7D32),
-                  borderRadius: BorderRadius.circular(20),
+                  color: const Color(0xFF47A312),
+                  borderRadius: BorderRadius.circular(4),
                 ),
                 child: Text(
                   badge,
@@ -197,6 +195,7 @@ class _PremiumSubscriptionScreenState extends State<PremiumSubscriptionScreen>
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -215,38 +214,53 @@ class _PremiumSubscriptionScreenState extends State<PremiumSubscriptionScreen>
                         SizedBox(height: 1.h),
 
                         // ── Header Row ──
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            CustomBackButton(onTap: () {
-                              Navigator.pop(context);
-                            }),
-
-                            // ✅ CHANGED: height 80→110, width 80→110
-                            Image.asset(
-                              'assets/images/LOGO.png',
-                              height: 110,
-                              width: 110,
-                              fit: BoxFit.contain,
-                            ),
-
-                            GestureDetector(
-                              onTap: _onRestore,
-                              child: Text(
-                                'Restore',
-                                style: TextStyle(
-                                  fontSize: 11.sp,
-                                  fontFamily: "Poppin",
-                                  fontWeight: FontWeight.w600,
-                                  color: const Color(0xFF2E7D32),
+                        Container(
+                          width: double.infinity,
+                          decoration: const BoxDecoration(
+                            color: Colors.transparent,
+                          ),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.only(top: 4.2.h),
+                                child: CustomBackButton(
+                                  onTap: () {
+                                    Navigator.pop(context);
+                                  },
                                 ),
                               ),
-                            ),
-                          ],
+                              const Spacer(),
+
+                              SizedBox(
+                                height: 200,
+                                width: 180,
+                                child: Image.asset(
+                                  'assets/images/LOGO.png',
+                                  fit: BoxFit.contain,
+                                ),
+                              ),
+
+                              const Spacer(),
+
+                              Padding(
+                                padding: EdgeInsets.only(top: 6.h),
+                                child: GestureDetector(
+                                  onTap: _onRestore,
+                                  child: Text(
+                                    'Restore',
+                                    style: TextStyle(
+                                      fontSize: 11.sp,
+                                      fontFamily: "Poppin",
+                                      fontWeight: FontWeight.w600,
+                                      color: const Color(0xFF2E7D32),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
-
-                        SizedBox(height: 3.h),
-
                         RichText(
                           textAlign: TextAlign.center,
                           text: TextSpan(
@@ -270,7 +284,7 @@ class _PremiumSubscriptionScreenState extends State<PremiumSubscriptionScreen>
                           ),
                         ),
 
-                        SizedBox(height: 4.h),
+                        SizedBox(height: 2.h),
 
                         Align(
                           alignment: Alignment.centerLeft,
@@ -334,7 +348,7 @@ class _PremiumSubscriptionScreenState extends State<PremiumSubscriptionScreen>
                           ],
                         ),
 
-                        SizedBox(height: 2.5.h),
+                        SizedBox(height: 2.h),
 
                         Text(
                           'No Payment Due Now',
@@ -360,8 +374,8 @@ class _PremiumSubscriptionScreenState extends State<PremiumSubscriptionScreen>
                 height: 45,
                 width: double.infinity,
                 child: ElevatedButton(
-                  onPressed: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=>PremiumSubscriptionScreen()));
+                  onPressed: () {
+                     Navigator.push(context, MaterialPageRoute(builder: (context)=>CheckoutScreen()));
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xFF2E7D32),
