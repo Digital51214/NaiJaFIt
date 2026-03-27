@@ -235,7 +235,7 @@ class _Page6PersonalStatsState extends State<Page6PersonalStats>
                                   item,
                                   style: TextStyle(
                                     fontSize: 11.5.sp,
-                                    fontFamily: "Poppin",
+                                    fontFamily: "Poppins",
                                     fontWeight: FontWeight.w500,
                                     color: selected
                                         ? const Color(0xFF0B7A22)
@@ -284,7 +284,7 @@ class _Page6PersonalStatsState extends State<Page6PersonalStats>
           onChanged: onChanged,
           style: TextStyle(
             fontSize: 12.sp,
-            fontFamily: "Poppin",
+            fontFamily: "Poppins",
             color: Colors.black87,
             fontWeight: FontWeight.w500,
           ),
@@ -292,7 +292,7 @@ class _Page6PersonalStatsState extends State<Page6PersonalStats>
             hintText: hint,
             hintStyle: TextStyle(
               fontSize: 11.8.sp,
-              fontFamily: "Poppin",
+              fontFamily: "Poppins",
               color: const Color(0xFF9A9A9A),
               fontWeight: FontWeight.w400,
             ),
@@ -334,7 +334,7 @@ class _Page6PersonalStatsState extends State<Page6PersonalStats>
                       unit,
                       style: TextStyle(
                         fontSize: 11.sp,
-                        fontFamily: "Poppin",
+                        fontFamily: "Poppins",
                         fontWeight: FontWeight.w600,
                         color: const Color(0xFF56A61F),
                       ),
@@ -406,7 +406,7 @@ class _Page6PersonalStatsState extends State<Page6PersonalStats>
                 g['label'],
                 style: TextStyle(
                   fontSize: 15.sp,
-                  fontFamily: "Poppin",
+                  fontFamily: "Poppins",
                   fontWeight: FontWeight.w600,
                   color: Colors.black,
                 ),
@@ -416,7 +416,7 @@ class _Page6PersonalStatsState extends State<Page6PersonalStats>
               isSelected ? 'Selected' : 'Select',
               style: TextStyle(
                 fontSize: 11.8.sp,
-                fontFamily: "Poppin",
+                fontFamily: "Poppins",
                 fontWeight:
                 isSelected ? FontWeight.w600 : FontWeight.w500,
                 color: const Color(0xFF56B327),
@@ -443,7 +443,7 @@ class _Page6PersonalStatsState extends State<Page6PersonalStats>
                 'Tell Us About Yourself',
                 style: TextStyle(
                   fontSize: 18.sp,
-                  fontFamily: "Poppin",
+                  fontFamily: "Poppins",
                   fontWeight: FontWeight.w700,
                   color: Colors.black,
                   height: 1.25,
@@ -456,7 +456,7 @@ class _Page6PersonalStatsState extends State<Page6PersonalStats>
                 'This will help us a lot to tailor a very well\nplan for you',
                 style: TextStyle(
                   fontSize: 12.sp,
-                  fontFamily: "Poppin",
+                  fontFamily: "Poppins",
                   color: const Color(0xFF6E6E6E),
                   height: 1.55,
                 ),

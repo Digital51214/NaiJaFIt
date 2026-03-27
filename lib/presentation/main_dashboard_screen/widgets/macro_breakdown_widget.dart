@@ -27,10 +27,10 @@ class MacroBreakdownWidget extends StatelessWidget {
             name: 'Protein',
             grams: (macros["protein"] as Map<String, dynamic>)["grams"] as int,
             target:
-                (macros["protein"] as Map<String, dynamic>)["target"] as int,
+            (macros["protein"] as Map<String, dynamic>)["target"] as int,
             percentage:
-                (macros["protein"] as Map<String, dynamic>)["percentage"]
-                    as double,
+            (macros["protein"] as Map<String, dynamic>)["percentage"]
+            as double,
             color: theme.colorScheme.secondary,
           ),
           SizedBox(height: 2.h),
@@ -40,8 +40,8 @@ class MacroBreakdownWidget extends StatelessWidget {
             grams: (macros["carbs"] as Map<String, dynamic>)["grams"] as int,
             target: (macros["carbs"] as Map<String, dynamic>)["target"] as int,
             percentage:
-                (macros["carbs"] as Map<String, dynamic>)["percentage"]
-                    as double,
+            (macros["carbs"] as Map<String, dynamic>)["percentage"]
+            as double,
             color: theme.colorScheme.primary,
           ),
           SizedBox(height: 2.h),
@@ -51,8 +51,8 @@ class MacroBreakdownWidget extends StatelessWidget {
             grams: (macros["fats"] as Map<String, dynamic>)["grams"] as int,
             target: (macros["fats"] as Map<String, dynamic>)["target"] as int,
             percentage:
-                (macros["fats"] as Map<String, dynamic>)["percentage"]
-                    as double,
+            (macros["fats"] as Map<String, dynamic>)["percentage"]
+            as double,
             color: theme.colorScheme.tertiary,
           ),
         ],
@@ -79,12 +79,14 @@ class MacroBreakdownWidget extends StatelessWidget {
             Text(
               name,
               style: theme.textTheme.bodyLarge?.copyWith(
+                fontFamily: "Poppins",
                 fontWeight: FontWeight.w600,
               ),
             ),
             Text(
               '${grams}g / ${target}g',
               style: theme.textTheme.bodyMedium?.copyWith(
+                fontFamily: "Poppins",
                 color: theme.colorScheme.onSurfaceVariant,
               ),
             ),
@@ -117,6 +119,7 @@ class MacroBreakdownWidget extends StatelessWidget {
         Text(
           '${(percentage * 100).toStringAsFixed(0)}% of target',
           style: theme.textTheme.bodySmall?.copyWith(
+            fontFamily: "Poppins",
             color: theme.colorScheme.onSurfaceVariant,
           ),
         ),

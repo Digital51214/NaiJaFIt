@@ -40,6 +40,7 @@ class CalorieProgressWidget extends StatelessWidget {
           Text(
             'Daily Calorie Goal',
             style: theme.textTheme.titleMedium?.copyWith(
+              fontFamily: "Poppins",
               color: theme.colorScheme.onSurfaceVariant,
             ),
           ),
@@ -54,6 +55,7 @@ class CalorieProgressWidget extends StatelessWidget {
                 Text(
                   currentCalories.toString(),
                   style: theme.textTheme.displaySmall?.copyWith(
+                    fontFamily: "Poppins",
                     fontWeight: FontWeight.w700,
                     color: theme.colorScheme.primary,
                   ),
@@ -61,6 +63,7 @@ class CalorieProgressWidget extends StatelessWidget {
                 Text(
                   'of $targetCalories',
                   style: theme.textTheme.bodyLarge?.copyWith(
+                    fontFamily: "Poppins",
                     color: theme.colorScheme.onSurfaceVariant,
                   ),
                 ),
@@ -68,6 +71,7 @@ class CalorieProgressWidget extends StatelessWidget {
                 Text(
                   'calories',
                   style: theme.textTheme.bodyMedium?.copyWith(
+                    fontFamily: "Poppins",
                     color: theme.colorScheme.onSurfaceVariant,
                   ),
                 ),
@@ -104,6 +108,7 @@ class CalorieProgressWidget extends StatelessWidget {
                       ? '$remainingCalories calories remaining'
                       : 'Goal exceeded by ${remainingCalories.abs()} calories',
                   style: theme.textTheme.bodyMedium?.copyWith(
+                    fontFamily: "Poppins",
                     color: remainingCalories > 0
                         ? theme.colorScheme.primary
                         : theme.colorScheme.error,

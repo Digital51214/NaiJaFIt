@@ -77,13 +77,13 @@ class NotificationSettingsWidget extends StatelessWidget {
   }
 
   Widget _buildNotificationItem(
-    BuildContext context,
-    String title,
-    String description,
-    IconData icon,
-    bool value,
-    Function(bool) onChanged,
-  ) {
+      BuildContext context,
+      String title,
+      String description,
+      IconData icon,
+      bool value,
+      Function(bool) onChanged,
+      ) {
     final theme = Theme.of(context);
 
     return Row(
@@ -104,6 +104,7 @@ class NotificationSettingsWidget extends StatelessWidget {
               Text(
                 title,
                 style: theme.textTheme.bodyMedium?.copyWith(
+                  fontFamily: "Poppins",
                   fontWeight: FontWeight.w500,
                 ),
               ),
@@ -111,6 +112,7 @@ class NotificationSettingsWidget extends StatelessWidget {
               Text(
                 description,
                 style: theme.textTheme.bodySmall?.copyWith(
+                  fontFamily: "Poppins",
                   color: theme.textTheme.bodySmall?.color?.withValues(
                     alpha: 0.7,
                   ),

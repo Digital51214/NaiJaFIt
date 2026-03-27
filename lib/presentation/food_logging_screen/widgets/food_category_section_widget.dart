@@ -27,6 +27,7 @@ class FoodCategorySectionWidget extends StatelessWidget {
           title,
           style: theme.textTheme.titleLarge?.copyWith(
             fontWeight: FontWeight.w600,
+            fontFamily: "Poppins",
           ),
         ),
         SizedBox(height: 1.h),
@@ -80,6 +81,7 @@ class FoodCategorySectionWidget extends StatelessWidget {
                     food["name"] as String,
                     style: theme.textTheme.bodyLarge?.copyWith(
                       fontWeight: FontWeight.w600,
+                      fontFamily: "Poppins",
                     ),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
@@ -89,6 +91,7 @@ class FoodCategorySectionWidget extends StatelessWidget {
                     '${food["calories"]} cal',
                     style: theme.textTheme.bodySmall?.copyWith(
                       color: theme.colorScheme.onSurfaceVariant,
+                      fontFamily: "Poppins",
                     ),
                   ),
                 ],

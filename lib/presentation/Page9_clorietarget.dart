@@ -101,7 +101,7 @@ class _Page7CalorieTargetDisplayState
                 'Your Personalized plan',
                 style: TextStyle(
                   fontSize: 16.sp,
-                  fontFamily: "Poppin",
+                  fontFamily: "Poppins",
                   fontWeight: FontWeight.w700,
                   color: Colors.black,
                 ),
@@ -114,7 +114,7 @@ class _Page7CalorieTargetDisplayState
                 'This is your personalized plan and summary of your target and details',
                 style: TextStyle(
                   fontSize: 11.5.sp,
-                  fontFamily: "Poppin",
+                  fontFamily: "Poppins",
                   color: Colors.grey[600],
                 ),
               ),
@@ -137,7 +137,7 @@ class _Page7CalorieTargetDisplayState
                       'Your Daily Calorie Target',
                       style: TextStyle(
                         fontSize: 11.7.sp,
-                        fontFamily: "Poppin",
+                        fontFamily: "Poppins",
                         color: Colors.grey[600],
                         fontWeight: FontWeight.w500,
                       ),
@@ -152,7 +152,7 @@ class _Page7CalorieTargetDisplayState
                         '${_calorieAnim.value}',
                         style: TextStyle(
                           fontSize: 29.sp,
-                          fontFamily: "Poppin",
+                          fontFamily: "Poppins",
                           fontWeight: FontWeight.w800,
                           color: const Color(0xFF2E7D32),
                           height: 1,
@@ -167,7 +167,7 @@ class _Page7CalorieTargetDisplayState
                       'Calories',
                       style: TextStyle(
                         fontSize: 11.7.sp,
-                        fontFamily: "Poppin",
+                        fontFamily: "Poppins",
                         color: Colors.grey[600],
                         fontWeight: FontWeight.w500,
                       ),
@@ -280,7 +280,7 @@ class _Page7CalorieTargetDisplayState
                   title,
                   style: TextStyle(
                     fontSize: 12.sp,
-                    fontFamily: "Poppin",
+                    fontFamily: "Poppins",
                     fontWeight: FontWeight.w600,
                     color: const Color(0xFF2E7D32),
                   ),
@@ -316,7 +316,7 @@ class _Page7CalorieTargetDisplayState
             name,
             style: TextStyle(
               fontSize: 11.sp,
-              fontFamily: "Poppin",
+              fontFamily: "Poppins",
               fontWeight: FontWeight.w600,
             ),
           ),
@@ -337,7 +337,7 @@ class _Page7CalorieTargetDisplayState
           '${grams}g',
           style: TextStyle(
             fontSize: 10.sp,
-            fontFamily: "Poppin",
+            fontFamily: "Poppins",
             color: Colors.grey[600],
           ),
         ),
@@ -353,7 +353,7 @@ class _Page7CalorieTargetDisplayState
           label,
           style: TextStyle(
             fontSize: 11.sp,
-            fontFamily: "Poppin",
+            fontFamily: "Poppins",
             color: Colors.grey[600],
           ),
         ),
@@ -361,7 +361,7 @@ class _Page7CalorieTargetDisplayState
           value,
           style: TextStyle(
             fontSize: 11.sp,
-            fontFamily: "Poppin",
+            fontFamily: "Poppins",
             fontWeight: FontWeight.w600,
             color: Colors.black87,
           ),

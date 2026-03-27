@@ -92,7 +92,7 @@ class _Page5ProfessionalSupportState extends State<Page5ProfessionalSupport>
                 'Do you currently work with a\ndiet coach or nutritionist?',
                 style: TextStyle(
                   fontSize: 16.sp,
-                  fontFamily: "Poppin",
+                  fontFamily: "Poppins",
                   fontWeight: FontWeight.w700,
                   color: Colors.black,
                   height: 1.3,
@@ -106,7 +106,7 @@ class _Page5ProfessionalSupportState extends State<Page5ProfessionalSupport>
                 'This helps NaijaFit complement rather than replace professional guidance',
                 style: TextStyle(
                   fontSize: 11.5.sp,
-                  fontFamily: "Poppin",
+                  fontFamily: "Poppins",
                   color: Colors.grey[600],
                 ),
               ),
@@ -177,7 +177,7 @@ class _Page5ProfessionalSupportState extends State<Page5ProfessionalSupport>
                     title,
                     style: TextStyle(
                       fontSize: 9.sp,
-                      fontFamily: "Poppin",
+                      fontFamily: "Poppins",
                       fontWeight: FontWeight.w600,
                     ),
                   ),
@@ -189,7 +189,7 @@ class _Page5ProfessionalSupportState extends State<Page5ProfessionalSupport>
                     sub,
                     style: TextStyle(
                       fontSize: 8.sp,
-                      fontFamily: "Poppin",
+                      fontFamily: "Poppins",
                       color: Colors.grey[500],
                     ),
                   ),

@@ -62,7 +62,7 @@ class _Page4WeightLossExpectationsState
                 'What to expect with NaijaFit?',
                 style: TextStyle(
                   fontSize: 18.5.sp,
-                  fontFamily: "Poppin",
+                  fontFamily: "Poppins",
                   fontWeight: FontWeight.w700,
                   color: Colors.black,
                   height: 1.25,
@@ -75,7 +75,7 @@ class _Page4WeightLossExpectationsState
                 'Evidence-based results from our\ncommunity of successful users. Real data,\nrealistic expectations',
                 style: TextStyle(
                   fontSize: 11.8.sp,
-                  fontFamily: "Poppin",
+                  fontFamily: "Poppins",
                   color: const Color(0xFF6E6E6E),
                   height: 1.45,
                 ),
@@ -97,7 +97,7 @@ class _Page4WeightLossExpectationsState
                       'Success Rates by Weight Goal',
                       style: TextStyle(
                         fontSize: 12.5.sp,
-                        fontFamily: "Poppin",
+                        fontFamily: "Poppins",
                         fontWeight: FontWeight.w700,
                         color: Colors.black87,
                       ),
@@ -109,7 +109,7 @@ class _Page4WeightLossExpectationsState
                       'Based on 12-16 week programs',
                       style: TextStyle(
                         fontSize: 9.5.sp,
-                        fontFamily: "Poppin",
+                        fontFamily: "Poppins",
                         color: const Color(0xFF6E6E6E),
                       ),
                     ),
@@ -189,7 +189,7 @@ class _Page4WeightLossExpectationsState
                 label,
                 style: TextStyle(
                   fontSize: 10.3.sp,
-                  fontFamily: "Poppin",
+                  fontFamily: "Poppins",
                   fontWeight: FontWeight.w600,
                   color: Colors.black,
                 ),
@@ -199,7 +199,7 @@ class _Page4WeightLossExpectationsState
               duration,
               style: TextStyle(
                 fontSize: 8.3.sp,
-                fontFamily: "Poppin",
+                fontFamily: "Poppins",
                 color: const Color(0xFF7A7A7A),
               ),
             ),
@@ -261,7 +261,7 @@ class _Page4WeightLossExpectationsState
                   title,
                   style: TextStyle(
                     fontSize: 12.8.sp,
-                    fontFamily: "Poppin",
+                    fontFamily: "Poppins",
                     fontWeight: FontWeight.w700,
                     color: Colors.black87,
                   ),
@@ -271,7 +271,7 @@ class _Page4WeightLossExpectationsState
                   sub,
                   style: TextStyle(
                     fontSize: 9.2.sp,
-                    fontFamily: "Poppin",
+                    fontFamily: "Poppins",
                     color: const Color(0xFF8A8A8A),
                   ),
                 ),

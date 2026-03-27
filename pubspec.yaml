@@ -10,18 +10,16 @@ dependencies:
   flutter:
     sdk: flutter
 
-  # CRITICAL: Core UI and responsive design
   supabase_flutter: ^2.9.1
   sizer: ^2.0.15
   flutter_svg: ^2.0.9
   google_fonts: ^8.0.2
   shared_preferences: ^2.2.2
+  file_picker: ^8.0.0
   web: ^1.1.1
   google_sign_in: ^6.2.2
   animate_do: ^3.1.2
   google_nav_bar: ^5.0.7
-
-  # Feature dependencies
   cached_network_image: ^3.3.1
   connectivity_plus: ^6.1.4
   dio: ^5.7.0
@@ -35,7 +33,6 @@ dependencies:
   intl: any
   universal_html: ^2.2.4
 
-
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -46,7 +43,7 @@ flutter_icons:
   android: true
   ios: true
   image_path: "assets/images/app_logo.png"
-  remove_alpha_ios: true # Ensures transparent background works properly
+  remove_alpha_ios: true
 
 flutter:
   uses-material-design: true
@@ -54,8 +51,15 @@ flutter:
     - assets/
     - assets/images/
 
+  fonts:
+    - family: Poppins
+      fonts:
+        - asset: assets/fonts/Poppins-ExtraBold.ttf
 
-fonts:
-  - family: Poppin
-    fonts:
-      - asset: assets/fonts/Poppins-Regular.ttf
+    - family: Medium
+      fonts:
+         - asset: assets/fonts/Poppins-Medium.ttf
+
+    - family: ExtraLight
+      fonts:
+        - asset: assets/fonts/Poppins-ExtraLight.ttf

@@ -198,7 +198,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen>
         SnackBar(
           content: Text(
             'Failed to send reset email: ${e.toString()}',
-            style: const TextStyle(fontFamily: "Poppin"),
+            style: const TextStyle(fontFamily: "Poppins"),
           ),
           backgroundColor: Theme.of(context).colorScheme.error,
         ),
@@ -222,7 +222,6 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen>
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final size = MediaQuery.of(context).size;
 
     return Scaffold(
       backgroundColor: theme.scaffoldBackgroundColor,
@@ -243,7 +242,6 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen>
       key: _formKey,
       child: Column(
         children: [
-          // Top header row
           _animatedEntry(
             slide: _topSlide,
             fade: _topFade,
@@ -268,22 +266,19 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen>
                     ),
                   ),
                 ),
-
                 SizedBox(width: 3.w),
-
                 const Expanded(
                   child: Text(
                     'Forget Password',
                     style: TextStyle(
                       fontSize: 20,
-                      fontFamily: "Poppin",
+                      fontFamily: "Poppins",
                       fontWeight: FontWeight.w700,
                       color: Colors.black,
                       height: 1.1,
                     ),
                   ),
                 ),
-
                 Container(
                   height: size.height * 0.08,
                   width: size.width * 0.18,
@@ -298,10 +293,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen>
               ],
             ),
           ),
-
           SizedBox(height: 7.h),
-
-          // Shield image
           _animatedEntry(
             slide: _shieldSlide,
             fade: _shieldFade,
@@ -320,42 +312,33 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen>
               ),
             ),
           ),
-
           SizedBox(height: 6.h),
-
-          // Title
           Align(
             alignment: Alignment.centerLeft,
             child: Text(
               'Verify Your Identity',
               style: TextStyle(
                 fontSize: 24,
-                fontFamily: "Poppin",
+                fontFamily: "Poppins",
                 fontWeight: FontWeight.bold,
                 color: Colors.black,
               ),
             ),
           ),
-
           SizedBox(height: 1.h),
-
-          // Subtitle
           Align(
             alignment: Alignment.centerLeft,
             child: Text(
               'Enter email to find your account',
               style: TextStyle(
                 fontSize: 14,
-                fontFamily: "Poppin",
+                fontFamily: "Poppins",
                 color: Colors.black54,
                 fontWeight: FontWeight.w400,
               ),
             ),
           ),
-
           SizedBox(height: 3.h),
-
-          // Email field
           _animatedEntry(
             slide: _emailSlide,
             fade: _emailFade,
@@ -367,14 +350,14 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen>
                 keyboardType: TextInputType.emailAddress,
                 style: TextStyle(
                   fontSize: 12.sp,
-                  fontFamily: "Poppin",
+                  fontFamily: "Poppins",
                 ),
                 decoration: InputDecoration(
                   hintText: 'Email Address',
                   hintStyle: TextStyle(
-                    color: Colors.grey.shade500,
+                    color: Colors.grey,
                     fontSize: 10,
-                    fontFamily: "Poppin",
+                    fontFamily: "Poppins",
                   ),
                   filled: true,
                   fillColor: Colors.transparent,
@@ -397,7 +380,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen>
                       width: 1.2,
                     ),
                   ),
-                  errorStyle: const TextStyle(fontFamily: "Poppin"),
+                  errorStyle: const TextStyle(fontFamily: "Poppins"),
                 ),
                 validator: (value) {
                   if (value == null || value.trim().isEmpty) {
@@ -411,10 +394,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen>
               ),
             ),
           ),
-
           SizedBox(height: 3.h),
-
-          // Send Code button
           _animatedEntry(
             slide: _buttonSlide,
             fade: _buttonFade,
@@ -460,7 +440,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen>
                   'Send Code',
                   style: TextStyle(
                     fontSize: 14,
-                    fontFamily: "Poppin",
+                    fontFamily: "Poppins",
                     fontWeight: FontWeight.w700,
                     color: Colors.white,
                   ),
@@ -468,7 +448,6 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen>
               ),
             ),
           ),
-
           SizedBox(height: 6.h),
         ],
       ),
@@ -480,8 +459,6 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen>
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         SizedBox(height: 8.h),
-
-        // Success icon
         _animatedEntry(
           slide: _successIconSlide,
           fade: _successIconFade,
@@ -498,10 +475,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen>
             ),
           ),
         ),
-
         SizedBox(height: 4.h),
-
-        // Success text
         _animatedEntry(
           slide: _successTextSlide,
           fade: _successTextFade,
@@ -511,7 +485,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen>
                 'Check Your Email',
                 style: TextStyle(
                   fontSize: 18.sp,
-                  fontFamily: "Poppin",
+                  fontFamily: "Poppins",
                   fontWeight: FontWeight.w800,
                   color: theme.colorScheme.onSurface,
                 ),
@@ -522,7 +496,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen>
                 'We\'ve sent password reset instructions to',
                 style: TextStyle(
                   fontSize: 11.sp,
-                  fontFamily: "Poppin",
+                  fontFamily: "Poppins",
                   color: theme.colorScheme.onSurfaceVariant,
                 ),
                 textAlign: TextAlign.center,
@@ -532,7 +506,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen>
                 _emailController.text.trim(),
                 style: TextStyle(
                   fontSize: 11.5.sp,
-                  fontFamily: "Poppin",
+                  fontFamily: "Poppins",
                   color: theme.colorScheme.primary,
                   fontWeight: FontWeight.w600,
                 ),
@@ -541,10 +515,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen>
             ],
           ),
         ),
-
         SizedBox(height: 6.h),
-
-        // Back to Sign In button
         _animatedEntry(
           slide: _successButtonSlide,
           fade: _successButtonFade,
@@ -564,7 +535,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen>
                 'Back to Sign In',
                 style: TextStyle(
                   fontSize: 13.5.sp,
-                  fontFamily: "Poppin",
+                  fontFamily: "Poppins",
                   fontWeight: FontWeight.w700,
                 ),
               ),

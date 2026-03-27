@@ -113,7 +113,7 @@ class _TermsAndConditionsState extends State<TermsAndConditions>
       text,
       style: TextStyle(
         fontSize: screenWidth * 0.043,
-        fontFamily: "Poppin",
+        fontFamily: "Poppins",
         height: 1.55,
         fontWeight: FontWeight.w400,
         color: const Color(0xFF2B2B2B),
@@ -169,7 +169,7 @@ class _TermsAndConditionsState extends State<TermsAndConditions>
                         child: Text(
                           'Terms & Conditions',
                           style: TextStyle(
-                            fontFamily: "Poppin",
+                            fontFamily: "Poppins",
                             fontWeight: FontWeight.w700,
                             fontSize: 20,
                             color: Colors.black,

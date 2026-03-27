@@ -42,14 +42,22 @@ class _WhatNigeriansAreSayingScreenState
   @override
   void initState() {
     super.initState();
+
     _anim = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 500),
     );
-    _fade = CurvedAnimation(parent: _anim, curve: Curves.easeOut)
-        .drive(Tween(begin: 0.0, end: 1.0));
-    _slide = CurvedAnimation(parent: _anim, curve: Curves.easeOut)
-        .drive(Tween(begin: const Offset(0, 0.08), end: Offset.zero));
+
+    _fade = Tween<double>(begin: 0, end: 1).animate(
+      CurvedAnimation(parent: _anim, curve: Curves.easeOut),
+    );
+
+    _slide = Tween<Offset>(
+      begin: const Offset(0, 0.08),
+      end: Offset.zero,
+    ).animate(
+      CurvedAnimation(parent: _anim, curve: Curves.easeOut),
+    );
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (mounted) _anim.forward();
@@ -62,28 +70,26 @@ class _WhatNigeriansAreSayingScreenState
     super.dispose();
   }
 
-  void _onContinue() {
-    // Change this route name to whatever your next screen route is
-    Navigator.of(context, rootNavigator: true).pushNamed('/next-screen');
-  }
-
+  // ⭐ Star Widget
   Widget _buildStars(int count) {
     return Row(
       mainAxisSize: MainAxisSize.min,
-      children: List.generate(count, (i) {
-        return Icon(
+      children: List.generate(
+        count,
+            (i) => Icon(
           Icons.star_rounded,
           color: const Color(0xFFFFC107),
           size: 5.w,
-        );
-      }),
+        ),
+      ),
     );
   }
 
+  // 💬 Review Card
   Widget _buildReviewCard(Map<String, dynamic> review) {
     return Container(
       width: double.infinity,
-      margin: EdgeInsets.only(bottom: 1.h),
+      margin: EdgeInsets.only(bottom: 1.5.h),
       padding: EdgeInsets.all(4.w),
       decoration: BoxDecoration(
         color: const Color(0xFFF1F8F1),
@@ -92,26 +98,26 @@ class _WhatNigeriansAreSayingScreenState
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Avatar + Name + Stars Row
           Row(
             children: [
-              // Avatar circle
+              // 👤 Avatar (FIXED clipping issue)
               Container(
                 width: 11.w,
                 height: 11.w,
                 decoration: const BoxDecoration(
-                  color: Color(0xFF2E7D32),
                   shape: BoxShape.circle,
                 ),
-                child: Center(
-                  child: Image(image: AssetImage("assets/images/Ellipse 86.png"),
-                    fit: BoxFit.cover,height: double.infinity,width: double.infinity,)
+                child: ClipOval(
+                  child: Image.asset(
+                    "assets/images/Ellipse 86.png",
+                    fit: BoxFit.cover,
+                  ),
                 ),
               ),
 
               SizedBox(width: 3.w),
 
-              // Name
+              // 🧑 Name
               Expanded(
                 child: Text(
                   review['name'],
@@ -124,25 +130,23 @@ class _WhatNigeriansAreSayingScreenState
                 ),
               ),
 
-              // Stars
+              // ⭐ Stars
               _buildStars(review['rating']),
             ],
           ),
 
           SizedBox(height: 1.5.h),
 
-          // Review text
+          // 📄 Review text
           Text(
             review['review'],
             style: TextStyle(
               fontSize: 10.sp,
               fontFamily: "Poppin",
-              fontWeight: FontWeight.w400,
               color: Colors.black87,
               height: 1.5,
             ),
           ),
-          SizedBox(height: 5,)
         ],
       ),
     );
@@ -155,17 +159,16 @@ class _WhatNigeriansAreSayingScreenState
       body: SafeArea(
         child: Column(
           children: [
-            // ── Header: Back Button + Logo ──
+            // 🔝 Header
             Padding(
               padding: EdgeInsets.fromLTRB(5.w, 4.h, 5.w, 0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  CustomBackButton(onTap:(){
+                  CustomBackButton(onTap: () {
                     Navigator.pop(context);
                   }),
 
-                  // Logo — replace 'assets/images/LOGO.png' with your image path
                   Image.asset(
                     'assets/images/LOGO.png',
                     height: 60,
@@ -178,7 +181,7 @@ class _WhatNigeriansAreSayingScreenState
 
             SizedBox(height: 2.h),
 
-            // ── Scrollable Content ──
+            // 📜 Content
             Expanded(
               child: FadeTransition(
                 opacity: _fade,
@@ -192,7 +195,7 @@ class _WhatNigeriansAreSayingScreenState
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        // Title
+                        // 🏷 Title
                         RichText(
                           text: TextSpan(
                             style: TextStyle(
@@ -217,10 +220,10 @@ class _WhatNigeriansAreSayingScreenState
 
                         SizedBox(height: 3.h),
 
-                        // Review Cards
-                        ..._reviews.map((r) => _buildReviewCard(r)).toList(),
+                        // 💬 Reviews
+                        ..._reviews.map(_buildReviewCard).toList(),
 
-                        SizedBox(height: 1.h),
+                        SizedBox(height: 2.h),
                       ],
                     ),
                   ),
@@ -228,15 +231,20 @@ class _WhatNigeriansAreSayingScreenState
               ),
             ),
 
-            // ── Continue Button ──
+            // 🔘 Continue Button
             Padding(
               padding: EdgeInsets.fromLTRB(5.w, 1.h, 5.w, 3.h),
               child: SizedBox(
                 width: double.infinity,
                 height: 45,
                 child: ElevatedButton(
-                  onPressed: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=>PlanFreeTrialScreen()));
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const PlanFreeTrialScreen(),
+                      ),
+                    );
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xFF2E7D32),

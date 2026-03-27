@@ -261,6 +261,7 @@ class _HungeraiFreeScreenState extends State<HungeraiFreeScreen>
           style: theme.textTheme.titleMedium?.copyWith(
             color: theme.colorScheme.onPrimary,
             fontSize: 20,
+            fontFamily: "Poppins",
             fontWeight: FontWeight.w600,
           ),
         ),

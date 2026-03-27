@@ -41,7 +41,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                               style: TextStyle(
                                 fontSize: 30,
                                 fontWeight: FontWeight.w700,
-                                fontFamily: "Poppin",
+                                fontFamily: "Medium",
                                 color: Colors.black,
                                 height: 1.4,
                               ),
@@ -64,8 +64,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                             'Track your favorite Nigerian meals\nand stay on top of your daily calories',
                             style: TextStyle(
                               fontSize: 16.2,
-                              fontWeight: FontWeight.w400,
-                              fontFamily: "Poppin",
+                              fontFamily: "ExtraLight",
                               color: const Color(0xFF4A4A4A),
                               height: 1.35,
                             ),

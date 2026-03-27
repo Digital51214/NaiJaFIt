@@ -81,7 +81,10 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
 
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Failed to load profile: ${e.toString()}'),
+            content: Text(
+              'Failed to load profile: ${e.toString()}',
+              style: TextStyle(fontFamily: "Poppins"),
+            ),
           ),
         );
       }
@@ -116,18 +119,30 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(18),
             ),
-            title: const Text('Logout'),
-            content: const Text('Are you sure you want to logout?'),
+            title: const Text(
+              'Logout',
+              style: TextStyle(fontFamily: "Poppins"),
+            ),
+            content: const Text(
+              'Are you sure you want to logout?',
+              style: TextStyle(fontFamily: "Poppins"),
+            ),
             actions: [
               TextButton(
                 onPressed: () => Navigator.pop(context, false),
-                child: const Text('Cancel'),
+                child: const Text(
+                  'Cancel',
+                  style: TextStyle(fontFamily: "Poppins"),
+                ),
               ),
               TextButton(
                 onPressed: () => Navigator.pop(context, true),
                 child: const Text(
                   'Logout',
-                  style: TextStyle(color: Colors.red),
+                  style: TextStyle(
+                    fontFamily: "Poppins",
+                    color: Colors.red,
+                  ),
                 ),
               ),
             ],
@@ -146,7 +161,12 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
       } catch (e) {
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Logout failed: ${e.toString()}')),
+            SnackBar(
+              content: Text(
+                'Logout failed: ${e.toString()}',
+                style: TextStyle(fontFamily: "Poppins"),
+              ),
+            ),
           );
         }
       }
@@ -155,19 +175,34 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
 
   void _onAccountSettings() {
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Account Settings tapped')),
+      const SnackBar(
+        content: Text(
+          'Account Settings tapped',
+          style: TextStyle(fontFamily: "Poppins"),
+        ),
+      ),
     );
   }
 
   void _onPreferences() {
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Preferences tapped')),
+      const SnackBar(
+        content: Text(
+          'Preferences tapped',
+          style: TextStyle(fontFamily: "Poppins"),
+        ),
+      ),
     );
   }
 
   void _onNotificationSettings() {
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Notifications Settings tapped')),
+      const SnackBar(
+        content: Text(
+          'Notifications Settings tapped',
+          style: TextStyle(fontFamily: "Poppins"),
+        ),
+      ),
     );
   }
 
@@ -208,7 +243,6 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
 
                       SizedBox(height: 1.5.h),
 
-
                       CircleAvatar(
                         radius: 19.w,
                         backgroundColor: Colors.transparent,
@@ -219,6 +253,7 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
                             ? _nameController.text
                             : 'Henry wick',
                         style: TextStyle(
+                          fontFamily: "Poppins",
                           fontSize: 13.sp,
                           fontWeight: FontWeight.w800,
                           color: Colors.black,
@@ -226,12 +261,12 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
                       ),
                       SizedBox(height: 0.5.h,),
 
-
                       Text(
                         _emailController.text.isNotEmpty
                             ? _emailController.text
                             : 'Exmple@mail.com',
                         style: TextStyle(
+                          fontFamily: "Poppins",
                           fontSize: 11.sp,
                           fontWeight: FontWeight.w600,
                           color: const Color(0xFF9A9A9A),
@@ -253,6 +288,7 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
                           label: Text(
                             'Edit Profile',
                             style: TextStyle(
+                              fontFamily: "Poppins",
                               fontSize: 10.sp,
                               fontWeight: FontWeight.w900,
                               color: Colors.white,
@@ -310,6 +346,7 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
                         child: Text(
                           'Privacy Policy',
                           style: TextStyle(
+                            fontFamily: "Poppins",
                             fontSize: 12.sp,
                             fontWeight: FontWeight.w500,
                             color: Colors.grey.shade700,
@@ -364,6 +401,7 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
                 child: Text(
                   title,
                   style: TextStyle(
+                    fontFamily: "Poppins",
                     fontSize: 12.sp,
                     fontWeight: FontWeight.w700,
                     color: const Color(0xFF7D7D7D),
@@ -413,6 +451,7 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
             Text(
               'Logout',
               style: TextStyle(
+                fontFamily: "Poppins",
                 fontSize: 10.sp,
                 fontWeight: FontWeight.w700,
                 color: const Color(0xFFC62828),

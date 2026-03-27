@@ -91,6 +91,7 @@ class CustomBottomBar extends StatelessWidget {
       textStyle: const TextStyle(
         color: Colors.white,
         fontSize: 16,
+        fontFamily: "Poppins",
         fontWeight: FontWeight.w700,
       ),
     );

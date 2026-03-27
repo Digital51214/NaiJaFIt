@@ -240,7 +240,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen>
                           'Change',
                           style: TextStyle(
                             fontSize: 20,
-                            fontFamily: "Poppin",
+                            fontFamily: "Poppins",
                             fontWeight: FontWeight.w700,
                             color: Colors.black,
                             height: 1.1,
@@ -296,7 +296,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen>
                     'Change Password',
                     style: TextStyle(
                       fontSize: 24,
-                      fontFamily: "Poppin",
+                      fontFamily: "Poppins",
                       fontWeight: FontWeight.w800,
                       color: Colors.black,
                     ),
@@ -312,7 +312,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen>
                     'Enter New password',
                     style: TextStyle(
                       fontSize: 11.5.sp,
-                      fontFamily: "Poppin",
+                      fontFamily: "Poppins",
                       color: Colors.black54,
                       fontWeight: FontWeight.w400,
                     ),
@@ -335,14 +335,14 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen>
                       obscureText: !_isPasswordVisible,
                       style: TextStyle(
                         fontSize: 12.sp,
-                        fontFamily: "Poppin",
+                        fontFamily: "Poppins",
                       ),
                       decoration: InputDecoration(
                         hintText: 'Password...',
                         hintStyle: TextStyle(
                           color: Colors.grey.shade500,
                           fontSize: 10,
-                          fontFamily: "Poppin",
+                          fontFamily: "Poppins",
                         ),
                         filled: true,
                         fillColor: Colors.transparent,
@@ -408,14 +408,14 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen>
                       obscureText: !_isConfirmVisible,
                       style: TextStyle(
                         fontSize: 12.sp,
-                        fontFamily: "Poppin",
+                        fontFamily: "Poppins",
                       ),
                       decoration: InputDecoration(
                         hintText: 'Confirm Password...',
                         hintStyle: TextStyle(
                           color: Colors.grey.shade500,
                           fontSize: 10,
-                          fontFamily: "Poppin",
+                          fontFamily: "Poppins",
                         ),
                         filled: true,
                         fillColor: Colors.transparent,
@@ -509,7 +509,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen>
                         'Change',
                         style: TextStyle(
                           fontSize: 14,
-                          fontFamily: "Poppin",
+                          fontFamily: "Poppins",
                           fontWeight: FontWeight.w700,
                           color: Colors.white,
                         ),

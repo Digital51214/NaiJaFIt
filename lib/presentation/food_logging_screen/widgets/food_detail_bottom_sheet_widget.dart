@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:sizer/sizer.dart';
-
-import '../../../core/app_export.dart';
 
 class FoodDetailBottomSheetWidget extends StatefulWidget {
   final Map<String, dynamic> food;
@@ -26,58 +23,283 @@ class _FoodDetailBottomSheetWidgetState
   @override
   void initState() {
     super.initState();
-    _selectedServingSize = widget.food["servingSize"] as String;
+    _selectedServingSize = widget.food['servingSize'] as String;
   }
 
-  void _incrementServings() {
-    setState(() {
-      _servings += 0.5;
-      if (_servings > 10.0) _servings = 10.0;
-    });
-  }
+  void _increment() => setState(() {
+    if (_servings < 10.0) _servings += 0.5;
+  });
 
-  void _decrementServings() {
-    setState(() {
-      _servings -= 0.5;
-      if (_servings < 0.5) _servings = 0.5;
-    });
-  }
+  void _decrement() => setState(() {
+    if (_servings > 0.5) _servings -= 0.5;
+  });
 
-  double _calculateCalories() {
-    return (widget.food["calories"] as int) * _servings;
-  }
-
-  double _calculateMacro(String macro) {
-    return (widget.food[macro] as double) * _servings;
-  }
+  double get _calories => (widget.food['calories'] as int) * _servings;
+  double _macro(String key) => (widget.food[key] as double) * _servings;
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
+    final servingOptions =
+    (widget.food['servingOptions'] as List).cast<String>();
 
     return Container(
-      decoration: BoxDecoration(
-        color: theme.scaffoldBackgroundColor,
-        borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
+      decoration: const BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+      ),
+      padding: EdgeInsets.only(
+        bottom: MediaQuery.of(context).viewInsets.bottom,
       ),
       child: SafeArea(
-        child: Padding(
-          padding: EdgeInsets.all(4.w),
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.fromLTRB(20, 20, 20, 16),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _buildHeader(theme),
-              SizedBox(height: 2.h),
-              _buildFoodImage(theme),
-              SizedBox(height: 2.h),
-              _buildServingSizeSelector(theme),
-              SizedBox(height: 2.h),
-              _buildServingsAdjuster(theme),
-              SizedBox(height: 2.h),
-              _buildNutritionInfo(theme),
-              SizedBox(height: 2.h),
-              _buildAddButton(theme),
+              Center(
+                child: Container(
+                  width: 40,
+                  height: 4,
+                  decoration: BoxDecoration(
+                    color: Colors.grey.shade300,
+                    borderRadius: BorderRadius.circular(2),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 16),
+
+              Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      widget.food['name'] as String,
+                      style: const TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w800,
+                        color: Colors.black87,
+                        fontFamily: "Poppins",
+                      ),
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: () => Navigator.of(context).pop(),
+                    child: Container(
+                      padding: const EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                        color: Colors.grey.shade100,
+                        borderRadius: BorderRadius.circular(10),
+                        border: Border.all(color: Colors.grey.shade300),
+                      ),
+                      child: const Icon(
+                        Icons.close,
+                        size: 18,
+                        color: Colors.black54,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+
+              const SizedBox(height: 16),
+
+              ClipRRect(
+                borderRadius: BorderRadius.circular(14),
+                child: Image.network(
+                  widget.food['image'] as String,
+                  width: double.infinity,
+                  height: 180,
+                  fit: BoxFit.cover,
+                  errorBuilder: (_, __, ___) => Container(
+                    height: 180,
+                    color: const Color(0xFFE8F5E9),
+                    child: const Icon(
+                      Icons.restaurant,
+                      size: 48,
+                      color: Color(0xFF2E7D32),
+                    ),
+                  ),
+                ),
+              ),
+
+              const SizedBox(height: 20),
+
+              const Text(
+                'Serving Size',
+                style: TextStyle(
+                  fontSize: 15,
+                  fontWeight: FontWeight.w700,
+                  color: Colors.black87,
+                  fontFamily: "Poppins",
+                ),
+              ),
+              const SizedBox(height: 10),
+              Wrap(
+                spacing: 8,
+                runSpacing: 8,
+                children: servingOptions.map((option) {
+                  final isSelected = option == _selectedServingSize;
+                  return GestureDetector(
+                    onTap: () =>
+                        setState(() => _selectedServingSize = option),
+                    child: AnimatedContainer(
+                      duration: const Duration(milliseconds: 180),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 8,
+                      ),
+                      decoration: BoxDecoration(
+                        color: isSelected
+                            ? const Color(0xFF2E7D32)
+                            : Colors.white,
+                        borderRadius: BorderRadius.circular(20),
+                        border: Border.all(
+                          color: isSelected
+                              ? const Color(0xFF2E7D32)
+                              : Colors.grey.shade300,
+                        ),
+                      ),
+                      child: Text(
+                        option,
+                        style: TextStyle(
+                          fontSize: 13,
+                          fontWeight: isSelected
+                              ? FontWeight.w600
+                              : FontWeight.w400,
+                          color: isSelected ? Colors.white : Colors.black87,
+                          fontFamily: "Poppins",
+                        ),
+                      ),
+                    ),
+                  );
+                }).toList(),
+              ),
+
+              const SizedBox(height: 20),
+
+              const Text(
+                'Number of Servings',
+                style: TextStyle(
+                  fontSize: 15,
+                  fontWeight: FontWeight.w700,
+                  color: Colors.black87,
+                  fontFamily: "Poppins",
+                ),
+              ),
+              const SizedBox(height: 12),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  _circleButton(
+                    icon: Icons.remove,
+                    onTap: _decrement,
+                    filled: false,
+                  ),
+                  const SizedBox(width: 24),
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 28,
+                      vertical: 10,
+                    ),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(12),
+                      border: Border.all(color: Colors.grey.shade300),
+                    ),
+                    child: Text(
+                      _servings.toStringAsFixed(1),
+                      style: const TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w700,
+                        color: Colors.black87,
+                        fontFamily: "Poppins",
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 24),
+                  _circleButton(
+                    icon: Icons.add,
+                    onTap: _increment,
+                    filled: true,
+                  ),
+                ],
+              ),
+
+              const SizedBox(height: 20),
+
+              Container(
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: const Color(0xFFF5F5F5),
+                  borderRadius: BorderRadius.circular(14),
+                  border: Border.all(color: Colors.grey.shade200),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      'Nutrition Information',
+                      style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w700,
+                        color: Colors.black87,
+                        fontFamily: "Poppins",
+                      ),
+                    ),
+                    const SizedBox(height: 12),
+                    _nutritionRow(
+                      'Calories',
+                      '${_calories.toStringAsFixed(0)} cal',
+                      highlight: true,
+                    ),
+                    const SizedBox(height: 8),
+                    _nutritionRow(
+                      'Protein',
+                      '${_macro("protein").toStringAsFixed(1)}g',
+                    ),
+                    const SizedBox(height: 8),
+                    _nutritionRow(
+                      'Carbs',
+                      '${_macro("carbs").toStringAsFixed(1)}g',
+                    ),
+                    const SizedBox(height: 8),
+                    _nutritionRow(
+                      'Fats',
+                      '${_macro("fats").toStringAsFixed(1)}g',
+                    ),
+                  ],
+                ),
+              ),
+
+              const SizedBox(height: 20),
+
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: () => widget.onAdd(
+                    widget.food,
+                    _selectedServingSize,
+                    _servings,
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFF2E7D32),
+                    foregroundColor: Colors.white,
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(14),
+                    ),
+                    elevation: 0,
+                  ),
+                  child: const Text(
+                    'Add to Food Log',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w700,
+                      fontFamily: "Poppins",
+                    ),
+                  ),
+                ),
+              ),
             ],
           ),
         ),
@@ -85,264 +307,64 @@ class _FoodDetailBottomSheetWidgetState
     );
   }
 
-  Widget _buildHeader(ThemeData theme) {
-    return Row(
-      children: [
-        Expanded(
-          child: Text(
-            widget.food["name"] as String,
-            style: theme.textTheme.headlineSmall?.copyWith(
-              fontWeight: FontWeight.w600,
-            ),
+  Widget _circleButton({
+    required IconData icon,
+    required VoidCallback onTap,
+    required bool filled,
+  }) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        width: 44,
+        height: 44,
+        decoration: BoxDecoration(
+          color: filled ? const Color(0xFF2E7D32) : Colors.white,
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(
+            color: filled ? const Color(0xFF2E7D32) : Colors.grey.shade300,
           ),
-        ),
-        GestureDetector(
-          onTap: () => Navigator.of(context).pop(),
-          child: Container(
-            padding: EdgeInsets.all(2.w),
-            decoration: BoxDecoration(
-              color: theme.colorScheme.surface,
-              borderRadius: BorderRadius.circular(8),
-              border: Border.all(color: theme.colorScheme.outline, width: 1),
+          boxShadow: filled
+              ? [
+            BoxShadow(
+              color: const Color(0xFF2E7D32).withOpacity(0.3),
+              blurRadius: 8,
+              offset: const Offset(0, 3),
             ),
-            child: CustomIconWidget(
-              iconName: 'close',
-              color: theme.colorScheme.onSurface,
-              size: 20,
-            ),
-          ),
+          ]
+              : [],
         ),
-      ],
-    );
-  }
-
-  Widget _buildFoodImage(ThemeData theme) {
-    return Center(
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(12),
-        child: CustomImageWidget(
-          imageUrl: widget.food["image"] as String,
-          width: 80.w,
-          height: 25.h,
-          fit: BoxFit.cover,
-          semanticLabel: widget.food["semanticLabel"] as String,
+        child: Icon(
+          icon,
+          size: 22,
+          color: filled ? Colors.white : Colors.black87,
         ),
       ),
     );
   }
 
-  Widget _buildServingSizeSelector(ThemeData theme) {
-    final servingOptions = widget.food["servingOptions"] as List<dynamic>;
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          'Serving Size',
-          style: theme.textTheme.titleMedium?.copyWith(
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-        SizedBox(height: 1.h),
-        Wrap(
-          spacing: 2.w,
-          runSpacing: 1.h,
-          children: servingOptions.map((option) {
-            final isSelected = option == _selectedServingSize;
-            return GestureDetector(
-              onTap: () {
-                setState(() {
-                  _selectedServingSize = option;
-                });
-              },
-              child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 1.h),
-                decoration: BoxDecoration(
-                  color: isSelected
-                      ? theme.colorScheme.primary
-                      : theme.colorScheme.surface,
-                  borderRadius: BorderRadius.circular(20),
-                  border: Border.all(
-                    color: isSelected
-                        ? theme.colorScheme.primary
-                        : theme.colorScheme.outline,
-                    width: 1,
-                  ),
-                ),
-                child: Text(
-                  option as String,
-                  style: theme.textTheme.bodyMedium?.copyWith(
-                    color: isSelected
-                        ? theme.colorScheme.onPrimary
-                        : theme.colorScheme.onSurface,
-                    fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
-                  ),
-                ),
-              ),
-            );
-          }).toList(),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildServingsAdjuster(ThemeData theme) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          'Number of Servings',
-          style: theme.textTheme.titleMedium?.copyWith(
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-        SizedBox(height: 1.h),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            GestureDetector(
-              onTap: _decrementServings,
-              child: Container(
-                padding: EdgeInsets.all(3.w),
-                decoration: BoxDecoration(
-                  color: theme.colorScheme.surface,
-                  borderRadius: BorderRadius.circular(12),
-                  border: Border.all(
-                    color: theme.colorScheme.outline,
-                    width: 1,
-                  ),
-                ),
-                child: CustomIconWidget(
-                  iconName: 'remove',
-                  color: theme.colorScheme.onSurface,
-                  size: 24,
-                ),
-              ),
-            ),
-            SizedBox(width: 8.w),
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 1.5.h),
-              decoration: BoxDecoration(
-                color: theme.colorScheme.surface,
-                borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: theme.colorScheme.outline, width: 1),
-              ),
-              child: Text(
-                _servings.toStringAsFixed(1),
-                style: theme.textTheme.headlineSmall?.copyWith(
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-            ),
-            SizedBox(width: 8.w),
-            GestureDetector(
-              onTap: _incrementServings,
-              child: Container(
-                padding: EdgeInsets.all(3.w),
-                decoration: BoxDecoration(
-                  color: theme.colorScheme.primary,
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: CustomIconWidget(
-                  iconName: 'add',
-                  color: theme.colorScheme.onPrimary,
-                  size: 24,
-                ),
-              ),
-            ),
-          ],
-        ),
-      ],
-    );
-  }
-
-  Widget _buildNutritionInfo(ThemeData theme) {
-    return Container(
-      padding: EdgeInsets.all(4.w),
-      decoration: BoxDecoration(
-        color: theme.colorScheme.surface,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: theme.colorScheme.outline, width: 1),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'Nutrition Information',
-            style: theme.textTheme.titleMedium?.copyWith(
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-          SizedBox(height: 1.h),
-          _buildNutritionRow(
-            theme,
-            'Calories',
-            '${_calculateCalories().toStringAsFixed(0)} cal',
-          ),
-          SizedBox(height: 1.h),
-          _buildNutritionRow(
-            theme,
-            'Protein',
-            '${_calculateMacro("protein").toStringAsFixed(1)}g',
-          ),
-          SizedBox(height: 1.h),
-          _buildNutritionRow(
-            theme,
-            'Carbs',
-            '${_calculateMacro("carbs").toStringAsFixed(1)}g',
-          ),
-          SizedBox(height: 1.h),
-          _buildNutritionRow(
-            theme,
-            'Fats',
-            '${_calculateMacro("fats").toStringAsFixed(1)}g',
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildNutritionRow(ThemeData theme, String label, String value) {
+  Widget _nutritionRow(String label, String value, {bool highlight = false}) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(
           label,
-          style: theme.textTheme.bodyLarge?.copyWith(
-            color: theme.colorScheme.onSurfaceVariant,
+          style: TextStyle(
+            fontSize: 14,
+            color: Colors.black54,
+            fontWeight: highlight ? FontWeight.w600 : FontWeight.w400,
+            fontFamily: "Poppins",
           ),
         ),
         Text(
           value,
-          style: theme.textTheme.bodyLarge?.copyWith(
-            fontWeight: FontWeight.w600,
+          style: TextStyle(
+            fontSize: 14,
+            fontWeight: FontWeight.w700,
+            color: highlight ? const Color(0xFF2E7D32) : Colors.black87,
+            fontFamily: "Poppins",
           ),
         ),
       ],
-    );
-  }
-
-  Widget _buildAddButton(ThemeData theme) {
-    return SizedBox(
-      width: double.infinity,
-      child: ElevatedButton(
-        onPressed: () {
-          widget.onAdd(widget.food, _selectedServingSize, _servings);
-        },
-        style: ElevatedButton.styleFrom(
-          padding: EdgeInsets.symmetric(vertical: 2.h),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
-          ),
-        ),
-        child: Text(
-          'Add to Food Log',
-          style: theme.textTheme.titleMedium?.copyWith(
-            color: theme.colorScheme.onPrimary,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-      ),
     );
   }
 }

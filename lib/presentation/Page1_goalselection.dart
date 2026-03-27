@@ -26,7 +26,8 @@ class _Page1GoalSelectionState extends State<Page1GoalSelection>
     with SingleTickerProviderStateMixin {
   String? _selectedGoal;
 
-  final List<Map<String, dynamic>> _goalOptions = [
+  /// Goal Options
+  final List<Map<String, dynamic>> _goalOptions = const [
     {
       'id': 'lose_weight',
       'title': 'Lose Weight',
@@ -67,6 +68,7 @@ class _Page1GoalSelectionState extends State<Page1GoalSelection>
       curve: Curves.easeOut,
     ).drive(Tween(begin: const Offset(0, 0.06), end: Offset.zero));
 
+    /// Register Next button callback
     widget.registerNextCallback(_handleNext);
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -80,27 +82,31 @@ class _Page1GoalSelectionState extends State<Page1GoalSelection>
     super.dispose();
   }
 
+  /// Select Goal
   void _selectGoal(String id) {
     setState(() => _selectedGoal = id);
+
     widget.onDataUpdate('fitnessGoal', id);
     widget.onNextEnabled(true);
   }
 
+  /// Handle Next Button
   Future<void> _handleNext() async {
     if (_selectedGoal == null) return;
 
     widget.setLoading(true);
-    final user = AuthService.instance.currentUser;
 
-    if (user != null) {
-      try {
+    try {
+      final user = AuthService.instance.currentUser;
+
+      if (user != null) {
         await AuthService.instance.updateUserProfile(
           userId: user.id,
           fitnessGoal: _selectedGoal,
         );
-      } catch (e) {
-        debugPrint('Page1 API error: $e');
       }
+    } catch (e) {
+      debugPrint('Page1GoalSelection Error: $e');
     }
 
     widget.setLoading(false);
@@ -118,6 +124,7 @@ class _Page1GoalSelectionState extends State<Page1GoalSelection>
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              /// Title
               Text(
                 'What goals do you want to\nachieve?',
                 style: TextStyle(
@@ -131,8 +138,9 @@ class _Page1GoalSelectionState extends State<Page1GoalSelection>
 
               SizedBox(height: 1.4.h),
 
+              /// Subtitle
               Text(
-                'This helps Naijafit to generate a plan for\nyour calorie intake',
+                'This helps Naijafit to generate a plan for your calorie intake',
                 style: TextStyle(
                   fontSize: 12.2.sp,
                   fontFamily: 'Poppins',
@@ -144,6 +152,7 @@ class _Page1GoalSelectionState extends State<Page1GoalSelection>
 
               SizedBox(height: 3.2.h),
 
+              /// Goal Cards
               ..._goalOptions.map((goal) {
                 final bool isSelected = _selectedGoal == goal['id'];
 
@@ -173,11 +182,12 @@ class _Page1GoalSelectionState extends State<Page1GoalSelection>
                       ),
                       child: Row(
                         children: [
+                          /// Icon
                           Container(
                             width: 15.w,
                             height: 15.w,
-                            decoration: BoxDecoration(
-                              color: const Color(0xFFDCE8D5),
+                            decoration: const BoxDecoration(
+                              color: Color(0xFFDCE8D5),
                               shape: BoxShape.circle,
                             ),
                             child: Icon(
@@ -191,6 +201,7 @@ class _Page1GoalSelectionState extends State<Page1GoalSelection>
 
                           SizedBox(width: 4.5.w),
 
+                          /// Title
                           Expanded(
                             child: Text(
                               goal['title'],
@@ -203,8 +214,7 @@ class _Page1GoalSelectionState extends State<Page1GoalSelection>
                             ),
                           ),
 
-                          SizedBox(width: 2.w),
-
+                          /// Select Label
                           Text(
                             isSelected ? 'Selected' : 'Select',
                             style: TextStyle(

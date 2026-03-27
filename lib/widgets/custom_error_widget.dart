@@ -35,6 +35,7 @@ class CustomErrorWidget extends StatelessWidget {
                   "Something went wrong",
                   style: const TextStyle(
                     fontSize: 24,
+                    fontFamily: "Poppins",
                     fontWeight: FontWeight.w500,
                     color: Color(0xFF262626),
                   ),
@@ -46,6 +47,7 @@ class CustomErrorWidget extends StatelessWidget {
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontSize: 16,
+                      fontFamily: "Poppins",
                       color: Color(0xFF525252), // neutral-600
                     ),
                   ),

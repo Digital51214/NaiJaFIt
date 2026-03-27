@@ -82,6 +82,7 @@ class ProfileHeaderWidget extends StatelessWidget {
           Text(
             name.isEmpty ? 'User@gmail.com' : name,
             style: theme.textTheme.titleLarge?.copyWith(
+              fontFamily: "Poppins",
               fontWeight: FontWeight.w600,
             ),
             textAlign: TextAlign.center,
@@ -104,6 +105,7 @@ class ProfileHeaderWidget extends StatelessWidget {
               Text(
                 isPremium ? 'Premium Member' : 'Free Member',
                 style: theme.textTheme.bodySmall?.copyWith(
+                  fontFamily: "Poppins",
                   color: isPremium
                       ? const Color(0xFF8B5CF6)
                       : theme.colorScheme.secondary,

@@ -240,7 +240,7 @@ class _SignInScreenState extends State<SignInScreen>
         SnackBar(
           content: Text(
             errorMessage,
-            style: const TextStyle(fontFamily: "Poppin"),
+            style: const TextStyle(fontFamily: "Poppins"),
           ),
           backgroundColor: Theme.of(context).colorScheme.error,
           duration: const Duration(seconds: 4),
@@ -293,7 +293,7 @@ class _SignInScreenState extends State<SignInScreen>
                             style: TextStyle(
                               fontSize: 24,
                               fontWeight: FontWeight.w700,
-                              fontFamily: "Poppin",
+                              fontFamily: "Poppins",
                               color: Colors.black,
                               height: 1.2,
                             ),
@@ -315,7 +315,7 @@ class _SignInScreenState extends State<SignInScreen>
                             style: TextStyle(
                               fontSize: 12,
                               fontWeight: FontWeight.w400,
-                              fontFamily: "Poppin",
+                              fontFamily: "Poppins",
                               color: Colors.black87,
                             ),
                           ),
@@ -412,7 +412,7 @@ class _SignInScreenState extends State<SignInScreen>
         keyboardType: TextInputType.emailAddress,
         style: const TextStyle(
           fontSize: 14,
-          fontFamily: "Poppin",
+          fontFamily: "Poppins",
           color: Colors.black,
         ),
         decoration: InputDecoration(
@@ -420,7 +420,7 @@ class _SignInScreenState extends State<SignInScreen>
           hintStyle: TextStyle(
             color: Colors.grey.shade500,
             fontSize: 10,
-            fontFamily: "Poppin",
+            fontFamily: "Poppins",
             fontWeight: FontWeight.w400,
           ),
           filled: true,
@@ -457,7 +457,7 @@ class _SignInScreenState extends State<SignInScreen>
               width: 1,
             ),
           ),
-          errorStyle: const TextStyle(fontFamily: "Poppin"),
+          errorStyle: const TextStyle(fontFamily: "Poppins"),
         ),
         validator: (value) {
           if (value == null || value.trim().isEmpty) {
@@ -484,7 +484,7 @@ class _SignInScreenState extends State<SignInScreen>
         obscureText: !_isPasswordVisible,
         style: const TextStyle(
           fontSize: 14,
-          fontFamily: "Poppin",
+          fontFamily: "Poppins",
           color: Colors.black,
         ),
         decoration: InputDecoration(
@@ -492,7 +492,7 @@ class _SignInScreenState extends State<SignInScreen>
           hintStyle: TextStyle(
             color: Colors.grey.shade500,
             fontSize: 10,
-            fontFamily: "Poppin",
+            fontFamily: "Poppins",
             fontWeight: FontWeight.w400,
           ),
           filled: true,
@@ -541,7 +541,7 @@ class _SignInScreenState extends State<SignInScreen>
               width: 1,
             ),
           ),
-          errorStyle: const TextStyle(fontFamily: "Poppin"),
+          errorStyle: const TextStyle(fontFamily: "Poppins"),
         ),
         validator: (value) {
           if (value == null || value.trim().isEmpty) {
@@ -593,7 +593,7 @@ class _SignInScreenState extends State<SignInScreen>
                 'Remember Me',
                 style: TextStyle(
                   fontSize: 10,
-                  fontFamily: "Poppin",
+                  fontFamily: "Poppins",
                   color: Colors.black,
                   fontWeight: FontWeight.w400,
                 ),
@@ -615,7 +615,7 @@ class _SignInScreenState extends State<SignInScreen>
             'Forget Password?',
             style: TextStyle(
               fontSize: 10,
-              fontFamily: "Poppin",
+              fontFamily: "Poppins",
               color: Color(0xFF0A8A2A),
               fontWeight: FontWeight.w600,
               decoration: TextDecoration.underline,
@@ -681,7 +681,7 @@ class _SignInScreenState extends State<SignInScreen>
             ),
             style: TextStyle(
               fontSize: 14,
-              fontFamily: "Poppin",
+              fontFamily: "Poppins",
               fontWeight: FontWeight.w700,
               color: Colors.white,
               height: 1.0,
@@ -702,7 +702,7 @@ class _SignInScreenState extends State<SignInScreen>
             "Don't have an account? ",
             style: TextStyle(
               fontSize: 14,
-              fontFamily: "Poppin",
+              fontFamily: "Poppins",
               color: Colors.black,
               fontWeight: FontWeight.w400,
             ),
@@ -715,7 +715,7 @@ class _SignInScreenState extends State<SignInScreen>
               'Sign Up',
               style: TextStyle(
                 fontSize: 14,
-                fontFamily: "Poppin",
+                fontFamily: "Poppins",
                 color: Color(0xFF0A8A2A),
                 fontWeight: FontWeight.w700,
                 decoration: TextDecoration.underline,

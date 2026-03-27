@@ -90,6 +90,7 @@ class QuickStatsWidget extends StatelessWidget {
           Text(
             title,
             style: theme.textTheme.bodySmall?.copyWith(
+              fontFamily: "Poppins",
               color: theme.colorScheme.onSurfaceVariant,
             ),
           ),
@@ -97,6 +98,7 @@ class QuickStatsWidget extends StatelessWidget {
           Text(
             value,
             style: theme.textTheme.titleMedium?.copyWith(
+              fontFamily: "Poppins",
               fontWeight: FontWeight.w700,
               color: theme.colorScheme.onSurface,
             ),

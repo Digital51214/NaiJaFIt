@@ -27,10 +27,9 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      CustomBackButton(onTap: (){
+                      CustomBackButton(onTap: () {
                         Navigator.of(context).pop();
                       }),
-
                       Image.asset(
                         'assets/images/LOGO.png',
                         height: 7.h,
@@ -49,7 +48,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                       fontSize: 16.sp,
                       fontWeight: FontWeight.w700,
                       color: Colors.black,
-                      fontFamily: "Poppin",
+                      fontFamily: "Poppins",
                     ),
                   ),
 
@@ -95,7 +94,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                       fontSize: 16.sp,
                       fontWeight: FontWeight.w700,
                       color: Colors.black,
-                      fontFamily: "Poppin",
+                      fontFamily: "Poppins",
                     ),
                   ),
 
@@ -107,7 +106,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                       fontSize: 10.5.sp,
                       color: const Color(0xFF8E8E8E),
                       fontWeight: FontWeight.w400,
-                      fontFamily: "Poppin",
+                      fontFamily: "Poppins",
                     ),
                   ),
 
@@ -157,7 +156,12 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                     width: double.infinity,
                     child: ElevatedButton(
                       onPressed: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context)=>MainDashboardScreen()));
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => MainDashboardScreen(),
+                          ),
+                        );
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color(0xFF047A17),
@@ -165,6 +169,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(30),
                         ),
+                        padding: EdgeInsets.symmetric(vertical: 2)
                       ),
                       child: Text(
                         'Check Out',
@@ -172,7 +177,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                           fontSize: 12.sp,
                           fontWeight: FontWeight.w700,
                           color: Colors.white,
-                          fontFamily: "Poppin",
+                          fontFamily: "Poppins",
                         ),
                       ),
                     ),
@@ -208,7 +213,7 @@ class _InputField extends StatelessWidget {
           fontSize: 11.sp,
           fontWeight: FontWeight.w400,
           color: Colors.black,
-          fontFamily: "Poppin",
+          fontFamily: "Poppins",
         ),
         decoration: InputDecoration(
           hintText: hintText,
@@ -216,7 +221,7 @@ class _InputField extends StatelessWidget {
             color: const Color(0xFF9A9A9A),
             fontSize: 10.5.sp,
             fontWeight: FontWeight.w400,
-            fontFamily: "Poppin",
+            fontFamily: "Poppins",
           ),
           filled: true,
           fillColor: const Color(0xFFF7F7F7),

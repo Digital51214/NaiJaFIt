@@ -227,7 +227,7 @@ class _VerifyScreenState extends State<VerifyScreen>
             style: TextStyle(
               color: Colors.transparent,
               fontSize: 18.sp,
-              fontFamily: "Poppin",
+              fontFamily: "Poppins",
               fontWeight: FontWeight.w700,
             ),
             cursorColor: const Color(0xFF0A8A2A),
@@ -272,7 +272,7 @@ class _VerifyScreenState extends State<VerifyScreen>
               key: ValueKey<String>(_otpControllers[index].text),
               style: TextStyle(
                 fontSize: 18.sp,
-                fontFamily: "Poppin",
+                fontFamily: "Poppins",
                 fontWeight: FontWeight.w700,
                 color: Colors.black,
               ),
@@ -335,7 +335,7 @@ class _VerifyScreenState extends State<VerifyScreen>
                         'Verify',
                         style: TextStyle(
                           fontSize: 20,
-                          fontFamily: "Poppin",
+                          fontFamily: "Poppins",
                           fontWeight: FontWeight.w700,
                           color: Colors.black,
                           height: 1.1,
@@ -389,7 +389,7 @@ class _VerifyScreenState extends State<VerifyScreen>
                   'Enter Code',
                   style: TextStyle(
                     fontSize: 20.sp,
-                    fontFamily: "Poppin",
+                    fontFamily: "Poppins",
                     fontWeight: FontWeight.w800,
                     color: Colors.black,
                   ),
@@ -405,7 +405,7 @@ class _VerifyScreenState extends State<VerifyScreen>
                   'Enter code to verify your Identity',
                   style: TextStyle(
                     fontSize: 11.5.sp,
-                    fontFamily: "Poppin",
+                    fontFamily: "Poppins",
                     color: Colors.black54,
                     fontWeight: FontWeight.w400,
                   ),
@@ -467,7 +467,7 @@ class _VerifyScreenState extends State<VerifyScreen>
                       'Verify',
                       style: TextStyle(
                         fontSize: 14,
-                        fontFamily: "Poppin",
+                        fontFamily: "Poppins",
                         fontWeight: FontWeight.w700,
                         color: Colors.white,
                       ),

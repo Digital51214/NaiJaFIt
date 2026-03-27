@@ -40,6 +40,7 @@ class ProfileFieldWidget extends StatelessWidget {
               Text(
                 label,
                 style: theme.textTheme.bodyMedium?.copyWith(
+                  fontFamily: "Poppins",
                   fontWeight: FontWeight.w500,
                 ),
               ),
@@ -51,7 +52,9 @@ class ProfileFieldWidget extends StatelessWidget {
             enabled: enabled,
             keyboardType: keyboardType,
             validator: validator,
-            style: theme.textTheme.bodyLarge,
+            style: theme.textTheme.bodyLarge?.copyWith(
+              fontFamily: "Poppins",
+            ),
             decoration: InputDecoration(
               contentPadding: EdgeInsets.symmetric(
                 horizontal: 3.w,

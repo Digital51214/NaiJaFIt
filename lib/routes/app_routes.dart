@@ -66,7 +66,7 @@ class AppRoutes {
     professionalSupport: (context) => const ProfessionalSupportScreen(),
     calorieTargetDisplay: (context) => const CalorieTargetDisplayScreen(),
     profileSettings: (context) => const ProfileSettingsScreen(),
-    aiNutritionInsights: (context) => const AiNutritionInsightsScreen(),
+    aiNutritionInsights: (context) => const AiNutritionChatScreen(),
     splash: (context) => const SplashScreen(),
     // TODO: Add your other routes here
   };

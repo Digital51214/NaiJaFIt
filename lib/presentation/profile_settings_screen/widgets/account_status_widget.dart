@@ -54,6 +54,7 @@ class AccountStatusWidget extends StatelessWidget {
                     Text(
                       'Supabase Account',
                       style: theme.textTheme.bodyMedium?.copyWith(
+                        fontFamily: "Poppins",
                         fontWeight: FontWeight.w500,
                       ),
                     ),
@@ -61,6 +62,7 @@ class AccountStatusWidget extends StatelessWidget {
                     Text(
                       isConnected ? 'Connected' : 'Disconnected',
                       style: theme.textTheme.bodySmall?.copyWith(
+                        fontFamily: "Poppins",
                         color: isConnected
                             ? theme.colorScheme.primary
                             : theme.colorScheme.error,
@@ -91,6 +93,7 @@ class AccountStatusWidget extends StatelessWidget {
               Text(
                 syncText,
                 style: theme.textTheme.bodySmall?.copyWith(
+                  fontFamily: "Poppins",
                   color: theme.textTheme.bodySmall?.color?.withValues(
                     alpha: 0.7,
                   ),
@@ -100,7 +103,10 @@ class AccountStatusWidget extends StatelessWidget {
                 onPressed: () {
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(
-                      content: Text('Data export feature coming soon'),
+                      content: Text(
+                        'Data export feature coming soon',
+                        style: TextStyle(fontFamily: "Poppins"),
+                      ),
                     ),
                   );
                 },
@@ -112,6 +118,7 @@ class AccountStatusWidget extends StatelessWidget {
                 label: Text(
                   'Export Data',
                   style: theme.textTheme.bodySmall?.copyWith(
+                    fontFamily: "Poppins",
                     color: theme.colorScheme.primary,
                     fontWeight: FontWeight.w500,
                   ),

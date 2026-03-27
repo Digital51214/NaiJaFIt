@@ -34,6 +34,7 @@ class PreferenceToggleWidget extends StatelessWidget {
           Text(
             title,
             style: theme.textTheme.bodyMedium?.copyWith(
+              fontFamily: "Poppins",
               fontWeight: FontWeight.w500,
             ),
           ),
@@ -48,13 +49,13 @@ class PreferenceToggleWidget extends StatelessWidget {
                   context,
                   leftOption,
                   isLeftSelected,
-                  () => onToggle(true),
+                      () => onToggle(true),
                 ),
                 _buildOption(
                   context,
                   rightOption,
                   !isLeftSelected,
-                  () => onToggle(false),
+                      () => onToggle(false),
                 ),
               ],
             ),
@@ -65,11 +66,11 @@ class PreferenceToggleWidget extends StatelessWidget {
   }
 
   Widget _buildOption(
-    BuildContext context,
-    String label,
-    bool isSelected,
-    VoidCallback onTap,
-  ) {
+      BuildContext context,
+      String label,
+      bool isSelected,
+      VoidCallback onTap,
+      ) {
     final theme = Theme.of(context);
 
     return GestureDetector(
@@ -83,6 +84,7 @@ class PreferenceToggleWidget extends StatelessWidget {
         child: Text(
           label,
           style: theme.textTheme.bodyMedium?.copyWith(
+            fontFamily: "Poppins",
             color: isSelected
                 ? theme.colorScheme.onPrimary
                 : theme.colorScheme.onSurface,

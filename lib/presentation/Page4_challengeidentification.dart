@@ -115,7 +115,7 @@ class _Page3ChallengeIdentificationState
                 "What's the biggest challenge\nyou have in reaching your\ngoal?",
                 style: TextStyle(
                   fontSize: 19.sp,
-                  fontFamily: "Poppin",
+                  fontFamily: "Poppins",
                   fontWeight: FontWeight.w700,
                   color: Colors.black,
                   height: 1.3,
@@ -129,7 +129,7 @@ class _Page3ChallengeIdentificationState
                 'Select the challenge that resonates most with you',
                 style: TextStyle(
                   fontSize: 13.sp,
-                  fontFamily: "Poppin",
+                  fontFamily: "Poppins",
                   color: Colors.grey[600],
                 ),
               ),
@@ -180,7 +180,7 @@ class _Page3ChallengeIdentificationState
                                   c['title'],
                                   style: TextStyle(
                                     fontSize: 10.sp,
-                                    fontFamily: "Poppin",
+                                    fontFamily: "Poppins",
                                     fontWeight: FontWeight.bold,
                                     color: Colors.black87,
                                   ),
@@ -190,7 +190,7 @@ class _Page3ChallengeIdentificationState
                                   c['sub'],
                                   style: TextStyle(
                                     fontSize: 8.4.sp,
-                                    fontFamily: "Poppin",
+                                    fontFamily: "Poppins",
                                     color: Colors.grey[500],
                                   ),
                                 ),

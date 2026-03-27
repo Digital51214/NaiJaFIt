@@ -48,6 +48,7 @@ class MealSectionWidget extends StatelessWidget {
                   Text(
                     mealName,
                     style: theme.textTheme.titleMedium?.copyWith(
+                      fontFamily: "Poppins",
                       fontWeight: FontWeight.w600,
                     ),
                   ),
@@ -64,6 +65,7 @@ class MealSectionWidget extends StatelessWidget {
                 child: Text(
                   '$calories cal',
                   style: theme.textTheme.bodyMedium?.copyWith(
+                    fontFamily: "Poppins",
                     color: calories > 0
                         ? theme.colorScheme.primary
                         : theme.colorScheme.onSurfaceVariant,
@@ -76,50 +78,51 @@ class MealSectionWidget extends StatelessWidget {
           foods.isNotEmpty ? SizedBox(height: 2.h) : const SizedBox.shrink(),
           foods.isNotEmpty
               ? SizedBox(
-                  height: 10.h,
-                  child: ListView.separated(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: foods.length,
-                    separatorBuilder: (context, index) => SizedBox(width: 3.w),
-                    itemBuilder: (context, index) {
-                      final food = foods[index];
-                      return Container(
-                        width: 20.w,
-                        decoration: BoxDecoration(
-                          color: theme.colorScheme.surface,
-                          borderRadius: BorderRadius.circular(12),
-                          border: Border.all(
-                            color: theme.colorScheme.outline.withValues(
-                              alpha: 0.2,
-                            ),
-                          ),
-                        ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(8),
-                              child: CustomImageWidget(
-                                imageUrl: food["image"] as String,
-                                width: 15.w,
-                                height: 6.h,
-                                fit: BoxFit.cover,
-                                semanticLabel: food["semanticLabel"] as String,
-                              ),
-                            ),
-                            SizedBox(height: 0.5.h),
-                            Text(
-                              '${food["calories"]} cal',
-                              style: theme.textTheme.bodySmall?.copyWith(
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                          ],
-                        ),
-                      );
-                    },
+            height: 10.h,
+            child: ListView.separated(
+              scrollDirection: Axis.horizontal,
+              itemCount: foods.length,
+              separatorBuilder: (context, index) => SizedBox(width: 3.w),
+              itemBuilder: (context, index) {
+                final food = foods[index];
+                return Container(
+                  width: 20.w,
+                  decoration: BoxDecoration(
+                    color: theme.colorScheme.surface,
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(
+                      color: theme.colorScheme.outline.withValues(
+                        alpha: 0.2,
+                      ),
+                    ),
                   ),
-                )
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(8),
+                        child: CustomImageWidget(
+                          imageUrl: food["image"] as String,
+                          width: 15.w,
+                          height: 6.h,
+                          fit: BoxFit.cover,
+                          semanticLabel: food["semanticLabel"] as String,
+                        ),
+                      ),
+                      SizedBox(height: 0.5.h),
+                      Text(
+                        '${food["calories"]} cal',
+                        style: theme.textTheme.bodySmall?.copyWith(
+                          fontFamily: "Poppins",
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              },
+            ),
+          )
               : const SizedBox.shrink(),
           SizedBox(height: 2.h),
           SizedBox(
@@ -135,6 +138,7 @@ class MealSectionWidget extends StatelessWidget {
               label: Text(
                 'Add Food',
                 style: theme.textTheme.bodyLarge?.copyWith(
+                  fontFamily: "Poppins",
                   color: theme.colorScheme.onPrimary,
                   fontWeight: FontWeight.w600,
                 ),

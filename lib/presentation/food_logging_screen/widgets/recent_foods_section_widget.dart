@@ -32,6 +32,7 @@ class RecentFoodsSectionWidget extends StatelessWidget {
               'Recently Logged',
               style: theme.textTheme.titleLarge?.copyWith(
                 fontWeight: FontWeight.w600,
+                fontFamily: "Poppins",
               ),
             ),
           ],
@@ -83,6 +84,7 @@ class RecentFoodsSectionWidget extends StatelessWidget {
                 food["name"] as String,
                 style: theme.textTheme.bodySmall?.copyWith(
                   fontWeight: FontWeight.w500,
+                  fontFamily: "Poppins",
                 ),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,

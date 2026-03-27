@@ -87,7 +87,7 @@ class _PlanFreeTrialScreenState extends State<PlanFreeTrialScreen>
                     text: TextSpan(
                       style: TextStyle(
                         fontSize: 21.sp,
-                        fontFamily: "Poppin",
+                        fontFamily: "Poppins",
                         fontWeight: FontWeight.w800,
                         color: Colors.black,
                         height: 1.35,
@@ -151,7 +151,7 @@ class _PlanFreeTrialScreenState extends State<PlanFreeTrialScreen>
                     'Try for free!',
                     style: TextStyle(
                       fontSize: 12.sp,
-                      fontFamily: "Poppin",
+                      fontFamily: "Poppins",
                       fontWeight: FontWeight.w700,
                       color: Colors.white,
                       height: 1.2,

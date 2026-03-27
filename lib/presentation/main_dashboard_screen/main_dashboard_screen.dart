@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:naijafit/presentation/ai_coach_entro_screen.dart';
 import 'package:naijafit/presentation/ai_nutrition_insights_screen/ai_nutrition_insights_screen.dart';
 import 'package:naijafit/presentation/food_logging_screen/food_logging_screen.dart';
 import 'package:naijafit/presentation/profile_settings_screen/profile_settings_screen.dart';
@@ -22,7 +23,7 @@ class _MainDashboardScreenState
   final List<Widget> screens = const [
     Homescreen(),
     FoodLoggingScreen(),
-    AiNutritionInsightsScreen(),
+    AiCoachIntroScreen(),
     ProfileSettingsScreen(),
   ];
 

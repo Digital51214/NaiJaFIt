@@ -144,7 +144,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     'Step ${_currentPage + 1} of $_totalPages',
                     style: TextStyle(
                       fontSize: 13.5.sp,
-                      fontFamily: "Poppin",
+                      fontFamily: "Poppins",
                       color: Colors.grey[600],
                       fontWeight: FontWeight.w500,
                     ),
@@ -275,7 +275,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     _isFinalPage ? 'Get Started!' : 'Next',
                     style: TextStyle(
                       fontSize: 11.5.sp,
-                      fontFamily: "Poppin",
+                      fontFamily: "Poppins",
                       fontWeight: FontWeight.w600,
                       color: _nextActive
                           ? Colors.white

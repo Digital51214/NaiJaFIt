@@ -91,7 +91,7 @@ class _PremiumSubscriptionScreenState extends State<PremiumSubscriptionScreen>
                   title,
                   style: TextStyle(
                     fontSize: 13.sp,
-                    fontFamily: "Poppin",
+                    fontFamily: "Poppins",
                     fontWeight: FontWeight.w700,
                     color: Colors.black,
                   ),
@@ -101,7 +101,7 @@ class _PremiumSubscriptionScreenState extends State<PremiumSubscriptionScreen>
                   subtitle,
                   style: TextStyle(
                     fontSize: 10.sp,
-                    fontFamily: "Poppin",
+                    fontFamily: "Poppins",
                     fontWeight: FontWeight.w400,
                     color: Colors.black,
                     height: 1.5,
@@ -148,7 +148,7 @@ class _PremiumSubscriptionScreenState extends State<PremiumSubscriptionScreen>
                   title,
                   style: TextStyle(
                     fontSize: 12.sp,
-                    fontFamily: "Poppin",
+                    fontFamily: "Poppins",
                     fontWeight: FontWeight.w700,
                     color: Colors.black,
                   ),
@@ -158,7 +158,7 @@ class _PremiumSubscriptionScreenState extends State<PremiumSubscriptionScreen>
                   price,
                   style: TextStyle(
                     fontSize: 12.sp,
-                    fontFamily: "Poppin",
+                    fontFamily: "Poppins",
                     fontWeight: FontWeight.w600,
                     color: Colors.black87,
                   ),
@@ -181,7 +181,7 @@ class _PremiumSubscriptionScreenState extends State<PremiumSubscriptionScreen>
                   badge,
                   style: TextStyle(
                     fontSize: 7.5.sp,
-                    fontFamily: "Poppin",
+                    fontFamily: "Poppins",
                     fontWeight: FontWeight.w600,
                     color: Colors.white,
                   ),
@@ -251,7 +251,7 @@ class _PremiumSubscriptionScreenState extends State<PremiumSubscriptionScreen>
                                     'Restore',
                                     style: TextStyle(
                                       fontSize: 11.sp,
-                                      fontFamily: "Poppin",
+                                      fontFamily: "Poppins",
                                       fontWeight: FontWeight.w600,
                                       color: const Color(0xFF2E7D32),
                                     ),
@@ -266,7 +266,7 @@ class _PremiumSubscriptionScreenState extends State<PremiumSubscriptionScreen>
                           text: TextSpan(
                             style: TextStyle(
                               fontSize: 19.sp,
-                              fontFamily: "Poppin",
+                              fontFamily: "Poppins",
                               fontWeight: FontWeight.w800,
                               color: Colors.black,
                               height: 1.35,
@@ -354,7 +354,7 @@ class _PremiumSubscriptionScreenState extends State<PremiumSubscriptionScreen>
                           'No Payment Due Now',
                           style: TextStyle(
                             fontSize: 11.sp,
-                            fontFamily: "Poppin",
+                            fontFamily: "Poppins",
                             fontWeight: FontWeight.w600,
                             color: Colors.black54,
                           ),
@@ -393,7 +393,7 @@ class _PremiumSubscriptionScreenState extends State<PremiumSubscriptionScreen>
                     'Start my 7-day free trial',
                     style: TextStyle(
                       fontSize: 12.sp,
-                      fontFamily: "Poppin",
+                      fontFamily: "Poppins",
                       fontWeight: FontWeight.w700,
                       color: Colors.white,
                       height: 1.2,

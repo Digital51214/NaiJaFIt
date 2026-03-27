@@ -267,7 +267,7 @@ class _Page2GoalSettingDetailsState extends State<Page2GoalSettingDetails>
                                   opt,
                                   style: TextStyle(
                                     fontSize: 11.5.sp,
-                                    fontFamily: 'Poppin',
+                                    fontFamily: 'Poppins',
                                     fontWeight: FontWeight.w500,
                                     color: isSelected
                                         ? const Color(0xFF0B7A22)
@@ -323,7 +323,7 @@ class _Page2GoalSettingDetailsState extends State<Page2GoalSettingDetails>
                     label,
                     style: TextStyle(
                       fontSize: 11.5.sp,
-                      fontFamily: 'Poppin',
+                      fontFamily: 'Poppins',
                       fontWeight: FontWeight.w600,
                       color: isSelected
                           ? const Color(0xFF0B7A22)
@@ -335,7 +335,7 @@ class _Page2GoalSettingDetailsState extends State<Page2GoalSettingDetails>
                     sub,
                     style: TextStyle(
                       fontSize: 9.sp,
-                      fontFamily: 'Poppin',
+                      fontFamily: 'Poppins',
                       color: const Color(0xFF8A8A8A),
                     ),
                   ),
@@ -371,7 +371,7 @@ class _Page2GoalSettingDetailsState extends State<Page2GoalSettingDetails>
                 "Let’s set your target",
                 style: TextStyle(
                   fontSize: 19.sp,
-                  fontFamily: 'Poppin',
+                  fontFamily: 'Poppins',
                   fontWeight: FontWeight.w700,
                   color: Colors.black,
                   height: 1.25,
@@ -384,7 +384,7 @@ class _Page2GoalSettingDetailsState extends State<Page2GoalSettingDetails>
                 'We will create a personalized plan based\non your goals',
                 style: TextStyle(
                   fontSize: 12.5.sp,
-                  fontFamily: 'Poppin',
+                  fontFamily: 'Poppins',
                   fontWeight: FontWeight.w400,
                   color: const Color(0xFF6E6E6E),
                   height: 1.55,
@@ -397,7 +397,7 @@ class _Page2GoalSettingDetailsState extends State<Page2GoalSettingDetails>
                 'Weight Details',
                 style: TextStyle(
                   fontSize: 13.sp,
-                  fontFamily: 'Poppin',
+                  fontFamily: 'Poppins',
                   fontWeight: FontWeight.w600,
                   color: Colors.black,
                 ),
@@ -435,7 +435,7 @@ class _Page2GoalSettingDetailsState extends State<Page2GoalSettingDetails>
                 'Timeline to achieve your target',
                 style: TextStyle(
                   fontSize: 13.sp,
-                  fontFamily: 'Poppin',
+                  fontFamily: 'Poppins',
                   fontWeight: FontWeight.w600,
                   color: Colors.black,
                 ),
@@ -466,7 +466,7 @@ class _Page2GoalSettingDetailsState extends State<Page2GoalSettingDetails>
                             _selectedTimeline ?? 'Select Timeline',
                             style: TextStyle(
                               fontSize: 10.sp,
-                              fontFamily: 'Poppin',
+                              fontFamily: 'Poppins',
                               fontWeight: FontWeight.w500,
                               color: const Color(0xFF0B7A22),
                             ),
@@ -514,7 +514,7 @@ class _Page2GoalSettingDetailsState extends State<Page2GoalSettingDetails>
           onChanged: onChange,
           style: TextStyle(
             fontSize: 10.sp,
-            fontFamily: 'Poppin',
+            fontFamily: 'Poppins',
             fontWeight: FontWeight.w500,
             color: Colors.black87,
           ),
@@ -522,7 +522,7 @@ class _Page2GoalSettingDetailsState extends State<Page2GoalSettingDetails>
             hintText: hint,
             hintStyle: TextStyle(
               fontSize: 10.sp,
-              fontFamily: 'Poppin',
+              fontFamily: 'Poppins',
               fontWeight: FontWeight.w400,
               color: const Color(0xFF9B9B9B),
             ),
@@ -566,7 +566,7 @@ class _Page2GoalSettingDetailsState extends State<Page2GoalSettingDetails>
                       unit,
                       style: TextStyle(
                         fontSize: 12.5.sp,
-                        fontFamily: 'Poppin',
+                        fontFamily: 'Poppins',
                         fontWeight: FontWeight.w600,
                         color: const Color(0xFF56A61F),
                       ),

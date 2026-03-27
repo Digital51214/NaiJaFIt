@@ -151,7 +151,8 @@ class _HomescreenState extends State<Homescreen>
                               errorBuilder: (context, error, stackTrace) {
                                 return Text(
                                   'NaijaFit',
-                                  style: GoogleFonts.inter(
+                                  style: TextStyle(
+                                    fontFamily: "Poppins",
                                     fontSize: 18.sp,
                                     fontWeight: FontWeight.bold,
                                     color: theme.colorScheme.primary,
@@ -194,7 +195,8 @@ class _HomescreenState extends State<Homescreen>
                           children: [
                             Text(
                               'Welcome to NaijaFit',
-                              style: GoogleFonts.inter(
+                              style: TextStyle(
+                                fontFamily: "Poppins",
                                 fontSize: 22.sp,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.black87,
@@ -203,7 +205,8 @@ class _HomescreenState extends State<Homescreen>
                             SizedBox(height: 0.8.h),
                             Text(
                               'Track your favorite Nigerian meals with accurate nutrition data. No more guessing,\nno more generic food databases.',
-                              style: GoogleFonts.inter(
+                              style: TextStyle(
+                                fontFamily: "Poppins",
                                 fontSize: 12.sp,
                                 fontWeight: FontWeight.w400,
                                 color: Colors.black54,
@@ -264,20 +267,21 @@ class _HomescreenState extends State<Homescreen>
                                   .pushNamed('/food-logging-screen');
                             },
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: const Color(0xFF2E7D32),
-                              foregroundColor: Colors.white,
-                              elevation: 0,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(30),
-                              ),
-                              padding: EdgeInsets.symmetric(
-                                vertical: 12,
-                                horizontal: 16,
-                              )
+                                backgroundColor: const Color(0xFF2E7D32),
+                                foregroundColor: Colors.white,
+                                elevation: 0,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(30),
+                                ),
+                                padding: EdgeInsets.symmetric(
+                                  vertical: 12,
+                                  horizontal: 16,
+                                )
                             ),
                             child: Text(
                               'Start Your Journey',
-                              style: GoogleFonts.inter(
+                              style: TextStyle(
+                                fontFamily: "Poppins",
                                 fontSize: 12.sp,
                                 fontWeight: FontWeight.w600,
                                 letterSpacing: 0.3,

@@ -13,11 +13,9 @@ class _ContinueFreescreenState extends State<ContinueFreescreen>
     with SingleTickerProviderStateMixin {
   late final AnimationController _controller;
 
-  // Top (upar se neeche)
   late final Animation<Offset> _headerSlide;
   late final Animation<double> _headerFade;
 
-  // Bottom (neeche se upar) - stagger
   late final Animation<Offset> _titleSlide;
   late final Animation<double> _titleFade;
 
@@ -36,7 +34,6 @@ class _ContinueFreescreenState extends State<ContinueFreescreen>
       duration: const Duration(milliseconds: 900),
     );
 
-    // ✅ Header animation: upar se neeche
     _headerSlide = Tween<Offset>(
       begin: const Offset(0, -0.35),
       end: Offset.zero,
@@ -54,7 +51,6 @@ class _ContinueFreescreenState extends State<ContinueFreescreen>
       ),
     );
 
-    // ✅ Title animation: neeche se upar
     _titleSlide = Tween<Offset>(
       begin: const Offset(0, 0.30),
       end: Offset.zero,
@@ -72,7 +68,6 @@ class _ContinueFreescreenState extends State<ContinueFreescreen>
       ),
     );
 
-    // ✅ Icon animation: neeche se upar
     _iconSlide = Tween<Offset>(
       begin: const Offset(0, 0.35),
       end: Offset.zero,
@@ -90,7 +85,6 @@ class _ContinueFreescreenState extends State<ContinueFreescreen>
       ),
     );
 
-    // ✅ Button animation: neeche se upar
     _buttonSlide = Tween<Offset>(
       begin: const Offset(0, 0.40),
       end: Offset.zero,
@@ -108,7 +102,6 @@ class _ContinueFreescreenState extends State<ContinueFreescreen>
       ),
     );
 
-    // Start animation after the first frame is rendered
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (mounted) _controller.forward();
     });
@@ -120,87 +113,99 @@ class _ContinueFreescreenState extends State<ContinueFreescreen>
     super.dispose();
   }
 
+  void _navigateNext() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const HungeraiFreeScreen(),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+
     return Scaffold(
       backgroundColor: theme.scaffoldBackgroundColor,
       body: SafeArea(
         child: Padding(
-          padding: EdgeInsets.symmetric(vertical: 2.h, horizontal: 4.w),
+          padding: EdgeInsets.symmetric(vertical: 2.h, horizontal: 5.w),
           child: Column(
             children: [
-              // Header: top->down
+              /// 🔹 Back Button
               SlideTransition(
                 position: _headerSlide,
                 child: FadeTransition(
                   opacity: _headerFade,
-                  child: GestureDetector(
-                    onTap: () => Navigator.of(context).pop(),
-                    child: Align(
-                      alignment: Alignment.centerLeft,
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: GestureDetector(
+                      onTap: () => Navigator.pop(context),
                       child: Container(
-                        width: 12.w,
-                        height: 12.w,
+                        width: 11.w,
+                        height: 11.w,
                         decoration: BoxDecoration(
                           color: theme.colorScheme.surface,
                           shape: BoxShape.circle,
                           border: Border.all(
-                              color: theme.colorScheme.outline, width: 1),
+                            color: theme.colorScheme.outline,
+                          ),
                         ),
-                        child: const Center(
-                          child: Icon(Icons.arrow_back_ios_new),
-                        ),
+                        child: const Icon(Icons.arrow_back_ios_new, size: 18),
                       ),
                     ),
                   ),
                 ),
               ),
-              SizedBox(height: 10),
-              // Title: bottom->up
+
+              SizedBox(height: 4.h),
+
+              /// 🔹 Title
               SlideTransition(
                 position: _titleSlide,
                 child: FadeTransition(
                   opacity: _titleFade,
-                  child: Align(
-                    alignment: Alignment.center,
-                    child: Text(
-                      "We'll send you a\nreminder before your trial\nend",
-                      style: TextStyle(
-                        fontSize: 25,
-                        fontWeight: FontWeight.w900,
-                      ),
-                      textAlign: TextAlign.center,
+                  child: Text(
+                    "We'll send you a\nreminder before your trial ends",
+                    textAlign: TextAlign.center,
+                    style: theme.textTheme.headlineSmall?.copyWith(
+                      fontWeight: FontWeight.w900,
+                      height: 1.3,
                     ),
                   ),
                 ),
               ),
-              SizedBox(height: 130),
-              // Icon: bottom->up
+
+              SizedBox(height: 8.h),
+
+              /// 🔹 Icon
               SlideTransition(
                 position: _iconSlide,
                 child: FadeTransition(
                   opacity: _iconFade,
                   child: Container(
-                    height: 150,
-                    width: 150,
-                    decoration: BoxDecoration(
+                    height: 18.h,
+                    width: 18.h,
+                    decoration: const BoxDecoration(
                       shape: BoxShape.circle,
                       color: Colors.amber,
                     ),
                     child: Transform.rotate(
                       angle: 0.2,
-                      child: Icon(
+                      child: const Icon(
                         Icons.notifications,
-                        size: 100,
+                        size: 90,
                         color: Colors.black,
                       ),
                     ),
                   ),
                 ),
               ),
-              Spacer(),
-              // Button: bottom->up
+
+              const Spacer(),
+
+              /// 🔹 Button
               SlideTransition(
                 position: _buttonSlide,
                 child: FadeTransition(
@@ -218,29 +223,22 @@ class _ContinueFreescreenState extends State<ContinueFreescreen>
   Widget _buildContinueButton(ThemeData theme) {
     return SizedBox(
       width: double.infinity,
-      height: 48,
+      height: 6.h,
       child: ElevatedButton(
-        onPressed: () {
-          Navigator.push(
-              context, MaterialPageRoute(builder: (context) => HungeraiFreeScreen()));
-        },
+        onPressed: _navigateNext,
         style: ElevatedButton.styleFrom(
-          padding: EdgeInsets.symmetric(vertical: 0.h),
-          backgroundColor: theme.colorScheme.primary,
-          foregroundColor: theme.colorScheme.onPrimary,
-          disabledBackgroundColor: theme.colorScheme.surfaceContainerHighest,
-          disabledForegroundColor: theme.colorScheme.onSurfaceVariant,
+          backgroundColor: const Color(0xff026F1A),
+          foregroundColor: Colors.white,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8.0),
+            borderRadius: BorderRadius.circular(10),
           ),
           elevation: 0,
         ),
         child: Text(
           'Continue for FREE',
           style: theme.textTheme.titleMedium?.copyWith(
-            color: theme.colorScheme.onPrimary,
-            fontSize: 18,
-            fontWeight: FontWeight.w600,
+            fontWeight: FontWeight.w700,
+            color: Colors.white,
           ),
         ),
       ),

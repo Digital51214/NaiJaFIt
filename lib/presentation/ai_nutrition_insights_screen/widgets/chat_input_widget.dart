@@ -38,9 +38,13 @@ class ChatInputWidget extends StatelessWidget {
               maxLines: null,
               textInputAction: TextInputAction.send,
               onSubmitted: isEnabled ? onSend : null,
+              style: const TextStyle(
+                fontFamily: "Poppins",
+              ),
               decoration: InputDecoration(
                 hintText: 'Ask about Nigerian nutrition...',
                 hintStyle: theme.textTheme.bodyMedium?.copyWith(
+                  fontFamily: "Poppins",
                   color: theme.colorScheme.onSurface.withValues(alpha: 0.5),
                 ),
                 filled: true,
@@ -76,10 +80,10 @@ class ChatInputWidget extends StatelessWidget {
             child: InkWell(
               onTap: isEnabled
                   ? () {
-                      if (controller.text.trim().isNotEmpty) {
-                        onSend(controller.text);
-                      }
-                    }
+                if (controller.text.trim().isNotEmpty) {
+                  onSend(controller.text);
+                }
+              }
                   : null,
               borderRadius: BorderRadius.circular(24.0),
               child: Container(

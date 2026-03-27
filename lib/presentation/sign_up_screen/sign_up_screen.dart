@@ -310,7 +310,7 @@ class _SignUpScreenState extends State<SignUpScreen>
                             style: TextStyle(
                               fontSize: 24,
                               fontWeight: FontWeight.w700,
-                              fontFamily: "Poppin",
+                              fontFamily: "Poppins",
                               color: Colors.black,
                               height: 1.2,
                             ),
@@ -332,7 +332,7 @@ class _SignUpScreenState extends State<SignUpScreen>
                             style: TextStyle(
                               fontSize: 12,
                               fontWeight: FontWeight.w400,
-                              fontFamily: "Poppin",
+                              fontFamily: "Poppins",
                               color: Colors.black87,
                             ),
                           ),
@@ -449,7 +449,7 @@ class _SignUpScreenState extends State<SignUpScreen>
         keyboardType: TextInputType.name,
         style: const TextStyle(
           fontSize: 14,
-          fontFamily: "Poppin",
+          fontFamily: "Poppins",
           color: Colors.black,
         ),
         decoration: InputDecoration(
@@ -457,7 +457,7 @@ class _SignUpScreenState extends State<SignUpScreen>
           hintStyle: TextStyle(
             color: Colors.grey.shade500,
             fontSize: 10,
-            fontFamily: "Poppin",
+            fontFamily: "Poppins",
             fontWeight: FontWeight.w400,
           ),
           filled: true,
@@ -518,7 +518,7 @@ class _SignUpScreenState extends State<SignUpScreen>
         keyboardType: TextInputType.emailAddress,
         style: const TextStyle(
           fontSize: 14,
-          fontFamily: "Poppin",
+          fontFamily: "Poppins",
           color: Colors.black,
         ),
         decoration: InputDecoration(
@@ -526,7 +526,7 @@ class _SignUpScreenState extends State<SignUpScreen>
           hintStyle: TextStyle(
             color: Colors.grey.shade500,
             fontSize: 10,
-            fontFamily: "Poppin",
+            fontFamily: "Poppins",
             fontWeight: FontWeight.w400,
           ),
           filled: true,
@@ -590,7 +590,7 @@ class _SignUpScreenState extends State<SignUpScreen>
         obscureText: !_isPasswordVisible,
         style: const TextStyle(
           fontSize: 14,
-          fontFamily: "Poppin",
+          fontFamily: "Poppins",
           color: Colors.black,
         ),
         decoration: InputDecoration(
@@ -598,7 +598,7 @@ class _SignUpScreenState extends State<SignUpScreen>
           hintStyle: TextStyle(
             color: Colors.grey.shade500,
             fontSize: 10,
-            fontFamily: "Poppin",
+            fontFamily: "Poppins",
             fontWeight: FontWeight.w400,
           ),
           filled: true,
@@ -674,7 +674,7 @@ class _SignUpScreenState extends State<SignUpScreen>
         obscureText: !_isConfirmPasswordVisible,
         style: const TextStyle(
           fontSize: 14,
-          fontFamily: "Poppin",
+          fontFamily: "Poppins",
           color: Colors.black,
         ),
         decoration: InputDecoration(
@@ -682,7 +682,7 @@ class _SignUpScreenState extends State<SignUpScreen>
           hintStyle: TextStyle(
             color: Colors.grey.shade500,
             fontSize: 10,
-            fontFamily: "Poppin",
+            fontFamily: "Poppins",
             fontWeight: FontWeight.w400,
           ),
           filled: true,
@@ -787,7 +787,7 @@ class _SignUpScreenState extends State<SignUpScreen>
                 'I agree with all ',
                 style: TextStyle(
                   fontSize: 10,
-                  fontFamily: "Poppin",
+                  fontFamily: "Poppins",
                   color: Colors.black,
                   fontWeight: FontWeight.w400,
                 ),
@@ -805,7 +805,7 @@ class _SignUpScreenState extends State<SignUpScreen>
                   'Terms & Conditions',
                   style: TextStyle(
                     fontSize: 10,
-                    fontFamily: "Poppin",
+                    fontFamily: "Poppins",
                     color: Color(0xFF0A8A2A),
                     fontWeight: FontWeight.w600,
                     decoration: TextDecoration.underline,
@@ -817,7 +817,7 @@ class _SignUpScreenState extends State<SignUpScreen>
                 ' and ',
                 style: TextStyle(
                   fontSize: 10,
-                  fontFamily: "Poppin",
+                  fontFamily: "Poppins",
                   color: Colors.black,
                   fontWeight: FontWeight.w400,
                 ),
@@ -835,7 +835,7 @@ class _SignUpScreenState extends State<SignUpScreen>
                   'Privacy Policy',
                   style: TextStyle(
                     fontSize: 10,
-                    fontFamily: "Poppin",
+                    fontFamily: "Poppins",
                     color: Color(0xFF0A8A2A),
                     fontWeight: FontWeight.w600,
                     decoration: TextDecoration.underline,
@@ -903,7 +903,7 @@ class _SignUpScreenState extends State<SignUpScreen>
             ),
             style: TextStyle(
               fontSize: 14,
-              fontFamily: "Poppin",
+              fontFamily: "Poppins",
               fontWeight: FontWeight.w700,
               color: Colors.white,
               height: 1.0,
@@ -924,7 +924,7 @@ class _SignUpScreenState extends State<SignUpScreen>
             'Already have an account? ',
             style: TextStyle(
               fontSize: 14,
-              fontFamily: "Poppin",
+              fontFamily: "Poppins",
               color: Colors.black,
               fontWeight: FontWeight.w400,
             ),
@@ -937,7 +937,7 @@ class _SignUpScreenState extends State<SignUpScreen>
               'Sign In',
               style: TextStyle(
                 fontSize: 14,
-                fontFamily: "Poppin",
+                fontFamily: "Poppins",
                 color: Color(0xFF0A8A2A),
                 fontWeight: FontWeight.w700,
                 decoration: TextDecoration.underline,

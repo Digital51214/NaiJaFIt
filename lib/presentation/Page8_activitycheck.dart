@@ -124,7 +124,7 @@ class _Page8ActivityLevelState extends State<Page8ActivityLevel>
                 'Activity Level',
                 style: TextStyle(
                   fontSize: 20.sp,
-                  fontFamily: "Poppin",
+                  fontFamily: "Poppins",
                   fontWeight: FontWeight.w700,
                   color: Colors.black,
                   height: 1.25,
@@ -137,7 +137,7 @@ class _Page8ActivityLevelState extends State<Page8ActivityLevel>
                 'Please choose your activity level',
                 style: TextStyle(
                   fontSize: 12.8.sp,
-                  fontFamily: "Poppin",
+                  fontFamily: "Poppins",
                   fontWeight: FontWeight.w400,
                   color: const Color(0xFF6E6E6E),
                   height: 1.4,
@@ -207,7 +207,7 @@ class _Page8ActivityLevelState extends State<Page8ActivityLevel>
                                   item['title']!,
                                   style: TextStyle(
                                     fontSize: 12.sp,
-                                    fontFamily: "Poppin",
+                                    fontFamily: "Poppins",
                                     fontWeight: FontWeight.w600,
                                     color: Colors.black,
                                     height: 1,
@@ -218,7 +218,7 @@ class _Page8ActivityLevelState extends State<Page8ActivityLevel>
                                   item['subtitle']!,
                                   style: TextStyle(
                                     fontSize: 9.sp,
-                                    fontFamily: "Poppin",
+                                    fontFamily: "Poppins",
                                     fontWeight: FontWeight.w400,
                                     color: const Color(0xFF8B8B8B),
                                     height: 1,

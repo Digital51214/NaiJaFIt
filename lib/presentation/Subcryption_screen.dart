@@ -200,6 +200,7 @@ class _SubscriptionTrialScreenState extends State<SubscriptionTrialScreen>
                       text: const TextSpan(
                         style: TextStyle(
                           fontSize: 26,
+                          fontFamily: "Poppins",
                           fontWeight: FontWeight.bold,
                         ),
                         children: [
@@ -255,7 +256,8 @@ class _SubscriptionTrialScreenState extends State<SubscriptionTrialScreen>
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text("Best app ever!", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
-                                Text("Mar 15\nPieter Levels", textAlign: TextAlign.right, style: TextStyle(color: Colors.white, fontSize: 12)),
+                                Text("Mar 15\nPieter Levels", textAlign: TextAlign.right, style: TextStyle(color: Colors.white, fontSize: 12,                          fontFamily: "Poppins",
+                                )),
                               ],
                             ),
                             SizedBox(height: 5),
@@ -298,6 +300,8 @@ class _SubscriptionTrialScreenState extends State<SubscriptionTrialScreen>
                              child: Text("7_DAY Free Trial",style: TextStyle(
                                fontWeight: FontWeight.bold,
                                fontSize: 15,
+                               fontFamily: "Poppins",
+
                              ),
                              textAlign: TextAlign.center,),
                            ),
@@ -320,7 +324,9 @@ class _SubscriptionTrialScreenState extends State<SubscriptionTrialScreen>
                                         children: [
                                           Text(
                                             "Yearly",
-                                            style: TextStyle(color: Colors.black, fontSize: 18, fontWeight: FontWeight.bold),
+                                            style: TextStyle(color: Colors.black,                          fontFamily: "Poppins",
+                                                fontSize: 18, fontWeight: FontWeight.bold,
+                                            ),
                                           ),
                                           Text(
                                             "Billed / year",
@@ -391,7 +397,8 @@ class _SubscriptionTrialScreenState extends State<SubscriptionTrialScreen>
                         children: [
                           Text(
                             "Yearly",
-                            style: TextStyle(color: Colors.black, fontSize: 18),
+                            style: TextStyle(color: Colors.black, fontSize: 18,                          fontFamily: "Poppins",
+                            ),
                           ),
                           Text(
                             "/week",
@@ -445,6 +452,7 @@ class _SubscriptionTrialScreenState extends State<SubscriptionTrialScreen>
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 16,
+                            fontFamily: "Poppins",
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -483,7 +491,8 @@ class _SubscriptionTrialScreenState extends State<SubscriptionTrialScreen>
           padding: const EdgeInsets.only(left: 55,right: 55),
           child: Text(
             text,
-            style: const TextStyle(color: Colors.white,fontSize: 12,fontWeight: FontWeight.bold),textAlign: TextAlign.center,
+            style: const TextStyle(                          fontFamily: "Poppins",
+                color: Colors.white,fontSize: 12,fontWeight: FontWeight.bold),textAlign: TextAlign.center,
           ),
         ),
       ),

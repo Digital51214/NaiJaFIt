@@ -36,6 +36,7 @@ class ThemeSelectorWidget extends StatelessWidget {
               Text(
                 'App Theme',
                 style: theme.textTheme.bodyMedium?.copyWith(
+                  fontFamily: "Poppins",
                   fontWeight: FontWeight.w500,
                 ),
               ),
@@ -78,11 +79,11 @@ class ThemeSelectorWidget extends StatelessWidget {
   }
 
   Widget _buildThemeOption(
-    BuildContext context,
-    String label,
-    IconData icon,
-    String value,
-  ) {
+      BuildContext context,
+      String label,
+      IconData icon,
+      String value,
+      ) {
     final theme = Theme.of(context);
     final isSelected = selectedTheme == value;
 
@@ -113,6 +114,7 @@ class ThemeSelectorWidget extends StatelessWidget {
             Text(
               label,
               style: theme.textTheme.bodySmall?.copyWith(
+                fontFamily: "Poppins",
                 color: isSelected
                     ? theme.colorScheme.primary
                     : theme.colorScheme.onSurface,

@@ -72,6 +72,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 Text(
                   'Select Image Source',
                   style: TextStyle(
+                    fontFamily: "Poppins",
                     fontSize: 17.sp,
                     fontWeight: FontWeight.w700,
                     color: Colors.black,
@@ -138,6 +139,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
           Text(
             label,
             style: TextStyle(
+              fontFamily: "Poppins",
               fontSize: 11.sp,
               fontWeight: FontWeight.w500,
             ),
@@ -183,7 +185,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
-            content: Text('Profile updated successfully'),
+            content: Text(
+              'Profile updated successfully',
+              style: TextStyle(fontFamily: "Poppins"),
+            ),
           ),
         );
         Navigator.pop(context, true);
@@ -192,7 +197,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Failed to update profile: ${e.toString()}'),
+            content: Text(
+              'Failed to update profile: ${e.toString()}',
+              style: const TextStyle(fontFamily: "Poppins"),
+            ),
           ),
         );
       }
@@ -246,6 +254,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         child: Text(
                           'Edit Profile',
                           style: TextStyle(
+                            fontFamily: "Poppins",
                             fontSize: 16.sp,
                             fontWeight: FontWeight.w800,
                             color: Colors.black,
@@ -350,7 +359,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(40),
                               ),
-                              padding: EdgeInsets.symmetric(vertical: 2)
+                              padding: EdgeInsets.symmetric(vertical: 2),
                             ),
                             child: _isSaving
                                 ? const SizedBox(
@@ -364,6 +373,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                 : Text(
                               'Update',
                               style: TextStyle(
+                                fontFamily: "Poppins",
                                 fontSize: 10.sp,
                                 fontWeight: FontWeight.w700,
                                 color: Colors.white,
@@ -400,7 +410,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
           fontSize: 11.sp,
           fontWeight: FontWeight.w400,
           color: Colors.black,
-          fontFamily: "Poppin",
+          fontFamily: "Poppins",
         ),
         decoration: InputDecoration(
           hintText: hintText,
@@ -408,7 +418,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             color: const Color(0xFF9A9A9A),
             fontSize: 10.5.sp,
             fontWeight: FontWeight.w400,
-            fontFamily: "Poppin",
+            fontFamily: "Poppins",
           ),
           filled: true,
           fillColor: const Color(0xFFF7F7F7),

@@ -16,9 +16,8 @@ class ChatMessageBubbleWidget extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.only(bottom: 1.5.h),
       child: Row(
-        mainAxisAlignment: isUser
-            ? MainAxisAlignment.end
-            : MainAxisAlignment.start,
+        mainAxisAlignment:
+        isUser ? MainAxisAlignment.end : MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           if (!isUser) ...[
@@ -35,7 +34,10 @@ class ChatMessageBubbleWidget extends StatelessWidget {
           ],
           Flexible(
             child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 1.5.h),
+              padding: EdgeInsets.symmetric(
+                horizontal: 4.w,
+                vertical: 1.h, // pehle 1.5.h tha
+              ),
               decoration: BoxDecoration(
                 color: isUser
                     ? theme.colorScheme.primary
@@ -50,27 +52,31 @@ class ChatMessageBubbleWidget extends StatelessWidget {
                 ),
               ),
               child: Column(
+                mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     message.content,
                     style: theme.textTheme.bodyMedium?.copyWith(
+                      fontFamily: "Poppins",
+                      fontSize: 11.sp, // text size chhota kiya
                       color: isUser
                           ? theme.colorScheme.onPrimary
                           : message.isError
                           ? theme.colorScheme.error
                           : theme.colorScheme.onSurface,
-                      height: 1.4,
+                      height: 1.2, // pehle 1.4 thi
                     ),
                   ),
-                  SizedBox(height: 0.5.h),
+                  SizedBox(height: 0.3.h), // pehle 0.5.h tha
                   Text(
                     _formatTime(message.timestamp),
                     style: theme.textTheme.bodySmall?.copyWith(
+                      fontFamily: "Poppins",
                       color: isUser
                           ? theme.colorScheme.onPrimary.withValues(alpha: 0.7)
                           : theme.colorScheme.onSurface.withValues(alpha: 0.5),
-                      fontSize: 10.sp,
+                      fontSize: 8.5.sp, // thora chhota
                     ),
                   ),
                 ],
