@@ -47,13 +47,13 @@ class _Page3ChallengeIdentificationState
       'image': 'assets/images/Vector3.png',
     },
     {
-      'id': 'poor_portion',
+      'id': 'busy_schedule',
       'title': 'Nature of my job and daily schedules',
       'sub': 'Busy schedule affecting meal planning',
       'image': 'assets/images/Vector1.png',
     },
     {
-      'id': 'unhealthy',
+      'id': 'lack_consistency',
       'title': 'Lack of consistency',
       'sub': 'Frequent junk or processed food',
       'image': 'assets/images/Vector2.png',
@@ -91,6 +91,7 @@ class _Page3ChallengeIdentificationState
   void _select(int index) {
     setState(() => _selectedIndex = index);
     widget.onDataUpdate('challenge', _challenges[index]['id']);
+    widget.onDataUpdate('challengeTitle', _challenges[index]['title']);
     widget.onNextEnabled(true);
   }
 
@@ -110,12 +111,11 @@ class _Page3ChallengeIdentificationState
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Title
               Text(
                 "What's the biggest challenge\nyou have in reaching your\ngoal?",
                 style: TextStyle(
-                  fontSize: 19.sp,
-                  fontFamily: "Poppins",
+                  fontSize: 16.sp,
+                  fontFamily: "semibold",
                   fontWeight: FontWeight.w700,
                   color: Colors.black,
                   height: 1.3,
@@ -124,24 +124,22 @@ class _Page3ChallengeIdentificationState
 
               SizedBox(height: 1.h),
 
-              // Subtitle
               Text(
-                'Select the challenge that resonates most with you',
+                'Select the challenge that resonates most\nwith you',
                 style: TextStyle(
-                  fontSize: 13.sp,
-                  fontFamily: "Poppins",
+                  fontSize: 11.sp,
+                  fontFamily: "regular",
                   color: Colors.grey[600],
                 ),
               ),
 
               SizedBox(height: 3.h),
 
-              // Challenge Cards
               ...List.generate(_challenges.length, (i) {
                 final c = _challenges[i];
                 final isSelected = _selectedIndex == i;
                 return Padding(
-                  padding: EdgeInsets.only(bottom: 1.5.h),
+                  padding: EdgeInsets.only(bottom: 1.h),
                   child: GestureDetector(
                     onTap: () => _select(i),
                     child: AnimatedContainer(
@@ -175,22 +173,20 @@ class _Page3ChallengeIdentificationState
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                // Card title
                                 Text(
                                   c['title'],
                                   style: TextStyle(
-                                    fontSize: 10.sp,
-                                    fontFamily: "Poppins",
+                                    fontSize: 9.7.sp,
+                                    fontFamily: "medium",
                                     fontWeight: FontWeight.bold,
                                     color: Colors.black87,
                                   ),
                                 ),
-                                // Card subtitle
                                 Text(
                                   c['sub'],
                                   style: TextStyle(
-                                    fontSize: 8.4.sp,
-                                    fontFamily: "Poppins",
+                                    fontSize: 8.sp,
+                                    fontFamily: "light",
                                     color: Colors.grey[500],
                                   ),
                                 ),
@@ -198,7 +194,6 @@ class _Page3ChallengeIdentificationState
                             ),
                           ),
 
-                          // Selection circle
                           AnimatedContainer(
                             duration: const Duration(milliseconds: 200),
                             width: 5.2.w,

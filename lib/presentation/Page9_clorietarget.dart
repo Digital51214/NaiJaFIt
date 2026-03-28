@@ -24,28 +24,29 @@ class _Page7CalorieTargetDisplayState
   late final Animation<Offset> _slide;
   late Animation<int> _calorieAnim;
 
-  bool _macroExpanded   = false;
+  bool _macroExpanded = false;
   bool _summaryExpanded = false;
 
   int get _cals =>
-      widget.onboardingData['dailyCalories'] as int? ?? 2057;
+      widget.onboardingData['dailyCalories'] as int? ?? 2000;
+
   String get _goal =>
-      widget.onboardingData['fitnessGoal'] as String? ?? 'lose_weight';
+      widget.onboardingData['fitnessGoal'] as String? ?? 'maintain_weight';
 
   Map<String, dynamic> get _macros {
     final Map<String, Map<String, double>> ratios = {
-      'lose_weight':     {'protein': 0.30, 'carbs': 0.40, 'fats': 0.30},
-      'gain_weight':     {'protein': 0.35, 'carbs': 0.45, 'fats': 0.20},
+      'lose_weight': {'protein': 0.30, 'carbs': 0.40, 'fats': 0.30},
+      'gain_weight': {'protein': 0.35, 'carbs': 0.45, 'fats': 0.20},
       'maintain_weight': {'protein': 0.25, 'carbs': 0.50, 'fats': 0.25},
     };
-    final r = ratios[_goal] ?? ratios['lose_weight']!;
+    final r = ratios[_goal] ?? ratios['maintain_weight']!;
     return {
-      'protein':    ((_cals * r['protein']!) / 4).round(),
-      'carbs':      ((_cals * r['carbs']!)   / 4).round(),
-      'fats':       ((_cals * r['fats']!)    / 9).round(),
+      'protein': ((_cals * r['protein']!) / 4).round(),
+      'carbs': ((_cals * r['carbs']!) / 4).round(),
+      'fats': ((_cals * r['fats']!) / 9).round(),
       'proteinPct': r['protein']!,
-      'carbsPct':   r['carbs']!,
-      'fatsPct':    r['fats']!,
+      'carbsPct': r['carbs']!,
+      'fatsPct': r['fats']!,
     };
   }
 
@@ -78,15 +79,38 @@ class _Page7CalorieTargetDisplayState
 
   String _fmtGoal(String g) {
     switch (g) {
-      case 'lose_weight':     return 'Lose Weight';
-      case 'gain_weight':     return 'Gain Weight';
-      case 'maintain_weight': return 'Maintain Weight';
-      default:                return g;
+      case 'lose_weight':
+        return 'Lose Weight';
+      case 'gain_weight':
+        return 'Gain Weight';
+      case 'maintain_weight':
+        return 'Maintain Weight';
+      default:
+        return g;
+    }
+  }
+
+  String _fmtActivity(String? a) {
+    switch (a) {
+      case 'sedentary':
+        return 'Sedentary';
+      case 'lightly_active':
+        return 'Lightly Active';
+      case 'moderately_active':
+        return 'Moderately Active';
+      case 'very_active':
+        return 'Very Active';
+      case 'extremely_active':
+        return 'Extremely Active';
+      default:
+        return a ?? 'Not set';
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final data = widget.onboardingData;
+
     return FadeTransition(
       opacity: _fade,
       child: SlideTransition(
@@ -96,12 +120,11 @@ class _Page7CalorieTargetDisplayState
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Title
               Text(
                 'Your Personalized plan',
                 style: TextStyle(
                   fontSize: 16.sp,
-                  fontFamily: "Poppins",
+                  fontFamily: "semibold",
                   fontWeight: FontWeight.w700,
                   color: Colors.black,
                 ),
@@ -109,12 +132,11 @@ class _Page7CalorieTargetDisplayState
 
               SizedBox(height: 0.5.h),
 
-              // Subtitle
               Text(
                 'This is your personalized plan and summary of your target and details',
                 style: TextStyle(
                   fontSize: 11.5.sp,
-                  fontFamily: "Poppins",
+                  fontFamily: "regular",
                   color: Colors.grey[600],
                 ),
               ),
@@ -132,12 +154,11 @@ class _Page7CalorieTargetDisplayState
                   children: [
                     SizedBox(height: 3.h),
 
-                    // Card title
                     Text(
                       'Your Daily Calorie Target',
                       style: TextStyle(
                         fontSize: 11.7.sp,
-                        fontFamily: "Poppins",
+                        fontFamily: "regular",
                         color: Colors.grey[600],
                         fontWeight: FontWeight.w500,
                       ),
@@ -145,14 +166,13 @@ class _Page7CalorieTargetDisplayState
 
                     SizedBox(height: 3.h),
 
-                    // Animated calorie number
                     AnimatedBuilder(
                       animation: _calorieAnim,
                       builder: (_, __) => Text(
                         '${_calorieAnim.value}',
                         style: TextStyle(
                           fontSize: 29.sp,
-                          fontFamily: "Poppins",
+                          fontFamily: "semibold",
                           fontWeight: FontWeight.w800,
                           color: const Color(0xFF2E7D32),
                           height: 1,
@@ -162,12 +182,11 @@ class _Page7CalorieTargetDisplayState
 
                     SizedBox(height: 2.h),
 
-                    // "Calories" label
                     Text(
                       'Calories',
                       style: TextStyle(
                         fontSize: 11.7.sp,
-                        fontFamily: "Poppins",
+                        fontFamily: "medium",
                         color: Colors.grey[600],
                         fontWeight: FontWeight.w500,
                       ),
@@ -229,15 +248,26 @@ class _Page7CalorieTargetDisplayState
                       SizedBox(height: 1.h),
                       _summaryRow(
                         'Timeline',
-                        widget.onboardingData['timeline']?.toString() ??
-                            'Not set',
+                        data['timeline']?.toString() ?? 'Not set',
                       ),
                       SizedBox(height: 1.h),
                       _summaryRow(
                         'Activity Level',
-                        widget.onboardingData['activityLevel']
-                            ?.toString() ??
-                            'Not set',
+                        _fmtActivity(data['activityLevel']?.toString()),
+                      ),
+                      SizedBox(height: 1.h),
+                      _summaryRow(
+                        'Current Weight',
+                        data['currentWeightRaw'] != null
+                            ? '${data['currentWeightRaw']} ${data['currentWeightUnit'] ?? 'KG'}'
+                            : 'Not set',
+                      ),
+                      SizedBox(height: 1.h),
+                      _summaryRow(
+                        'Target Weight',
+                        data['targetWeightRaw'] != null
+                            ? '${data['targetWeightRaw']} ${data['targetWeightUnit'] ?? 'KG'}'
+                            : 'Not set',
                       ),
                       SizedBox(height: 1.h),
                       _summaryRow('Daily Calories', '$_cals kcal'),
@@ -275,12 +305,11 @@ class _Page7CalorieTargetDisplayState
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                // Accordion title
                 Text(
                   title,
                   style: TextStyle(
                     fontSize: 12.sp,
-                    fontFamily: "Poppins",
+                    fontFamily: "semibold",
                     fontWeight: FontWeight.w600,
                     color: const Color(0xFF2E7D32),
                   ),
@@ -302,12 +331,7 @@ class _Page7CalorieTargetDisplayState
     );
   }
 
-  Widget _macroRow(
-      String name,
-      int grams,
-      double pct,
-      Color color,
-      ) {
+  Widget _macroRow(String name, int grams, double pct, Color color) {
     return Row(
       children: [
         SizedBox(
@@ -316,7 +340,7 @@ class _Page7CalorieTargetDisplayState
             name,
             style: TextStyle(
               fontSize: 11.sp,
-              fontFamily: "Poppins",
+              fontFamily: "medium",
               fontWeight: FontWeight.w600,
             ),
           ),
@@ -337,7 +361,7 @@ class _Page7CalorieTargetDisplayState
           '${grams}g',
           style: TextStyle(
             fontSize: 10.sp,
-            fontFamily: "Poppins",
+            fontFamily: "medium",
             color: Colors.grey[600],
           ),
         ),
@@ -353,7 +377,7 @@ class _Page7CalorieTargetDisplayState
           label,
           style: TextStyle(
             fontSize: 11.sp,
-            fontFamily: "Poppins",
+            fontFamily: "medium",
             color: Colors.grey[600],
           ),
         ),
@@ -361,7 +385,7 @@ class _Page7CalorieTargetDisplayState
           value,
           style: TextStyle(
             fontSize: 11.sp,
-            fontFamily: "Poppins",
+            fontFamily: "medium",
             fontWeight: FontWeight.w600,
             color: Colors.black87,
           ),

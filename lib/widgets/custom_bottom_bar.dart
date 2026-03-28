@@ -11,7 +11,7 @@ class CustomBottomBar extends StatelessWidget {
     required this.onTap,
   });
 
-  static const Color _darkGreen = Color(0xFF1B5E20);
+  static const Color _darkGreen = Color(0xFF026F1A);
   static const Color _mediumGreen = Color(0xFF2E7D32);
   static const Color _lightGreen = Color(0xFF81C784);
 
@@ -91,7 +91,7 @@ class CustomBottomBar extends StatelessWidget {
       textStyle: const TextStyle(
         color: Colors.white,
         fontSize: 16,
-        fontFamily: "Poppins",
+        fontFamily: "bold",
         fontWeight: FontWeight.w700,
       ),
     );

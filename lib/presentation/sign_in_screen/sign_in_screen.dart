@@ -293,7 +293,7 @@ class _SignInScreenState extends State<SignInScreen>
                             style: TextStyle(
                               fontSize: 24,
                               fontWeight: FontWeight.w700,
-                              fontFamily: "Poppins",
+                              fontFamily: "semibold",
                               color: Colors.black,
                               height: 1.2,
                             ),
@@ -315,7 +315,7 @@ class _SignInScreenState extends State<SignInScreen>
                             style: TextStyle(
                               fontSize: 12,
                               fontWeight: FontWeight.w400,
-                              fontFamily: "Poppins",
+                              fontFamily: "regular",
                               color: Colors.black87,
                             ),
                           ),
@@ -412,7 +412,7 @@ class _SignInScreenState extends State<SignInScreen>
         keyboardType: TextInputType.emailAddress,
         style: const TextStyle(
           fontSize: 14,
-          fontFamily: "Poppins",
+          fontFamily: "regular",
           color: Colors.black,
         ),
         decoration: InputDecoration(
@@ -420,7 +420,7 @@ class _SignInScreenState extends State<SignInScreen>
           hintStyle: TextStyle(
             color: Colors.grey.shade500,
             fontSize: 10,
-            fontFamily: "Poppins",
+            fontFamily: "regular",
             fontWeight: FontWeight.w400,
           ),
           filled: true,
@@ -484,7 +484,7 @@ class _SignInScreenState extends State<SignInScreen>
         obscureText: !_isPasswordVisible,
         style: const TextStyle(
           fontSize: 14,
-          fontFamily: "Poppins",
+          fontFamily: "regular",
           color: Colors.black,
         ),
         decoration: InputDecoration(
@@ -492,7 +492,7 @@ class _SignInScreenState extends State<SignInScreen>
           hintStyle: TextStyle(
             color: Colors.grey.shade500,
             fontSize: 10,
-            fontFamily: "Poppins",
+            fontFamily: "regular",
             fontWeight: FontWeight.w400,
           ),
           filled: true,
@@ -509,7 +509,7 @@ class _SignInScreenState extends State<SignInScreen>
             },
             icon: Icon(
               _isPasswordVisible ? Icons.visibility_off : Icons.visibility,
-              color: const Color(0xFF0A8A2A),
+              color: const Color(0xFF026F1A),
               size: 22,
             ),
           ),
@@ -593,7 +593,7 @@ class _SignInScreenState extends State<SignInScreen>
                 'Remember Me',
                 style: TextStyle(
                   fontSize: 10,
-                  fontFamily: "Poppins",
+                  fontFamily: "regular",
                   color: Colors.black,
                   fontWeight: FontWeight.w400,
                 ),
@@ -615,11 +615,11 @@ class _SignInScreenState extends State<SignInScreen>
             'Forget Password?',
             style: TextStyle(
               fontSize: 10,
-              fontFamily: "Poppins",
-              color: Color(0xFF0A8A2A),
+              fontFamily: "semibold",
+              color: Color(0xFF026F1A),
               fontWeight: FontWeight.w600,
               decoration: TextDecoration.underline,
-              decorationColor: Color(0xFF0A8A2A),
+              decorationColor: Color(0xFF026F1A),
             ),
           ),
         ),
@@ -632,20 +632,13 @@ class _SignInScreenState extends State<SignInScreen>
       width: double.infinity,
       height: 45,
       child: ElevatedButton(
-        onPressed: _isLoading
-            ? null
-            : () {
-          Navigator.pushAndRemoveUntil(
-            context,
-            MaterialPageRoute(
-              builder: (context) => OnboardingScreen(),
-            ),
-                (Route<dynamic> route) => false,
-          );
-          // _handleSignIn();
-        },
+        // onPressed: _isLoading ? null : _handleSignIn, // ✅ API enabled
+       onPressed: (){
+         Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>OnboardingScreen()),
+           (Route<dynamic>route)=>false);
+       },
         style: ElevatedButton.styleFrom(
-          backgroundColor: const Color(0xFF067C1F),
+          backgroundColor: const Color(0xFF026F1A),
           foregroundColor: Colors.white,
           elevation: 0,
           padding: const EdgeInsets.symmetric(
@@ -681,7 +674,7 @@ class _SignInScreenState extends State<SignInScreen>
             ),
             style: TextStyle(
               fontSize: 14,
-              fontFamily: "Poppins",
+              fontFamily: "bold",
               fontWeight: FontWeight.w700,
               color: Colors.white,
               height: 1.0,
@@ -702,7 +695,7 @@ class _SignInScreenState extends State<SignInScreen>
             "Don't have an account? ",
             style: TextStyle(
               fontSize: 14,
-              fontFamily: "Poppins",
+              fontFamily: "regular",
               color: Colors.black,
               fontWeight: FontWeight.w400,
             ),
@@ -715,7 +708,7 @@ class _SignInScreenState extends State<SignInScreen>
               'Sign Up',
               style: TextStyle(
                 fontSize: 14,
-                fontFamily: "Poppins",
+                fontFamily: "semibold",
                 color: Color(0xFF0A8A2A),
                 fontWeight: FontWeight.w700,
                 decoration: TextDecoration.underline,

@@ -89,7 +89,7 @@ class _WhatNigeriansAreSayingScreenState
   Widget _buildReviewCard(Map<String, dynamic> review) {
     return Container(
       width: double.infinity,
-      margin: EdgeInsets.only(bottom: 1.5.h),
+      margin: EdgeInsets.only(bottom: 1.h),
       padding: EdgeInsets.all(4.w),
       decoration: BoxDecoration(
         color: const Color(0xFFF1F8F1),
@@ -123,7 +123,7 @@ class _WhatNigeriansAreSayingScreenState
                   review['name'],
                   style: TextStyle(
                     fontSize: 11.sp,
-                    fontFamily: "Poppin",
+                    fontFamily: "regular",
                     fontWeight: FontWeight.w600,
                     color: Colors.black87,
                   ),
@@ -141,8 +141,8 @@ class _WhatNigeriansAreSayingScreenState
           Text(
             review['review'],
             style: TextStyle(
-              fontSize: 10.sp,
-              fontFamily: "Poppin",
+              fontSize: 9.sp,
+              fontFamily: "regular",
               color: Colors.black87,
               height: 1.5,
             ),
@@ -200,7 +200,7 @@ class _WhatNigeriansAreSayingScreenState
                           text: TextSpan(
                             style: TextStyle(
                               fontSize: 20.sp,
-                              fontFamily: "Poppin",
+                              fontFamily: "semibold",
                               fontWeight: FontWeight.w700,
                               color: Colors.black,
                               height: 1.3,
@@ -210,7 +210,8 @@ class _WhatNigeriansAreSayingScreenState
                               TextSpan(
                                 text: 'Nigerians',
                                 style: TextStyle(
-                                  color: Color(0xFF2E7D32),
+                                  color: Color(0xFF026F1A),
+                                  fontFamily: "semibold"
                                 ),
                               ),
                               TextSpan(text: ' Are\nSaying'),
@@ -247,17 +248,18 @@ class _WhatNigeriansAreSayingScreenState
                     );
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF2E7D32),
+                    backgroundColor: const Color(0xFF026F1A),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30),
                     ),
+                    padding: EdgeInsets.symmetric(vertical: 2),
                     elevation: 0,
                   ),
                   child: Text(
                     'Continue',
                     style: TextStyle(
-                      fontSize: 12.sp,
-                      fontFamily: "Poppin",
+                      fontSize: 11.sp,
+                      fontFamily: "bold",
                       fontWeight: FontWeight.w600,
                       color: Colors.white,
                     ),

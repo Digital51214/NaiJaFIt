@@ -58,7 +58,7 @@ class ChatMessageBubbleWidget extends StatelessWidget {
                   Text(
                     message.content,
                     style: theme.textTheme.bodyMedium?.copyWith(
-                      fontFamily: "Poppins",
+                      fontFamily: "regular",
                       fontSize: 11.sp, // text size chhota kiya
                       color: isUser
                           ? theme.colorScheme.onPrimary
@@ -72,7 +72,7 @@ class ChatMessageBubbleWidget extends StatelessWidget {
                   Text(
                     _formatTime(message.timestamp),
                     style: theme.textTheme.bodySmall?.copyWith(
-                      fontFamily: "Poppins",
+                      fontFamily: "semibold",
                       color: isUser
                           ? theme.colorScheme.onPrimary.withValues(alpha: 0.7)
                           : theme.colorScheme.onSurface.withValues(alpha: 0.5),

@@ -86,18 +86,19 @@ class _Page3TrackProgressState extends State<Page2GoalsettingPart2>
     widget.onDataUpdate('dailyChart', _dailyChart);
     widget.onDataUpdate('measurementTracking', _measurementTracking);
 
-    final user = AuthService.instance.currentUser;
-    if (user != null) {
-      try {
+    try {
+      final user = AuthService.instance.currentUser;
+      if (user != null) {
         await AuthService.instance.updateUserProfile(
           userId: user.id,
         );
-      } catch (e) {
-        debugPrint('Page3 API error: $e');
       }
+    } catch (e) {
+      debugPrint('Page3 API error: $e');
+    } finally {
+      widget.setLoading(false);
     }
 
-    widget.setLoading(false);
     widget.navigateNext();
   }
 
@@ -115,8 +116,8 @@ class _Page3TrackProgressState extends State<Page2GoalsettingPart2>
               Text(
                 'Track progress',
                 style: TextStyle(
-                  fontSize: 19.sp,
-                  fontFamily: 'Poppins',
+                  fontSize: 17.5.sp,
+                  fontFamily: 'semibold',
                   fontWeight: FontWeight.w700,
                   color: Colors.black,
                   height: 1.25,
@@ -126,8 +127,8 @@ class _Page3TrackProgressState extends State<Page2GoalsettingPart2>
               Text(
                 'Choose how you want to track your\nprogress',
                 style: TextStyle(
-                  fontSize: 12.5.sp,
-                  fontFamily: 'Poppins',
+                  fontSize: 11.5.sp,
+                  fontFamily: 'regular',
                   fontWeight: FontWeight.w400,
                   color: const Color(0xFF6E6E6E),
                   height: 1.55,
@@ -209,11 +210,7 @@ class _Page3TrackProgressState extends State<Page2GoalsettingPart2>
             color: Color(0xFFD7E7CE),
             shape: BoxShape.circle,
           ),
-          child: Icon(
-            icon,
-            size: 7.w,
-            color: const Color(0xFF0B7A22),
-          ),
+          child: Icon(icon, size: 7.w, color: const Color(0xFF026F1A)),
         ),
         SizedBox(width: 4.w),
         Expanded(
@@ -224,8 +221,8 @@ class _Page3TrackProgressState extends State<Page2GoalsettingPart2>
               Text(
                 title,
                 style: TextStyle(
-                  fontSize: 11.sp,
-                  fontFamily: 'Poppins',
+                  fontSize: 10.sp,
+                  fontFamily: 'medium',
                   fontWeight: FontWeight.w600,
                   color: Colors.black,
                 ),
@@ -234,8 +231,8 @@ class _Page3TrackProgressState extends State<Page2GoalsettingPart2>
               Text(
                 subtitle,
                 style: TextStyle(
-                  fontSize: 8.sp,
-                  fontFamily: 'Poppins',
+                  fontSize: 7.sp,
+                  fontFamily: 'regular',
                   fontWeight: FontWeight.w400,
                   color: const Color(0xFF6E6E6E),
                   height: 1.35,
@@ -251,7 +248,7 @@ class _Page3TrackProgressState extends State<Page2GoalsettingPart2>
             value: value,
             onChanged: onChanged,
             activeColor: Colors.white,
-            activeTrackColor: const Color(0xFF0A8A1F),
+            activeTrackColor: const Color(0xFF026F1A),
             inactiveThumbColor: Colors.white,
             inactiveTrackColor: Colors.grey.shade400,
             materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,

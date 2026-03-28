@@ -60,10 +60,10 @@ class NotificationScreen extends StatelessWidget {
                 child: Text(
                   'Notifications',
                   style: TextStyle(
-                    fontSize: 22.sp,
+                    fontSize: 18.sp,
                     fontWeight: FontWeight.w700,
                     color: Colors.black,
-                    fontFamily: 'Poppins',
+                    fontFamily: 'semibold',
                   ),
                 ),
               ),
@@ -109,7 +109,7 @@ class _EmptyState extends StatelessWidget {
         style: TextStyle(
           fontSize: 12.sp,
           color: Colors.grey,
-          fontFamily: "Poppins",
+          fontFamily: "semibold",
         ),
       ),
     );
@@ -162,10 +162,10 @@ class _NotificationCard extends StatelessWidget {
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
-                    fontSize: 13.sp,
+                    fontSize: 10.sp,
                     fontWeight: FontWeight.w700,
                     color: Colors.black,
-                    fontFamily: "Poppins",
+                    fontFamily: "bold",
                   ),
                 ),
                 SizedBox(height: 0.4.h),
@@ -174,10 +174,10 @@ class _NotificationCard extends StatelessWidget {
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
-                    fontSize: 10.sp,
+                    fontSize: 8.sp,
                     fontWeight: FontWeight.w500,
                     color: Colors.black.withOpacity(0.5),
-                    fontFamily: "Poppins",
+                    fontFamily: "bold",
                   ),
                 ),
               ],
@@ -187,8 +187,9 @@ class _NotificationCard extends StatelessWidget {
           SizedBox(width: 2.w),
 
           /// ⏱ TIME + DOT
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Container(
                 width: 1.5.w,
@@ -198,14 +199,14 @@ class _NotificationCard extends StatelessWidget {
                   shape: BoxShape.circle,
                 ),
               ),
-              SizedBox(height: 0.5.h),
+              SizedBox(width: 0.3.h),
               Text(
                 time,
                 style: TextStyle(
-                  fontSize: 9.sp,
+                  fontSize: 8.sp,
                   fontWeight: FontWeight.w500,
                   color: Colors.black.withOpacity(0.4),
-                  fontFamily: "Poppins",
+                  fontFamily: "medium",
                 ),
               ),
             ],

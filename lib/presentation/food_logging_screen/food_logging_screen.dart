@@ -1127,7 +1127,7 @@ class _FoodLoggingScreenState extends State<FoodLoggingScreen> {
                 child: const Text(
                   "Can't see your favorite meal on the list? Use AI Nutrition Coach to get calories details of your food and add it to your list",
                   style: TextStyle(
-                    fontFamily: "Poppins",
+                    fontFamily: "regular",
                     fontSize: 8,
                     height: 1.4,
                     color: Colors.black87,
@@ -1196,8 +1196,8 @@ class _FoodLoggingScreenState extends State<FoodLoggingScreen> {
                   child: Text(
                     'Food Logging',
                     style: TextStyle(
-                      fontFamily: "Poppins",
-                      fontSize: 18,
+                      fontFamily: "semibold",
+                      fontSize: 16.5,
                       fontWeight: FontWeight.w800,
                       color: Colors.black87,
                     ),
@@ -1208,7 +1208,7 @@ class _FoodLoggingScreenState extends State<FoodLoggingScreen> {
                   child: Text(
                     'Log Your Daily Food Intake',
                     style: TextStyle(
-                      fontFamily: "Poppins",
+                      fontFamily: "regular",
                       fontSize: 12,
                       color: Colors.black54,
                       fontWeight: FontWeight.w400,
@@ -1249,7 +1249,7 @@ class _FoodLoggingScreenState extends State<FoodLoggingScreen> {
         decoration: InputDecoration(
           hintText: 'Search...',
           hintStyle: const TextStyle(
-            fontFamily: "Poppins",
+            fontFamily: "regular",
             color: Colors.black38,
             fontSize: 15,
           ),
@@ -1370,9 +1370,9 @@ class _FoodLoggingScreenState extends State<FoodLoggingScreen> {
               child: Text(
                 food['name'] as String,
                 style: const TextStyle(
-                  fontFamily: "Poppins",
+                  fontFamily: "semibold",
                   fontWeight: FontWeight.w900,
-                  fontSize: 13,
+                  fontSize: 12,
                   color: Colors.black87,
                 ),
                 maxLines: 1,
@@ -1408,7 +1408,7 @@ class _FoodLoggingScreenState extends State<FoodLoggingScreen> {
                   child: const Text(
                     'See Portfolio',
                     style: TextStyle(
-                      fontFamily: "Poppins",
+                      fontFamily: "bold",
                       fontSize: 11,
                       fontWeight: FontWeight.w900,
                     ),

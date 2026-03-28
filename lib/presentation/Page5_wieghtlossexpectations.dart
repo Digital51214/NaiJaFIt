@@ -61,8 +61,8 @@ class _Page4WeightLossExpectationsState
               Text(
                 'What to expect with NaijaFit?',
                 style: TextStyle(
-                  fontSize: 18.5.sp,
-                  fontFamily: "Poppins",
+                  fontSize: 16.sp,
+                  fontFamily: "semibold",
                   fontWeight: FontWeight.w700,
                   color: Colors.black,
                   height: 1.25,
@@ -74,8 +74,8 @@ class _Page4WeightLossExpectationsState
               Text(
                 'Evidence-based results from our\ncommunity of successful users. Real data,\nrealistic expectations',
                 style: TextStyle(
-                  fontSize: 11.8.sp,
-                  fontFamily: "Poppins",
+                  fontSize: 10.5.sp,
+                  fontFamily: "regular",
                   color: const Color(0xFF6E6E6E),
                   height: 1.45,
                 ),
@@ -85,7 +85,8 @@ class _Page4WeightLossExpectationsState
 
               Container(
                 width: double.infinity,
-                padding: EdgeInsets.symmetric(horizontal: 4.5.w, vertical: 2.3.h),
+                padding: EdgeInsets.symmetric(
+                    horizontal: 4.5.w, vertical: 2.3.h),
                 decoration: BoxDecoration(
                   color: const Color(0xFFF5F6F3),
                   borderRadius: BorderRadius.circular(4.w),
@@ -97,7 +98,7 @@ class _Page4WeightLossExpectationsState
                       'Success Rates by Weight Goal',
                       style: TextStyle(
                         fontSize: 12.5.sp,
-                        fontFamily: "Poppins",
+                        fontFamily: "medium",
                         fontWeight: FontWeight.w700,
                         color: Colors.black87,
                       ),
@@ -109,7 +110,7 @@ class _Page4WeightLossExpectationsState
                       'Based on 12-16 week programs',
                       style: TextStyle(
                         fontSize: 9.5.sp,
-                        fontFamily: "Poppins",
+                        fontFamily: "regular",
                         color: const Color(0xFF6E6E6E),
                       ),
                     ),
@@ -143,7 +144,7 @@ class _Page4WeightLossExpectationsState
                 'Track Meals and progress',
               ),
 
-              SizedBox(height: 1.4.h),
+              SizedBox(height: 1.h),
 
               _featureCard(
                 Icons.camera_alt_outlined,
@@ -151,7 +152,7 @@ class _Page4WeightLossExpectationsState
                 'Visual Progress Tracking',
               ),
 
-              SizedBox(height: 1.4.h),
+              SizedBox(height: 1.h),
 
               _featureCard(
                 Icons.groups_2_outlined,
@@ -178,18 +179,14 @@ class _Page4WeightLossExpectationsState
       children: [
         Row(
           children: [
-            Icon(
-              icon,
-              color: const Color(0xFF56A61F),
-              size: 5.2.w,
-            ),
+            Icon(icon, color: const Color(0xFF56A61F), size: 5.2.w),
             SizedBox(width: 2.3.w),
             Expanded(
               child: Text(
                 label,
                 style: TextStyle(
                   fontSize: 10.3.sp,
-                  fontFamily: "Poppins",
+                  fontFamily: "medium",
                   fontWeight: FontWeight.w600,
                   color: Colors.black,
                 ),
@@ -198,8 +195,8 @@ class _Page4WeightLossExpectationsState
             Text(
               duration,
               style: TextStyle(
-                fontSize: 8.3.sp,
-                fontFamily: "Poppins",
+                fontSize: 8.2.sp,
+                fontFamily: "regular",
                 color: const Color(0xFF7A7A7A),
               ),
             ),
@@ -221,21 +218,14 @@ class _Page4WeightLossExpectationsState
     );
   }
 
-  Widget _featureCard(
-      IconData icon,
-      String title,
-      String sub,
-      ) {
+  Widget _featureCard(IconData icon, String title, String sub) {
     return Container(
       width: double.infinity,
       padding: EdgeInsets.symmetric(horizontal: 4.2.w, vertical: 2.1.h),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(7.w),
-        border: Border.all(
-          width: 1,
-          color: const Color(0xFFE3E3E3),
-        ),
+        border: Border.all(width: 1, color: const Color(0xFFE3E3E3)),
       ),
       child: Row(
         children: [
@@ -246,11 +236,7 @@ class _Page4WeightLossExpectationsState
               color: Color(0xFFE1ECD7),
               shape: BoxShape.circle,
             ),
-            child: Icon(
-              icon,
-              color: const Color(0xFF56A61F),
-              size: 6.5.w,
-            ),
+            child: Icon(icon, color: const Color(0xFF56A61F), size: 6.5.w),
           ),
           SizedBox(width: 4.w),
           Expanded(
@@ -260,8 +246,8 @@ class _Page4WeightLossExpectationsState
                 Text(
                   title,
                   style: TextStyle(
-                    fontSize: 12.8.sp,
-                    fontFamily: "Poppins",
+                    fontSize: 12.5.sp,
+                    fontFamily: "medium",
                     fontWeight: FontWeight.w700,
                     color: Colors.black87,
                   ),
@@ -270,8 +256,8 @@ class _Page4WeightLossExpectationsState
                 Text(
                   sub,
                   style: TextStyle(
-                    fontSize: 9.2.sp,
-                    fontFamily: "Poppins",
+                    fontSize: 9.sp,
+                    fontFamily: "medium",
                     color: const Color(0xFF8A8A8A),
                   ),
                 ),

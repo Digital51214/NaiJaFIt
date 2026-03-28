@@ -152,7 +152,7 @@ class _HomescreenState extends State<Homescreen>
                                 return Text(
                                   'NaijaFit',
                                   style: TextStyle(
-                                    fontFamily: "Poppins",
+                                    fontFamily: "bold",
                                     fontSize: 18.sp,
                                     fontWeight: FontWeight.bold,
                                     color: theme.colorScheme.primary,
@@ -175,7 +175,7 @@ class _HomescreenState extends State<Homescreen>
                                 ),
                                 child: Icon(
                                   Icons.notifications_outlined,
-                                  color: theme.colorScheme.primary,
+                                  color: Color(0xFF026F1A),
                                   size: 22,
                                 ),
                               ),
@@ -196,8 +196,8 @@ class _HomescreenState extends State<Homescreen>
                             Text(
                               'Welcome to NaijaFit',
                               style: TextStyle(
-                                fontFamily: "Poppins",
-                                fontSize: 22.sp,
+                                fontFamily: "semibold",
+                                fontSize: 17.sp,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.black87,
                               ),
@@ -206,8 +206,8 @@ class _HomescreenState extends State<Homescreen>
                             Text(
                               'Track your favorite Nigerian meals with accurate nutrition data. No more guessing,\nno more generic food databases.',
                               style: TextStyle(
-                                fontFamily: "Poppins",
-                                fontSize: 12.sp,
+                                fontFamily: "regular",
+                                fontSize: 11.sp,
                                 fontWeight: FontWeight.w400,
                                 color: Colors.black54,
                                 height: 1.5,
@@ -267,7 +267,7 @@ class _HomescreenState extends State<Homescreen>
                                   .pushNamed('/food-logging-screen');
                             },
                             style: ElevatedButton.styleFrom(
-                                backgroundColor: const Color(0xFF2E7D32),
+                                backgroundColor: const Color(0xFF026F1A),
                                 foregroundColor: Colors.white,
                                 elevation: 0,
                                 shape: RoundedRectangleBorder(
@@ -281,8 +281,8 @@ class _HomescreenState extends State<Homescreen>
                             child: Text(
                               'Start Your Journey',
                               style: TextStyle(
-                                fontFamily: "Poppins",
-                                fontSize: 12.sp,
+                                fontFamily: "bold",
+                                fontSize: 11.6.sp,
                                 fontWeight: FontWeight.w600,
                                 letterSpacing: 0.3,
                               ),

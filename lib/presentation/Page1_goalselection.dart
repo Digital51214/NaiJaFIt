@@ -26,7 +26,6 @@ class _Page1GoalSelectionState extends State<Page1GoalSelection>
     with SingleTickerProviderStateMixin {
   String? _selectedGoal;
 
-  /// Goal Options
   final List<Map<String, dynamic>> _goalOptions = const [
     {
       'id': 'lose_weight',
@@ -68,7 +67,6 @@ class _Page1GoalSelectionState extends State<Page1GoalSelection>
       curve: Curves.easeOut,
     ).drive(Tween(begin: const Offset(0, 0.06), end: Offset.zero));
 
-    /// Register Next button callback
     widget.registerNextCallback(_handleNext);
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -82,15 +80,12 @@ class _Page1GoalSelectionState extends State<Page1GoalSelection>
     super.dispose();
   }
 
-  /// Select Goal
   void _selectGoal(String id) {
     setState(() => _selectedGoal = id);
-
     widget.onDataUpdate('fitnessGoal', id);
     widget.onNextEnabled(true);
   }
 
-  /// Handle Next Button
   Future<void> _handleNext() async {
     if (_selectedGoal == null) return;
 
@@ -98,7 +93,6 @@ class _Page1GoalSelectionState extends State<Page1GoalSelection>
 
     try {
       final user = AuthService.instance.currentUser;
-
       if (user != null) {
         await AuthService.instance.updateUserProfile(
           userId: user.id,
@@ -107,9 +101,10 @@ class _Page1GoalSelectionState extends State<Page1GoalSelection>
       }
     } catch (e) {
       debugPrint('Page1GoalSelection Error: $e');
+    } finally {
+      widget.setLoading(false);
     }
 
-    widget.setLoading(false);
     widget.navigateNext();
   }
 
@@ -124,26 +119,24 @@ class _Page1GoalSelectionState extends State<Page1GoalSelection>
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              /// Title
               Text(
                 'What goals do you want to\nachieve?',
                 style: TextStyle(
-                  fontSize: 19.sp,
-                  fontFamily: 'Poppins',
+                  fontSize: 17.sp,
+                  fontFamily: 'semibold',
                   fontWeight: FontWeight.w700,
                   color: Colors.black,
                   height: 1.28,
                 ),
               ),
 
-              SizedBox(height: 1.4.h),
+              SizedBox(height: 1.3.h),
 
-              /// Subtitle
               Text(
                 'This helps Naijafit to generate a plan for your calorie intake',
                 style: TextStyle(
-                  fontSize: 12.2.sp,
-                  fontFamily: 'Poppins',
+                  fontSize: 11.7.sp,
+                  fontFamily: 'regular',
                   fontWeight: FontWeight.w400,
                   color: const Color(0xFF6E6E6E),
                   height: 1.55,
@@ -152,7 +145,6 @@ class _Page1GoalSelectionState extends State<Page1GoalSelection>
 
               SizedBox(height: 3.2.h),
 
-              /// Goal Cards
               ..._goalOptions.map((goal) {
                 final bool isSelected = _selectedGoal == goal['id'];
 
@@ -175,24 +167,23 @@ class _Page1GoalSelectionState extends State<Page1GoalSelection>
                         borderRadius: BorderRadius.circular(6.w),
                         border: Border.all(
                           color: isSelected
-                              ? const Color(0xFF56B327)
+                              ? const Color(0xff47A312)
                               : const Color(0xFFD2D2D2),
                           width: isSelected ? 1.5 : 1.2,
                         ),
                       ),
                       child: Row(
                         children: [
-                          /// Icon
                           Container(
-                            width: 15.w,
-                            height: 15.w,
+                            width: 13.w,
+                            height: 13.w,
                             decoration: const BoxDecoration(
                               color: Color(0xFFDCE8D5),
                               shape: BoxShape.circle,
                             ),
                             child: Icon(
                               goal['icon'] as IconData,
-                              size: 7.w,
+                              size: 6.w,
                               color: isSelected
                                   ? const Color(0xFF0B7A22)
                                   : Colors.black,
@@ -201,29 +192,27 @@ class _Page1GoalSelectionState extends State<Page1GoalSelection>
 
                           SizedBox(width: 4.5.w),
 
-                          /// Title
                           Expanded(
                             child: Text(
                               goal['title'],
                               style: TextStyle(
-                                fontSize: 15.5.sp,
-                                fontFamily: 'Poppins',
+                                fontSize: 13.sp,
+                                fontFamily: 'medium',
                                 fontWeight: FontWeight.w600,
                                 color: Colors.black,
                               ),
                             ),
                           ),
 
-                          /// Select Label
                           Text(
                             isSelected ? 'Selected' : 'Select',
                             style: TextStyle(
-                              fontSize: 11.5.sp,
-                              fontFamily: 'Poppins',
+                              fontSize: 11.sp,
+                              fontFamily: 'medium',
                               fontWeight: isSelected
                                   ? FontWeight.w600
                                   : FontWeight.w500,
-                              color: const Color(0xFF56B327),
+                              color: const Color(0xff47A312),
                             ),
                           ),
                         ],

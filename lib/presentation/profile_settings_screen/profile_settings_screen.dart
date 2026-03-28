@@ -253,7 +253,7 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
                             ? _nameController.text
                             : 'Henry wick',
                         style: TextStyle(
-                          fontFamily: "Poppins",
+                          fontFamily: "bold",
                           fontSize: 13.sp,
                           fontWeight: FontWeight.w800,
                           color: Colors.black,
@@ -266,7 +266,7 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
                             ? _emailController.text
                             : 'Exmple@mail.com',
                         style: TextStyle(
-                          fontFamily: "Poppins",
+                          fontFamily: "semibold",
                           fontSize: 11.sp,
                           fontWeight: FontWeight.w600,
                           color: const Color(0xFF9A9A9A),
@@ -288,14 +288,14 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
                           label: Text(
                             'Edit Profile',
                             style: TextStyle(
-                              fontFamily: "Poppins",
+                              fontFamily: "bold",
                               fontSize: 10.sp,
                               fontWeight: FontWeight.w900,
                               color: Colors.white,
                             ),
                           ),
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: const Color(0xFF067A16),
+                            backgroundColor: const Color(0xFF026F1A),
                             elevation: 0,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(40),
@@ -346,7 +346,7 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
                         child: Text(
                           'Privacy Policy',
                           style: TextStyle(
-                            fontFamily: "Poppins",
+                            fontFamily: "semibold",
                             fontSize: 12.sp,
                             fontWeight: FontWeight.w500,
                             color: Colors.grey.shade700,
@@ -401,8 +401,8 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
                 child: Text(
                   title,
                   style: TextStyle(
-                    fontFamily: "Poppins",
-                    fontSize: 12.sp,
+                    fontFamily: "bold",
+                    fontSize: 11.5.sp,
                     fontWeight: FontWeight.w700,
                     color: const Color(0xFF7D7D7D),
                   ),
@@ -451,7 +451,7 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
             Text(
               'Logout',
               style: TextStyle(
-                fontFamily: "Poppins",
+                fontFamily: "bold",
                 fontSize: 10.sp,
                 fontWeight: FontWeight.w700,
                 color: const Color(0xFFC62828),

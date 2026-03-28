@@ -24,6 +24,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   int _currentPage = 0;
   final int _totalPages = 9;
 
+  /// Shared data map - passes through all pages
   final Map<String, dynamic> _onboardingData = {};
 
   bool _isNextEnabled = false;
@@ -46,7 +47,13 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         curve: Curves.easeInOut,
       );
     } else {
-      Navigator.push(context, MaterialPageRoute(builder: (context)=>WhatNigeriansAreSayingScreen()));
+      // Last page done - go to NigeriansAreSaying screen
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => WhatNigeriansAreSayingScreen(),
+        ),
+      );
     }
   }
 
@@ -66,7 +73,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       _currentPage = index;
       _pageNextCallback = null;
 
-      // Sirf Page 5 auto enabled rahega
+      // Page 5 (WeightLossExpectations) and Page 9 (CalorieTarget) are auto-enabled
       if (_currentPage == 4 || _currentPage == 8) {
         _isNextEnabled = true;
       } else {
@@ -96,8 +103,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   }
 
   bool get _isFinalPage => _currentPage == _totalPages - 1;
-
-  // Sirf Page 5 auto enabled, baaki pages apni condition se enable honge
   bool get _nextActive => _currentPage == 4 || _isNextEnabled;
 
   @override
@@ -113,15 +118,14 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       body: SafeArea(
         child: Column(
           children: [
+            // ─── Header ───────────────────────────────────────────────
             Padding(
               padding: EdgeInsets.fromLTRB(5.w, 4.h, 5.w, 0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   CustomBackButton(
-                    onTap: () {
-                      _goToPreviousPage();
-                    },
+                    onTap: _goToPreviousPage,
                   ),
                   Image.asset(
                     'assets/images/LOGO.png',
@@ -135,6 +139,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
             SizedBox(height: 1.5.h),
 
+            // ─── Step Indicator ───────────────────────────────────────
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 5.w),
               child: Column(
@@ -144,7 +149,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     'Step ${_currentPage + 1} of $_totalPages',
                     style: TextStyle(
                       fontSize: 13.5.sp,
-                      fontFamily: "Poppins",
+                      fontFamily: "medium",
                       color: Colors.grey[600],
                       fontWeight: FontWeight.w500,
                     ),
@@ -162,7 +167,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                           height: 4,
                           decoration: BoxDecoration(
                             color: index <= _currentPage
-                                ? const Color(0xFF2E7D32)
+                                ? const Color(0xFF026F1A)
                                 : Colors.grey[200],
                             borderRadius: BorderRadius.circular(2),
                           ),
@@ -176,12 +181,14 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
             SizedBox(height: 1.5.h),
 
+            // ─── Pages ────────────────────────────────────────────────
             Expanded(
               child: PageView(
                 controller: _pageController,
                 physics: const NeverScrollableScrollPhysics(),
                 onPageChanged: _onPageChanged,
                 children: [
+                  // Page 1: Goal Selection
                   Page1GoalSelection(
                     onNextEnabled: _updateNextEnabled,
                     onDataUpdate: _updateData,
@@ -189,6 +196,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     setLoading: _setLoading,
                     navigateNext: _navigateNext,
                   ),
+
+                  // Page 2: Goal Setting Details (weight + timeline)
                   Page2GoalSettingDetails(
                     onNextEnabled: _updateNextEnabled,
                     onDataUpdate: _updateData,
@@ -196,6 +205,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     setLoading: _setLoading,
                     navigateNext: _navigateNext,
                   ),
+
+                  // Page 3: Track Progress (3 switches)
                   Page2GoalsettingPart2(
                     onNextEnabled: _updateNextEnabled,
                     onDataUpdate: _updateData,
@@ -203,6 +214,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     setLoading: _setLoading,
                     navigateNext: _navigateNext,
                   ),
+
+                  // Page 4: Challenge Identification
                   Page3ChallengeIdentification(
                     onNextEnabled: _updateNextEnabled,
                     onDataUpdate: _updateData,
@@ -210,10 +223,14 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     setLoading: _setLoading,
                     navigateNext: _navigateNext,
                   ),
+
+                  // Page 5: Weight Loss Expectations (auto next enabled)
                   Page4WeightLossExpectations(
                     onNextEnabled: _updateNextEnabled,
                     onDataUpdate: _updateData,
                   ),
+
+                  // Page 6: Professional Support
                   Page5ProfessionalSupport(
                     onNextEnabled: _updateNextEnabled,
                     onDataUpdate: _updateData,
@@ -221,6 +238,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     setLoading: _setLoading,
                     navigateNext: _navigateNext,
                   ),
+
+                  // Page 7: Personal Stats (age, height, gender)
                   Page6PersonalStats(
                     onNextEnabled: _updateNextEnabled,
                     onDataUpdate: _updateData,
@@ -228,21 +247,27 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     setLoading: _setLoading,
                     navigateNext: _navigateNext,
                   ),
+
+                  // Page 8: Activity Level + Calorie Calculation
                   Page8ActivityLevel(
                     onNextEnabled: _updateNextEnabled,
                     onDataUpdate: _updateData,
                     registerNextCallback: _registerNextCallback,
                     setLoading: _setLoading,
                     navigateNext: _navigateNext,
+                    onboardingData: _onboardingData, // ✅ Pass full data for BMR calc
                   ),
+
+                  // Page 9: Calorie Target Display (auto next enabled)
                   Page7CalorieTargetDisplay(
-                    onboardingData: _onboardingData,
+                    onboardingData: _onboardingData, // ✅ Pass full data for display
                     onNextEnabled: _updateNextEnabled,
                   ),
                 ],
               ),
             ),
 
+            // ─── Next Button ──────────────────────────────────────────
             Padding(
               padding: EdgeInsets.fromLTRB(5.w, 1.h, 5.w, 3.h),
               child: SizedBox(
@@ -251,7 +276,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 child: ElevatedButton(
                   onPressed: _nextActive && !_isLoading ? _goToNextPage : null,
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF2E7D32),
+                    backgroundColor: const Color(0xFF026F1A),
                     padding: const EdgeInsets.symmetric(
                       vertical: 0,
                       horizontal: 0,
@@ -275,7 +300,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     _isFinalPage ? 'Get Started!' : 'Next',
                     style: TextStyle(
                       fontSize: 11.5.sp,
-                      fontFamily: "Poppins",
+                      fontFamily: "bold",
                       fontWeight: FontWeight.w600,
                       color: _nextActive
                           ? Colors.white

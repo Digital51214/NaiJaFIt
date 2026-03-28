@@ -287,7 +287,7 @@ class _AiNutritionChatScreenState extends State<AiNutritionChatScreen>
           SnackBar(
             content: Text(
               'Image selected: ${image.name}',
-              style: const TextStyle(fontFamily: "Poppins"),
+              style: const TextStyle(fontFamily: "semibold"),
             ),
             backgroundColor: Theme.of(context).colorScheme.primary,
             behavior: SnackBarBehavior.floating,
@@ -456,7 +456,7 @@ class _AiNutritionChatScreenState extends State<AiNutritionChatScreen>
           Text(
             label,
             style: TextStyle(
-              fontFamily: "Poppins",
+              fontFamily: "bold",
               fontSize: 9.sp,
               color: theme.colorScheme.onSurface.withValues(alpha: 0.75),
               fontWeight: FontWeight.w500,
@@ -484,7 +484,7 @@ class _AiNutritionChatScreenState extends State<AiNutritionChatScreen>
           SnackBar(
             content: Text(
               'Document: ${file.name}',
-              style: const TextStyle(fontFamily: "Poppins"),
+              style: const TextStyle(fontFamily: "bold"),
             ),
             backgroundColor: Theme.of(context).colorScheme.primary,
             behavior: SnackBarBehavior.floating,
@@ -507,7 +507,7 @@ class _AiNutritionChatScreenState extends State<AiNutritionChatScreen>
           SnackBar(
             content: const Text(
               'Photo captured!',
-              style: TextStyle(fontFamily: "Poppins"),
+              style: TextStyle(fontFamily: "bold"),
             ),
             backgroundColor: Theme.of(context).colorScheme.primary,
             behavior: SnackBarBehavior.floating,
@@ -525,7 +525,7 @@ class _AiNutritionChatScreenState extends State<AiNutritionChatScreen>
         SnackBar(
           content: const Text(
             'Contact sharing coming soon!',
-            style: TextStyle(fontFamily: "Poppins"),
+            style: TextStyle(fontFamily: "bold"),
           ),
           backgroundColor: Theme.of(context).colorScheme.primary,
           behavior: SnackBarBehavior.floating,
@@ -545,7 +545,7 @@ class _AiNutritionChatScreenState extends State<AiNutritionChatScreen>
           SnackBar(
             content: Text(
               'Audio: ${file.name}',
-              style: const TextStyle(fontFamily: "Poppins"),
+              style: const TextStyle(fontFamily: "bold"),
             ),
             backgroundColor: Theme.of(context).colorScheme.primary,
             behavior: SnackBarBehavior.floating,
@@ -563,16 +563,16 @@ class _AiNutritionChatScreenState extends State<AiNutritionChatScreen>
       context: context,
       builder: (context) => AlertDialog(
         title: Text(
-          'Create Poll',
+          'Create Pol',
           style: TextStyle(
-            fontFamily: "Poppins",
+            fontFamily: "bold",
             color: theme.colorScheme.primary,
             fontWeight: FontWeight.bold,
           ),
         ),
         content: const Text(
           'Poll feature coming soon!',
-          style: TextStyle(fontFamily: "Poppins"),
+          style: TextStyle(fontFamily: "semibold"),
         ),
         actions: [
           TextButton(
@@ -580,7 +580,7 @@ class _AiNutritionChatScreenState extends State<AiNutritionChatScreen>
             child: Text(
               'OK',
               style: TextStyle(
-                fontFamily: "Poppins",
+                fontFamily: "bold",
                 color: theme.colorScheme.primary,
               ),
             ),
@@ -598,14 +598,14 @@ class _AiNutritionChatScreenState extends State<AiNutritionChatScreen>
         title: Text(
           'Create Event',
           style: TextStyle(
-            fontFamily: "Poppins",
+            fontFamily: "bold",
             color: theme.colorScheme.primary,
             fontWeight: FontWeight.bold,
           ),
         ),
         content: const Text(
           'Event scheduling coming soon!',
-          style: TextStyle(fontFamily: "Poppins"),
+          style: TextStyle(fontFamily: "semibold"),
         ),
         actions: [
           TextButton(
@@ -613,7 +613,7 @@ class _AiNutritionChatScreenState extends State<AiNutritionChatScreen>
             child: Text(
               'OK',
               style: TextStyle(
-                fontFamily: "Poppins",
+                fontFamily: "bold",
                 color: theme.colorScheme.primary,
               ),
             ),
@@ -631,14 +631,14 @@ class _AiNutritionChatScreenState extends State<AiNutritionChatScreen>
         title: Text(
           'AI Image',
           style: TextStyle(
-            fontFamily: "Poppins",
+            fontFamily: "bold",
             color: theme.colorScheme.primary,
             fontWeight: FontWeight.bold,
           ),
         ),
         content: const Text(
           'AI image generation coming soon!',
-          style: TextStyle(fontFamily: "Poppins"),
+          style: TextStyle(fontFamily: "semibold"),
         ),
         actions: [
           TextButton(
@@ -646,7 +646,7 @@ class _AiNutritionChatScreenState extends State<AiNutritionChatScreen>
             child: Text(
               'OK',
               style: TextStyle(
-                fontFamily: "Poppins",
+                fontFamily: "bold",
                 color: theme.colorScheme.primary,
               ),
             ),
@@ -779,7 +779,7 @@ class _AiNutritionChatScreenState extends State<AiNutritionChatScreen>
                       Text(
                         'Start a conversation',
                         style: theme.textTheme.titleMedium?.copyWith(
-                          fontFamily: "Poppins",
+                          fontFamily: "bold",
                           color: theme.colorScheme.onSurface
                               .withValues(alpha: 0.6),
                         ),
@@ -843,7 +843,7 @@ class _AiNutritionChatScreenState extends State<AiNutritionChatScreen>
                                     message.content,
                                     style: theme.textTheme.bodyMedium
                                         ?.copyWith(
-                                      fontFamily: "Poppins",
+                                      fontFamily: "regular",
                                       color: message.isError
                                           ? theme.colorScheme.error
                                           : theme.colorScheme.onSurface,
@@ -855,7 +855,7 @@ class _AiNutritionChatScreenState extends State<AiNutritionChatScreen>
                                     _formatTime(message.timestamp),
                                     style: theme.textTheme.bodySmall
                                         ?.copyWith(
-                                      fontFamily: "Poppins",
+                                      fontFamily: "medium",
                                       color: theme.colorScheme.onSurface
                                           .withValues(alpha: 0.5),
                                       fontSize: 10.sp,
@@ -894,7 +894,7 @@ class _AiNutritionChatScreenState extends State<AiNutritionChatScreen>
                     Text(
                       'AI is thinking...',
                       style: theme.textTheme.bodySmall?.copyWith(
-                        fontFamily: "Poppins",
+                        fontFamily: "medium",
                         color:
                         theme.colorScheme.onSurface.withValues(alpha: 0.6),
                       ),
@@ -912,10 +912,7 @@ class _AiNutritionChatScreenState extends State<AiNutritionChatScreen>
               slide: _inputSlide,
               fade: _inputFade,
               child: Container(
-                padding: EdgeInsets.symmetric(
-                  horizontal: 4.w,
-                  vertical: 1.5.h,
-                ),
+                padding: EdgeInsets.only(top: 1.5.h,bottom: 4.h,right: 2.h,left: 2.h),
                 decoration: BoxDecoration(
                   color: theme.colorScheme.primary.withValues(alpha: 0.10),
                 ),
@@ -937,11 +934,12 @@ class _AiNutritionChatScreenState extends State<AiNutritionChatScreen>
                     // ── TextField with 📎 inside ──
                     Expanded(
                       child: Container(
+                        height: 36,
                         padding: EdgeInsets.symmetric(
                             horizontal: 3.w, vertical: 0),
                         decoration: BoxDecoration(
                           color: theme.colorScheme.surface,
-                          borderRadius: BorderRadius.circular(24),
+                          borderRadius: BorderRadius.circular(5),
                         ),
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
@@ -955,13 +953,13 @@ class _AiNutritionChatScreenState extends State<AiNutritionChatScreen>
                                 onSubmitted:
                                 !_isLoading ? _sendMessage : null,
                                 style: theme.textTheme.bodyMedium?.copyWith(
-                                  fontFamily: "Poppins",
+                                  fontFamily: "regular",
                                 ),
                                 decoration: InputDecoration(
                                   hintText: 'Search...',
                                   hintStyle:
                                   theme.textTheme.bodyMedium?.copyWith(
-                                    fontFamily: "Poppins",
+                                    fontFamily: "regular",
                                     color: theme.colorScheme.onSurface
                                         .withValues(alpha: 0.4),
                                   ),

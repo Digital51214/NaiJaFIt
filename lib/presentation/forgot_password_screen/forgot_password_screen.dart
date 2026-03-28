@@ -272,7 +272,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen>
                     'Forget Password',
                     style: TextStyle(
                       fontSize: 20,
-                      fontFamily: "Poppins",
+                      fontFamily: "semibold",
                       fontWeight: FontWeight.w700,
                       color: Colors.black,
                       height: 1.1,
@@ -319,7 +319,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen>
               'Verify Your Identity',
               style: TextStyle(
                 fontSize: 24,
-                fontFamily: "Poppins",
+                fontFamily: "bold",
                 fontWeight: FontWeight.bold,
                 color: Colors.black,
               ),
@@ -332,7 +332,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen>
               'Enter email to find your account',
               style: TextStyle(
                 fontSize: 14,
-                fontFamily: "Poppins",
+                fontFamily: "regular",
                 color: Colors.black54,
                 fontWeight: FontWeight.w400,
               ),
@@ -350,14 +350,14 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen>
                 keyboardType: TextInputType.emailAddress,
                 style: TextStyle(
                   fontSize: 12.sp,
-                  fontFamily: "Poppins",
+                  fontFamily: "regular",
                 ),
                 decoration: InputDecoration(
                   hintText: 'Email Address',
                   hintStyle: TextStyle(
                     color: Colors.grey,
                     fontSize: 10,
-                    fontFamily: "Poppins",
+                    fontFamily: "regular",
                   ),
                   filled: true,
                   fillColor: Colors.transparent,
@@ -402,16 +402,12 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen>
               width: double.infinity,
               height: 45,
               child: ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => VerifyScreen(),
-                    ),
-                  );
+                // onPressed: _isLoading ? null : _handleResetPassword, // ✅ API enabled
+                onPressed: (){
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=>VerifyScreen()));
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF067C1F),
+                  backgroundColor: const Color(0xFF026F1A),
                   foregroundColor: Colors.white,
                   elevation: 0,
                   padding: const EdgeInsets.symmetric(
@@ -440,7 +436,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen>
                   'Send Code',
                   style: TextStyle(
                     fontSize: 14,
-                    fontFamily: "Poppins",
+                    fontFamily: "bold",
                     fontWeight: FontWeight.w700,
                     color: Colors.white,
                   ),
@@ -485,7 +481,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen>
                 'Check Your Email',
                 style: TextStyle(
                   fontSize: 18.sp,
-                  fontFamily: "Poppins",
+                  fontFamily: "bold",
                   fontWeight: FontWeight.w800,
                   color: theme.colorScheme.onSurface,
                 ),
@@ -496,7 +492,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen>
                 'We\'ve sent password reset instructions to',
                 style: TextStyle(
                   fontSize: 11.sp,
-                  fontFamily: "Poppins",
+                  fontFamily: "semibold",
                   color: theme.colorScheme.onSurfaceVariant,
                 ),
                 textAlign: TextAlign.center,
@@ -506,7 +502,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen>
                 _emailController.text.trim(),
                 style: TextStyle(
                   fontSize: 11.5.sp,
-                  fontFamily: "Poppins",
+                  fontFamily: "regular",
                   color: theme.colorScheme.primary,
                   fontWeight: FontWeight.w600,
                 ),
@@ -535,7 +531,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen>
                 'Back to Sign In',
                 style: TextStyle(
                   fontSize: 13.5.sp,
-                  fontFamily: "Poppins",
+                  fontFamily: "semibold",
                   fontWeight: FontWeight.w700,
                 ),
               ),

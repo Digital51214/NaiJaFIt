@@ -72,7 +72,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 Text(
                   'Select Image Source',
                   style: TextStyle(
-                    fontFamily: "Poppins",
+                    fontFamily: "bold",
                     fontSize: 17.sp,
                     fontWeight: FontWeight.w700,
                     color: Colors.black,
@@ -139,7 +139,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
           Text(
             label,
             style: TextStyle(
-              fontFamily: "Poppins",
+              fontFamily: "semibold",
               fontSize: 11.sp,
               fontWeight: FontWeight.w500,
             ),
@@ -254,7 +254,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         child: Text(
                           'Edit Profile',
                           style: TextStyle(
-                            fontFamily: "Poppins",
+                            fontFamily: "semibold",
                             fontSize: 16.sp,
                             fontWeight: FontWeight.w800,
                             color: Colors.black,
@@ -309,7 +309,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                   height: 9.8.w,
                                   decoration: const BoxDecoration(
                                     shape: BoxShape.circle,
-                                    color: Color(0xFF067A16),
+                                    color: Color(0xFF026F1A),
                                   ),
                                   child: const Icon(
                                     Icons.camera_alt,
@@ -354,7 +354,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           child: ElevatedButton(
                             onPressed: _isSaving ? null : _updateProfile,
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: const Color(0xFF067A16),
+                              backgroundColor: const Color(0xFF026F1A),
                               elevation: 0,
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(40),
@@ -373,7 +373,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                 : Text(
                               'Update',
                               style: TextStyle(
-                                fontFamily: "Poppins",
+                                fontFamily: "bold",
                                 fontSize: 10.sp,
                                 fontWeight: FontWeight.w700,
                                 color: Colors.white,
@@ -410,7 +410,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
           fontSize: 11.sp,
           fontWeight: FontWeight.w400,
           color: Colors.black,
-          fontFamily: "Poppins",
+          fontFamily: "regular",
         ),
         decoration: InputDecoration(
           hintText: hintText,
@@ -418,7 +418,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             color: const Color(0xFF9A9A9A),
             fontSize: 10.5.sp,
             fontWeight: FontWeight.w400,
-            fontFamily: "Poppins",
+            fontFamily: "regular",
           ),
           filled: true,
           fillColor: const Color(0xFFF7F7F7),

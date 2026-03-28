@@ -113,7 +113,7 @@ class _PrivacyPolicyState extends State<PrivacyPolicy>
       text,
       style: const TextStyle(
         fontSize: 13,
-        fontFamily: "Poppins",
+        fontFamily: "medium",
         height: 1.55,
         fontWeight: FontWeight.w400,
         color: Color(0xFF2B2B2B),
@@ -169,7 +169,7 @@ class _PrivacyPolicyState extends State<PrivacyPolicy>
                         child: Text(
                           "Privacy Policy",
                           style: TextStyle(
-                            fontFamily: "Poppins",
+                            fontFamily: "semibold",
                             fontWeight: FontWeight.bold,
                             fontSize: 20,
                             color: Colors.black,

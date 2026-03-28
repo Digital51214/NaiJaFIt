@@ -200,17 +200,18 @@ class _AiCoachIntroScreenState extends State<AiCoachIntroScreen>
                       style: theme.textTheme.headlineSmall?.copyWith(
                         fontWeight: FontWeight.bold,
                         color: theme.colorScheme.onSurface,
-                        fontFamily: "Poppins",
+                        fontFamily: "semibold",
                       ),
                       textAlign: TextAlign.center,
                     ),
                     SizedBox(height: 1.5.h),
                     Text(
-                      'Say hello to your AI Nutrition Coach for additional insights on your favourite Nigerian cuisines and meals',
+                      'Say hello to your AI Nutrition Coach for\nadditional insights on your favourite Nigerian\ncuisines and meals',
                       style: theme.textTheme.bodyMedium?.copyWith(
                         color: theme.colorScheme.onSurface.withValues(alpha: 0.6),
                         height: 1.5,
-                        fontFamily: "Poppins",
+                        fontSize: 11.sp,
+                        fontFamily: "regular",
                       ),
                       textAlign: TextAlign.center,
                     ),
@@ -232,7 +233,7 @@ class _AiCoachIntroScreenState extends State<AiCoachIntroScreen>
                   child: ElevatedButton(
                     onPressed: _onSayHello,
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Color(0xff026F1A),
+                      backgroundColor: Color(0xFF026F1A),
                       foregroundColor: theme.colorScheme.onPrimary,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(32),
@@ -245,7 +246,7 @@ class _AiCoachIntroScreenState extends State<AiCoachIntroScreen>
                       style: theme.textTheme.titleMedium?.copyWith(
                         color: theme.colorScheme.onPrimary,
                         fontSize: 12,
-                        fontFamily: "Poppins",
+                        fontFamily: "bold",
                         fontWeight: FontWeight.bold,
                       ),
                     ),

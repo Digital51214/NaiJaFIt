@@ -63,16 +63,22 @@ class _Page5ProfessionalSupportState extends State<Page5ProfessionalSupport>
 
   Future<void> _handleNext() async {
     if (_selectedOption == null) return;
+
     widget.setLoading(true);
-    final user = AuthService.instance.currentUser;
-    if (user != null) {
-      try {
-        await AuthService.instance.updateUserProfile(userId: user.id);
-      } catch (e) {
-        debugPrint('Page5 API error: $e');
+
+    try {
+      final user = AuthService.instance.currentUser;
+      if (user != null) {
+        await AuthService.instance.updateUserProfile(
+          userId: user.id,
+        );
       }
+    } catch (e) {
+      debugPrint('Page5 API error: $e');
+    } finally {
+      widget.setLoading(false);
     }
-    widget.setLoading(false);
+
     widget.navigateNext();
   }
 
@@ -87,12 +93,11 @@ class _Page5ProfessionalSupportState extends State<Page5ProfessionalSupport>
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Title
               Text(
                 'Do you currently work with a\ndiet coach or nutritionist?',
                 style: TextStyle(
-                  fontSize: 16.sp,
-                  fontFamily: "Poppins",
+                  fontSize: 15.sp,
+                  fontFamily: "semibold",
                   fontWeight: FontWeight.w700,
                   color: Colors.black,
                   height: 1.3,
@@ -101,12 +106,11 @@ class _Page5ProfessionalSupportState extends State<Page5ProfessionalSupport>
 
               SizedBox(height: 1.h),
 
-              // Subtitle
               Text(
                 'This helps NaijaFit complement rather than replace professional guidance',
                 style: TextStyle(
-                  fontSize: 11.5.sp,
-                  fontFamily: "Poppins",
+                  fontSize: 11.sp,
+                  fontFamily: "regular",
                   color: Colors.grey[600],
                 ),
               ),
@@ -155,9 +159,7 @@ class _Page5ProfessionalSupportState extends State<Page5ProfessionalSupport>
           color: Colors.white,
           borderRadius: BorderRadius.circular(22),
           border: Border.all(
-            color: isSelected
-                ? const Color(0xFF2E7D32)
-                : Colors.grey[300]!,
+            color: isSelected ? const Color(0xFF2E7D32) : Colors.grey[300]!,
             width: isSelected ? 2 : 1,
           ),
         ),
@@ -172,24 +174,20 @@ class _Page5ProfessionalSupportState extends State<Page5ProfessionalSupport>
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Card title
                   Text(
                     title,
                     style: TextStyle(
                       fontSize: 9.sp,
-                      fontFamily: "Poppins",
+                      fontFamily: "semibold",
                       fontWeight: FontWeight.w600,
                     ),
                   ),
-
                   const SizedBox(height: 5),
-
-                  // Card subtitle
                   Text(
                     sub,
                     style: TextStyle(
                       fontSize: 8.sp,
-                      fontFamily: "Poppins",
+                      fontFamily: "regular",
                       color: Colors.grey[500],
                     ),
                   ),
@@ -197,7 +195,6 @@ class _Page5ProfessionalSupportState extends State<Page5ProfessionalSupport>
               ),
             ),
 
-            // Selection circle
             AnimatedContainer(
               duration: const Duration(milliseconds: 200),
               width: 6.w,
@@ -208,9 +205,7 @@ class _Page5ProfessionalSupportState extends State<Page5ProfessionalSupport>
                     ? const Color(0xFF2E7D32)
                     : Colors.transparent,
                 border: Border.all(
-                  color: isSelected
-                      ? const Color(0xFF2E7D32)
-                      : Colors.black,
+                  color: isSelected ? const Color(0xFF2E7D32) : Colors.black,
                   width: 1.5,
                 ),
               ),

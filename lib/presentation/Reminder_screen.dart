@@ -86,8 +86,8 @@ class _PlanFreeTrialScreenState extends State<ReminderScreen>
                   child: RichText(
                     text: TextSpan(
                       style: TextStyle(
-                        fontSize: 21.sp,
-                        fontFamily: "Poppins",
+                        fontSize: 19.sp,
+                        fontFamily: "semibold",
                         fontWeight: FontWeight.w800,
                         color: Colors.black,
                         height: 1.35,
@@ -97,7 +97,7 @@ class _PlanFreeTrialScreenState extends State<ReminderScreen>
                         TextSpan(
                           text: 'reminder',
                           style: TextStyle(
-                            color: Color(0xFF2E7D32),
+                            color: Color(0xFF026F1A),
                           ),
                         ),
                         TextSpan(text: '\nbefore your trial ends'),
@@ -136,7 +136,7 @@ class _PlanFreeTrialScreenState extends State<ReminderScreen>
                     Navigator.push(context, MaterialPageRoute(builder: (context)=>PremiumSubscriptionScreen()));
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF2E7D32),
+                    backgroundColor: const Color(0xFF026F1A),
                     elevation: 0,
                     minimumSize: const Size(double.infinity, 50),
                     padding: const EdgeInsets.symmetric(
@@ -151,7 +151,7 @@ class _PlanFreeTrialScreenState extends State<ReminderScreen>
                     'Continue for free!',
                     style: TextStyle(
                       fontSize: 12.sp,
-                      fontFamily: "Poppins",
+                      fontFamily: "bold",
                       fontWeight: FontWeight.w700,
                       color: Colors.white,
                       height: 1.2,

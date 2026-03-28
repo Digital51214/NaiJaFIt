@@ -149,7 +149,8 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen>
     setState(() => _isLoading = true);
 
     try {
-      await Future.delayed(const Duration(seconds: 1));
+      // ✅ Real Supabase update password API
+      await AuthService.instance.updatePassword(_passwordController.text.trim());
 
       if (!mounted) return;
 
@@ -176,6 +177,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen>
             'Failed to change password: ${e.toString()}',
             style: const TextStyle(fontFamily: "Poppin"),
           ),
+          backgroundColor: Colors.red,
         ),
       );
     } finally {
@@ -207,7 +209,6 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen>
             key: _formKey,
             child: Column(
               children: [
-                // Header
                 _animatedEntry(
                   slide: _topSlide,
                   fade: _topFade,
@@ -226,7 +227,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen>
                           child: const Center(
                             child: Icon(
                               Icons.arrow_back_ios_new,
-                              color: Color(0xFF0A8A2A),
+                              color: Color(0xFF026F1A),
                               size: 18,
                             ),
                           ),
@@ -240,7 +241,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen>
                           'Change',
                           style: TextStyle(
                             fontSize: 20,
-                            fontFamily: "Poppins",
+                            fontFamily: "semibold",
                             fontWeight: FontWeight.w700,
                             color: Colors.black,
                             height: 1.1,
@@ -265,7 +266,6 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen>
 
                 SizedBox(height: 6.h),
 
-                // Lock image
                 _animatedEntry(
                   slide: _lockSlide,
                   fade: _lockFade,
@@ -279,7 +279,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen>
                         fit: BoxFit.contain,
                         errorBuilder: (context, error, stackTrace) => Icon(
                           Icons.lock_rounded,
-                          color: const Color(0xFF0A8A2A),
+                          color: const Color(0xFF026F1A),
                           size: size.height * 0.20,
                         ),
                       ),
@@ -289,14 +289,13 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen>
 
                 SizedBox(height: 4.h),
 
-                // Title
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
                     'Change Password',
                     style: TextStyle(
-                      fontSize: 24,
-                      fontFamily: "Poppins",
+                      fontSize: 22,
+                      fontFamily: "bold",
                       fontWeight: FontWeight.w800,
                       color: Colors.black,
                     ),
@@ -305,14 +304,13 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen>
 
                 SizedBox(height: 1.h),
 
-                // Subtitle
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
                     'Enter New password',
                     style: TextStyle(
                       fontSize: 11.5.sp,
-                      fontFamily: "Poppins",
+                      fontFamily: "regular",
                       color: Colors.black54,
                       fontWeight: FontWeight.w400,
                     ),
@@ -321,7 +319,6 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen>
 
                 SizedBox(height: 3.h),
 
-                // Password field
                 _animatedEntry(
                   slide: _passwordSlide,
                   fade: _passwordFade,
@@ -335,14 +332,14 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen>
                       obscureText: !_isPasswordVisible,
                       style: TextStyle(
                         fontSize: 12.sp,
-                        fontFamily: "Poppins",
+                        fontFamily: "regular",
                       ),
                       decoration: InputDecoration(
                         hintText: 'Password...',
                         hintStyle: TextStyle(
                           color: Colors.grey.shade500,
                           fontSize: 10,
-                          fontFamily: "Poppins",
+                          fontFamily: "regular",
                         ),
                         filled: true,
                         fillColor: Colors.transparent,
@@ -355,7 +352,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen>
                             _isPasswordVisible
                                 ? Icons.visibility_off
                                 : Icons.visibility,
-                            color: const Color(0xFF0A8A2A),
+                            color: const Color(0xFF026F1A),
                           ),
                           onPressed: () {
                             setState(() =>
@@ -372,7 +369,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen>
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(30),
                           borderSide: const BorderSide(
-                            color: Color(0xFF0A8A2A),
+                            color: Color(0xFF026F1A),
                             width: 1.2,
                           ),
                         ),
@@ -394,7 +391,6 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen>
 
                 const SizedBox(height: 5),
 
-                // Confirm Password field
                 _animatedEntry(
                   slide: _confirmSlide,
                   fade: _confirmFade,
@@ -408,14 +404,14 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen>
                       obscureText: !_isConfirmVisible,
                       style: TextStyle(
                         fontSize: 12.sp,
-                        fontFamily: "Poppins",
+                        fontFamily: "regular",
                       ),
                       decoration: InputDecoration(
                         hintText: 'Confirm Password...',
                         hintStyle: TextStyle(
                           color: Colors.grey.shade500,
                           fontSize: 10,
-                          fontFamily: "Poppins",
+                          fontFamily: "regular",
                         ),
                         filled: true,
                         fillColor: Colors.transparent,
@@ -428,7 +424,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen>
                             _isConfirmVisible
                                 ? Icons.visibility_off
                                 : Icons.visibility,
-                            color: const Color(0xFF0A8A2A),
+                            color: const Color(0xFF026F1A),
                           ),
                           onPressed: () {
                             setState(() =>
@@ -445,7 +441,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen>
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(30),
                           borderSide: const BorderSide(
-                            color: Color(0xFF0A8A2A),
+                            color: Color(0xFF026F1A),
                             width: 1.2,
                           ),
                         ),
@@ -468,7 +464,6 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen>
 
                 SizedBox(height: 3.h),
 
-                // Change button
                 _animatedEntry(
                   slide: _buttonSlide,
                   fade: _buttonFade,
@@ -476,10 +471,12 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen>
                     width: double.infinity,
                     height: 45,
                     child: ElevatedButton(
-                      onPressed:
-                      _isLoading ? null : _handleChangePassword,
+                      onPressed:(){
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=>SignInScreen()));
+                      },
+                      // _isLoading ? null : _handleChangePassword,
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFF067C1F),
+                        backgroundColor: const Color(0xFF026F1A),
                         foregroundColor: Colors.white,
                         elevation: 0,
                         padding: const EdgeInsets.symmetric(
@@ -489,7 +486,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen>
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(28),
                           side: const BorderSide(
-                            color: Color(0xFF4BA84F),
+                            color: Color(0xFF026F1A),
                             width: 1.2,
                           ),
                         ),
@@ -509,7 +506,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen>
                         'Change',
                         style: TextStyle(
                           fontSize: 14,
-                          fontFamily: "Poppins",
+                          fontFamily: "bold",
                           fontWeight: FontWeight.w700,
                           color: Colors.white,
                         ),

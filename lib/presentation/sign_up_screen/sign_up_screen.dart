@@ -310,7 +310,7 @@ class _SignUpScreenState extends State<SignUpScreen>
                             style: TextStyle(
                               fontSize: 24,
                               fontWeight: FontWeight.w700,
-                              fontFamily: "Poppins",
+                              fontFamily: "semibold",
                               color: Colors.black,
                               height: 1.2,
                             ),
@@ -332,7 +332,7 @@ class _SignUpScreenState extends State<SignUpScreen>
                             style: TextStyle(
                               fontSize: 12,
                               fontWeight: FontWeight.w400,
-                              fontFamily: "Poppins",
+                              fontFamily: "regular",
                               color: Colors.black87,
                             ),
                           ),
@@ -340,7 +340,7 @@ class _SignUpScreenState extends State<SignUpScreen>
                       ),
                     ),
 
-                    const SizedBox(height: 28),
+                    const SizedBox(height: 24),
 
                     SlideTransition(
                       position: _nameSlide,
@@ -380,7 +380,7 @@ class _SignUpScreenState extends State<SignUpScreen>
                       ),
                     ),
 
-                    const SizedBox(height: 5),
+                    const SizedBox(height: 8),
 
                     SlideTransition(
                       position: _confirmSlide,
@@ -449,7 +449,7 @@ class _SignUpScreenState extends State<SignUpScreen>
         keyboardType: TextInputType.name,
         style: const TextStyle(
           fontSize: 14,
-          fontFamily: "Poppins",
+          fontFamily: "regular",
           color: Colors.black,
         ),
         decoration: InputDecoration(
@@ -457,7 +457,7 @@ class _SignUpScreenState extends State<SignUpScreen>
           hintStyle: TextStyle(
             color: Colors.grey.shade500,
             fontSize: 10,
-            fontFamily: "Poppins",
+            fontFamily: "regular",
             fontWeight: FontWeight.w400,
           ),
           filled: true,
@@ -518,7 +518,7 @@ class _SignUpScreenState extends State<SignUpScreen>
         keyboardType: TextInputType.emailAddress,
         style: const TextStyle(
           fontSize: 14,
-          fontFamily: "Poppins",
+          fontFamily: "regular",
           color: Colors.black,
         ),
         decoration: InputDecoration(
@@ -526,7 +526,7 @@ class _SignUpScreenState extends State<SignUpScreen>
           hintStyle: TextStyle(
             color: Colors.grey.shade500,
             fontSize: 10,
-            fontFamily: "Poppins",
+            fontFamily: "regular",
             fontWeight: FontWeight.w400,
           ),
           filled: true,
@@ -590,7 +590,7 @@ class _SignUpScreenState extends State<SignUpScreen>
         obscureText: !_isPasswordVisible,
         style: const TextStyle(
           fontSize: 14,
-          fontFamily: "Poppins",
+          fontFamily: "regular",
           color: Colors.black,
         ),
         decoration: InputDecoration(
@@ -598,7 +598,7 @@ class _SignUpScreenState extends State<SignUpScreen>
           hintStyle: TextStyle(
             color: Colors.grey.shade500,
             fontSize: 10,
-            fontFamily: "Poppins",
+            fontFamily: "regular",
             fontWeight: FontWeight.w400,
           ),
           filled: true,
@@ -615,7 +615,7 @@ class _SignUpScreenState extends State<SignUpScreen>
             },
             icon: Icon(
               _isPasswordVisible ? Icons.visibility_off : Icons.visibility,
-              color: const Color(0xFF0A8A2A),
+              color: const Color(0xFF026F1A),
               size: 22,
             ),
           ),
@@ -629,7 +629,7 @@ class _SignUpScreenState extends State<SignUpScreen>
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(30),
             borderSide: const BorderSide(
-              color: Color(0xFF0A8A2A),
+              color: Color(0xFF026F1A),
               width: 1.2,
             ),
           ),
@@ -674,7 +674,7 @@ class _SignUpScreenState extends State<SignUpScreen>
         obscureText: !_isConfirmPasswordVisible,
         style: const TextStyle(
           fontSize: 14,
-          fontFamily: "Poppins",
+          fontFamily: "regular",
           color: Colors.black,
         ),
         decoration: InputDecoration(
@@ -682,7 +682,7 @@ class _SignUpScreenState extends State<SignUpScreen>
           hintStyle: TextStyle(
             color: Colors.grey.shade500,
             fontSize: 10,
-            fontFamily: "Poppins",
+            fontFamily: "regular",
             fontWeight: FontWeight.w400,
           ),
           filled: true,
@@ -701,7 +701,7 @@ class _SignUpScreenState extends State<SignUpScreen>
               _isConfirmPasswordVisible
                   ? Icons.visibility_off
                   : Icons.visibility,
-              color: const Color(0xFF0A8A2A),
+              color: const Color(0xFF026F1A),
               size: 22,
             ),
           ),
@@ -763,11 +763,11 @@ class _SignUpScreenState extends State<SignUpScreen>
             decoration: BoxDecoration(
               shape: BoxShape.circle,
               border: Border.all(
-                color: const Color(0xFF067C1F),
+                color: const Color(0xFF026F1A),
                 width: 1,
               ),
               color:
-              _isAgreed ? const Color(0xFF067C1F) : Colors.transparent,
+              _isAgreed ? const Color(0xFF026F1A) : Colors.transparent,
             ),
             child: _isAgreed
                 ? const Icon(
@@ -786,8 +786,8 @@ class _SignUpScreenState extends State<SignUpScreen>
               const Text(
                 'I agree with all ',
                 style: TextStyle(
-                  fontSize: 10,
-                  fontFamily: "Poppins",
+                  fontSize: 9,
+                  fontFamily: "regular",
                   color: Colors.black,
                   fontWeight: FontWeight.w400,
                 ),
@@ -804,20 +804,20 @@ class _SignUpScreenState extends State<SignUpScreen>
                 child: const Text(
                   'Terms & Conditions',
                   style: TextStyle(
-                    fontSize: 10,
-                    fontFamily: "Poppins",
-                    color: Color(0xFF0A8A2A),
+                    fontSize: 9.5,
+                    fontFamily: "bold",
+                    color: Color(0xFF026F1A),
                     fontWeight: FontWeight.w600,
                     decoration: TextDecoration.underline,
-                    decorationColor: Color(0xFF0A8A2A),
+                    decorationColor: Color(0xFF026F1A),
                   ),
                 ),
               ),
               const Text(
                 ' and ',
                 style: TextStyle(
-                  fontSize: 10,
-                  fontFamily: "Poppins",
+                  fontSize: 9,
+                  fontFamily: "regular",
                   color: Colors.black,
                   fontWeight: FontWeight.w400,
                 ),
@@ -834,12 +834,12 @@ class _SignUpScreenState extends State<SignUpScreen>
                 child: const Text(
                   'Privacy Policy',
                   style: TextStyle(
-                    fontSize: 10,
-                    fontFamily: "Poppins",
-                    color: Color(0xFF0A8A2A),
+                    fontSize: 9.5,
+                    fontFamily: "bold",
+                    color: Color(0xFF026F1A),
                     fontWeight: FontWeight.w600,
                     decoration: TextDecoration.underline,
-                    decorationColor: Color(0xFF0A8A2A),
+                    decorationColor: Color(0xFF026F1A),
                   ),
                 ),
               ),
@@ -855,17 +855,7 @@ class _SignUpScreenState extends State<SignUpScreen>
       width: double.infinity,
       height: 45,
       child: ElevatedButton(
-        onPressed: _isLoading
-            ? null
-            : () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const SignInScreen(),
-            ),
-          );
-          // _handleSignUp();
-        },
+        onPressed: _isLoading ? null : _handleSignUp, // ✅ API enabled
         style: ElevatedButton.styleFrom(
           backgroundColor: const Color(0xFF067C1F),
           foregroundColor: Colors.white,
@@ -879,7 +869,7 @@ class _SignUpScreenState extends State<SignUpScreen>
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(28),
             side: const BorderSide(
-              color: Color(0xFF4BA84F),
+              color: Color(0xFF026F1A),
               width: 1.5,
             ),
           ),
@@ -903,7 +893,7 @@ class _SignUpScreenState extends State<SignUpScreen>
             ),
             style: TextStyle(
               fontSize: 14,
-              fontFamily: "Poppins",
+              fontFamily: "bold",
               fontWeight: FontWeight.w700,
               color: Colors.white,
               height: 1.0,
@@ -924,7 +914,7 @@ class _SignUpScreenState extends State<SignUpScreen>
             'Already have an account? ',
             style: TextStyle(
               fontSize: 14,
-              fontFamily: "Poppins",
+              fontFamily: "regular",
               color: Colors.black,
               fontWeight: FontWeight.w400,
             ),
@@ -937,11 +927,11 @@ class _SignUpScreenState extends State<SignUpScreen>
               'Sign In',
               style: TextStyle(
                 fontSize: 14,
-                fontFamily: "Poppins",
-                color: Color(0xFF0A8A2A),
+                fontFamily: "semibold",
+                color: Color(0xFF026F1A),
                 fontWeight: FontWeight.w700,
                 decoration: TextDecoration.underline,
-                decorationColor: Color(0xFF0A8A2A),
+                decorationColor: Color(0xFF026F1A),
               ),
             ),
           ),

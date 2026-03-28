@@ -22,7 +22,7 @@ class CustomBackButton extends StatelessWidget {
         ),
         child: const Icon(
           Icons.chevron_left,
-          color: Color(0xFF2E7D32),
+          color: Color(0xFF026F1A),
           size: 30,
         ),
       ),

@@ -8,6 +8,9 @@ class Page8ActivityLevel extends StatefulWidget {
   final Function(bool) setLoading;
   final VoidCallback navigateNext;
 
+  /// Pass onboarding data so we can calculate calorie here using actual collected data
+  final Map<String, dynamic> onboardingData;
+
   const Page8ActivityLevel({
     super.key,
     required this.onNextEnabled,
@@ -15,6 +18,7 @@ class Page8ActivityLevel extends StatefulWidget {
     required this.registerNextCallback,
     required this.setLoading,
     required this.navigateNext,
+    required this.onboardingData,
   });
 
   @override
@@ -98,12 +102,84 @@ class _Page8ActivityLevelState extends State<Page8ActivityLevel>
     widget.onNextEnabled(true);
   }
 
+  /// ✅ CORRECT BMR Calculation using Mifflin-St Jeor Equation
+  /// Uses actual collected data: weight (kg), height (cm), age, gender, activityLevel
+  int _calculateDailyCalories(String activityId) {
+    final data = widget.onboardingData;
+
+    // Weight in KG (already stored as KG in Page2)
+    final double weightKg = (data['currentWeight'] as num?)?.toDouble() ?? 70.0;
+
+    // Height in CM (already stored as CM in Page7)
+    final double heightCm = (data['height'] as num?)?.toDouble() ?? 170.0;
+
+    // Age
+    final int age = (data['age'] as int?) ?? 25;
+
+    // Gender
+    final String gender = (data['gender'] as String?) ?? 'male';
+
+    // BMR using Mifflin-St Jeor
+    double bmr;
+    if (gender == 'male') {
+      bmr = (10 * weightKg) + (6.25 * heightCm) - (5 * age) + 5;
+    } else {
+      bmr = (10 * weightKg) + (6.25 * heightCm) - (5 * age) - 161;
+    }
+
+    // Activity multiplier
+    double multiplier;
+    switch (activityId) {
+      case 'lightly_active':
+        multiplier = 1.375;
+        break;
+      case 'moderately_active':
+        multiplier = 1.55;
+        break;
+      case 'very_active':
+        multiplier = 1.725;
+        break;
+      case 'extremely_active':
+        multiplier = 1.9;
+        break;
+      case 'sedentary':
+      default:
+        multiplier = 1.2;
+        break;
+    }
+
+    // Goal-based adjustment
+    // lose_weight: deficit 500 kcal/day
+    // gain_weight: surplus 300 kcal/day
+    // maintain_weight: TDEE as is
+    final String fitnessGoal =
+        (data['fitnessGoal'] as String?) ?? 'maintain_weight';
+
+    double tdee = bmr * multiplier;
+    double targetCalories = tdee;
+
+    if (fitnessGoal == 'lose_weight') {
+      targetCalories = tdee - 500;
+    } else if (fitnessGoal == 'gain_weight') {
+      targetCalories = tdee + 300;
+    }
+
+    // Minimum floor to keep it safe
+    if (targetCalories < 1200) targetCalories = 1200;
+
+    return targetCalories.round();
+  }
+
   Future<void> _handleNext() async {
     if (_selectedActivity == null) return;
 
     widget.setLoading(true);
 
+    // Calculate calories with full data
+    final int dailyCalories = _calculateDailyCalories(_selectedActivity!);
+
     widget.onDataUpdate('activityLevel', _selectedActivity);
+    widget.onDataUpdate('dailyCalories', dailyCalories);
 
     widget.setLoading(false);
     widget.navigateNext();
@@ -123,8 +199,8 @@ class _Page8ActivityLevelState extends State<Page8ActivityLevel>
               Text(
                 'Activity Level',
                 style: TextStyle(
-                  fontSize: 20.sp,
-                  fontFamily: "Poppins",
+                  fontSize: 17.sp,
+                  fontFamily: "semibold",
                   fontWeight: FontWeight.w700,
                   color: Colors.black,
                   height: 1.25,
@@ -136,8 +212,8 @@ class _Page8ActivityLevelState extends State<Page8ActivityLevel>
               Text(
                 'Please choose your activity level',
                 style: TextStyle(
-                  fontSize: 12.8.sp,
-                  fontFamily: "Poppins",
+                  fontSize: 11.5.sp,
+                  fontFamily: "regular",
                   fontWeight: FontWeight.w400,
                   color: const Color(0xFF6E6E6E),
                   height: 1.4,
@@ -193,7 +269,11 @@ class _Page8ActivityLevelState extends State<Page8ActivityLevel>
                               ),
                             ),
                             child: isSelected
-                                ? const Icon(Icons.check, color: Colors.white, size: 14)
+                                ? const Icon(
+                              Icons.check,
+                              color: Colors.white,
+                              size: 14,
+                            )
                                 : null,
                           ),
 
@@ -207,18 +287,18 @@ class _Page8ActivityLevelState extends State<Page8ActivityLevel>
                                   item['title']!,
                                   style: TextStyle(
                                     fontSize: 12.sp,
-                                    fontFamily: "Poppins",
+                                    fontFamily: "medium",
                                     fontWeight: FontWeight.w600,
                                     color: Colors.black,
                                     height: 1,
                                   ),
                                 ),
-                                SizedBox(height: 0.5.h),
+                                SizedBox(height: 0.8.h),
                                 Text(
                                   item['subtitle']!,
                                   style: TextStyle(
                                     fontSize: 9.sp,
-                                    fontFamily: "Poppins",
+                                    fontFamily: "light",
                                     fontWeight: FontWeight.w400,
                                     color: const Color(0xFF8B8B8B),
                                     height: 1,

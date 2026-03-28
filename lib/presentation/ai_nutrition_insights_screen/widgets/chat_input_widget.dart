@@ -39,12 +39,12 @@ class ChatInputWidget extends StatelessWidget {
               textInputAction: TextInputAction.send,
               onSubmitted: isEnabled ? onSend : null,
               style: const TextStyle(
-                fontFamily: "Poppins",
+                fontFamily: "regular",
               ),
               decoration: InputDecoration(
                 hintText: 'Ask about Nigerian nutrition...',
                 hintStyle: theme.textTheme.bodyMedium?.copyWith(
-                  fontFamily: "Poppins",
+                  fontFamily: "regular",
                   color: theme.colorScheme.onSurface.withValues(alpha: 0.5),
                 ),
                 filled: true,

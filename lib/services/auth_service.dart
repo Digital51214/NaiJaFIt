@@ -150,6 +150,21 @@ class AuthService {
     }
   }
 
+  // ✅ Update password
+  Future<void> updatePassword(String newPassword) async {
+    try {
+      await _client.auth.updateUser(
+        UserAttributes(password: newPassword),
+      );
+    } on AuthException catch (e) {
+      debugPrint('Update password error: ${e.message} (${e.statusCode})');
+      rethrow;
+    } catch (e) {
+      debugPrint('Update password error: $e');
+      rethrow;
+    }
+  }
+
   // Get user profile
   Future<UserProfile?> getUserProfile(String userId) async {
     try {
