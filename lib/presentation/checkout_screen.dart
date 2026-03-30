@@ -120,10 +120,24 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
 
                   SizedBox(height: 1.h),
 
-                  const _InputField(
-                    hintText: 'MM/YY',
-                    prefixIcon: Icons.credit_card_rounded,
-                    keyboardType: TextInputType.number,
+                  Row(
+                    children: [
+                      const Expanded(
+                        child: _InputField(
+                          hintText: 'MM/YY',
+                          prefixIcon: Icons.credit_card_rounded,
+                          keyboardType: TextInputType.number,
+                        ),
+                      ),
+                      SizedBox(width: 3.w),
+                      const Expanded(
+                        child: _InputField(
+                          hintText: 'CVC',
+                          prefixIcon: Icons.lock_outline_rounded,
+                          keyboardType: TextInputType.number,
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),
@@ -169,7 +183,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(30),
                         ),
-                        padding: EdgeInsets.symmetric(vertical: 2)
+                        padding: EdgeInsets.symmetric(vertical: 2),
                       ),
                       child: Text(
                         'Check Out',
@@ -270,6 +284,8 @@ class _InputField extends StatelessWidget {
 
 
 
+
+
 // import 'package:flutter/material.dart';
 // import 'package:naijafit/presentation/main_dashboard_screen/main_dashboard_screen.dart';
 // import 'package:naijafit/services/auth_service.dart';
@@ -319,6 +335,7 @@ class _InputField extends StatelessWidget {
 //   final _zipController = TextEditingController();
 //   final _cardNumberController = TextEditingController();
 //   final _cardExpiryController = TextEditingController();
+//   final _cardCvcController = TextEditingController();
 //
 //   bool _isLoading = false;
 //
@@ -340,6 +357,7 @@ class _InputField extends StatelessWidget {
 //     _zipController.dispose();
 //     _cardNumberController.dispose();
 //     _cardExpiryController.dispose();
+//     _cardCvcController.dispose();
 //     super.dispose();
 //   }
 //
@@ -382,6 +400,10 @@ class _InputField extends StatelessWidget {
 //       _showSnackBar('Please enter card expiry date', isError: true);
 //       return false;
 //     }
+//     if (_cardCvcController.text.trim().length < 3) {
+//       _showSnackBar('Please enter a valid CVC', isError: true);
+//       return false;
+//     }
 //     return true;
 //   }
 //
@@ -396,7 +418,7 @@ class _InputField extends StatelessWidget {
 //       await AuthService.instance.updateUserProfile(
 //         userId: widget.userId,
 //         fullName:
-//         '${_firstNameController.text.trim()} ${_lastNameController.text.trim()}',
+//             '${_firstNameController.text.trim()} ${_lastNameController.text.trim()}',
 //       );
 //
 //       if (!mounted) return;
@@ -415,7 +437,7 @@ class _InputField extends StatelessWidget {
 //           MaterialPageRoute(
 //             builder: (context) => MainDashboardScreen(),
 //           ),
-//               (route) => false,
+//           (route) => false,
 //         );
 //       }
 //     } on AuthException catch (e) {
@@ -443,10 +465,9 @@ class _InputField extends StatelessWidget {
 //           ),
 //         ),
 //         backgroundColor:
-//         isError ? Colors.red.shade700 : const Color(0xFF47A312),
+//             isError ? Colors.red.shade700 : const Color(0xFF47A312),
 //         behavior: SnackBarBehavior.floating,
-//         shape:
-//         RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+//         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
 //         margin: EdgeInsets.symmetric(horizontal: 5.w, vertical: 2.h),
 //         duration: const Duration(seconds: 3),
 //       ),
@@ -662,11 +683,27 @@ class _InputField extends StatelessWidget {
 //
 //                   SizedBox(height: 1.h),
 //
-//                   _InputField(
-//                     hintText: 'MM/YY',
-//                     controller: _cardExpiryController,
-//                     prefixIcon: Icons.credit_card_rounded,
-//                     keyboardType: TextInputType.number,
+//                   Row(
+//                     children: [
+//                       Expanded(
+//                         child: _InputField(
+//                           hintText: 'MM/YY',
+//                           controller: _cardExpiryController,
+//                           prefixIcon: Icons.credit_card_rounded,
+//                           keyboardType: TextInputType.number,
+//                         ),
+//                       ),
+//                       SizedBox(width: 3.w),
+//                       Expanded(
+//                         child: _InputField(
+//                           hintText: 'CVC',
+//                           controller: _cardCvcController,
+//                           prefixIcon: Icons.lock_outline_rounded,
+//                           keyboardType: TextInputType.number,
+//                           maxLength: 4,
+//                         ),
+//                       ),
+//                     ],
 //                   ),
 //                 ],
 //               ),
@@ -679,7 +716,7 @@ class _InputField extends StatelessWidget {
 //               bottom: 0,
 //               child: Container(
 //                 padding:
-//                 EdgeInsets.fromLTRB(5.w, 1.2.h, 5.w, 2.5.h),
+//                     EdgeInsets.fromLTRB(5.w, 1.2.h, 5.w, 2.5.h),
 //                 decoration: BoxDecoration(
 //                   color: Colors.white,
 //                   borderRadius: BorderRadius.vertical(
@@ -703,34 +740,34 @@ class _InputField extends StatelessWidget {
 //                       style: ElevatedButton.styleFrom(
 //                         backgroundColor: const Color(0xFF026F1A),
 //                         disabledBackgroundColor:
-//                         const Color(0xFF026F1A).withOpacity(0.6),
+//                             const Color(0xFF026F1A).withOpacity(0.6),
 //                         elevation: 0,
 //                         shape: RoundedRectangleBorder(
 //                           borderRadius: BorderRadius.circular(30),
 //                         ),
 //                         padding:
-//                         const EdgeInsets.symmetric(vertical: 2),
+//                             const EdgeInsets.symmetric(vertical: 2),
 //                       ),
 //                       child: _isLoading
 //                           ? const SizedBox(
-//                         width: 22,
-//                         height: 22,
-//                         child: CircularProgressIndicator(
-//                           color: Colors.white,
-//                           strokeWidth: 2.5,
-//                         ),
-//                       )
+//                               width: 22,
+//                               height: 22,
+//                               child: CircularProgressIndicator(
+//                                 color: Colors.white,
+//                                 strokeWidth: 2.5,
+//                               ),
+//                             )
 //                           : Text(
-//                         widget.isFreeTrial
-//                             ? 'Start ${widget.trialDays}-Day Free Trial'
-//                             : 'Check Out',
-//                         style: TextStyle(
-//                           fontSize: 12.sp,
-//                           fontWeight: FontWeight.w700,
-//                           color: Colors.white,
-//                           fontFamily: "bold",
-//                         ),
-//                       ),
+//                               widget.isFreeTrial
+//                                   ? 'Start ${widget.trialDays}-Day Free Trial'
+//                                   : 'Check Out',
+//                               style: TextStyle(
+//                                 fontSize: 12.sp,
+//                                 fontWeight: FontWeight.w700,
+//                                 color: Colors.white,
+//                                 fontFamily: "bold",
+//                               ),
+//                             ),
 //                     ),
 //                   ),
 //                 ),
@@ -768,10 +805,10 @@ class _InputField extends StatelessWidget {
 //         keyboardType: keyboardType,
 //         maxLength: maxLength,
 //         buildCounter: (_,
-//             {required currentLength,
-//               required isFocused,
-//               maxLength}) =>
-//         null,
+//                 {required currentLength,
+//                 required isFocused,
+//                 maxLength}) =>
+//             null,
 //         style: TextStyle(
 //           fontSize: 11.sp,
 //           fontWeight: FontWeight.w400,
@@ -794,10 +831,10 @@ class _InputField extends StatelessWidget {
 //           ),
 //           prefixIcon: prefixIcon != null
 //               ? Icon(
-//             prefixIcon,
-//             size: 5.w,
-//             color: const Color(0xFFAEAEAE),
-//           )
+//                   prefixIcon,
+//                   size: 5.w,
+//                   color: const Color(0xFFAEAEAE),
+//                 )
 //               : null,
 //           border: OutlineInputBorder(
 //             borderRadius: BorderRadius.circular(24),

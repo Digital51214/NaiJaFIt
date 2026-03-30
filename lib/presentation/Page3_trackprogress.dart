@@ -32,8 +32,8 @@ class _Page3TrackProgressState extends State<Page2GoalsettingPart2>
   late final Animation<double> _fade;
   late final Animation<Offset> _slide;
 
-  bool get _areAllSwitchesOn =>
-      _weeklyWeighIns && _dailyChart && _measurementTracking;
+  bool get _isAnySwitchOn =>
+      _weeklyWeighIns || _dailyChart || _measurementTracking;
 
   @override
   void initState() {
@@ -74,11 +74,11 @@ class _Page3TrackProgressState extends State<Page2GoalsettingPart2>
   }
 
   void _checkForm() {
-    widget.onNextEnabled(_areAllSwitchesOn);
+    widget.onNextEnabled(_isAnySwitchOn);
   }
 
   Future<void> _handleNext() async {
-    if (!_areAllSwitchesOn) return;
+    if (!_isAnySwitchOn) return;
 
     widget.setLoading(true);
 

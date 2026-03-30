@@ -27,7 +27,6 @@ class _Page6PersonalStatsState extends State<Page6PersonalStats>
   final TextEditingController _ageCtrl = TextEditingController();
   final TextEditingController _heightCtrl = TextEditingController();
 
-  // ✅ FocusNodes added
   final FocusNode _ageFocus = FocusNode();
   final FocusNode _heightFocus = FocusNode();
 
@@ -80,11 +79,11 @@ class _Page6PersonalStatsState extends State<Page6PersonalStats>
     return 'Enter height 3 to 10 ft';
   }
 
-  // ✅ Central keyboard dismiss method
   void _dismissKeyboard() {
+    FocusManager.instance.primaryFocus?.unfocus();
     _ageFocus.unfocus();
     _heightFocus.unfocus();
-    FocusScope.of(context).unfocus();
+    SystemChannels.textInput.invokeMethod('TextInput.hide');
   }
 
   @override
@@ -107,13 +106,12 @@ class _Page6PersonalStatsState extends State<Page6PersonalStats>
 
   @override
   void dispose() {
+    _closeDropdown();
     _anim.dispose();
     _ageCtrl.dispose();
     _heightCtrl.dispose();
-    // ✅ FocusNodes dispose
     _ageFocus.dispose();
     _heightFocus.dispose();
-    _closeDropdown();
     super.dispose();
   }
 
@@ -122,9 +120,8 @@ class _Page6PersonalStatsState extends State<Page6PersonalStats>
   Future<void> _handleNext() async {
     if (!_isFormValid) return;
 
-    // ✅ Keyboard dismiss — pehle dismiss, phir navigate
     _dismissKeyboard();
-    await Future.delayed(const Duration(milliseconds: 150));
+    await Future.delayed(const Duration(milliseconds: 250));
 
     final double heightCm =
     _heightUnit == 'Cm' ? _height! : _height! * 30.48;
@@ -140,7 +137,6 @@ class _Page6PersonalStatsState extends State<Page6PersonalStats>
   }
 
   void _toggleDropdown(LayerLink link) {
-    // ✅ Keyboard dismiss when dropdown opens
     _dismissKeyboard();
     if (_dropdownOpen && _activeLink == link) {
       _closeDropdown();
@@ -161,6 +157,7 @@ class _Page6PersonalStatsState extends State<Page6PersonalStats>
   }
 
   void _selectDropdownValue(String value) {
+    _dismissKeyboard();
     setState(() {
       if (_activeLink == _heightLink) {
         _heightUnit = value;
@@ -190,7 +187,10 @@ class _Page6PersonalStatsState extends State<Page6PersonalStats>
 
     return OverlayEntry(
       builder: (_) => GestureDetector(
-        onTap: _closeDropdown,
+        onTap: () {
+          _dismissKeyboard();
+          _closeDropdown();
+        },
         behavior: HitTestBehavior.translucent,
         child: Stack(
           children: [
@@ -274,7 +274,7 @@ class _Page6PersonalStatsState extends State<Page6PersonalStats>
   Widget _inputField({
     required LayerLink link,
     required TextEditingController ctrl,
-    required FocusNode focusNode, // ✅ FocusNode parameter added
+    required FocusNode focusNode,
     required String hint,
     required String unit,
     required Function(String) onChanged,
@@ -292,14 +292,15 @@ class _Page6PersonalStatsState extends State<Page6PersonalStats>
             width: double.infinity,
             child: TextField(
               controller: ctrl,
-              focusNode: focusNode, // ✅ FocusNode assigned
+              focusNode: focusNode,
               keyboardType: TextInputType.number,
               inputFormatters: [
                 FilteringTextInputFormatter.digitsOnly,
               ],
               onChanged: onChanged,
               textInputAction: TextInputAction.done,
-              // ✅ onSubmitted — keyboard dismiss via focusNode
+              onTapOutside: (_) => _dismissKeyboard(),
+              onEditingComplete: _dismissKeyboard,
               onSubmitted: (_) => _dismissKeyboard(),
               style: TextStyle(
                 fontSize: 12.sp,
@@ -416,7 +417,6 @@ class _Page6PersonalStatsState extends State<Page6PersonalStats>
 
     return GestureDetector(
       onTap: () {
-        // ✅ FocusNode se dismiss
         _dismissKeyboard();
         setState(() => _gender = g['id']);
         widget.onDataUpdate('gender', g['id']);
@@ -469,8 +469,7 @@ class _Page6PersonalStatsState extends State<Page6PersonalStats>
               style: TextStyle(
                 fontSize: 11.8.sp,
                 fontFamily: "medium",
-                fontWeight:
-                isSelected ? FontWeight.w600 : FontWeight.w500,
+                fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
                 color: const Color(0xFF56B327),
               ),
             ),
@@ -483,13 +482,14 @@ class _Page6PersonalStatsState extends State<Page6PersonalStats>
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      // ✅ Bahar tap karne par keyboard dismiss
       onTap: _dismissKeyboard,
+      behavior: HitTestBehavior.translucent,
       child: FadeTransition(
         opacity: _fade,
         child: SlideTransition(
           position: _slide,
           child: SingleChildScrollView(
+            keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
             padding:
             EdgeInsets.symmetric(horizontal: 5.5.w, vertical: 1.5.h),
             child: Column(
@@ -505,9 +505,7 @@ class _Page6PersonalStatsState extends State<Page6PersonalStats>
                     height: 1.25,
                   ),
                 ),
-
                 SizedBox(height: 1.2.h),
-
                 Text(
                   'This will help us a lot to tailor a very well\nplan for you',
                   style: TextStyle(
@@ -517,10 +515,7 @@ class _Page6PersonalStatsState extends State<Page6PersonalStats>
                     height: 1.55,
                   ),
                 ),
-
                 SizedBox(height: 3.8.h),
-
-                // ✅ Age field — focusNode pass kiya
                 _inputField(
                   link: _ageLink,
                   ctrl: _ageCtrl,
@@ -533,10 +528,7 @@ class _Page6PersonalStatsState extends State<Page6PersonalStats>
                     _checkForm();
                   },
                 ),
-
                 SizedBox(height: 1.h),
-
-                // ✅ Height field — focusNode pass kiya
                 _inputField(
                   link: _heightLink,
                   ctrl: _heightCtrl,
@@ -549,16 +541,13 @@ class _Page6PersonalStatsState extends State<Page6PersonalStats>
                     _checkForm();
                   },
                 ),
-
                 SizedBox(height: 2.3.h),
-
                 ..._genderOptions.map((g) {
                   return Padding(
                     padding: EdgeInsets.only(bottom: 1.h),
                     child: _genderCard(g),
                   );
                 }).toList(),
-
                 SizedBox(height: 2.h),
               ],
             ),

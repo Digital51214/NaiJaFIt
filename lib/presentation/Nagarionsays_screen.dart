@@ -37,6 +37,30 @@ class _WhatNigeriansAreSayingScreenState
       'review':
       "Most apps don't even have amala or ewedu. This one actually understands our food. That's why I stuck with it.",
     },
+    {
+      'name': 'Amina S. (Abuja)',
+      'rating': 5,
+      'review':
+      "I like that it doesn't tell me to stop eating Nigerian food. It just shows me how to eat it properly. That's what has been missing",
+    },
+    {
+      'name': 'Tunde O. (Ibadan)',
+      'rating': 5,
+      'review':
+      "Most apps don't even have amala or ewedu. This one actually understands our food. That's why I stuck with it.",
+    },
+    {
+      'name': 'Amina S. (Abuja)',
+      'rating': 5,
+      'review':
+      "I like that it doesn't tell me to stop eating Nigerian food. It just shows me how to eat it properly. That's what has been missing",
+    },
+    {
+      'name': 'Tunde O. (Ibadan)',
+      'rating': 5,
+      'review':
+      "Most apps don't even have amala or ewedu. This one actually understands our food. That's why I stuck with it.",
+    },
   ];
 
   @override

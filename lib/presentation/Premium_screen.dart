@@ -783,7 +783,7 @@ class _PremiumSubscriptionScreenState extends State<PremiumSubscriptionScreen>
                                   },
                                 ),
                               ),
-                              const Spacer(),
+                              SizedBox(width: 25.sp,),
 
                               SizedBox(
                                 height: 200,
@@ -791,24 +791,6 @@ class _PremiumSubscriptionScreenState extends State<PremiumSubscriptionScreen>
                                 child: Image.asset(
                                   'assets/images/LOGO.png',
                                   fit: BoxFit.contain,
-                                ),
-                              ),
-
-                              const Spacer(),
-
-                              Padding(
-                                padding: EdgeInsets.only(top: 6.h),
-                                child: GestureDetector(
-                                  onTap: _onRestore,
-                                  child: Text(
-                                    'Restore',
-                                    style: TextStyle(
-                                      fontSize: 11.sp,
-                                      fontFamily: "medium",
-                                      fontWeight: FontWeight.w600,
-                                      color: const Color(0xFF2E7D32),
-                                    ),
-                                  ),
                                 ),
                               ),
                             ],

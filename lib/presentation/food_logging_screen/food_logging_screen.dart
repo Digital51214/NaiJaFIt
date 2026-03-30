@@ -948,9 +948,9 @@
 
 
 
-
 import 'package:flutter/material.dart';
 import 'package:naijafit/presentation/food_logging_screen/widgets/food_detail_bottom_sheet_widget.dart';
+import 'package:naijafit/widgets/AiFoodEntryBottomSheet.dart';
 
 // ─────────────────────────────────────────────
 //  Dummy Data
@@ -1019,21 +1019,30 @@ class FoodLoggingScreen extends StatefulWidget {
 
 class _FoodLoggingScreenState extends State<FoodLoggingScreen> {
   final TextEditingController _searchController = TextEditingController();
-  String _searchQuery = '';
-  String _selectedRegion = 'All Regions';
+  String _searchQuery      = '';
+  String _selectedRegion   = 'All Regions';
   String _selectedFoodType = 'All';
 
+  // ✅ NEW: Custom foods added by user via AI
+  final List<Map<String, dynamic>> _customFoods = [];
+
+  // ── Combined food list ────────────────────────
+  List<Map<String, dynamic>> get _allFoods =>
+      [..._dummyFoods, ..._customFoods];
+
   List<Map<String, dynamic>> get _filteredFoods {
-    return _dummyFoods.where((food) {
+    return _allFoods.where((food) {
       final matchesSearch =
           _searchQuery.isEmpty ||
               (food['name'] as String)
                   .toLowerCase()
                   .contains(_searchQuery.toLowerCase());
       final matchesRegion =
-          _selectedRegion == 'All Regions' || food['region'] == _selectedRegion;
+          _selectedRegion == 'All Regions' ||
+              food['region'] == _selectedRegion;
       final matchesType =
-          _selectedFoodType == 'All' || food['category'] == _selectedFoodType;
+          _selectedFoodType == 'All' ||
+              food['category'] == _selectedFoodType;
       return matchesSearch && matchesRegion && matchesType;
     }).toList();
   }
@@ -1057,6 +1066,30 @@ class _FoodLoggingScreenState extends State<FoodLoggingScreen> {
             SnackBar(
               content: Text(
                 'Added ${f["name"]} to your food log',
+                style: const TextStyle(fontFamily: "Poppins"),
+              ),
+              duration: const Duration(seconds: 2),
+              backgroundColor: const Color(0xFF2E7D32),
+            ),
+          );
+        },
+      ),
+    );
+  }
+
+  // ✅ NEW: Open AI Food Entry Bottom Sheet
+  void _openAiFoodEntry() {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (_) => AiFoodEntryBottomSheet(
+        onFoodAdded: (food) {
+          setState(() => _customFoods.add(food));
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(
+                '${food["name"]} added to your food list!',
                 style: const TextStyle(fontFamily: "Poppins"),
               ),
               duration: const Duration(seconds: 2),
@@ -1094,8 +1127,6 @@ class _FoodLoggingScreenState extends State<FoodLoggingScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const SizedBox(height: 8),
-
-                    // All Foods
                     _buildAllFoodsSection(theme),
                   ],
                 ),
@@ -1106,10 +1137,7 @@ class _FoodLoggingScreenState extends State<FoodLoggingScreen> {
       ),
 
       floatingActionButton: Padding(
-        padding: const EdgeInsets.only(
-          left: 50,
-          right: 10,
-        ),
+        padding: const EdgeInsets.only(left: 50, right: 10),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
@@ -1121,7 +1149,7 @@ class _FoodLoggingScreenState extends State<FoodLoggingScreen> {
                   vertical: 12,
                 ),
                 decoration: BoxDecoration(
-                  color: const Color(0xFFDDE8D8), // light green like image
+                  color: const Color(0xFFDDE8D8),
                   borderRadius: BorderRadius.circular(14),
                 ),
                 child: const Text(
@@ -1143,17 +1171,16 @@ class _FoodLoggingScreenState extends State<FoodLoggingScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
-                // 🔥 ARROW IMAGE (replace with your asset)
                 Padding(
                   padding: const EdgeInsets.only(bottom: 6),
                   child: Image.asset(
-                    "assets/images/errow.png", // 👈 yahan apni image laga dena
+                    "assets/images/errow.png",
                     height: 28,
                     width: 28,
                   ),
                 ),
 
-                // 🔥 CIRCULAR FAB WITH SHADOW
+                // ✅ UPDATED: onPressed now opens AI bottom sheet
                 Container(
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
@@ -1166,11 +1193,12 @@ class _FoodLoggingScreenState extends State<FoodLoggingScreen> {
                     ],
                   ),
                   child: FloatingActionButton(
-                    onPressed: () {},
+                    onPressed: _openAiFoodEntry, // ✅ CONNECTED
                     elevation: 0,
                     backgroundColor: const Color(0xFF1B7F3A),
-                    shape: CircleBorder(), // dark green
-                    child: const Icon(Icons.add, size: 30, color: Colors.white),
+                    shape: const CircleBorder(),
+                    child:
+                    const Icon(Icons.add, size: 30, color: Colors.white),
                   ),
                 ),
               ],
@@ -1192,7 +1220,7 @@ class _FoodLoggingScreenState extends State<FoodLoggingScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
-                  padding: EdgeInsets.only(left: 12),
+                  padding: const EdgeInsets.only(left: 12),
                   child: Text(
                     'Food Logging',
                     style: TextStyle(
@@ -1204,7 +1232,7 @@ class _FoodLoggingScreenState extends State<FoodLoggingScreen> {
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.only(left: 12),
+                  padding: const EdgeInsets.only(left: 12),
                   child: Text(
                     'Log Your Daily Food Intake',
                     style: TextStyle(
@@ -1218,11 +1246,11 @@ class _FoodLoggingScreenState extends State<FoodLoggingScreen> {
               ],
             ),
           ),
-          Image(
+          const Image(
             image: AssetImage("assets/images/LOGO.png"),
             height: 60,
             width: 60,
-          )
+          ),
         ],
       ),
     );
@@ -1254,7 +1282,6 @@ class _FoodLoggingScreenState extends State<FoodLoggingScreen> {
             fontSize: 15,
           ),
           prefixIcon: const Icon(Icons.search, color: Colors.black38),
-
           suffixIcon: _searchQuery.isNotEmpty
               ? IconButton(
             icon: const Icon(Icons.clear, color: Colors.black38),
@@ -1264,16 +1291,13 @@ class _FoodLoggingScreenState extends State<FoodLoggingScreen> {
             }),
           )
               : null,
-
           contentPadding: const EdgeInsets.symmetric(
             horizontal: 16,
             vertical: 14,
           ),
-
-          // 🔥 IMPORTANT FIX
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(30),
-            borderSide: BorderSide(width: 1, color: Colors.grey),
+            borderSide: const BorderSide(width: 1, color: Colors.grey),
           ),
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(30),
@@ -1281,9 +1305,8 @@ class _FoodLoggingScreenState extends State<FoodLoggingScreen> {
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(30),
-            borderSide: BorderSide(width: 1, color: Colors.green),
+            borderSide: const BorderSide(width: 1, color: Colors.green),
           ),
-
           filled: true,
           fillColor: Colors.white,
         ),
@@ -1327,7 +1350,7 @@ class _FoodLoggingScreenState extends State<FoodLoggingScreen> {
           color: Colors.white,
           borderRadius: BorderRadius.circular(16),
           border: Border.all(
-            width: 01,
+            width: 1,
             color: Colors.grey.withOpacity(0.5),
           ),
           boxShadow: [
@@ -1342,7 +1365,6 @@ class _FoodLoggingScreenState extends State<FoodLoggingScreen> {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,
           children: [
-            // Food Image
             ClipRRect(
               borderRadius: const BorderRadius.vertical(
                 top: Radius.circular(16),
@@ -1364,7 +1386,6 @@ class _FoodLoggingScreenState extends State<FoodLoggingScreen> {
 
             const SizedBox(height: 9),
 
-            // Food Name
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15),
               child: Text(
@@ -1383,7 +1404,6 @@ class _FoodLoggingScreenState extends State<FoodLoggingScreen> {
 
             const SizedBox(height: 9),
 
-            // "See Portfolio" button style — matching image
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: SizedBox(

@@ -24,6 +24,11 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen>
   bool _isConfirmVisible = false;
   bool _isLoading = false;
 
+  // ✅ NEW: Manual error state variables add kiye
+  // ❌ OLD: Koi alag error variables nahi the, sirf FormKey se validate hota tha
+  String? _passwordError;
+  String? _confirmError;
+
   late final AnimationController _controller;
 
   late final Animation<Offset> _topSlide;
@@ -143,14 +148,48 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen>
     super.dispose();
   }
 
+  // ✅ NEW: _handleChangePassword manual validation ke saath update kiya
+  // ❌ OLD:
+  // Future<void> _handleChangePassword() async {
+  //   if (!_formKey.currentState!.validate()) return;
+  //   setState(() => _isLoading = true);
+  //   try { ... same API call ... }
+  // }
   Future<void> _handleChangePassword() async {
-    if (!_formKey.currentState!.validate()) return;
+    // Pehle errors clear karo
+    setState(() {
+      _passwordError = null;
+      _confirmError = null;
+    });
+
+    // Manual validation
+    bool isValid = true;
+
+    if (_passwordController.text.trim().isEmpty) {
+      setState(() => _passwordError = 'Please enter password');
+      isValid = false;
+    } else if (_passwordController.text.trim().length < 6) {
+      setState(() => _passwordError = 'Password must be at least 6 characters');
+      isValid = false;
+    }
+
+    if (_confirmController.text.trim().isEmpty) {
+      setState(() => _confirmError = 'Please confirm password');
+      isValid = false;
+    } else if (_confirmController.text.trim() !=
+        _passwordController.text.trim()) {
+      setState(() => _confirmError = 'Passwords do not match');
+      isValid = false;
+    }
+
+    if (!isValid) return;
 
     setState(() => _isLoading = true);
 
     try {
       // ✅ Real Supabase update password API
-      await AuthService.instance.updatePassword(_passwordController.text.trim());
+      await AuthService.instance
+          .updatePassword(_passwordController.text.trim());
 
       if (!mounted) return;
 
@@ -319,146 +358,243 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen>
 
                 SizedBox(height: 3.h),
 
+                // ✅ NEW: Password field ab Column mein wrap hai
+                //         Field ki height hamesha 45 fixed rahegi
+                //         Error text field ke NEECHE alag Text widget mein show hoga
+                //         Border manually red hogi jab _passwordError != null ho
+                // ❌ OLD:
+                // _animatedEntry(
+                //   slide: _passwordSlide,
+                //   fade: _passwordFade,
+                //   child: Container(
+                //     height: 45,
+                //     child: TextFormField(
+                //       errorStyle: const TextStyle(fontFamily: "Poppin"), // height bigaadta tha
+                //       validator: (value) { ... },
+                //     ),
+                //   ),
+                // ),
                 _animatedEntry(
                   slide: _passwordSlide,
                   fade: _passwordFade,
-                  child: Container(
-                    height: 45,
-                    width: double.infinity,
-                    decoration:
-                    const BoxDecoration(color: Colors.transparent),
-                    child: TextFormField(
-                      controller: _passwordController,
-                      obscureText: !_isPasswordVisible,
-                      style: TextStyle(
-                        fontSize: 12.sp,
-                        fontFamily: "regular",
-                      ),
-                      decoration: InputDecoration(
-                        hintText: 'Password...',
-                        hintStyle: TextStyle(
-                          color: Colors.grey.shade500,
-                          fontSize: 10,
-                          fontFamily: "regular",
-                        ),
-                        filled: true,
-                        fillColor: Colors.transparent,
-                        contentPadding: const EdgeInsets.symmetric(
-                          horizontal: 18,
-                          vertical: 12,
-                        ),
-                        suffixIcon: IconButton(
-                          icon: Icon(
-                            _isPasswordVisible
-                                ? Icons.visibility_off
-                                : Icons.visibility,
-                            color: const Color(0xFF026F1A),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        height: 45,
+                        width: double.infinity,
+                        child: TextFormField(
+                          controller: _passwordController,
+                          obscureText: !_isPasswordVisible,
+                          style: TextStyle(
+                            fontSize: 12.sp,
+                            fontFamily: "regular",
                           ),
-                          onPressed: () {
-                            setState(() =>
-                            _isPasswordVisible = !_isPasswordVisible);
+                          // ✅ NEW: Jab user type kare toh error clear ho jaye
+                          onChanged: (_) {
+                            if (_passwordError != null) {
+                              setState(() => _passwordError = null);
+                            }
                           },
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(30),
-                          borderSide: BorderSide(
-                            color: Colors.grey.shade300,
-                            width: 1,
+                          decoration: InputDecoration(
+                            hintText: 'Password...',
+                            hintStyle: TextStyle(
+                              color: Colors.grey.shade500,
+                              fontSize: 10,
+                              fontFamily: "regular",
+                            ),
+                            filled: true,
+                            fillColor: Colors.transparent,
+                            contentPadding: const EdgeInsets.symmetric(
+                              horizontal: 18,
+                              vertical: 12,
+                            ),
+                            suffixIcon: IconButton(
+                              icon: Icon(
+                                _isPasswordVisible
+                                    ? Icons.visibility_off
+                                    : Icons.visibility,
+                                color: const Color(0xFF026F1A),
+                              ),
+                              onPressed: () {
+                                setState(() =>
+                                _isPasswordVisible = !_isPasswordVisible);
+                              },
+                            ),
+                            // ✅ NEW: errorStyle height 0 — internal space na le
+                            // ❌ OLD: errorStyle: const TextStyle(fontFamily: "Poppin"),
+                            errorStyle: const TextStyle(fontSize: 0, height: 0),
+                            // ✅ NEW: Border color manually _passwordError se control hogi
+                            // ❌ OLD: enabledBorder mein sirf grey color tha
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(30),
+                              borderSide: BorderSide(
+                                color: _passwordError != null
+                                    ? Colors.red
+                                    : Colors.grey.shade300,
+                                width: 1,
+                              ),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(30),
+                              borderSide: BorderSide(
+                                color: _passwordError != null
+                                    ? Colors.red
+                                    : const Color(0xFF026F1A),
+                                width: 1.2,
+                              ),
+                            ),
+                            errorBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(30),
+                              borderSide:
+                              const BorderSide(color: Colors.red, width: 1),
+                            ),
+                            focusedErrorBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(30),
+                              borderSide:
+                              const BorderSide(color: Colors.red, width: 1),
+                            ),
                           ),
+                          // ✅ NEW: validator null — validation manual ho rahi hai
+                          // ❌ OLD: validator mein password check hoti thi jo height bigaadti thi
+                          validator: (_) => null,
                         ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(30),
-                          borderSide: const BorderSide(
-                            color: Color(0xFF026F1A),
-                            width: 1.2,
-                          ),
-                        ),
-                        errorStyle:
-                        const TextStyle(fontFamily: "Poppin"),
                       ),
-                      validator: (value) {
-                        if (value == null || value.trim().isEmpty) {
-                          return 'Please enter password';
-                        }
-                        if (value.trim().length < 6) {
-                          return 'Password must be at least 6 characters';
-                        }
-                        return null;
-                      },
-                    ),
+                      // ✅ NEW: Error text field ke NEECHE alag widget mein
+                      if (_passwordError != null)
+                        Padding(
+                          padding: const EdgeInsets.only(left: 16, top: 4),
+                          child: Text(
+                            _passwordError!,
+                            style: const TextStyle(
+                              color: Colors.red,
+                              fontSize: 11,
+                              fontFamily: "regular",
+                            ),
+                          ),
+                        ),
+                    ],
                   ),
                 ),
 
                 const SizedBox(height: 5),
 
+                // ✅ NEW: Confirm field ab Column mein wrap hai
+                //         Field ki height hamesha 45 fixed rahegi
+                //         Error text field ke NEECHE alag Text widget mein show hoga
+                //         Border manually red hogi jab _confirmError != null ho
+                // ❌ OLD:
+                // _animatedEntry(
+                //   slide: _confirmSlide,
+                //   fade: _confirmFade,
+                //   child: Container(
+                //     height: 45,
+                //     child: TextFormField(
+                //       errorStyle: const TextStyle(fontFamily: "Poppin"), // height bigaadta tha
+                //       validator: (value) { ... },
+                //     ),
+                //   ),
+                // ),
                 _animatedEntry(
                   slide: _confirmSlide,
                   fade: _confirmFade,
-                  child: Container(
-                    height: 45,
-                    width: double.infinity,
-                    decoration:
-                    const BoxDecoration(color: Colors.transparent),
-                    child: TextFormField(
-                      controller: _confirmController,
-                      obscureText: !_isConfirmVisible,
-                      style: TextStyle(
-                        fontSize: 12.sp,
-                        fontFamily: "regular",
-                      ),
-                      decoration: InputDecoration(
-                        hintText: 'Confirm Password...',
-                        hintStyle: TextStyle(
-                          color: Colors.grey.shade500,
-                          fontSize: 10,
-                          fontFamily: "regular",
-                        ),
-                        filled: true,
-                        fillColor: Colors.transparent,
-                        contentPadding: const EdgeInsets.symmetric(
-                          horizontal: 18,
-                          vertical: 12,
-                        ),
-                        suffixIcon: IconButton(
-                          icon: Icon(
-                            _isConfirmVisible
-                                ? Icons.visibility_off
-                                : Icons.visibility,
-                            color: const Color(0xFF026F1A),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        height: 45,
+                        width: double.infinity,
+                        child: TextFormField(
+                          controller: _confirmController,
+                          obscureText: !_isConfirmVisible,
+                          style: TextStyle(
+                            fontSize: 12.sp,
+                            fontFamily: "regular",
                           ),
-                          onPressed: () {
-                            setState(() =>
-                            _isConfirmVisible = !_isConfirmVisible);
+                          // ✅ NEW: Jab user type kare toh error clear ho jaye
+                          onChanged: (_) {
+                            if (_confirmError != null) {
+                              setState(() => _confirmError = null);
+                            }
                           },
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(30),
-                          borderSide: BorderSide(
-                            color: Colors.grey.shade300,
-                            width: 1,
+                          decoration: InputDecoration(
+                            hintText: 'Confirm Password...',
+                            hintStyle: TextStyle(
+                              color: Colors.grey.shade500,
+                              fontSize: 10,
+                              fontFamily: "regular",
+                            ),
+                            filled: true,
+                            fillColor: Colors.transparent,
+                            contentPadding: const EdgeInsets.symmetric(
+                              horizontal: 18,
+                              vertical: 12,
+                            ),
+                            suffixIcon: IconButton(
+                              icon: Icon(
+                                _isConfirmVisible
+                                    ? Icons.visibility_off
+                                    : Icons.visibility,
+                                color: const Color(0xFF026F1A),
+                              ),
+                              onPressed: () {
+                                setState(
+                                        () => _isConfirmVisible = !_isConfirmVisible);
+                              },
+                            ),
+                            // ✅ NEW: errorStyle height 0 — internal space na le
+                            // ❌ OLD: errorStyle: const TextStyle(fontFamily: "Poppin"),
+                            errorStyle: const TextStyle(fontSize: 0, height: 0),
+                            // ✅ NEW: Border color manually _confirmError se control hogi
+                            // ❌ OLD: enabledBorder mein sirf grey color tha
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(30),
+                              borderSide: BorderSide(
+                                color: _confirmError != null
+                                    ? Colors.red
+                                    : Colors.grey.shade300,
+                                width: 1,
+                              ),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(30),
+                              borderSide: BorderSide(
+                                color: _confirmError != null
+                                    ? Colors.red
+                                    : const Color(0xFF026F1A),
+                                width: 1.2,
+                              ),
+                            ),
+                            errorBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(30),
+                              borderSide:
+                              const BorderSide(color: Colors.red, width: 1),
+                            ),
+                            focusedErrorBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(30),
+                              borderSide:
+                              const BorderSide(color: Colors.red, width: 1),
+                            ),
                           ),
+                          // ✅ NEW: validator null — validation manual ho rahi hai
+                          // ❌ OLD: validator mein confirm password check hoti thi jo height bigaadti thi
+                          validator: (_) => null,
                         ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(30),
-                          borderSide: const BorderSide(
-                            color: Color(0xFF026F1A),
-                            width: 1.2,
-                          ),
-                        ),
-                        errorStyle:
-                        const TextStyle(fontFamily: "Poppin"),
                       ),
-                      validator: (value) {
-                        if (value == null || value.trim().isEmpty) {
-                          return 'Please confirm password';
-                        }
-                        if (value.trim() !=
-                            _passwordController.text.trim()) {
-                          return 'Passwords do not match';
-                        }
-                        return null;
-                      },
-                    ),
+                      // ✅ NEW: Error text field ke NEECHE alag widget mein
+                      if (_confirmError != null)
+                        Padding(
+                          padding: const EdgeInsets.only(left: 16, top: 4),
+                          child: Text(
+                            _confirmError!,
+                            style: const TextStyle(
+                              color: Colors.red,
+                              fontSize: 11,
+                              fontFamily: "regular",
+                            ),
+                          ),
+                        ),
+                    ],
                   ),
                 ),
 
@@ -471,8 +607,11 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen>
                     width: double.infinity,
                     height: 45,
                     child: ElevatedButton(
-                      onPressed:(){
-                        Navigator.push(context, MaterialPageRoute(builder: (context)=>SignInScreen()));
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => SignInScreen()));
                       },
                       // _isLoading ? null : _handleChangePassword,
                       style: ElevatedButton.styleFrom(

@@ -538,6 +538,10 @@ class _VerifyScreenState extends State<VerifyScreen>
 
   bool _isLoading = false;
 
+  // ✅ NEW: OTP error ke liye manual error variable add kiya
+  // ❌ OLD: Sirf SnackBar se error dikhaya jata tha, koi field-level error nahi tha
+  String? _otpError;
+
   late final AnimationController _controller;
 
   late final Animation<Offset> _topSlide;
@@ -642,6 +646,8 @@ class _VerifyScreenState extends State<VerifyScreen>
     super.dispose();
   }
 
+  // ✅ NEW: onChanged mein _otpError bhi clear hoga jab user type kare
+  // ❌ OLD: Sirf setState hota tha, koi error clear nahi hoti thi
   void _onOtpChanged(String value, int index) {
     String text = value;
     if (text.length > 1) {
@@ -665,22 +671,33 @@ class _VerifyScreenState extends State<VerifyScreen>
       TextPosition(offset: _otpControllers[index].text.length),
     );
 
+    // ✅ NEW: Jab user type kare toh OTP error clear ho jaye
+    if (_otpError != null) setState(() => _otpError = null);
+
     setState(() {});
   }
 
   String get _enteredOtp =>
       _otpControllers.map((c) => c.text.trim()).join();
 
+  // ✅ NEW: _handleVerify mein SnackBar ki jagah _otpError se error dikhayenge
+  // ❌ OLD:
+  // Future<void> _handleVerify() async {
+  //   if (_enteredOtp.length < 6) {
+  //     ScaffoldMessenger.of(context).showSnackBar(
+  //       const SnackBar(content: Text('Please enter the 6-digit code')),
+  //     );
+  //     return;
+  //   }
+  //   ...
+  // }
   Future<void> _handleVerify() async {
+    // Pehle error clear karo
+    setState(() => _otpError = null);
+
+    // Manual validation
     if (_enteredOtp.length < 6) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text(
-            'Please enter the 6-digit code',
-            style: TextStyle(fontFamily: "Poppin"),
-          ),
-        ),
-      );
+      setState(() => _otpError = 'Please enter the complete 6-digit code');
       return;
     }
 
@@ -750,6 +767,9 @@ class _VerifyScreenState extends State<VerifyScreen>
     );
   }
 
+  // ✅ NEW: _buildOtpBox mein border color ab _otpError se bhi control hogi
+  //         Jab error ho toh sabhi 6 boxes red ho jayenge
+  // ❌ OLD: Border hamesha grey ya green rehti thi, error pe red nahi hoti thi
   Widget _buildOtpBox(int index, double boxSize) {
     return SizedBox(
       width: boxSize,
@@ -776,19 +796,35 @@ class _VerifyScreenState extends State<VerifyScreen>
               filled: true,
               fillColor: Colors.transparent,
               contentPadding: const EdgeInsets.symmetric(vertical: 8),
+              // ✅ NEW: errorStyle height 0 — internal space na le
+              errorStyle: const TextStyle(fontSize: 0, height: 0),
+              // ✅ NEW: Border color _otpError se control hogi
+              // ❌ OLD: enabledBorder mein sirf grey color tha
               enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12),
                 borderSide: BorderSide(
-                  color: Colors.grey.shade300,
+                  color: _otpError != null
+                      ? Colors.red
+                      : Colors.grey.shade300,
                   width: 1.0,
                 ),
               ),
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12),
-                borderSide: const BorderSide(
-                  color: Color(0xFF026F1A),
+                borderSide: BorderSide(
+                  color: _otpError != null
+                      ? Colors.red
+                      : const Color(0xFF026F1A),
                   width: 1.4,
                 ),
+              ),
+              errorBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12),
+                borderSide: const BorderSide(color: Colors.red, width: 1.0),
+              ),
+              focusedErrorBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12),
+                borderSide: const BorderSide(color: Colors.red, width: 1.4),
               ),
             ),
             inputFormatters: [
@@ -949,14 +985,44 @@ class _VerifyScreenState extends State<VerifyScreen>
 
               SizedBox(height: 2.h),
 
+              // ✅ NEW: OTP row ab Column mein wrap hai
+              //         Error text boxes ke NEECHE alag Text widget mein show hoga
+              //         Boxes ki height/shape bilkul same rahegi — koi distortion nahi
+              // ❌ OLD:
+              // _animatedEntry(
+              //   slide: _otpSlide,
+              //   fade: _otpFade,
+              //   child: Row(
+              //     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              //     children: List.generate(6, (i) => _buildOtpBox(i, boxSize)),
+              //   ),
+              // ),
               _animatedEntry(
                 slide: _otpSlide,
                 fade: _otpFade,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: List.generate(6, (i) {
-                    return _buildOtpBox(i, boxSize);
-                  }),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: List.generate(6, (i) {
+                        return _buildOtpBox(i, boxSize);
+                      }),
+                    ),
+                    // ✅ NEW: Error text boxes ke NEECHE alag widget mein
+                    if (_otpError != null)
+                      Padding(
+                        padding: const EdgeInsets.only(left: 4, top: 6),
+                        child: Text(
+                          _otpError!,
+                          style: const TextStyle(
+                            color: Colors.red,
+                            fontSize: 11,
+                            fontFamily: "regular",
+                          ),
+                        ),
+                      ),
+                  ],
                 ),
               ),
 
@@ -970,8 +1036,11 @@ class _VerifyScreenState extends State<VerifyScreen>
                   height: 45,
                   child: ElevatedButton(
                     // onPressed: _isLoading ? null : _handleVerify,
-                    onPressed: (){
-                      Navigator.push(context, MaterialPageRoute(builder: (context)=>ChangePasswordScreen()));
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ChangePasswordScreen()));
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xFF026F1A),

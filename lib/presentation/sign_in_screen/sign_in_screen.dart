@@ -22,6 +22,11 @@ class _SignInScreenState extends State<SignInScreen>
   bool _isLoading = false;
   bool _rememberMe = false;
 
+  // ✅ NEW: Manual error state variables added
+  // ❌ OLD: Koi alag error variables nahi the, sirf FormKey se validate hota tha
+  String? _emailError;
+  String? _passwordError;
+
   late final AnimationController _controller;
 
   late final Animation<Offset> _headerSlide;
@@ -205,8 +210,40 @@ class _SignInScreenState extends State<SignInScreen>
     return 'Sign in failed. Please try again.';
   }
 
+  // ✅ NEW: Poora _handleSignIn manual validation ke saath update kiya
+  // ❌ OLD:
+  // Future<void> _handleSignIn() async {
+  //   if (!_formKey.currentState!.validate()) return;
+  //   setState(() => _isLoading = true);
+  //   try { ... same API call ... }
+  // }
   Future<void> _handleSignIn() async {
-    if (!_formKey.currentState!.validate()) return;
+    // Pehle errors clear karo
+    setState(() {
+      _emailError = null;
+      _passwordError = null;
+    });
+
+    // Manual validation
+    bool isValid = true;
+
+    if (_emailController.text.trim().isEmpty) {
+      setState(() => _emailError = 'Please enter your email');
+      isValid = false;
+    } else if (!_emailController.text.contains('@')) {
+      setState(() => _emailError = 'Please enter a valid email');
+      isValid = false;
+    }
+
+    if (_passwordController.text.trim().isEmpty) {
+      setState(() => _passwordError = 'Please enter your password');
+      isValid = false;
+    } else if (_passwordController.text.length < 6) {
+      setState(() => _passwordError = 'Password must be at least 6 characters');
+      isValid = false;
+    }
+
+    if (!isValid) return;
 
     setState(() => _isLoading = true);
 
@@ -400,159 +437,222 @@ class _SignInScreenState extends State<SignInScreen>
     );
   }
 
+  // ✅ NEW: _buildEmailField — ab Column mein wrap hai
+  //         Field ki height hamesha 45 fixed rahegi
+  //         Error text field ke NEECHE alag Text widget mein show hoga
+  //         Border manually red hogi jab _emailError != null ho
+  //         onChanged mein error clear hoga jab user type kare
+  // ❌ OLD:
+  // Widget _buildEmailField() {
+  //   return SizedBox(
+  //     height: 45,
+  //     child: TextFormField(
+  //       ...
+  //       decoration: InputDecoration(
+  //         ...
+  //         errorStyle: const TextStyle(fontFamily: "Poppins"), // yeh height bigaadta tha
+  //       ),
+  //       validator: (value) {
+  //         if (value == null || value.trim().isEmpty) return 'Please enter your email';
+  //         if (!value.contains('@')) return 'Please enter a valid email';
+  //         return null;
+  //       },
+  //     ),
+  //   );
+  // }
   Widget _buildEmailField() {
-    return Container(
-      height: 45,
-      width: double.infinity,
-      decoration: const BoxDecoration(
-        color: Colors.transparent,
-      ),
-      child: TextFormField(
-        controller: _emailController,
-        keyboardType: TextInputType.emailAddress,
-        style: const TextStyle(
-          fontSize: 14,
-          fontFamily: "regular",
-          color: Colors.black,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SizedBox(
+          height: 45,
+          child: TextFormField(
+            controller: _emailController,
+            keyboardType: TextInputType.emailAddress,
+            // ✅ NEW: Jab user type kare toh error clear ho jaye
+            onChanged: (_) {
+              if (_emailError != null) setState(() => _emailError = null);
+            },
+            decoration: InputDecoration(
+              hintText: 'Email Address...',
+              hintStyle: TextStyle(
+                color: Colors.grey.shade500,
+                fontSize: 10,
+                fontFamily: "regular",
+                fontWeight: FontWeight.w400,
+              ),
+              filled: true,
+              fillColor: Colors.transparent,
+              contentPadding: const EdgeInsets.symmetric(
+                horizontal: 16,
+                vertical: 22,
+              ),
+              // ✅ NEW: errorStyle height 0 rakhi — taake internal error space na le
+              // ❌ OLD: errorStyle: const TextStyle(fontFamily: "Poppins"),
+              errorStyle: const TextStyle(fontSize: 0, height: 0),
+              // ✅ NEW: Border color manually _emailError se control hogi
+              // ❌ OLD: enabledBorder mein sirf grey color tha
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(30),
+                borderSide: BorderSide(
+                  color: _emailError != null
+                      ? Colors.red
+                      : Colors.grey.shade300,
+                  width: 1,
+                ),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(30),
+                borderSide: BorderSide(
+                  color: _emailError != null
+                      ? Colors.red
+                      : const Color(0xFF0A8A2A),
+                  width: 1.2,
+                ),
+              ),
+              errorBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(30),
+                borderSide: const BorderSide(color: Colors.red, width: 1),
+              ),
+              focusedErrorBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(30),
+                borderSide: const BorderSide(color: Colors.red, width: 1),
+              ),
+            ),
+            // ✅ NEW: validator null return karta hai — validation manual ho rahi hai
+            // ❌ OLD: validator mein email check hoti thi jo height bigaadti thi
+            validator: (_) => null,
+          ),
         ),
-        decoration: InputDecoration(
-          hintText: 'Email Address...',
-          hintStyle: TextStyle(
-            color: Colors.grey.shade500,
-            fontSize: 10,
-            fontFamily: "regular",
-            fontWeight: FontWeight.w400,
-          ),
-          filled: true,
-          fillColor: Colors.transparent,
-          contentPadding: const EdgeInsets.symmetric(
-            horizontal: 16,
-            vertical: 18,
-          ),
-          enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(30),
-            borderSide: BorderSide(
-              color: Colors.grey.shade300,
-              width: 1,
+        // ✅ NEW: Error text field ke NEECHE alag widget mein — height affect nahi hogi
+        if (_emailError != null)
+          Padding(
+            padding: const EdgeInsets.only(left: 16, top: 4),
+            child: Text(
+              _emailError!,
+              style: const TextStyle(
+                color: Colors.red,
+                fontSize: 11,
+                fontFamily: "regular",
+              ),
             ),
           ),
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(30),
-            borderSide: const BorderSide(
-              color: Color(0xFF0A8A2A),
-              width: 1.2,
-            ),
-          ),
-          errorBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(30),
-            borderSide: const BorderSide(
-              color: Colors.red,
-              width: 1,
-            ),
-          ),
-          focusedErrorBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(30),
-            borderSide: const BorderSide(
-              color: Colors.red,
-              width: 1,
-            ),
-          ),
-          errorStyle: const TextStyle(fontFamily: "Poppins"),
-        ),
-        validator: (value) {
-          if (value == null || value.trim().isEmpty) {
-            return 'Please enter your email';
-          }
-          if (!value.contains('@')) {
-            return 'Please enter a valid email';
-          }
-          return null;
-        },
-      ),
+      ],
     );
   }
 
+  // ✅ NEW: _buildPasswordField — bilkul same fix email field jaisi
+  //         Height 45 fixed, error neeche alag, border red manually
+  // ❌ OLD:
+  // Widget _buildPasswordField() {
+  //   return Container(
+  //     height: 45,
+  //     width: double.infinity,
+  //     decoration: const BoxDecoration(color: Colors.transparent),
+  //     child: TextFormField(
+  //       ...
+  //       decoration: InputDecoration(
+  //         ...
+  //         errorStyle: const TextStyle(fontFamily: "Poppins"), // yeh height bigaadta tha
+  //       ),
+  //       validator: (value) {
+  //         if (value == null || value.trim().isEmpty) return 'Please enter your password';
+  //         if (value.length < 6) return 'Password must be at least 6 characters';
+  //         return null;
+  //       },
+  //     ),
+  //   );
+  // }
   Widget _buildPasswordField() {
-    return Container(
-      height: 45,
-      width: double.infinity,
-      decoration: const BoxDecoration(
-        color: Colors.transparent,
-      ),
-      child: TextFormField(
-        controller: _passwordController,
-        obscureText: !_isPasswordVisible,
-        style: const TextStyle(
-          fontSize: 14,
-          fontFamily: "regular",
-          color: Colors.black,
-        ),
-        decoration: InputDecoration(
-          hintText: 'Password...',
-          hintStyle: TextStyle(
-            color: Colors.grey.shade500,
-            fontSize: 10,
-            fontFamily: "regular",
-            fontWeight: FontWeight.w400,
-          ),
-          filled: true,
-          fillColor: Colors.transparent,
-          contentPadding: const EdgeInsets.symmetric(
-            horizontal: 16,
-            vertical: 18,
-          ),
-          suffixIcon: IconButton(
-            onPressed: () {
-              setState(() {
-                _isPasswordVisible = !_isPasswordVisible;
-              });
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SizedBox(
+          height: 45,
+          child: TextFormField(
+            controller: _passwordController,
+            obscureText: !_isPasswordVisible,
+            // ✅ NEW: Jab user type kare toh error clear ho jaye
+            onChanged: (_) {
+              if (_passwordError != null) setState(() => _passwordError = null);
             },
-            icon: Icon(
-              _isPasswordVisible ? Icons.visibility_off : Icons.visibility,
-              color: const Color(0xFF026F1A),
-              size: 22,
+            decoration: InputDecoration(
+              hintText: 'Password...',
+              hintStyle: TextStyle(
+                color: Colors.grey.shade500,
+                fontSize: 10,
+                fontFamily: "regular",
+                fontWeight: FontWeight.w400,
+              ),
+              filled: true,
+              fillColor: Colors.transparent,
+              contentPadding: const EdgeInsets.symmetric(
+                horizontal: 16,
+                vertical: 22,
+              ),
+              // ✅ NEW: errorStyle height 0 — internal space na le
+              // ❌ OLD: errorStyle: const TextStyle(fontFamily: "Poppins"),
+              errorStyle: const TextStyle(fontSize: 0, height: 0),
+              suffixIcon: IconButton(
+                onPressed: () {
+                  setState(() {
+                    _isPasswordVisible = !_isPasswordVisible;
+                  });
+                },
+                icon: Icon(
+                  _isPasswordVisible ? Icons.visibility_off : Icons.visibility,
+                  color: const Color(0xFF026F1A),
+                  size: 22,
+                ),
+              ),
+              // ✅ NEW: Border color manually _passwordError se control hogi
+              // ❌ OLD: enabledBorder mein sirf grey color tha
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(30),
+                borderSide: BorderSide(
+                  color: _passwordError != null
+                      ? Colors.red
+                      : Colors.grey.shade300,
+                  width: 1,
+                ),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(30),
+                borderSide: BorderSide(
+                  color: _passwordError != null
+                      ? Colors.red
+                      : const Color(0xFF0A8A2A),
+                  width: 1.2,
+                ),
+              ),
+              errorBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(30),
+                borderSide: const BorderSide(color: Colors.red, width: 1),
+              ),
+              focusedErrorBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(30),
+                borderSide: const BorderSide(color: Colors.red, width: 1),
+              ),
             ),
+            // ✅ NEW: validator null return karta hai — validation manual ho rahi hai
+            // ❌ OLD: validator mein password check hoti thi jo height bigaadti thi
+            validator: (_) => null,
           ),
-          enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(30),
-            borderSide: BorderSide(
-              color: Colors.grey.shade300,
-              width: 1,
-            ),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(30),
-            borderSide: const BorderSide(
-              color: Color(0xFF0A8A2A),
-              width: 1.2,
-            ),
-          ),
-          errorBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(30),
-            borderSide: const BorderSide(
-              color: Colors.red,
-              width: 1,
-            ),
-          ),
-          focusedErrorBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(30),
-            borderSide: const BorderSide(
-              color: Colors.red,
-              width: 1,
-            ),
-          ),
-          errorStyle: const TextStyle(fontFamily: "Poppins"),
         ),
-        validator: (value) {
-          if (value == null || value.trim().isEmpty) {
-            return 'Please enter your password';
-          }
-          if (value.length < 6) {
-            return 'Password must be at least 6 characters';
-          }
-          return null;
-        },
-      ),
+        // ✅ NEW: Error text field ke NEECHE alag widget mein — height affect nahi hogi
+        if (_passwordError != null)
+          Padding(
+            padding: const EdgeInsets.only(left: 16, top: 4),
+            child: Text(
+              _passwordError!,
+              style: const TextStyle(
+                color: Colors.red,
+                fontSize: 11,
+                fontFamily: "regular",
+              ),
+            ),
+          ),
+      ],
     );
   }
 
@@ -632,11 +732,10 @@ class _SignInScreenState extends State<SignInScreen>
       width: double.infinity,
       height: 45,
       child: ElevatedButton(
-        // onPressed: _isLoading ? null : _handleSignIn, // ✅ API enabled
-       onPressed: (){
-         Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>OnboardingScreen()),
-           (Route<dynamic>route)=>false);
-       },
+        // onPressed: _isLoading ? null : _handleSignIn,
+        onPressed: (){
+          Navigator.push(context, MaterialPageRoute(builder: (context)=>OnboardingScreen()));
+        },
         style: ElevatedButton.styleFrom(
           backgroundColor: const Color(0xFF026F1A),
           foregroundColor: Colors.white,

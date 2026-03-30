@@ -26,7 +26,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
+    final m = MediaQuery.of(context).size;
 
     return Scaffold(
       body: SafeArea(
@@ -35,7 +35,7 @@ class _SplashScreenState extends State<SplashScreen> {
             Center(
               child: Image.asset(
                 "assets/images/Splash-Container.png",
-                height: size.height * 0.45,
+                height: m.height * 0.45,
                 width: double.infinity,
                 fit: BoxFit.contain,
               ),
@@ -44,8 +44,8 @@ class _SplashScreenState extends State<SplashScreen> {
               alignment: Alignment.center,
               child: Image.asset(
                 "assets/images/LOGO.png",
-                height: size.height * 0.4,
-                width: size.width * 1,
+                height: m.height * 0.4,
+                width: m.width * 1,
                 fit: BoxFit.contain,
               ),
             ),

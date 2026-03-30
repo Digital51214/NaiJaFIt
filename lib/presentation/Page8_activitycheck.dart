@@ -149,9 +149,6 @@ class _Page8ActivityLevelState extends State<Page8ActivityLevel>
     }
 
     // Goal-based adjustment
-    // lose_weight: deficit 500 kcal/day
-    // gain_weight: surplus 300 kcal/day
-    // maintain_weight: TDEE as is
     final String fitnessGoal =
         (data['fitnessGoal'] as String?) ?? 'maintain_weight';
 
@@ -227,17 +224,19 @@ class _Page8ActivityLevelState extends State<Page8ActivityLevel>
                 final bool isSelected = _selectedActivity == item['id'];
 
                 return Padding(
-                  padding: EdgeInsets.only(bottom: 1.h),
+                  padding: EdgeInsets.only(bottom: 1.4.h),
                   child: GestureDetector(
                     onTap: () => _selectActivity(item['id']!),
                     child: AnimatedContainer(
-                      height: 66,
                       duration: const Duration(milliseconds: 220),
                       curve: Curves.easeInOut,
                       width: double.infinity,
+                      // ✅ FIXED: Removed fixed height:66, using constraints so content
+                      // can breathe on all screen sizes without overflow/overlap
+                      constraints: BoxConstraints(minHeight: 7.h),
                       padding: EdgeInsets.symmetric(
-                        horizontal: 5.5.w,
-                        vertical: 2.h,
+                        horizontal: 5.w,
+                        vertical: 1.6.h, // ✅ FIXED: was 2.h which caused overflow on small screens
                       ),
                       decoration: BoxDecoration(
                         color: Colors.white,
@@ -252,10 +251,11 @@ class _Page8ActivityLevelState extends State<Page8ActivityLevel>
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
+                          // Radio circle
                           AnimatedContainer(
                             duration: const Duration(milliseconds: 200),
-                            width: 6.w,
-                            height: 6.w,
+                            width: 5.5.w,   // ✅ FIXED: was 6.w, slightly smaller for balance
+                            height: 5.5.w,
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
                               color: isSelected
@@ -269,19 +269,20 @@ class _Page8ActivityLevelState extends State<Page8ActivityLevel>
                               ),
                             ),
                             child: isSelected
-                                ? const Icon(
+                                ? Icon(
                               Icons.check,
                               color: Colors.white,
-                              size: 14,
+                              size: 1.8.h, // ✅ FIXED: responsive icon size
                             )
                                 : null,
                           ),
 
-                          SizedBox(width: 5.w),
+                          SizedBox(width: 4.w), // ✅ FIXED: was 5.w
 
                           Expanded(
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisSize: MainAxisSize.min, // ✅ FIXED: wrap content tightly
                               children: [
                                 Text(
                                   item['title']!,
@@ -290,10 +291,10 @@ class _Page8ActivityLevelState extends State<Page8ActivityLevel>
                                     fontFamily: "medium",
                                     fontWeight: FontWeight.w600,
                                     color: Colors.black,
-                                    height: 1,
+                                    height: 1.2, // ✅ FIXED: was 1 (too tight)
                                   ),
                                 ),
-                                SizedBox(height: 0.8.h),
+                                SizedBox(height: 0.5.h), // ✅ FIXED: was 0.8.h
                                 Text(
                                   item['subtitle']!,
                                   style: TextStyle(
@@ -301,7 +302,7 @@ class _Page8ActivityLevelState extends State<Page8ActivityLevel>
                                     fontFamily: "light",
                                     fontWeight: FontWeight.w400,
                                     color: const Color(0xFF8B8B8B),
-                                    height: 1,
+                                    height: 1.2, // ✅ FIXED: was 1 (too tight, caused clipping)
                                   ),
                                 ),
                               ],
