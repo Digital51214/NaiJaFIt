@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:naijafit/presentation/Privacy_screen.dart';
 import 'package:naijafit/presentation/Terms%20and%20condition.dart';
 import 'package:naijafit/presentation/sign_in_screen/sign_in_screen.dart';
-import 'package:sizer/sizer.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../core/app_export.dart';
 import '../../routes/app_routes.dart';
@@ -28,8 +28,6 @@ class _SignUpScreenState extends State<SignUpScreen>
   bool _isLoading = false;
   bool _isAgreed = true;
 
-  // ✅ NEW: Manual error state variables add kiye gaye
-  // ❌ OLD: Koi alag error variables nahi the, sirf FormKey se validate hota tha
   String? _nameError;
   String? _emailError;
   String? _passwordError;
@@ -70,121 +68,93 @@ class _SignUpScreenState extends State<SignUpScreen>
     _headerSlide = Tween<Offset>(
       begin: const Offset(0, -0.35),
       end: Offset.zero,
-    ).animate(
-      CurvedAnimation(
-        parent: _controller,
-        curve: const Interval(0.00, 0.18, curve: Curves.easeOutCubic),
-      ),
-    );
+    ).animate(CurvedAnimation(
+      parent: _controller,
+      curve: const Interval(0.00, 0.18, curve: Curves.easeOutCubic),
+    ));
 
-    _headerFade = Tween<double>(begin: 0, end: 1).animate(
-      CurvedAnimation(
-        parent: _controller,
-        curve: const Interval(0.00, 0.18, curve: Curves.easeOut),
-      ),
-    );
+    _headerFade = Tween<double>(begin: 0, end: 1).animate(CurvedAnimation(
+      parent: _controller,
+      curve: const Interval(0.00, 0.18, curve: Curves.easeOut),
+    ));
 
     _nameSlide = Tween<Offset>(
       begin: const Offset(0, 0.35),
       end: Offset.zero,
-    ).animate(
-      CurvedAnimation(
-        parent: _controller,
-        curve: const Interval(0.22, 0.40, curve: Curves.easeOutCubic),
-      ),
-    );
+    ).animate(CurvedAnimation(
+      parent: _controller,
+      curve: const Interval(0.22, 0.40, curve: Curves.easeOutCubic),
+    ));
 
-    _nameFade = Tween<double>(begin: 0, end: 1).animate(
-      CurvedAnimation(
-        parent: _controller,
-        curve: const Interval(0.22, 0.40, curve: Curves.easeOut),
-      ),
-    );
+    _nameFade = Tween<double>(begin: 0, end: 1).animate(CurvedAnimation(
+      parent: _controller,
+      curve: const Interval(0.22, 0.40, curve: Curves.easeOut),
+    ));
 
     _emailSlide = Tween<Offset>(
       begin: const Offset(0, 0.35),
       end: Offset.zero,
-    ).animate(
-      CurvedAnimation(
-        parent: _controller,
-        curve: const Interval(0.32, 0.52, curve: Curves.easeOutCubic),
-      ),
-    );
+    ).animate(CurvedAnimation(
+      parent: _controller,
+      curve: const Interval(0.32, 0.52, curve: Curves.easeOutCubic),
+    ));
 
-    _emailFade = Tween<double>(begin: 0, end: 1).animate(
-      CurvedAnimation(
-        parent: _controller,
-        curve: const Interval(0.32, 0.52, curve: Curves.easeOut),
-      ),
-    );
+    _emailFade = Tween<double>(begin: 0, end: 1).animate(CurvedAnimation(
+      parent: _controller,
+      curve: const Interval(0.32, 0.52, curve: Curves.easeOut),
+    ));
 
     _passwordSlide = Tween<Offset>(
       begin: const Offset(0, 0.35),
       end: Offset.zero,
-    ).animate(
-      CurvedAnimation(
-        parent: _controller,
-        curve: const Interval(0.42, 0.64, curve: Curves.easeOutCubic),
-      ),
-    );
+    ).animate(CurvedAnimation(
+      parent: _controller,
+      curve: const Interval(0.42, 0.64, curve: Curves.easeOutCubic),
+    ));
 
-    _passwordFade = Tween<double>(begin: 0, end: 1).animate(
-      CurvedAnimation(
-        parent: _controller,
-        curve: const Interval(0.42, 0.64, curve: Curves.easeOut),
-      ),
-    );
+    _passwordFade = Tween<double>(begin: 0, end: 1).animate(CurvedAnimation(
+      parent: _controller,
+      curve: const Interval(0.42, 0.64, curve: Curves.easeOut),
+    ));
 
     _confirmSlide = Tween<Offset>(
       begin: const Offset(0, 0.35),
       end: Offset.zero,
-    ).animate(
-      CurvedAnimation(
-        parent: _controller,
-        curve: const Interval(0.54, 0.78, curve: Curves.easeOutCubic),
-      ),
-    );
+    ).animate(CurvedAnimation(
+      parent: _controller,
+      curve: const Interval(0.54, 0.78, curve: Curves.easeOutCubic),
+    ));
 
-    _confirmFade = Tween<double>(begin: 0, end: 1).animate(
-      CurvedAnimation(
-        parent: _controller,
-        curve: const Interval(0.54, 0.78, curve: Curves.easeOut),
-      ),
-    );
+    _confirmFade = Tween<double>(begin: 0, end: 1).animate(CurvedAnimation(
+      parent: _controller,
+      curve: const Interval(0.54, 0.78, curve: Curves.easeOut),
+    ));
 
     _buttonSlide = Tween<Offset>(
       begin: const Offset(0, 0.40),
       end: Offset.zero,
-    ).animate(
-      CurvedAnimation(
-        parent: _controller,
-        curve: const Interval(0.66, 0.90, curve: Curves.easeOutCubic),
-      ),
-    );
+    ).animate(CurvedAnimation(
+      parent: _controller,
+      curve: const Interval(0.66, 0.90, curve: Curves.easeOutCubic),
+    ));
 
-    _buttonFade = Tween<double>(begin: 0, end: 1).animate(
-      CurvedAnimation(
-        parent: _controller,
-        curve: const Interval(0.66, 0.90, curve: Curves.easeOut),
-      ),
-    );
+    _buttonFade = Tween<double>(begin: 0, end: 1).animate(CurvedAnimation(
+      parent: _controller,
+      curve: const Interval(0.66, 0.90, curve: Curves.easeOut),
+    ));
 
     _signinSlide = Tween<Offset>(
       begin: const Offset(0, 0.40),
       end: Offset.zero,
-    ).animate(
-      CurvedAnimation(
-        parent: _controller,
-        curve: const Interval(0.78, 1.00, curve: Curves.easeOutCubic),
-      ),
-    );
+    ).animate(CurvedAnimation(
+      parent: _controller,
+      curve: const Interval(0.78, 1.00, curve: Curves.easeOutCubic),
+    ));
 
-    _signinFade = Tween<double>(begin: 0, end: 1).animate(
-      CurvedAnimation(
-        parent: _controller,
-        curve: const Interval(0.78, 1.00, curve: Curves.easeOut),
-      ),
-    );
+    _signinFade = Tween<double>(begin: 0, end: 1).animate(CurvedAnimation(
+      parent: _controller,
+      curve: const Interval(0.78, 1.00, curve: Curves.easeOut),
+    ));
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (mounted) _controller.forward();
@@ -201,13 +171,56 @@ class _SignUpScreenState extends State<SignUpScreen>
     super.dispose();
   }
 
-  // ✅ NEW: Poora _handleSignUp manual validation ke saath update kiya
-  // ❌ OLD:
-  // Future<void> _handleSignUp() async {
-  //   if (!_formKey.currentState!.validate()) return;
-  //   setState(() => _isLoading = true);
-  //   try { ... same API call ... }
-  // }
+  // ✅ Improved error message function — user-friendly messages dikhata hai
+  String _getErrorMessage(dynamic error) {
+    final errorString = error.toString().toLowerCase();
+
+    // Network / connection errors
+    if (errorString.contains('failed host lookup') ||
+        errorString.contains('socketexception') ||
+        errorString.contains('network') ||
+        errorString.contains('connection')) {
+      return 'Network error. Please check your internet connection and try again.';
+    }
+
+    if (errorString.contains('timeout')) {
+      return 'Request timed out. Please try again.';
+    }
+
+    // Supabase AuthException
+    if (error is AuthException) {
+      switch (error.statusCode) {
+        case '400':
+          if (errorString.contains('user already registered') ||
+              errorString.contains('already exists')) {
+            return 'An account with this email already exists. Please sign in instead.';
+          }
+          return 'Invalid request. Please check your input and try again.';
+        case '422':
+          return 'Invalid email or password format. Please check and try again.';
+        case '429':
+          return 'Too many attempts. Please wait a moment and try again.';
+        case '500':
+          return 'Server error. Please try again later.';
+        default:
+          if (errorString.contains('user already registered') ||
+              errorString.contains('already exists')) {
+            return 'An account with this email already exists. Please sign in instead.';
+          }
+          return error.message.isNotEmpty
+              ? error.message
+              : 'Sign up failed. Please try again.';
+      }
+    }
+
+    if (errorString.contains('user already registered') ||
+        errorString.contains('already exists')) {
+      return 'An account with this email already exists. Please sign in instead.';
+    }
+
+    return 'Sign up failed. Please check your connection and try again.';
+  }
+
   Future<void> _handleSignUp() async {
     // Pehle sab errors clear karo
     setState(() {
@@ -228,7 +241,8 @@ class _SignUpScreenState extends State<SignUpScreen>
     if (_emailController.text.trim().isEmpty) {
       setState(() => _emailError = 'Please enter your email');
       isValid = false;
-    } else if (!_emailController.text.contains('@')) {
+    } else if (!_emailController.text.contains('@') ||
+        !_emailController.text.contains('.')) {
       setState(() => _emailError = 'Please enter a valid email');
       isValid = false;
     }
@@ -237,7 +251,8 @@ class _SignUpScreenState extends State<SignUpScreen>
       setState(() => _passwordError = 'Please enter your password');
       isValid = false;
     } else if (_passwordController.text.length < 6) {
-      setState(() => _passwordError = 'Password must be at least 6 characters');
+      setState(
+              () => _passwordError = 'Password must be at least 6 characters');
       isValid = false;
     }
 
@@ -250,6 +265,22 @@ class _SignUpScreenState extends State<SignUpScreen>
     }
 
     if (!isValid) return;
+
+    // Terms & Conditions check
+    if (!_isAgreed) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: const Text(
+            'Please agree to the Terms & Conditions and Privacy Policy.',
+            style: TextStyle(fontFamily: "regular"),
+          ),
+          backgroundColor: Theme.of(context).colorScheme.error,
+          duration: const Duration(seconds: 3),
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
+      return;
+    }
 
     setState(() => _isLoading = true);
 
@@ -274,15 +305,24 @@ class _SignUpScreenState extends State<SignUpScreen>
     } catch (e) {
       if (!mounted) return;
 
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(
-            'Sign up failed: ${e.toString()}',
-            style: const TextStyle(fontFamily: "Poppin"),
+      final errorMessage = _getErrorMessage(e);
+
+      // Agar email already exists toh dialog dikhao
+      if (errorMessage.contains('already exists')) {
+        _showUserExistsDialog();
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              errorMessage,
+              style: const TextStyle(fontFamily: "regular"),
+            ),
+            backgroundColor: Theme.of(context).colorScheme.error,
+            duration: const Duration(seconds: 4),
+            behavior: SnackBarBehavior.floating,
           ),
-          backgroundColor: Theme.of(context).colorScheme.error,
-        ),
-      );
+        );
+      }
     } finally {
       if (mounted) setState(() => _isLoading = false);
     }
@@ -294,18 +334,19 @@ class _SignUpScreenState extends State<SignUpScreen>
       builder: (context) => AlertDialog(
         title: const Text(
           'Account Already Exists',
-          style: TextStyle(fontFamily: "Poppin"),
+          style: TextStyle(fontFamily: "semibold", fontWeight: FontWeight.w700),
         ),
         content: const Text(
           'An account with this email already exists. Would you like to sign in instead?',
-          style: TextStyle(fontFamily: "Poppin"),
+          style: TextStyle(fontFamily: "regular"),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(),
             child: const Text(
               'Cancel',
-              style: TextStyle(fontFamily: "Poppin"),
+              style: TextStyle(
+                  fontFamily: "regular", color: Colors.black54),
             ),
           ),
           ElevatedButton(
@@ -313,9 +354,13 @@ class _SignUpScreenState extends State<SignUpScreen>
               Navigator.of(context).pop();
               Navigator.of(context).pushReplacementNamed(AppRoutes.signIn);
             },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: const Color(0xFF026F1A),
+            ),
             child: const Text(
               'Go to Sign In',
-              style: TextStyle(fontFamily: "Poppin"),
+              style: TextStyle(
+                  fontFamily: "semibold", color: Colors.white),
             ),
           ),
         ],
@@ -491,26 +536,6 @@ class _SignUpScreenState extends State<SignUpScreen>
     );
   }
 
-  // ✅ NEW: _buildNameField — ab Column mein wrap hai
-  //         Field ki height hamesha 45 fixed rahegi
-  //         Error text field ke NEECHE alag Text widget mein show hoga
-  //         Border manually red hogi jab _nameError != null ho
-  //         onChanged mein error clear hoga jab user type kare
-  // ❌ OLD:
-  // Widget _buildNameField() {
-  //   return Container(
-  //     height: 45,
-  //     ...
-  //     child: TextFormField(
-  //       ...
-  //       errorStyle: const TextStyle(fontFamily: "Poppin"), // height bigaadta tha
-  //       validator: (value) {
-  //         if (value == null || value.trim().isEmpty) return 'Please enter your name';
-  //         return null;
-  //       },
-  //     ),
-  //   );
-  // }
   Widget _buildNameField() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -526,7 +551,6 @@ class _SignUpScreenState extends State<SignUpScreen>
               fontFamily: "regular",
               color: Colors.black,
             ),
-            // ✅ NEW: Jab user type kare toh error clear ho jaye
             onChanged: (_) {
               if (_nameError != null) setState(() => _nameError = null);
             },
@@ -544,15 +568,12 @@ class _SignUpScreenState extends State<SignUpScreen>
                 horizontal: 16,
                 vertical: 18,
               ),
-              // ✅ NEW: errorStyle height 0 — internal space na le
-              // ❌ OLD: errorStyle: const TextStyle(fontFamily: "Poppin"),
               errorStyle: const TextStyle(fontSize: 0, height: 0),
-              // ✅ NEW: Border color manually _nameError se control hogi
-              // ❌ OLD: enabledBorder mein sirf grey color tha
               enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(30),
                 borderSide: BorderSide(
-                  color: _nameError != null ? Colors.red : Colors.grey.shade300,
+                  color:
+                  _nameError != null ? Colors.red : Colors.grey.shade300,
                   width: 1,
                 ),
               ),
@@ -574,12 +595,9 @@ class _SignUpScreenState extends State<SignUpScreen>
                 borderSide: const BorderSide(color: Colors.red, width: 1),
               ),
             ),
-            // ✅ NEW: validator null — validation manual ho rahi hai
-            // ❌ OLD: validator mein name check hoti thi jo height bigaadti thi
             validator: (_) => null,
           ),
         ),
-        // ✅ NEW: Error text field ke NEECHE alag widget mein
         if (_nameError != null)
           Padding(
             padding: const EdgeInsets.only(left: 16, top: 4),
@@ -596,25 +614,6 @@ class _SignUpScreenState extends State<SignUpScreen>
     );
   }
 
-  // ✅ NEW: _buildEmailField — ab Column mein wrap hai
-  //         Field ki height hamesha 45 fixed rahegi
-  //         Error text field ke NEECHE alag Text widget mein show hoga
-  // ❌ OLD:
-  // Widget _buildEmailField() {
-  //   return Container(
-  //     height: 45,
-  //     ...
-  //     child: TextFormField(
-  //       ...
-  //       errorStyle: const TextStyle(fontFamily: "Poppin"), // height bigaadta tha
-  //       validator: (value) {
-  //         if (value == null || value.trim().isEmpty) return 'Please enter your email';
-  //         if (!value.contains('@')) return 'Please enter a valid email';
-  //         return null;
-  //       },
-  //     ),
-  //   );
-  // }
   Widget _buildEmailField() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -630,7 +629,6 @@ class _SignUpScreenState extends State<SignUpScreen>
               fontFamily: "regular",
               color: Colors.black,
             ),
-            // ✅ NEW: Jab user type kare toh error clear ho jaye
             onChanged: (_) {
               if (_emailError != null) setState(() => _emailError = null);
             },
@@ -648,11 +646,7 @@ class _SignUpScreenState extends State<SignUpScreen>
                 horizontal: 16,
                 vertical: 18,
               ),
-              // ✅ NEW: errorStyle height 0 — internal space na le
-              // ❌ OLD: errorStyle: const TextStyle(fontFamily: "Poppin"),
               errorStyle: const TextStyle(fontSize: 0, height: 0),
-              // ✅ NEW: Border color manually _emailError se control hogi
-              // ❌ OLD: enabledBorder mein sirf grey color tha
               enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(30),
                 borderSide: BorderSide(
@@ -680,12 +674,9 @@ class _SignUpScreenState extends State<SignUpScreen>
                 borderSide: const BorderSide(color: Colors.red, width: 1),
               ),
             ),
-            // ✅ NEW: validator null — validation manual ho rahi hai
-            // ❌ OLD: validator mein email check hoti thi jo height bigaadti thi
             validator: (_) => null,
           ),
         ),
-        // ✅ NEW: Error text field ke NEECHE alag widget mein
         if (_emailError != null)
           Padding(
             padding: const EdgeInsets.only(left: 16, top: 4),
@@ -702,25 +693,6 @@ class _SignUpScreenState extends State<SignUpScreen>
     );
   }
 
-  // ✅ NEW: _buildPasswordField — ab Column mein wrap hai
-  //         Field ki height hamesha 45 fixed rahegi
-  //         Error text field ke NEECHE alag Text widget mein show hoga
-  // ❌ OLD:
-  // Widget _buildPasswordField() {
-  //   return Container(
-  //     height: 45,
-  //     ...
-  //     child: TextFormField(
-  //       ...
-  //       errorStyle: const TextStyle(fontFamily: "Poppin"), // height bigaadta tha
-  //       validator: (value) {
-  //         if (value == null || value.trim().isEmpty) return 'Please enter your password';
-  //         if (value.length < 6) return 'Password must be at least 6 characters';
-  //         return null;
-  //       },
-  //     ),
-  //   );
-  // }
   Widget _buildPasswordField() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -736,9 +708,9 @@ class _SignUpScreenState extends State<SignUpScreen>
               fontFamily: "regular",
               color: Colors.black,
             ),
-            // ✅ NEW: Jab user type kare toh error clear ho jaye
             onChanged: (_) {
-              if (_passwordError != null) setState(() => _passwordError = null);
+              if (_passwordError != null)
+                setState(() => _passwordError = null);
             },
             decoration: InputDecoration(
               hintText: 'Password...',
@@ -754,8 +726,6 @@ class _SignUpScreenState extends State<SignUpScreen>
                 horizontal: 16,
                 vertical: 18,
               ),
-              // ✅ NEW: errorStyle height 0 — internal space na le
-              // ❌ OLD: errorStyle: const TextStyle(fontFamily: "Poppin"),
               errorStyle: const TextStyle(fontSize: 0, height: 0),
               suffixIcon: IconButton(
                 onPressed: () {
@@ -764,13 +734,13 @@ class _SignUpScreenState extends State<SignUpScreen>
                   });
                 },
                 icon: Icon(
-                  _isPasswordVisible ? Icons.visibility_off : Icons.visibility,
+                  _isPasswordVisible
+                      ? Icons.visibility_off
+                      : Icons.visibility,
                   color: const Color(0xFF026F1A),
                   size: 22,
                 ),
               ),
-              // ✅ NEW: Border color manually _passwordError se control hogi
-              // ❌ OLD: enabledBorder mein sirf grey color tha
               enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(30),
                 borderSide: BorderSide(
@@ -798,12 +768,9 @@ class _SignUpScreenState extends State<SignUpScreen>
                 borderSide: const BorderSide(color: Colors.red, width: 1),
               ),
             ),
-            // ✅ NEW: validator null — validation manual ho rahi hai
-            // ❌ OLD: validator mein password check hoti thi jo height bigaadti thi
             validator: (_) => null,
           ),
         ),
-        // ✅ NEW: Error text field ke NEECHE alag widget mein
         if (_passwordError != null)
           Padding(
             padding: const EdgeInsets.only(left: 16, top: 4),
@@ -820,25 +787,6 @@ class _SignUpScreenState extends State<SignUpScreen>
     );
   }
 
-  // ✅ NEW: _buildConfirmPasswordField — ab Column mein wrap hai
-  //         Field ki height hamesha 45 fixed rahegi
-  //         Error text field ke NEECHE alag Text widget mein show hoga
-  // ❌ OLD:
-  // Widget _buildConfirmPasswordField() {
-  //   return Container(
-  //     height: 45,
-  //     ...
-  //     child: TextFormField(
-  //       ...
-  //       errorStyle: const TextStyle(fontFamily: "Poppin"), // height bigaadta tha
-  //       validator: (value) {
-  //         if (value == null || value.trim().isEmpty) return 'Please confirm your password';
-  //         if (value != _passwordController.text) return 'Passwords do not match';
-  //         return null;
-  //       },
-  //     ),
-  //   );
-  // }
   Widget _buildConfirmPasswordField() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -854,7 +802,6 @@ class _SignUpScreenState extends State<SignUpScreen>
               fontFamily: "regular",
               color: Colors.black,
             ),
-            // ✅ NEW: Jab user type kare toh error clear ho jaye
             onChanged: (_) {
               if (_confirmPasswordError != null) {
                 setState(() => _confirmPasswordError = null);
@@ -874,8 +821,6 @@ class _SignUpScreenState extends State<SignUpScreen>
                 horizontal: 16,
                 vertical: 18,
               ),
-              // ✅ NEW: errorStyle height 0 — internal space na le
-              // ❌ OLD: errorStyle: const TextStyle(fontFamily: "Poppin"),
               errorStyle: const TextStyle(fontSize: 0, height: 0),
               suffixIcon: IconButton(
                 onPressed: () {
@@ -891,8 +836,6 @@ class _SignUpScreenState extends State<SignUpScreen>
                   size: 22,
                 ),
               ),
-              // ✅ NEW: Border color manually _confirmPasswordError se control hogi
-              // ❌ OLD: enabledBorder mein sirf grey color tha
               enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(30),
                 borderSide: BorderSide(
@@ -920,12 +863,9 @@ class _SignUpScreenState extends State<SignUpScreen>
                 borderSide: const BorderSide(color: Colors.red, width: 1),
               ),
             ),
-            // ✅ NEW: validator null — validation manual ho rahi hai
-            // ❌ OLD: validator mein confirm password check hoti thi jo height bigaadti thi
             validator: (_) => null,
           ),
         ),
-        // ✅ NEW: Error text field ke NEECHE alag widget mein
         if (_confirmPasswordError != null)
           Padding(
             padding: const EdgeInsets.only(left: 16, top: 4),
@@ -960,7 +900,8 @@ class _SignUpScreenState extends State<SignUpScreen>
                 color: const Color(0xFF026F1A),
                 width: 1,
               ),
-              color: _isAgreed ? const Color(0xFF026F1A) : Colors.transparent,
+              color:
+              _isAgreed ? const Color(0xFF026F1A) : Colors.transparent,
             ),
             child: _isAgreed
                 ? const Icon(
@@ -1048,15 +989,16 @@ class _SignUpScreenState extends State<SignUpScreen>
       width: double.infinity,
       height: 45,
       child: ElevatedButton(
-        onPressed: _isLoading ? null : _handleSignUp,
+        // onPressed: _isLoading ? null : _handleSignUp,
+        onPressed: (){
+          Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>SignInScreen()),
+              (Route<dynamic>route)=>false);
+        },
         style: ElevatedButton.styleFrom(
           backgroundColor: const Color(0xFF067C1F),
           foregroundColor: Colors.white,
           elevation: 0,
-          padding: const EdgeInsets.symmetric(
-            horizontal: 12,
-            vertical: 0,
-          ),
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 0),
           minimumSize: const Size(double.infinity, 45),
           tapTargetSize: MaterialTapTargetSize.shrinkWrap,
           shape: RoundedRectangleBorder(
@@ -1073,7 +1015,8 @@ class _SignUpScreenState extends State<SignUpScreen>
           width: 22,
           child: CircularProgressIndicator(
             strokeWidth: 2.2,
-            valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+            valueColor:
+            AlwaysStoppedAnimation<Color>(Colors.white),
           ),
         )
             : const Center(

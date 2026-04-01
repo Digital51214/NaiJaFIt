@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:naijafit/presentation/Notification_screen.dart';
-import 'package:sizer/sizer.dart';
-import 'package:google_fonts/google_fonts.dart';
-
 import '../../core/app_export.dart';
 
 class Homescreen extends StatefulWidget {
@@ -40,53 +37,75 @@ class _HomescreenState extends State<Homescreen>
     _headerSlide = Tween<Offset>(
       begin: const Offset(0, -0.45),
       end: Offset.zero,
-    ).animate(CurvedAnimation(
-      parent: _controller,
-      curve: const Interval(0.00, 0.22, curve: Curves.easeOutCubic),
-    ));
-    _headerFade = Tween<double>(begin: 0, end: 1).animate(CurvedAnimation(
-      parent: _controller,
-      curve: const Interval(0.00, 0.20, curve: Curves.easeOut),
-    ));
+    ).animate(
+      CurvedAnimation(
+        parent: _controller,
+        curve: const Interval(0.00, 0.22, curve: Curves.easeOutCubic),
+      ),
+    );
+
+    _headerFade = Tween<double>(begin: 0, end: 1).animate(
+      CurvedAnimation(
+        parent: _controller,
+        curve: const Interval(0.00, 0.20, curve: Curves.easeOut),
+      ),
+    );
 
     _titleSlide = Tween<Offset>(
       begin: const Offset(0, -0.30),
       end: Offset.zero,
-    ).animate(CurvedAnimation(
-      parent: _controller,
-      curve: const Interval(0.10, 0.34, curve: Curves.easeOutCubic),
-    ));
-    _titleFade = Tween<double>(begin: 0, end: 1).animate(CurvedAnimation(
-      parent: _controller,
-      curve: const Interval(0.10, 0.30, curve: Curves.easeOut),
-    ));
+    ).animate(
+      CurvedAnimation(
+        parent: _controller,
+        curve: const Interval(0.10, 0.34, curve: Curves.easeOutCubic),
+      ),
+    );
+
+    _titleFade = Tween<double>(begin: 0, end: 1).animate(
+      CurvedAnimation(
+        parent: _controller,
+        curve: const Interval(0.10, 0.30, curve: Curves.easeOut),
+      ),
+    );
 
     _imageSlide = Tween<Offset>(
       begin: const Offset(0, 0.35),
       end: Offset.zero,
-    ).animate(CurvedAnimation(
-      parent: _controller,
-      curve: const Interval(0.26, 0.65, curve: Curves.easeOutCubic),
-    ));
-    _imageFade = Tween<double>(begin: 0, end: 1).animate(CurvedAnimation(
-      parent: _controller,
-      curve: const Interval(0.26, 0.60, curve: Curves.easeOut),
-    ));
+    ).animate(
+      CurvedAnimation(
+        parent: _controller,
+        curve: const Interval(0.26, 0.65, curve: Curves.easeOutCubic),
+      ),
+    );
+
+    _imageFade = Tween<double>(begin: 0, end: 1).animate(
+      CurvedAnimation(
+        parent: _controller,
+        curve: const Interval(0.26, 0.60, curve: Curves.easeOut),
+      ),
+    );
 
     _buttonSlide = Tween<Offset>(
       begin: const Offset(0, 0.40),
       end: Offset.zero,
-    ).animate(CurvedAnimation(
-      parent: _controller,
-      curve: const Interval(0.66, 1.00, curve: Curves.easeOutCubic),
-    ));
-    _buttonFade = Tween<double>(begin: 0, end: 1).animate(CurvedAnimation(
-      parent: _controller,
-      curve: const Interval(0.66, 0.96, curve: Curves.easeOut),
-    ));
+    ).animate(
+      CurvedAnimation(
+        parent: _controller,
+        curve: const Interval(0.66, 1.00, curve: Curves.easeOutCubic),
+      ),
+    );
+
+    _buttonFade = Tween<double>(begin: 0, end: 1).animate(
+      CurvedAnimation(
+        parent: _controller,
+        curve: const Interval(0.66, 0.96, curve: Curves.easeOut),
+      ),
+    );
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (mounted) _controller.forward();
+      if (mounted) {
+        _controller.forward();
+      }
     });
   }
 
@@ -103,13 +122,28 @@ class _HomescreenState extends State<Homescreen>
   }) {
     return FadeTransition(
       opacity: fade,
-      child: SlideTransition(position: slide, child: child),
+      child: SlideTransition(
+        position: slide,
+        child: child,
+      ),
     );
   }
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+
+    final mediaQuery = MediaQuery.of(context);
+    final size = mediaQuery.size;
+    final width = size.width;
+    final height = size.height;
+    final textScale = mediaQuery.textScaleFactor;
+
+    double responsiveFont(double fontSize) {
+      double scale = width / 375;
+      double responsiveSize = fontSize * scale;
+      return responsiveSize.clamp(fontSize * 0.85, fontSize * 1.20);
+    }
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -119,11 +153,11 @@ class _HomescreenState extends State<Homescreen>
             Expanded(
               child: SingleChildScrollView(
                 child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 5.w),
+                  padding: EdgeInsets.symmetric(horizontal: width * 0.05),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      SizedBox(height: 4.h),
+                      SizedBox(height: height * 0.04),
 
                       // ─── TOP HEADER ROW ───
                       _animatedEntry(
@@ -134,7 +168,7 @@ class _HomescreenState extends State<Homescreen>
                           children: [
                             // Profile Avatar (left)
                             CircleAvatar(
-                              radius: 22,
+                              radius: width * 0.058,
                               backgroundColor:
                               theme.colorScheme.surfaceContainerHighest,
                               backgroundImage: const AssetImage(
@@ -146,14 +180,15 @@ class _HomescreenState extends State<Homescreen>
                             // Center Logo
                             Image.asset(
                               'assets/images/LOGO.png',
-                              height: 7.h,
+                              height: height * 0.07,
                               fit: BoxFit.contain,
                               errorBuilder: (context, error, stackTrace) {
                                 return Text(
                                   'NaijaFit',
                                   style: TextStyle(
                                     fontFamily: "bold",
-                                    fontSize: 18.sp,
+                                    fontSize:
+                                    responsiveFont(18) / textScale,
                                     fontWeight: FontWeight.bold,
                                     color: theme.colorScheme.primary,
                                   ),
@@ -163,20 +198,26 @@ class _HomescreenState extends State<Homescreen>
 
                             // Bell Icon (right)
                             GestureDetector(
-                              onTap: (){
-                                Navigator.push(context, MaterialPageRoute(builder: (context)=>NotificationScreen()));
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        NotificationScreen(),
+                                  ),
+                                );
                               },
                               child: Container(
-                                width: 13.5.w,
-                                height: 13.5.w,
-                                decoration: BoxDecoration(
-                                  color: const Color(0xFFE8F5E9),
+                                width: width * 0.135,
+                                height: width * 0.135,
+                                decoration: const BoxDecoration(
+                                  color: Color(0xFFE8F5E9),
                                   shape: BoxShape.circle,
                                 ),
                                 child: Icon(
-                                  Icons.notifications_outlined,
-                                  color: Color(0xFF026F1A),
-                                  size: 22,
+                                  Icons.notifications,
+                                  color: const Color(0xFF026F1A),
+                                  size: width * 0.058,
                                 ),
                               ),
                             ),
@@ -184,7 +225,7 @@ class _HomescreenState extends State<Homescreen>
                         ),
                       ),
 
-                      SizedBox(height: 3.5.h),
+                      SizedBox(height: height * 0.040),
 
                       // ─── WELCOME TITLE (LEFT ALIGNED) ───
                       _animatedEntry(
@@ -197,17 +238,17 @@ class _HomescreenState extends State<Homescreen>
                               'Welcome to NaijaFit',
                               style: TextStyle(
                                 fontFamily: "semibold",
-                                fontSize: 17.sp,
+                                fontSize: responsiveFont(19) / textScale,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.black87,
                               ),
                             ),
-                            SizedBox(height: 0.8.h),
+                            SizedBox(height: height * 0.008),
                             Text(
                               'Track your favorite Nigerian meals with accurate nutrition data. No more guessing,\nno more generic food databases.',
                               style: TextStyle(
                                 fontFamily: "regular",
-                                fontSize: 11.sp,
+                                fontSize: responsiveFont(14) / textScale,
                                 fontWeight: FontWeight.w400,
                                 color: Colors.black54,
                                 height: 1.5,
@@ -217,7 +258,7 @@ class _HomescreenState extends State<Homescreen>
                         ),
                       ),
 
-                      SizedBox(height: 2.h),
+                      SizedBox(height: height * 0.02),
 
                       // ─── FOOD IMAGE (CENTER) ───
                       _animatedEntry(
@@ -225,22 +266,24 @@ class _HomescreenState extends State<Homescreen>
                         fade: _imageFade,
                         child: Center(
                           child: SizedBox(
-                            width: 85.w,
-                            height: 38.h,
+                            width: width * 0.85,
+                            height: height * 0.38,
                             child: Image.asset(
                               'assets/images/home3.png',
                               fit: BoxFit.contain,
                               errorBuilder: (context, error, stackTrace) {
                                 return Container(
                                   decoration: BoxDecoration(
-                                    color: theme
-                                        .colorScheme.surfaceContainerHighest,
-                                    borderRadius: BorderRadius.circular(16),
+                                    color:
+                                    theme.colorScheme.surfaceContainerHighest,
+                                    borderRadius: BorderRadius.circular(
+                                      width * 0.04,
+                                    ),
                                   ),
                                   child: Center(
                                     child: Icon(
                                       Icons.restaurant,
-                                      size: 64,
+                                      size: width * 0.16,
                                       color:
                                       theme.colorScheme.onSurfaceVariant,
                                     ),
@@ -252,7 +295,7 @@ class _HomescreenState extends State<Homescreen>
                         ),
                       ),
 
-                      SizedBox(height: 3.h),
+                      SizedBox(height: height * 0.03),
 
                       // ─── START BUTTON ───
                       _animatedEntry(
@@ -260,29 +303,30 @@ class _HomescreenState extends State<Homescreen>
                         fade: _buttonFade,
                         child: SizedBox(
                           width: double.infinity,
-                          height: 45,
+                          height: height * 0.058,
                           child: ElevatedButton(
                             onPressed: () {
                               Navigator.of(context, rootNavigator: true)
                                   .pushNamed('/food-logging-screen');
                             },
                             style: ElevatedButton.styleFrom(
-                                backgroundColor: const Color(0xFF026F1A),
-                                foregroundColor: Colors.white,
-                                elevation: 0,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(30),
-                                ),
-                                padding: EdgeInsets.symmetric(
-                                  vertical: 12,
-                                  horizontal: 16,
-                                )
+                              backgroundColor: const Color(0xFF026F1A),
+                              foregroundColor: Colors.white,
+                              elevation: 0,
+                              shape: RoundedRectangleBorder(
+                                borderRadius:
+                                BorderRadius.circular(width * 0.08),
+                              ),
+                              padding: EdgeInsets.symmetric(
+                                vertical: height * 0.015,
+                                horizontal: width * 0.04,
+                              ),
                             ),
                             child: Text(
                               'Start Your Journey',
                               style: TextStyle(
                                 fontFamily: "bold",
-                                fontSize: 11.6.sp,
+                                fontSize: responsiveFont(11.5) / textScale,
                                 fontWeight: FontWeight.w600,
                                 letterSpacing: 0.3,
                               ),
@@ -291,7 +335,7 @@ class _HomescreenState extends State<Homescreen>
                         ),
                       ),
 
-                      SizedBox(height: 3.h),
+                      SizedBox(height: height * 0.03),
                     ],
                   ),
                 ),

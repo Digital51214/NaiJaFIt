@@ -1019,30 +1019,28 @@ class FoodLoggingScreen extends StatefulWidget {
 
 class _FoodLoggingScreenState extends State<FoodLoggingScreen> {
   final TextEditingController _searchController = TextEditingController();
-  String _searchQuery      = '';
-  String _selectedRegion   = 'All Regions';
+  String _searchQuery = '';
+  String _selectedRegion = 'All Regions';
   String _selectedFoodType = 'All';
 
-  // ✅ NEW: Custom foods added by user via AI
+  // ✅ Custom foods added by user via AI
   final List<Map<String, dynamic>> _customFoods = [];
 
-  // ── Combined food list ────────────────────────
-  List<Map<String, dynamic>> get _allFoods =>
-      [..._dummyFoods, ..._customFoods];
+  List<Map<String, dynamic>> get _allFoods => [..._dummyFoods, ..._customFoods];
 
   List<Map<String, dynamic>> get _filteredFoods {
     return _allFoods.where((food) {
-      final matchesSearch =
-          _searchQuery.isEmpty ||
-              (food['name'] as String)
-                  .toLowerCase()
-                  .contains(_searchQuery.toLowerCase());
+      final matchesSearch = _searchQuery.isEmpty ||
+          (food['name'] as String)
+              .toLowerCase()
+              .contains(_searchQuery.toLowerCase());
+
       final matchesRegion =
-          _selectedRegion == 'All Regions' ||
-              food['region'] == _selectedRegion;
+          _selectedRegion == 'All Regions' || food['region'] == _selectedRegion;
+
       final matchesType =
-          _selectedFoodType == 'All' ||
-              food['category'] == _selectedFoodType;
+          _selectedFoodType == 'All' || food['category'] == _selectedFoodType;
+
       return matchesSearch && matchesRegion && matchesType;
     }).toList();
   }
@@ -1077,7 +1075,6 @@ class _FoodLoggingScreenState extends State<FoodLoggingScreen> {
     );
   }
 
-  // ✅ NEW: Open AI Food Entry Bottom Sheet
   void _openAiFoodEntry() {
     showModalBottomSheet(
       context: context,
@@ -1104,30 +1101,51 @@ class _FoodLoggingScreenState extends State<FoodLoggingScreen> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final mediaQuery = MediaQuery.of(context);
+    final size = mediaQuery.size;
+    final width = size.width;
+    final height = size.height;
+    final textScale = mediaQuery.textScaleFactor;
+
+    double responsiveFont(double fontSize) {
+      final scale = width / 375;
+      final responsiveSize = fontSize * scale;
+      return responsiveSize.clamp(fontSize * 0.85, fontSize * 1.20);
+    }
 
     return Scaffold(
       backgroundColor: const Color(0xFFF8F8F8),
       body: SafeArea(
         child: Column(
           children: [
-            // ── Header ──────────────────────────────
-            _buildHeader(theme),
-
-            // ── Search ──────────────────────────────
+            _buildHeader(theme, width, height, textScale, responsiveFont),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-              child: _buildSearchBar(theme),
+              padding: EdgeInsets.symmetric(
+                horizontal: width * 0.042,
+                vertical: height * 0.010,
+              ),
+              child: _buildSearchBar(
+                theme,
+                width,
+                height,
+                textScale,
+                responsiveFont,
+              ),
             ),
-
-            // ── Scrollable Content ───────────────────
             Expanded(
               child: SingleChildScrollView(
-                padding: const EdgeInsets.only(bottom: 24),
+                padding: EdgeInsets.only(bottom: height * 0.03),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const SizedBox(height: 8),
-                    _buildAllFoodsSection(theme),
+                    SizedBox(height: height * 0.01),
+                    _buildAllFoodsSection(
+                      theme,
+                      width,
+                      height,
+                      textScale,
+                      responsiveFont,
+                    ),
                   ],
                 ),
               ),
@@ -1135,70 +1153,69 @@ class _FoodLoggingScreenState extends State<FoodLoggingScreen> {
           ],
         ),
       ),
-
       floatingActionButton: Padding(
-        padding: const EdgeInsets.only(left: 50, right: 10),
+        padding: EdgeInsets.only(
+          left: width * 0.13,
+          right: width * 0.025,
+        ),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
-            // 🔥 TEXT BUBBLE
             Expanded(
               child: Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 12,
-                  vertical: 12,
+                padding: EdgeInsets.symmetric(
+                  horizontal: width * 0.032,
+                  vertical: height * 0.014,
                 ),
                 decoration: BoxDecoration(
                   color: const Color(0xFFDDE8D8),
-                  borderRadius: BorderRadius.circular(14),
+                  borderRadius: BorderRadius.circular(width * 0.037),
                 ),
-                child: const Text(
+                child: Text(
                   "Can't see your favorite meal on the list? Use AI Nutrition Coach to get calories details of your food and add it to your list",
                   style: TextStyle(
                     fontFamily: "regular",
-                    fontSize: 8,
+                    fontSize: responsiveFont(10) / textScale,
                     height: 1.4,
                     color: Colors.black87,
                   ),
                 ),
               ),
             ),
-
-            const SizedBox(width: 10),
-
-            // 🔥 RIGHT SIDE (ARROW + FAB)
+            SizedBox(width: width * 0.025),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
                 Padding(
-                  padding: const EdgeInsets.only(bottom: 6),
+                  padding: EdgeInsets.only(bottom: height * 0.007),
                   child: Image.asset(
                     "assets/images/errow.png",
-                    height: 28,
-                    width: 28,
+                    height: width * 0.072,
+                    width: width * 0.072,
                   ),
                 ),
-
-                // ✅ UPDATED: onPressed now opens AI bottom sheet
                 Container(
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     boxShadow: [
                       BoxShadow(
                         color: Colors.green.withOpacity(0.4),
-                        blurRadius: 15,
-                        spreadRadius: 2,
+                        blurRadius: width * 0.04,
+                        spreadRadius: width * 0.005,
                       ),
                     ],
                   ),
                   child: FloatingActionButton(
-                    onPressed: _openAiFoodEntry, // ✅ CONNECTED
+                    onPressed: _openAiFoodEntry,
                     elevation: 0,
                     backgroundColor: const Color(0xFF1B7F3A),
                     shape: const CircleBorder(),
-                    child:
-                    const Icon(Icons.add, size: 30, color: Colors.white),
+                    child: Icon(
+                      Icons.add,
+                      size: width * 0.077,
+                      color: Colors.white,
+                    ),
                   ),
                 ),
               ],
@@ -1209,10 +1226,20 @@ class _FoodLoggingScreenState extends State<FoodLoggingScreen> {
     );
   }
 
-  // ── Header ────────────────────────────────────
-  Widget _buildHeader(ThemeData theme) {
+  Widget _buildHeader(
+      ThemeData theme,
+      double width,
+      double height,
+      double textScale,
+      double Function(double) responsiveFont,
+      ) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 22, 16, 4),
+      padding: EdgeInsets.fromLTRB(
+        width * 0.042,
+        height * 0.028,
+        width * 0.042,
+        height * 0.005,
+      ),
       child: Row(
         children: [
           Expanded(
@@ -1220,24 +1247,24 @@ class _FoodLoggingScreenState extends State<FoodLoggingScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
-                  padding: const EdgeInsets.only(left: 12),
+                  padding: EdgeInsets.only(left: width * 0.032),
                   child: Text(
                     'Food Logging',
                     style: TextStyle(
                       fontFamily: "semibold",
-                      fontSize: 16.5,
+                      fontSize: responsiveFont(19) / textScale,
                       fontWeight: FontWeight.w800,
                       color: Colors.black87,
                     ),
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(left: 12),
+                  padding: EdgeInsets.only(left: width * 0.032),
                   child: Text(
                     'Log Your Daily Food Intake',
                     style: TextStyle(
                       fontFamily: "regular",
-                      fontSize: 12,
+                      fontSize: responsiveFont(14) / textScale,
                       color: Colors.black54,
                       fontWeight: FontWeight.w400,
                     ),
@@ -1246,65 +1273,84 @@ class _FoodLoggingScreenState extends State<FoodLoggingScreen> {
               ],
             ),
           ),
-          const Image(
-            image: AssetImage("assets/images/LOGO.png"),
-            height: 60,
-            width: 60,
+          Image(
+            image: const AssetImage("assets/images/LOGO.png"),
+            height: width * 0.15,
+            width: width * 0.15,
           ),
         ],
       ),
     );
   }
 
-  Widget _buildSearchBar(ThemeData theme) {
+  Widget _buildSearchBar(
+      ThemeData theme,
+      double width,
+      double height,
+      double textScale,
+      double Function(double) responsiveFont,
+      ) {
     return Container(
-      height: 47,
+      height: height * 0.058,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(30),
+        borderRadius: BorderRadius.circular(width * 0.08),
         color: Colors.white,
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.4),
-            blurRadius: 10,
-            offset: const Offset(0, 2),
+            blurRadius: width * 0.026,
+            offset: Offset(0, height * 0.0025),
           ),
         ],
       ),
       child: TextField(
         controller: _searchController,
         onChanged: (v) => setState(() => _searchQuery = v),
-        style: const TextStyle(fontFamily: "Poppins"),
+        style: TextStyle(
+          fontFamily: "Poppins",
+          fontSize: responsiveFont(14) / textScale,
+        ),
         decoration: InputDecoration(
           hintText: 'Search...',
-          hintStyle: const TextStyle(
+          hintStyle: TextStyle(
             fontFamily: "regular",
             color: Colors.black38,
-            fontSize: 15,
+            fontSize: responsiveFont(15) / textScale,
           ),
-          prefixIcon: const Icon(Icons.search, color: Colors.black38),
+          prefixIcon: Icon(
+            Icons.search,
+            color: Colors.black38,
+            size: width * 0.06,
+          ),
           suffixIcon: _searchQuery.isNotEmpty
               ? IconButton(
-            icon: const Icon(Icons.clear, color: Colors.black38),
-            onPressed: () => setState(() {
-              _searchController.clear();
-              _searchQuery = '';
-            }),
+            icon: Icon(
+              Icons.clear,
+              color: Colors.black38,
+              size: width * 0.055,
+            ),
+            onPressed: () {
+              setState(() {
+                _searchController.clear();
+                _searchQuery = '';
+              });
+            },
           )
               : null,
-          contentPadding: const EdgeInsets.symmetric(
-            horizontal: 16,
-            vertical: 14,
+          contentPadding: EdgeInsets.symmetric(
+            horizontal: width * 0.042,
+            vertical: height * 0.017,
           ),
           border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(30),
+            borderRadius: BorderRadius.circular(width * 0.08),
             borderSide: const BorderSide(width: 1, color: Colors.grey),
           ),
           enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(30),
+            borderRadius: BorderRadius.circular(width * 0.08),
             borderSide: BorderSide.none,
           ),
           focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(30),
+            borderRadius: BorderRadius.circular(width * 0.08),
             borderSide: const BorderSide(width: 1, color: Colors.green),
           ),
           filled: true,
@@ -1314,41 +1360,57 @@ class _FoodLoggingScreenState extends State<FoodLoggingScreen> {
     );
   }
 
-  // ── All Foods Section ─────────────────────────
-  Widget _buildAllFoodsSection(ThemeData theme) {
+  Widget _buildAllFoodsSection(
+      ThemeData theme,
+      double width,
+      double height,
+      double textScale,
+      double Function(double) responsiveFont,
+      ) {
     final foods = _filteredFoods;
 
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
+      padding: EdgeInsets.symmetric(horizontal: width * 0.042),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const SizedBox(height: 8),
+          SizedBox(height: height * 0.01),
           GridView.builder(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
-              mainAxisSpacing: 14,
-              crossAxisSpacing: 14,
-              childAspectRatio: 0.9,
+              mainAxisSpacing: width * 0.036,
+              crossAxisSpacing: width * 0.036,
+              childAspectRatio: 0.95,
             ),
             itemCount: foods.length,
-            itemBuilder: (_, index) => _buildFoodCard(foods[index]),
+            itemBuilder: (context, index) => _buildFoodCard(
+              foods[index],
+              width,
+              height,
+              textScale,
+              responsiveFont,
+            ),
           ),
         ],
       ),
     );
   }
 
-  // ── Food Card ─────────────────────────────────
-  Widget _buildFoodCard(Map<String, dynamic> food) {
+  Widget _buildFoodCard(
+      Map<String, dynamic> food,
+      double width,
+      double height,
+      double textScale,
+      double Function(double) responsiveFont,
+      ) {
     return GestureDetector(
       onTap: () => _onFoodTap(food),
       child: Container(
         decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(width * 0.042),
           border: Border.all(
             width: 1,
             color: Colors.grey.withOpacity(0.5),
@@ -1356,8 +1418,8 @@ class _FoodLoggingScreenState extends State<FoodLoggingScreen> {
           boxShadow: [
             BoxShadow(
               color: Colors.black.withOpacity(0.07),
-              blurRadius: 12,
-              offset: const Offset(0, 4),
+              blurRadius: width * 0.032,
+              offset: Offset(0, height * 0.005),
             ),
           ],
         ),
@@ -1366,15 +1428,19 @@ class _FoodLoggingScreenState extends State<FoodLoggingScreen> {
           mainAxisSize: MainAxisSize.min,
           children: [
             ClipRRect(
-              borderRadius: const BorderRadius.vertical(
-                top: Radius.circular(16),
+              borderRadius: BorderRadius.vertical(
+                top: Radius.circular(width * 0.042),
               ),
               child: Padding(
-                padding: const EdgeInsets.only(top: 8.0, right: 9, left: 9),
+                padding: EdgeInsets.only(
+                  top: height * 0.01,
+                  right: width * 0.024,
+                  left: width * 0.024,
+                ),
                 child: Container(
-                  height: 83,
+                  height: height * 0.10,
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(16),
+                    borderRadius: BorderRadius.circular(width * 0.042),
                     image: DecorationImage(
                       image: NetworkImage(food['image'] as String),
                       fit: BoxFit.cover,
@@ -1383,17 +1449,15 @@ class _FoodLoggingScreenState extends State<FoodLoggingScreen> {
                 ),
               ),
             ),
-
-            const SizedBox(height: 9),
-
+            SizedBox(height: height * 0.011),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15),
+              padding: EdgeInsets.symmetric(horizontal: width * 0.04),
               child: Text(
                 food['name'] as String,
-                style: const TextStyle(
+                style: TextStyle(
                   fontFamily: "semibold",
                   fontWeight: FontWeight.w900,
-                  fontSize: 12,
+                  fontSize: responsiveFont(12) / textScale,
                   color: Colors.black87,
                 ),
                 maxLines: 1,
@@ -1401,13 +1465,11 @@ class _FoodLoggingScreenState extends State<FoodLoggingScreen> {
                 textAlign: TextAlign.center,
               ),
             ),
-
-            const SizedBox(height: 9),
-
+            SizedBox(height: height * 0.011),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
+              padding: EdgeInsets.symmetric(horizontal: width * 0.053),
               child: SizedBox(
-                height: 33,
+                height: height * 0.041,
                 child: OutlinedButton(
                   onPressed: () => _onFoodTap(food),
                   style: OutlinedButton.styleFrom(
@@ -1417,26 +1479,26 @@ class _FoodLoggingScreenState extends State<FoodLoggingScreen> {
                       width: 1.5,
                     ),
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20),
+                      borderRadius: BorderRadius.circular(width * 0.053),
                     ),
-                    padding: const EdgeInsets.symmetric(
-                      vertical: 6,
-                      horizontal: 14,
+                    padding: EdgeInsets.symmetric(
+                      vertical: height * 0.007,
+                      horizontal: width * 0.037,
                     ),
-                    minimumSize: const Size(double.infinity, 34),
+                    minimumSize: Size(double.infinity, height * 0.042),
                   ),
-                  child: const Text(
+                  child: Text(
                     'See Portfolio',
                     style: TextStyle(
                       fontFamily: "bold",
-                      fontSize: 11,
+                      fontSize: responsiveFont(11) / textScale,
                       fontWeight: FontWeight.w900,
                     ),
                   ),
                 ),
               ),
             ),
-            const SizedBox(height: 11),
+            SizedBox(height: height * 0.013),
           ],
         ),
       ),
