@@ -36,66 +36,50 @@ class _PrivacyPolicyState extends State<PrivacyPolicy>
     _headerSlide = Tween<Offset>(
       begin: const Offset(0, -0.35),
       end: Offset.zero,
-    ).animate(
-      CurvedAnimation(
-        parent: _controller,
-        curve: const Interval(0.0, 0.2, curve: Curves.easeOutCubic),
-      ),
-    );
-    _headerFade = Tween<double>(begin: 0, end: 1).animate(
-      CurvedAnimation(
-        parent: _controller,
-        curve: const Interval(0.0, 0.2, curve: Curves.easeOut),
-      ),
-    );
+    ).animate(CurvedAnimation(
+      parent: _controller,
+      curve: const Interval(0.0, 0.2, curve: Curves.easeOutCubic),
+    ));
+    _headerFade = Tween<double>(begin: 0, end: 1).animate(CurvedAnimation(
+      parent: _controller,
+      curve: const Interval(0.0, 0.2, curve: Curves.easeOut),
+    ));
 
     _introSlide = Tween<Offset>(
       begin: const Offset(0, 0.35),
       end: Offset.zero,
-    ).animate(
-      CurvedAnimation(
-        parent: _controller,
-        curve: const Interval(0.2, 0.45, curve: Curves.easeOutCubic),
-      ),
-    );
-    _introFade = Tween<double>(begin: 0, end: 1).animate(
-      CurvedAnimation(
-        parent: _controller,
-        curve: const Interval(0.2, 0.45, curve: Curves.easeOut),
-      ),
-    );
+    ).animate(CurvedAnimation(
+      parent: _controller,
+      curve: const Interval(0.2, 0.45, curve: Curves.easeOutCubic),
+    ));
+    _introFade = Tween<double>(begin: 0, end: 1).animate(CurvedAnimation(
+      parent: _controller,
+      curve: const Interval(0.2, 0.45, curve: Curves.easeOut),
+    ));
 
     _infoSlide = Tween<Offset>(
       begin: const Offset(0, 0.35),
       end: Offset.zero,
-    ).animate(
-      CurvedAnimation(
-        parent: _controller,
-        curve: const Interval(0.45, 0.7, curve: Curves.easeOutCubic),
-      ),
-    );
-    _infoFade = Tween<double>(begin: 0, end: 1).animate(
-      CurvedAnimation(
-        parent: _controller,
-        curve: const Interval(0.45, 0.7, curve: Curves.easeOut),
-      ),
-    );
+    ).animate(CurvedAnimation(
+      parent: _controller,
+      curve: const Interval(0.45, 0.7, curve: Curves.easeOutCubic),
+    ));
+    _infoFade = Tween<double>(begin: 0, end: 1).animate(CurvedAnimation(
+      parent: _controller,
+      curve: const Interval(0.45, 0.7, curve: Curves.easeOut),
+    ));
 
     _useSlide = Tween<Offset>(
       begin: const Offset(0, 0.35),
       end: Offset.zero,
-    ).animate(
-      CurvedAnimation(
-        parent: _controller,
-        curve: const Interval(0.7, 1.0, curve: Curves.easeOutCubic),
-      ),
-    );
-    _useFade = Tween<double>(begin: 0, end: 1).animate(
-      CurvedAnimation(
-        parent: _controller,
-        curve: const Interval(0.7, 1.0, curve: Curves.easeOut),
-      ),
-    );
+    ).animate(CurvedAnimation(
+      parent: _controller,
+      curve: const Interval(0.7, 1.0, curve: Curves.easeOutCubic),
+    ));
+    _useFade = Tween<double>(begin: 0, end: 1).animate(CurvedAnimation(
+      parent: _controller,
+      curve: const Interval(0.7, 1.0, curve: Curves.easeOut),
+    ));
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (mounted) _controller.forward();
@@ -108,16 +92,91 @@ class _PrivacyPolicyState extends State<PrivacyPolicy>
     super.dispose();
   }
 
-  Widget _buildParagraph(String text, double screenWidth) {
+  // ── Section Title ─────────────────────────────────────────────────────────
+  // Green, bold, slightly larger — clearly a heading
+  Widget _buildTitle(String title) {
+    return Text(
+      title,
+      style: const TextStyle(
+        fontSize: 18,
+        fontFamily: "semibold",
+        fontWeight: FontWeight.w700,
+        color: Colors.black,
+        height: 1.3,
+        letterSpacing: 0.2,
+      ),
+    );
+  }
+
+  // ── Sub-heading (e.g. "What is GDPR?", "Notice of Dispute") ──────────────
+  // Dark, semi-bold — visually between title and body
+  Widget _buildSubTitle(String text) {
+    return Text(
+      text,
+      style: const TextStyle(
+        fontSize: 13.5,
+        fontFamily: "semibold",
+        fontWeight: FontWeight.w600,
+        color: Color(0xFF1A1A1A),
+        height: 1.4,
+      ),
+    );
+  }
+
+  // ── Body Paragraph ────────────────────────────────────────────────────────
+  // Comfortable reading size, medium weight, warm dark
+  Widget _buildParagraph(String text) {
     return Text(
       text,
       style: const TextStyle(
         fontSize: 13,
         fontFamily: "medium",
-        height: 1.55,
         fontWeight: FontWeight.w400,
         color: Color(0xFF2B2B2B),
+        height: 1.6,
       ),
+    );
+  }
+
+  // ── Date / meta line ──────────────────────────────────────────────────────
+  Widget _buildMeta(String text) {
+    return Text(
+      text,
+      style: const TextStyle(
+        fontSize: 11.5,
+        fontFamily: "medium",
+        fontWeight: FontWeight.w400,
+        color: Color(0xFF888888),
+        height: 1.4,
+        letterSpacing: 0.1,
+      ),
+    );
+  }
+
+  // ── Full section wrapper: title + gap + body ──────────────────────────────
+  Widget _buildSection({
+    required String title,
+    required List<Widget> children,
+  }) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        _buildTitle(title),
+        const SizedBox(height: 8),
+        ...children,
+      ],
+    );
+  }
+
+  // ── Animated wrapper ──────────────────────────────────────────────────────
+  Widget _animated({
+    required Animation<Offset> slide,
+    required Animation<double> fade,
+    required Widget child,
+  }) {
+    return SlideTransition(
+      position: slide,
+      child: FadeTransition(opacity: fade, child: child),
     );
   }
 
@@ -125,6 +184,7 @@ class _PrivacyPolicyState extends State<PrivacyPolicy>
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
+    const double sectionGap = 28;
 
     return Scaffold(
       backgroundColor: const Color(0xFFF4F4F4),
@@ -136,112 +196,612 @@ class _PrivacyPolicyState extends State<PrivacyPolicy>
             children: [
               SizedBox(height: screenHeight * 0.045),
 
-              // Header
-              SlideTransition(
-                position: _headerSlide,
-                child: FadeTransition(
-                  opacity: _headerFade,
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      GestureDetector(
-                        onTap: () => Navigator.pop(context),
-                        child: Container(
-                          width: 13.5.w,
-                          height: 13.5.w,
-                          decoration: const BoxDecoration(
-                            color: Color(0xFFDDE5DB),
-                            shape: BoxShape.circle,
-                          ),
-                          child: const Center(
-                            child: Icon(
-                              Icons.arrow_back_ios_new,
-                              color: Color(0xFF0A8A2A),
-                              size: 20,
-                            ),
-                          ),
-                        ),
-                      ),
-
-                      SizedBox(width: screenWidth * 0.04),
-
-                      const Expanded(
-                        child: Text(
-                          "Privacy Policy",
-                          style: TextStyle(
-                            fontFamily: "semibold",
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20,
-                            color: Colors.black,
-                            height: 1.2,
-                          ),
-                        ),
-                      ),
-
-                      Container(
-                        height: screenHeight * 0.08,
-                        width: screenWidth * 0.18,
+              // ── Header ──────────────────────────────────────────────────
+              _animated(
+                slide: _headerSlide,
+                fade: _headerFade,
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    GestureDetector(
+                      onTap: () => Navigator.pop(context),
+                      child: Container(
+                        width: 13.5.w,
+                        height: 13.5.w,
                         decoration: const BoxDecoration(
-                          color: Colors.transparent,
-                          image: DecorationImage(
-                            image: AssetImage("assets/images/LOGO.png"),
-                            fit: BoxFit.contain,
+                          color: Color(0xFFDDE5DB),
+                          shape: BoxShape.circle,
+                        ),
+                        child: const Center(
+                          child: Icon(
+                            Icons.arrow_back_ios_new,
+                            color: Color(0xFF0A8A2A),
+                            size: 20,
                           ),
                         ),
                       ),
-                    ],
-                  ),
+                    ),
+                    SizedBox(width: screenWidth * 0.04),
+                    const Expanded(
+                      child: Text(
+                        "Privacy Policy",
+                        style: TextStyle(
+                          fontFamily: "semibold",
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20,
+                          color: Colors.black,
+                          height: 1.2,
+                        ),
+                      ),
+                    ),
+                    Container(
+                      height: screenHeight * 0.08,
+                      width: screenWidth * 0.18,
+                      decoration: const BoxDecoration(
+                        color: Colors.transparent,
+                        image: DecorationImage(
+                          image: AssetImage("assets/images/LOGO.png"),
+                          fit: BoxFit.contain,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
 
-              SizedBox(height: screenHeight * 0.03),
+              SizedBox(height: screenHeight * 0.01),
 
+              // ── Scrollable Content ──────────────────────────────────────
               Expanded(
                 child: SingleChildScrollView(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // Paragraph 1
-                      SlideTransition(
-                        position: _introSlide,
-                        child: FadeTransition(
-                          opacity: _introFade,
-                          child: _buildParagraph(
-                            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur in mattis ante. Nam ac diam quis dolor lobortis euismod et eget nunc. Curabitur ullamcorper, nibh vel ultricies commodo, libero tortor viverra velit, sed elementum nunc purus sed ante. Donec sit amet bibendum tellus. Integer vehicula est quis mauris euismod, malesuada c",
-                            screenWidth,
-                          ),
+
+                      // Updated date
+                      _animated(
+                        slide: _introSlide,
+                        fade: _introFade,
+                        child: _buildMeta("Updated at February 5th, 2026"),
+                      ),
+
+                      const SizedBox(height: 16),
+
+                      // Intro paragraph (no title needed)
+                      _animated(
+                        slide: _introSlide,
+                        fade: _introFade,
+                        child: _buildParagraph(
+                          "NaijaFit (\"we,\" \"our,\" or \"us\") is committed to protecting your privacy. This Privacy Policy explains how your personal information is collected, used, and disclosed by NaijaFit.\n\n"
+                              "This Privacy Policy applies to our app, and its associated subdomains (collectively, our \"Service\") alongside our application, NaijaFit. By accessing or using our Service, you signify that you have read, understood, and agree to our collection, storage, use, and disclosure of your personal information as described in this Privacy Policy and our Terms of Service.",
                         ),
                       ),
 
-                      SizedBox(height: screenHeight * 0.035),
+                      const SizedBox(height: sectionGap),
 
-                      // Paragraph 2
-                      SlideTransition(
-                        position: _infoSlide,
-                        child: FadeTransition(
-                          opacity: _infoFade,
-                          child: _buildParagraph(
-                            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur in mattis ante. Nam ac diam quis dolor lobortis euismod et eget nunc. Curabitur ullamcorper, nibh vel ultricies commodo, libero tortor viverra velit, sed elementum nunc purus sed ante. Donec sit amet bibendum tellus. Integer vehicula est quis mauris euismod, malesuada c",
-                            screenWidth,
-                          ),
+                      // Definitions
+                      _animated(
+                        slide: _introSlide,
+                        fade: _introFade,
+                        child: _buildSection(
+                          title: "Definitions and Key Terms",
+                          children: [
+                            _buildParagraph(
+                              "To help explain things as clearly as possible in this Privacy Policy, every time any of these terms are referenced, are strictly defined as:\n\n"
+                                  "Cookie: small amount of data generated by a website and saved by your web browser. It is used to identify your browser, provide analytics, remember information about you such as your language preference or login information.\n\n"
+                                  "Company: when this policy mentions \"Company,\" \"we,\" \"us,\" or \"our,\" it refers to Latom Suites Inc, (10508 107 Ave NW, Edmonton, AB T5H 2X9), that is responsible for your information under this Privacy Policy.\n\n"
+                                  "Country: where NaijaFit or the owners/founders of NaijaFit are based, in this case is Canada.\n\n"
+                                  "Customer: refers to the company, organization or person that signs up to use the NaijaFit Service to manage the relationships with your consumers or service users.\n\n"
+                                  "Device: any internet connected device such as a phone, tablet, computer or any other device that can be used to visit NaijaFit and use the services.\n\n"
+                                  "IP address: Every device connected to the Internet is assigned a number known as an Internet protocol (IP) address. These numbers are usually assigned in geographic blocks. An IP address can often be used to identify the location from which a device is connecting to the Internet.\n\n"
+                                  "Personnel: refers to those individuals who are employed by NaijaFit or are under contract to perform a service on behalf of one of the parties.\n\n"
+                                  "Personal Data: any information that directly, indirectly, or in connection with other information — including a personal identification number — allows for the identification or identifiability of a natural person.\n\n"
+                                  "Service: refers to the service provided by NaijaFit as described in the relative terms (if available) and on this platform.\n\n"
+                                  "Third-party service: refers to advertisers, contest sponsors, promotional and marketing partners, and others who provide our content or whose products or services we think may interest you.\n\n"
+                                  "App/Application: NaijaFit app, refers to the SOFTWARE PRODUCT identified above.\n\n"
+                                  "You: a person or entity that is registered with NaijaFit to use the Services.",
+                            ),
+                          ],
                         ),
                       ),
 
-                      SizedBox(height: screenHeight * 0.02),
+                      const SizedBox(height: sectionGap),
 
-                      // Paragraph 3
-                      SlideTransition(
-                        position: _useSlide,
-                        child: FadeTransition(
-                          opacity: _useFade,
-                          child: _buildParagraph(
-                            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur in mattis ante. Nam ac diam quis dolor lobortis euismod et eget nunc. Curabitur ullamcorper, nibh vel ultricies commodo, libero tortor viverra velit, sed elementum nunc purus sed ante. Donec sit amet bibendum tellus. Integer vehicula est quis mauris euismod, malesuada cLorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur in mattis ante. Nam ac diam quis dolor lobortis euismod et eget nunc. Curabitur ullamcorper, nibh vel ultricies commodo, libero tortor viverra velit, sed elementum nunc purus sed ante. Donec sit amet bibendum tellus. Integer vehicula est quis",
-                            screenWidth,
-                          ),
+                      // What Info We Collect
+                      _animated(
+                        slide: _infoSlide,
+                        fade: _infoFade,
+                        child: _buildSection(
+                          title: "What Information Do We Collect?",
+                          children: [
+                            _buildParagraph(
+                              "We collect information from you when you visit our app, register on our site, place an order, subscribe to our newsletter, respond to a survey or fill out a form.\n\n"
+                                  "• Name / Username\n"
+                                  "• Email Addresses\n"
+                                  "• Billing Addresses",
+                            ),
+                            const SizedBox(height: 14),
+                            _buildSubTitle("When does NaijaFit use end user information from third parties?"),
+                            const SizedBox(height: 6),
+                            _buildParagraph(
+                              "NaijaFit will collect End User Data necessary to provide the NaijaFit services to our customers. End users may voluntarily provide us with information they have made available on social media websites. If you provide us with any such information, we may collect publicly available information from the social media websites you have indicated. You can control how much of your information social media websites make public by visiting these websites and changing your privacy settings.",
+                            ),
+                            const SizedBox(height: 14),
+                            _buildSubTitle("When does NaijaFit use customer information from third parties?"),
+                            const SizedBox(height: 6),
+                            _buildParagraph(
+                              "We receive some information from the third parties when you contact us. For example, when you submit your email address to us to show interest in becoming a NaijaFit customer, we receive information from a third party that provides automated fraud detection services to NaijaFit. We also occasionally collect information that is made publicly available on social media websites.",
+                            ),
+                          ],
                         ),
                       ),
 
-                      SizedBox(height: screenHeight * 0.02),
+                      const SizedBox(height: sectionGap),
+
+                      // Share Info
+                      _animated(
+                        slide: _infoSlide,
+                        fade: _infoFade,
+                        child: _buildSection(
+                          title: "Do We Share The Information We Collect?",
+                          children: [
+                            _buildParagraph(
+                              "We may share the information that we collect, both personal and non-personal, with third parties such as advertisers, contest sponsors, promotional and marketing partners, and others who provide our content or whose products or services we think may interest you. We may also share it with our current and future affiliated companies and business partners, and if we are involved in a merger, asset sale or other business reorganization, we may also share or transfer your personal and non-personal information to our successors-in-interest.\n\n"
+                                  "We may engage trusted third party service providers to perform functions and provide services to us, such as hosting and maintaining our servers and the app, database storage and management, e-mail management, storage marketing, credit card processing, customer service and fulfilling orders for products and services you may purchase through the app.\n\n"
+                                  "We may share portions of our log file data, including IP addresses, for analytics purposes with third parties such as web analytics partners, application developers, and ad networks.\n\n"
+                                  "We may also disclose personal and non-personal information about you to government or law enforcement officials or private parties as we, in our sole discretion, believe necessary or appropriate in order to respond to claims, legal process (including subpoenas), to protect our rights and interests or those of a third party, the safety of the public or any person, to prevent or stop any illegal, unethical, or legally actionable activity, or to otherwise comply with applicable court orders, laws, rules and regulations.",
+                            ),
+                          ],
+                        ),
+                      ),
+
+                      const SizedBox(height: sectionGap),
+
+                      // How We Use Info
+                      _animated(
+                        slide: _infoSlide,
+                        fade: _infoFade,
+                        child: _buildSection(
+                          title: "How Do We Use The Information We Collect?",
+                          children: [
+                            _buildParagraph(
+                              "Any of the information we collect from you may be used in one of the following ways:\n\n"
+                                  "• To personalize your experience (your information helps us to better respond to your individual needs)\n"
+                                  "• To improve our app (we continually strive to improve our app offerings based on the information and feedback we receive from you)\n"
+                                  "• To improve customer service (your information helps us to more effectively respond to your customer service requests and support needs)\n"
+                                  "• To process transactions\n"
+                                  "• To administer a contest, promotion, survey or other site feature\n"
+                                  "• To send periodic emails",
+                            ),
+                          ],
+                        ),
+                      ),
+
+                      const SizedBox(height: sectionGap),
+
+                      // Email Address
+                      _animated(
+                        slide: _infoSlide,
+                        fade: _infoFade,
+                        child: _buildSection(
+                          title: "How Do We Use Your Email Address?",
+                          children: [
+                            _buildParagraph(
+                              "By submitting your email address on this app, you agree to receive emails from us. You can cancel your participation in any of these email lists at any time by clicking on the opt-out link or other unsubscribe option that is included in the respective email. We only send emails to people who have authorized us to contact them, either directly, or through a third party. We do not send unsolicited commercial emails, because we hate spam as much as you do.\n\n"
+                                  "By submitting your email address, you also agree to allow us to use your email address for customer audience targeting on sites like Facebook, where we display custom advertising to specific people who have opted-in to receive communications from us. Email addresses submitted only through the order processing page will be used for the sole purpose of sending you information and updates pertaining to your order.",
+                            ),
+                          ],
+                        ),
+                      ),
+
+                      const SizedBox(height: sectionGap),
+
+                      // How Long
+                      _animated(
+                        slide: _useSlide,
+                        fade: _useFade,
+                        child: _buildSection(
+                          title: "How Long Do We Keep Your Information?",
+                          children: [
+                            _buildParagraph(
+                              "We keep your information only so long as we need it to provide NaijaFit to you and fulfill the purposes described in this policy. This is also the case for anyone that we share your information with and who carries out services on our behalf. When we no longer need to use your information and there is no need for us to keep it to comply with our legal or regulatory obligations, we'll either remove it from our systems or depersonalize it so that we can't identify you.",
+                            ),
+                          ],
+                        ),
+                      ),
+
+                      const SizedBox(height: sectionGap),
+
+                      // Protect Info
+                      _animated(
+                        slide: _useSlide,
+                        fade: _useFade,
+                        child: _buildSection(
+                          title: "How Do We Protect Your Information?",
+                          children: [
+                            _buildParagraph(
+                              "We implement a variety of security measures to maintain the safety of your personal information when you place an order or enter, submit, or access your personal information. We offer the use of a secure server. All supplied sensitive/credit information is transmitted via Secure Socket Layer (SSL) technology and then encrypted into our Payment gateway providers database only to be accessible by those authorized with special access rights to such systems, and are required to keep the information confidential. After a transaction, your private information (credit cards, social security numbers, financials, etc.) is never kept on file.",
+                            ),
+                          ],
+                        ),
+                      ),
+
+                      const SizedBox(height: sectionGap),
+
+                      // Transfer
+                      _animated(
+                        slide: _useSlide,
+                        fade: _useFade,
+                        child: _buildSection(
+                          title: "Could My Information Be Transferred to Other Countries?",
+                          children: [
+                            _buildParagraph(
+                              "NaijaFit is incorporated in Canada. Information collected via our app, through direct interactions with you, or from use of our help services may be transferred from time to time to our offices or personnel, or to third parties, located throughout the world, and may be viewed and hosted anywhere in the world, including countries that may not have laws of general applicability regulating the use and transfer of such data. To the fullest extent allowed by applicable law, by using any of the above, you voluntarily consent to the trans-border transfer and hosting of such information.",
+                            ),
+                          ],
+                        ),
+                      ),
+
+                      const SizedBox(height: sectionGap),
+
+                      // Security
+                      _animated(
+                        slide: _useSlide,
+                        fade: _useFade,
+                        child: _buildSection(
+                          title: "Is the Information Collected Through NaijaFit Secure?",
+                          children: [
+                            _buildParagraph(
+                              "We take precautions to protect the security of your information. We have physical, electronic, and managerial procedures to help safeguard, prevent unauthorized access, maintain data security, and correctly use your information. However, neither people nor security systems are foolproof, including encryption systems. Therefore, while we use reasonable efforts to protect your personal information, we cannot guarantee its absolute security.",
+                            ),
+                          ],
+                        ),
+                      ),
+
+                      const SizedBox(height: sectionGap),
+
+                      // Update Info
+                      _animated(
+                        slide: _useSlide,
+                        fade: _useFade,
+                        child: _buildSection(
+                          title: "Can I Update or Correct My Information?",
+                          children: [
+                            _buildParagraph(
+                              "The rights you have to request updates or corrections to the information NaijaFit collects depend on your relationship with NaijaFit. Customers have the right to request the restriction of certain uses and disclosures of personally identifiable information as follows. You can contact us in order to (1) update or correct your personally identifiable information, (2) change your preferences with respect to communications and other information you receive from us, or (3) delete the personally identifiable information maintained about you on our systems, by cancelling your account.\n\n"
+                                  "To protect your privacy and security, we may take reasonable steps (such as requesting a unique password) to verify your identity before granting you profile access or making corrections. You are responsible for maintaining the secrecy of your unique password and account information at all times.",
+                            ),
+                          ],
+                        ),
+                      ),
+
+                      const SizedBox(height: sectionGap),
+
+                      // Personnel
+                      _animated(
+                        slide: _useSlide,
+                        fade: _useFade,
+                        child: _buildSection(
+                          title: "Personnel",
+                          children: [
+                            _buildParagraph(
+                              "If you are a NaijaFit worker or applicant, we collect information you voluntarily provide to us. We use the information collected for Human Resources purposes in order to administer benefits to workers and screen applicants.",
+                            ),
+                          ],
+                        ),
+                      ),
+
+                      const SizedBox(height: sectionGap),
+
+                      // Sale of Business
+                      _animated(
+                        slide: _useSlide,
+                        fade: _useFade,
+                        child: _buildSection(
+                          title: "Sale of Business",
+                          children: [
+                            _buildParagraph(
+                              "We reserve the right to transfer information to a third party in the event of a sale, merger or other transfer of all or substantially all of the assets of NaijaFit or any of its Corporate Affiliates, or that portion of NaijaFit or any of its Corporate Affiliates to which the Service relates, or in the event that we discontinue our business or file a petition or have filed against us a petition in bankruptcy, reorganization or similar proceeding, provided that the third party agrees to adhere to the terms of this Privacy Policy.",
+                            ),
+                          ],
+                        ),
+                      ),
+
+                      const SizedBox(height: sectionGap),
+
+                      // Affiliates
+                      _animated(
+                        slide: _useSlide,
+                        fade: _useFade,
+                        child: _buildSection(
+                          title: "Affiliates",
+                          children: [
+                            _buildParagraph(
+                              "We may disclose information (including personal information) about you to our Corporate Affiliates. For purposes of this Privacy Policy, \"Corporate Affiliate\" means any person or entity which directly or indirectly controls, is controlled by or is under common control with NaijaFit, whether by ownership or otherwise. Any information relating to you that we provide to our Corporate Affiliates will be treated by those Corporate Affiliates in accordance with the terms of this Privacy Policy.",
+                            ),
+                          ],
+                        ),
+                      ),
+
+                      const SizedBox(height: sectionGap),
+
+                      // Governing Law
+                      _animated(
+                        slide: _useSlide,
+                        fade: _useFade,
+                        child: _buildSection(
+                          title: "Governing Law",
+                          children: [
+                            _buildParagraph(
+                              "This Privacy Policy is governed by the laws of Canada without regard to its conflict of laws provision. You consent to the exclusive jurisdiction of the courts in connection with any action or dispute arising between the parties under or in connection with this Privacy Policy.\n\n"
+                                  "The laws of Canada, excluding its conflicts of law rules, shall govern this Agreement and your use of the app. Your use of the app may also be subject to other local, state, national, or international laws.",
+                            ),
+                          ],
+                        ),
+                      ),
+
+                      const SizedBox(height: sectionGap),
+
+                      // Your Consent
+                      _animated(
+                        slide: _useSlide,
+                        fade: _useFade,
+                        child: _buildSection(
+                          title: "Your Consent",
+                          children: [
+                            _buildParagraph(
+                              "We've updated our Privacy Policy to provide you with complete transparency into what is being set when you visit our site and how it's being used. By using our NaijaFit, registering an account, or making a purchase, you hereby consent to our Privacy Policy and agree to its terms.",
+                            ),
+                          ],
+                        ),
+                      ),
+
+                      const SizedBox(height: sectionGap),
+
+                      // Links to Other Websites
+                      _animated(
+                        slide: _useSlide,
+                        fade: _useFade,
+                        child: _buildSection(
+                          title: "Links to Other Websites",
+                          children: [
+                            _buildParagraph(
+                              "This Privacy Policy applies only to the Services. The Services may contain links to other websites not operated or controlled by NaijaFit. We are not responsible for the content, accuracy or opinions expressed in such websites, and such websites are not investigated, monitored or checked for accuracy or completeness by us. Please remember that when you use a link to go from the Services to another website, our Privacy Policy is no longer in effect.",
+                            ),
+                          ],
+                        ),
+                      ),
+
+                      const SizedBox(height: sectionGap),
+
+                      // Cookies
+                      _animated(
+                        slide: _useSlide,
+                        fade: _useFade,
+                        child: _buildSection(
+                          title: "Cookies",
+                          children: [
+                            _buildParagraph(
+                              "NaijaFit uses \"Cookies\" to identify the areas of our app that you have visited. A Cookie is a small piece of data stored on your computer or mobile device by your web browser. We use Cookies to enhance the performance and functionality of our app but are non-essential to their use. However, without these cookies, certain functionality like videos may become unavailable or you would be required to enter your login details every time you visit the app. Most web browsers can be set to disable the use of Cookies. However, if you disable Cookies, you may not be able to access functionality on our app correctly or at all. We never place Personally Identifiable Information in Cookies.",
+                            ),
+                            const SizedBox(height: 14),
+                            _buildSubTitle("Blocking and disabling cookies and similar technologies"),
+                            const SizedBox(height: 6),
+                            _buildParagraph(
+                              "Wherever you're located you may also set your browser to block cookies and similar technologies, but this action may block our essential cookies and prevent our app from functioning properly, and you may not be able to fully utilize all of its features and services. You should also be aware that you may also lose some saved information (e.g. saved login details, site preferences) if you block cookies on your browser.",
+                            ),
+                          ],
+                        ),
+                      ),
+
+                      const SizedBox(height: sectionGap),
+
+                      // Remarketing
+                      _animated(
+                        slide: _useSlide,
+                        fade: _useFade,
+                        child: _buildSection(
+                          title: "Remarketing Services",
+                          children: [
+                            _buildParagraph(
+                              "We use remarketing services. In digital marketing, remarketing (or retargeting) is the practice of serving ads across the internet to people who have already visited your app. It allows your company to seem like they're \"following\" people around the internet by serving ads on the websites and platforms they use most.",
+                            ),
+                          ],
+                        ),
+                      ),
+
+                      const SizedBox(height: sectionGap),
+
+                      // Payment Details
+                      _animated(
+                        slide: _useSlide,
+                        fade: _useFade,
+                        child: _buildSection(
+                          title: "Payment Details",
+                          children: [
+                            _buildParagraph(
+                              "In respect to any credit card or other payment processing details you have provided us, we commit that this confidential information will be stored in the most secure manner possible.",
+                            ),
+                          ],
+                        ),
+                      ),
+
+                      const SizedBox(height: sectionGap),
+
+                      // Kids Privacy
+                      _animated(
+                        slide: _useSlide,
+                        fade: _useFade,
+                        child: _buildSection(
+                          title: "Kids' Privacy",
+                          children: [
+                            _buildParagraph(
+                              "We do not address anyone under the age of 13. We do not knowingly collect personally identifiable information from anyone under the age of 13. If You are a parent or guardian and You are aware that Your child has provided Us with Personal Data, please contact Us. If We become aware that We have collected Personal Data from anyone under the age of 13 without verification of parental consent, We take steps to remove that information from Our servers.",
+                            ),
+                          ],
+                        ),
+                      ),
+
+                      const SizedBox(height: sectionGap),
+
+                      // Changes to Privacy Policy
+                      _animated(
+                        slide: _useSlide,
+                        fade: _useFade,
+                        child: _buildSection(
+                          title: "Changes To Our Privacy Policy",
+                          children: [
+                            _buildParagraph(
+                              "We may change our Service and policies, and we may need to make changes to this Privacy Policy so that they accurately reflect our Service and policies. Unless otherwise required by law, we will notify you (for example, through our Service) before we make changes to this Privacy Policy and give you an opportunity to review them before they go into effect. Then, if you continue to use the Service, you will be bound by the updated Privacy Policy. If you do not want to agree to this or any updated Privacy Policy, you can delete your account.",
+                            ),
+                          ],
+                        ),
+                      ),
+
+                      const SizedBox(height: sectionGap),
+
+                      // Third-Party Services
+                      _animated(
+                        slide: _useSlide,
+                        fade: _useFade,
+                        child: _buildSection(
+                          title: "Third-Party Services",
+                          children: [
+                            _buildParagraph(
+                              "We may display, include or make available third-party content (including data, information, applications and other products services) or provide links to third-party websites or services (\"Third-Party Services\").\n\n"
+                                  "You acknowledge and agree that NaijaFit shall not be responsible for any Third-Party Services, including their accuracy, completeness, timeliness, validity, copyright compliance, legality, decency, quality or any other aspect thereof. NaijaFit does not assume and shall not have any liability or responsibility to you or any other person or entity for any Third-Party Services.",
+                            ),
+                          ],
+                        ),
+                      ),
+
+                      const SizedBox(height: sectionGap),
+
+                      // Facebook Pixel
+                      _animated(
+                        slide: _useSlide,
+                        fade: _useFade,
+                        child: _buildSection(
+                          title: "Facebook Pixel",
+                          children: [
+                            _buildParagraph(
+                              "Facebook pixel is an analytics tool that allows you to measure the effectiveness of your advertising by understanding the actions people take on your website/app. You can use the pixel to make sure your ads are shown to the right people. Facebook pixel may collect information from your device when you use the service. Facebook pixel collects information that is held in accordance with its Privacy Policy.",
+                            ),
+                          ],
+                        ),
+                      ),
+
+                      const SizedBox(height: sectionGap),
+
+                      // GDPR
+                      _animated(
+                        slide: _useSlide,
+                        fade: _useFade,
+                        child: _buildSection(
+                          title: "General Data Protection Regulation (GDPR)",
+                          children: [
+                            _buildParagraph(
+                              "We may be collecting and using information from you if you are from the European Economic Area (EEA), and in this section of our Privacy Policy we are going to explain exactly how and why is this data collected, and how we maintain this data under protection from being replicated or used in the wrong way.",
+                            ),
+                            const SizedBox(height: 14),
+                            _buildSubTitle("What is GDPR?"),
+                            const SizedBox(height: 6),
+                            _buildParagraph(
+                              "GDPR is an EU-wide privacy and data protection law that regulates how EU residents' data is protected by companies and enhances the control the EU residents have, over their personal data. The GDPR is relevant to any globally operating company and not just the EU-based businesses and EU residents. Our customers' data is important irrespective of where they are located, which is why we have implemented GDPR controls as our baseline standard for all our operations worldwide.",
+                            ),
+                            const SizedBox(height: 14),
+                            _buildSubTitle("What is personal data?"),
+                            const SizedBox(height: 6),
+                            _buildParagraph(
+                              "Any data that relates to an identifiable or identified individual. GDPR covers a broad spectrum of information that could be used on its own, or in combination with other pieces of information, to identify a person. Personal data extends beyond a person's name or email address. Some examples include financial information, political opinions, genetic data, biometric data, IP addresses, physical address, sexual orientation, and ethnicity.",
+                            ),
+                            const SizedBox(height: 14),
+                            _buildSubTitle("The Data Protection Principles include:"),
+                            const SizedBox(height: 6),
+                            _buildParagraph(
+                              "• Personal data collected must be processed in a fair, legal, and transparent way and should only be used in a way that a person would reasonably expect.\n"
+                                  "• Personal data should only be collected to fulfil a specific purpose and it should only be used for that purpose.\n"
+                                  "• Personal data should be held no longer than necessary to fulfil its purpose.\n"
+                                  "• People covered by the GDPR have the right to access their own personal data. They can also request a copy of their data, and that their data be updated, deleted, restricted, or moved to another organization.",
+                            ),
+                            const SizedBox(height: 14),
+                            _buildSubTitle("Why is GDPR important?"),
+                            const SizedBox(height: 6),
+                            _buildParagraph(
+                              "GDPR adds some new requirements regarding how companies should protect individuals' personal data that they collect and process. It also raises the stakes for compliance by increasing enforcement and imposing greater fines for breach. At NaijaFit we strongly believe that your data privacy is very important and we already have solid security and privacy practices in place that go beyond the requirements of this new regulation.",
+                            ),
+                            const SizedBox(height: 14),
+                            _buildSubTitle("Individual Data Subject's Rights — Data Access, Portability and Deletion"),
+                            const SizedBox(height: 6),
+                            _buildParagraph(
+                              "We are committed to helping our customers meet the data subject rights requirements of GDPR. NaijaFit processes or stores all personal data in fully vetted, DPA compliant vendors. We do store all conversation and personal data for up to 6 years unless your account is deleted. In which case, we dispose of all data in accordance with our Terms of Service and Privacy Policy, but we will not hold it longer than 60 days.",
+                            ),
+                          ],
+                        ),
+                      ),
+
+                      const SizedBox(height: sectionGap),
+
+                      // California Residents
+                      _animated(
+                        slide: _useSlide,
+                        fade: _useFade,
+                        child: _buildSection(
+                          title: "California Residents",
+                          children: [
+                            _buildParagraph(
+                              "The California Consumer Privacy Act (CCPA) requires us to disclose categories of Personal Information we collect and how we use it, the categories of sources from whom we collect Personal Information, and the third parties with whom we share it, which we have explained above.\n\n"
+                                  "You may exercise the following rights:\n\n"
+                                  "• Right to Know and Access. You may submit a verifiable request for information regarding the: (1) categories of Personal Information we collect, use, or share; (2) purposes for which categories of Personal Information are collected or used by us; (3) categories of sources from which we collect Personal Information; and (4) specific pieces of Personal Information we have collected about you.\n"
+                                  "• Right to Equal Service. We will not discriminate against you if you exercise your privacy rights.\n"
+                                  "• Right to Delete. You may submit a verifiable request to close your account and we will delete Personal Information about you that we have collected.\n"
+                                  "• Request that a business that sells a consumer's personal data, not sell the consumer's personal data.\n\n"
+                                  "If you make a request, we have one month to respond to you. We do not sell the Personal Information of our users.",
+                            ),
+                          ],
+                        ),
+                      ),
+
+                      const SizedBox(height: sectionGap),
+
+                      // CalOPPA
+                      _animated(
+                        slide: _useSlide,
+                        fade: _useFade,
+                        child: _buildSection(
+                          title: "California Online Privacy Protection Act (CalOPPA)",
+                          children: [
+                            _buildParagraph(
+                              "CalOPPA requires us to disclose categories of Personal Information we collect and how we use it, the categories of sources from whom we collect Personal Information, and the third parties with whom we share it, which we have explained above.\n\n"
+                                  "CalOPPA users have the following rights:\n\n"
+                                  "• Right to Know and Access.\n"
+                                  "• Right to Equal Service.\n"
+                                  "• Right to Delete.\n"
+                                  "• Right to request that a business that sells a consumer's personal data, not sell the consumer's personal data.\n\n"
+                                  "If you make a request, we have one month to respond to you. We do not sell the Personal Information of our users.",
+                            ),
+                          ],
+                        ),
+                      ),
+
+                      const SizedBox(height: sectionGap),
+
+                      // Contact Us
+                      _animated(
+                        slide: _useSlide,
+                        fade: _useFade,
+                        child: _buildSection(
+                          title: "Contact Us",
+                          children: [
+                            _buildParagraph(
+                              "Don't hesitate to contact us if you have any questions.\n\n"
+                                  "Via Email: hello@naijafit.com",
+                            ),
+                          ],
+                        ),
+                      ),
+
+                      const SizedBox(height: 40),
                     ],
                   ),
                 ),
