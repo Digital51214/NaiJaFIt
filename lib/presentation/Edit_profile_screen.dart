@@ -34,8 +34,19 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   @override
   void initState() {
     super.initState();
-    _nameController = TextEditingController(text: '');
-    _emailController = TextEditingController(text: '');
+
+    _nameController = TextEditingController(
+      text: widget.initialName.trim().isNotEmpty
+          ? widget.initialName
+          : 'Henry Wick',
+    );
+
+    _emailController = TextEditingController(
+      text: widget.initialEmail.trim().isNotEmpty
+          ? widget.initialEmail
+          : 'example@mail.com',
+    );
+
     _avatarUrl = widget.initialAvatarUrl;
   }
 
@@ -274,7 +285,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   child: SingleChildScrollView(
                     child: Column(
                       children: [
-                        SizedBox(height: 8.h),
+                        SizedBox(height: 5.h),
                         Stack(
                           clipBehavior: Clip.none,
                           children: [
@@ -321,7 +332,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                             ),
                           ],
                         ),
-                        SizedBox(height: 7.h),
+                        SizedBox(height: 5.h),
                         _buildTextField(
                           controller: _nameController,
                           hintText: 'Enter name',
@@ -359,7 +370,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(40),
                               ),
-                              padding: EdgeInsets.symmetric(vertical: 2),
+                              padding: const EdgeInsets.symmetric(vertical: 2),
                             ),
                             child: _isSaving
                                 ? const SizedBox(

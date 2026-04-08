@@ -948,9 +948,579 @@
 
 
 
+// import 'package:flutter/material.dart';
+// import 'package:naijafit/presentation/food_logging_screen/widgets/food_detail_bottom_sheet_widget.dart';
+// import 'package:naijafit/widgets/AiFoodEntryBottomSheet.dart';
+//
+// // ─────────────────────────────────────────────
+// //  Dummy Data
+// // ─────────────────────────────────────────────
+// const List<Map<String, dynamic>> _dummyFoods = [
+//   {
+//     'name': 'Ofe Onugbu',
+//     'calories': 320,
+//     'protein': 18.0,
+//     'carbs': 22.0,
+//     'fats': 14.0,
+//     'servingSize': '1 bowl',
+//     'servingOptions': ['1 bowl', '2 bowls', 'Half bowl'],
+//     'category': 'Main',
+//     'region': 'South',
+//     'image':
+//     'https://images.unsplash.com/photo-1604329760661-e71dc83f8f26?w=400',
+//   },
+//   {
+//     'name': 'Suya',
+//     'calories': 260,
+//     'protein': 28.0,
+//     'carbs': 6.0,
+//     'fats': 14.0,
+//     'servingSize': '1 skewer',
+//     'servingOptions': ['1 skewer', '2 skewers', '3 skewers'],
+//     'category': 'Appetizer',
+//     'region': 'North',
+//     'image':
+//     'https://images.unsplash.com/photo-1529042410759-befb1204b468?w=400',
+//   },
+//   {
+//     'name': 'Akara',
+//     'calories': 180,
+//     'protein': 8.0,
+//     'carbs': 22.0,
+//     'fats': 7.0,
+//     'servingSize': '3 pieces',
+//     'servingOptions': ['3 pieces', '5 pieces', '1 piece'],
+//     'category': 'Breakfast',
+//     'region': 'West',
+//     'image':
+//     'https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=400',
+//   },
+//   {
+//     'name': 'Puff Puff',
+//     'calories': 210,
+//     'protein': 4.0,
+//     'carbs': 30.0,
+//     'fats': 9.0,
+//     'servingSize': '4 pieces',
+//     'servingOptions': ['4 pieces', '6 pieces', '2 pieces'],
+//     'category': 'Bread/Snack',
+//     'region': 'South',
+//     'image':
+//     'https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=400',
+//   },
+// ];
+//
+// class FoodLoggingScreen extends StatefulWidget {
+//   const FoodLoggingScreen({super.key});
+//
+//   @override
+//   State<FoodLoggingScreen> createState() => _FoodLoggingScreenState();
+// }
+//
+// class _FoodLoggingScreenState extends State<FoodLoggingScreen> {
+//   final TextEditingController _searchController = TextEditingController();
+//   String _searchQuery = '';
+//   String _selectedRegion = 'All Regions';
+//   String _selectedFoodType = 'All';
+//
+//   // ✅ Custom foods added by user via AI
+//   final List<Map<String, dynamic>> _customFoods = [];
+//
+//   List<Map<String, dynamic>> get _allFoods => [..._dummyFoods, ..._customFoods];
+//
+//   List<Map<String, dynamic>> get _filteredFoods {
+//     return _allFoods.where((food) {
+//       final matchesSearch = _searchQuery.isEmpty ||
+//           (food['name'] as String)
+//               .toLowerCase()
+//               .contains(_searchQuery.toLowerCase());
+//
+//       final matchesRegion =
+//           _selectedRegion == 'All Regions' || food['region'] == _selectedRegion;
+//
+//       final matchesType =
+//           _selectedFoodType == 'All' || food['category'] == _selectedFoodType;
+//
+//       return matchesSearch && matchesRegion && matchesType;
+//     }).toList();
+//   }
+//
+//   @override
+//   void dispose() {
+//     _searchController.dispose();
+//     super.dispose();
+//   }
+//
+//   void _onFoodTap(Map<String, dynamic> food) {
+//     showModalBottomSheet(
+//       context: context,
+//       isScrollControlled: true,
+//       backgroundColor: Colors.transparent,
+//       builder: (_) => FoodDetailBottomSheetWidget(
+//         food: food,
+//         onAdd: (f, serving, servings) {
+//           Navigator.of(context).pop();
+//           ScaffoldMessenger.of(context).showSnackBar(
+//             SnackBar(
+//               content: Text(
+//                 'Added ${f["name"]} to your food log',
+//                 style: const TextStyle(fontFamily: "Poppins"),
+//               ),
+//               duration: const Duration(seconds: 2),
+//               backgroundColor: const Color(0xFF2E7D32),
+//             ),
+//           );
+//         },
+//       ),
+//     );
+//   }
+//
+//   void _openAiFoodEntry() {
+//     showModalBottomSheet(
+//       context: context,
+//       isScrollControlled: true,
+//       backgroundColor: Colors.transparent,
+//       builder: (_) => AiFoodEntryBottomSheet(
+//         onFoodAdded: (food) {
+//           setState(() => _customFoods.add(food));
+//           ScaffoldMessenger.of(context).showSnackBar(
+//             SnackBar(
+//               content: Text(
+//                 '${food["name"]} added to your food list!',
+//                 style: const TextStyle(fontFamily: "Poppins"),
+//               ),
+//               duration: const Duration(seconds: 2),
+//               backgroundColor: const Color(0xFF2E7D32),
+//             ),
+//           );
+//         },
+//       ),
+//     );
+//   }
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     final theme = Theme.of(context);
+//     final mediaQuery = MediaQuery.of(context);
+//     final size = mediaQuery.size;
+//     final width = size.width;
+//     final height = size.height;
+//     final textScale = mediaQuery.textScaleFactor;
+//
+//     double responsiveFont(double fontSize) {
+//       final scale = width / 375;
+//       final responsiveSize = fontSize * scale;
+//       return responsiveSize.clamp(fontSize * 0.85, fontSize * 1.20);
+//     }
+//
+//     return Scaffold(
+//       backgroundColor: const Color(0xFFF8F8F8),
+//       body: SafeArea(
+//         child: Column(
+//           children: [
+//             _buildHeader(theme, width, height, textScale, responsiveFont),
+//             Padding(
+//               padding: EdgeInsets.symmetric(
+//                 horizontal: width * 0.042,
+//                 vertical: height * 0.010,
+//               ),
+//               child: _buildSearchBar(
+//                 theme,
+//                 width,
+//                 height,
+//                 textScale,
+//                 responsiveFont,
+//               ),
+//             ),
+//             Expanded(
+//               child: SingleChildScrollView(
+//                 padding: EdgeInsets.only(bottom: height * 0.03),
+//                 child: Column(
+//                   crossAxisAlignment: CrossAxisAlignment.start,
+//                   children: [
+//                     SizedBox(height: height * 0.01),
+//                     _buildAllFoodsSection(
+//                       theme,
+//                       width,
+//                       height,
+//                       textScale,
+//                       responsiveFont,
+//                     ),
+//                   ],
+//                 ),
+//               ),
+//             ),
+//           ],
+//         ),
+//       ),
+//       floatingActionButton: Padding(
+//         padding: EdgeInsets.only(
+//           left: width * 0.13,
+//           right: width * 0.025,
+//         ),
+//         child: Row(
+//           crossAxisAlignment: CrossAxisAlignment.end,
+//           children: [
+//             Expanded(
+//               child: Container(
+//                 padding: EdgeInsets.symmetric(
+//                   horizontal: width * 0.032,
+//                   vertical: height * 0.014,
+//                 ),
+//                 decoration: BoxDecoration(
+//                   color: const Color(0xFFDDE8D8),
+//                   borderRadius: BorderRadius.circular(width * 0.037),
+//                 ),
+//                 child: Text(
+//                   "Can't see your favorite meal on the list? Use AI Nutrition Coach to get calories details of your food and add it to your list",
+//                   style: TextStyle(
+//                     fontFamily: "regular",
+//                     fontSize: responsiveFont(10) / textScale,
+//                     height: 1.4,
+//                     color: Colors.black87,
+//                   ),
+//                 ),
+//               ),
+//             ),
+//             SizedBox(width: width * 0.025),
+//             Column(
+//               crossAxisAlignment: CrossAxisAlignment.start,
+//               mainAxisSize: MainAxisSize.min,
+//               children: [
+//                 Padding(
+//                   padding: EdgeInsets.only(bottom: height * 0.007),
+//                   child: Image.asset(
+//                     "assets/images/errow.png",
+//                     height: width * 0.072,
+//                     width: width * 0.072,
+//                   ),
+//                 ),
+//                 Container(
+//                   decoration: BoxDecoration(
+//                     shape: BoxShape.circle,
+//                     boxShadow: [
+//                       BoxShadow(
+//                         color: Colors.green.withOpacity(0.4),
+//                         blurRadius: width * 0.04,
+//                         spreadRadius: width * 0.005,
+//                       ),
+//                     ],
+//                   ),
+//                   child: FloatingActionButton(
+//                     onPressed: _openAiFoodEntry,
+//                     elevation: 0,
+//                     backgroundColor: const Color(0xFF1B7F3A),
+//                     shape: const CircleBorder(),
+//                     child: Icon(
+//                       Icons.add,
+//                       size: width * 0.077,
+//                       color: Colors.white,
+//                     ),
+//                   ),
+//                 ),
+//               ],
+//             ),
+//           ],
+//         ),
+//       ),
+//     );
+//   }
+//
+//   Widget _buildHeader(
+//       ThemeData theme,
+//       double width,
+//       double height,
+//       double textScale,
+//       double Function(double) responsiveFont,
+//       ) {
+//     return Padding(
+//       padding: EdgeInsets.fromLTRB(
+//         width * 0.042,
+//         height * 0.028,
+//         width * 0.042,
+//         height * 0.005,
+//       ),
+//       child: Row(
+//         children: [
+//           Expanded(
+//             child: Column(
+//               crossAxisAlignment: CrossAxisAlignment.start,
+//               children: [
+//                 Padding(
+//                   padding: EdgeInsets.only(left: width * 0.032),
+//                   child: Text(
+//                     'Food Logging',
+//                     style: TextStyle(
+//                       fontFamily: "semibold",
+//                       fontSize: responsiveFont(19) / textScale,
+//                       fontWeight: FontWeight.w800,
+//                       color: Colors.black87,
+//                     ),
+//                   ),
+//                 ),
+//                 Padding(
+//                   padding: EdgeInsets.only(left: width * 0.032),
+//                   child: Text(
+//                     'Log Your Daily Food Intake',
+//                     style: TextStyle(
+//                       fontFamily: "regular",
+//                       fontSize: responsiveFont(14) / textScale,
+//                       color: Colors.black54,
+//                       fontWeight: FontWeight.w400,
+//                     ),
+//                   ),
+//                 ),
+//               ],
+//             ),
+//           ),
+//           Image(
+//             image: const AssetImage("assets/images/LOGO.png"),
+//             height: width * 0.15,
+//             width: width * 0.15,
+//           ),
+//         ],
+//       ),
+//     );
+//   }
+//
+//   Widget _buildSearchBar(
+//       ThemeData theme,
+//       double width,
+//       double height,
+//       double textScale,
+//       double Function(double) responsiveFont,
+//       ) {
+//     return Container(
+//       height: height * 0.058,
+//       decoration: BoxDecoration(
+//         borderRadius: BorderRadius.circular(width * 0.08),
+//         color: Colors.white,
+//         boxShadow: [
+//           BoxShadow(
+//             color: Colors.black.withOpacity(0.4),
+//             blurRadius: width * 0.026,
+//             offset: Offset(0, height * 0.0025),
+//           ),
+//         ],
+//       ),
+//       child: TextField(
+//         controller: _searchController,
+//         onChanged: (v) => setState(() => _searchQuery = v),
+//         style: TextStyle(
+//           fontFamily: "Poppins",
+//           fontSize: responsiveFont(14) / textScale,
+//         ),
+//         decoration: InputDecoration(
+//           hintText: 'Search...',
+//           hintStyle: TextStyle(
+//             fontFamily: "regular",
+//             color: Colors.black38,
+//             fontSize: responsiveFont(15) / textScale,
+//           ),
+//           prefixIcon: Icon(
+//             Icons.search,
+//             color: Colors.black38,
+//             size: width * 0.06,
+//           ),
+//           suffixIcon: _searchQuery.isNotEmpty
+//               ? IconButton(
+//             icon: Icon(
+//               Icons.clear,
+//               color: Colors.black38,
+//               size: width * 0.055,
+//             ),
+//             onPressed: () {
+//               setState(() {
+//                 _searchController.clear();
+//                 _searchQuery = '';
+//               });
+//             },
+//           )
+//               : null,
+//           contentPadding: EdgeInsets.symmetric(
+//             horizontal: width * 0.042,
+//             vertical: height * 0.017,
+//           ),
+//           border: OutlineInputBorder(
+//             borderRadius: BorderRadius.circular(width * 0.08),
+//             borderSide: const BorderSide(width: 1, color: Colors.grey),
+//           ),
+//           enabledBorder: OutlineInputBorder(
+//             borderRadius: BorderRadius.circular(width * 0.08),
+//             borderSide: BorderSide.none,
+//           ),
+//           focusedBorder: OutlineInputBorder(
+//             borderRadius: BorderRadius.circular(width * 0.08),
+//             borderSide: const BorderSide(width: 1, color: Colors.green),
+//           ),
+//           filled: true,
+//           fillColor: Colors.white,
+//         ),
+//       ),
+//     );
+//   }
+//
+//   Widget _buildAllFoodsSection(
+//       ThemeData theme,
+//       double width,
+//       double height,
+//       double textScale,
+//       double Function(double) responsiveFont,
+//       ) {
+//     final foods = _filteredFoods;
+//
+//     return Padding(
+//       padding: EdgeInsets.symmetric(horizontal: width * 0.042),
+//       child: Column(
+//         crossAxisAlignment: CrossAxisAlignment.start,
+//         children: [
+//           SizedBox(height: height * 0.01),
+//           GridView.builder(
+//             shrinkWrap: true,
+//             physics: const NeverScrollableScrollPhysics(),
+//             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+//               crossAxisCount: 2,
+//               mainAxisSpacing: width * 0.036,
+//               crossAxisSpacing: width * 0.036,
+//               childAspectRatio: 0.95,
+//             ),
+//             itemCount: foods.length,
+//             itemBuilder: (context, index) => _buildFoodCard(
+//               foods[index],
+//               width,
+//               height,
+//               textScale,
+//               responsiveFont,
+//             ),
+//           ),
+//         ],
+//       ),
+//     );
+//   }
+//
+//   Widget _buildFoodCard(
+//       Map<String, dynamic> food,
+//       double width,
+//       double height,
+//       double textScale,
+//       double Function(double) responsiveFont,
+//       ) {
+//     return GestureDetector(
+//       onTap: () => _onFoodTap(food),
+//       child: Container(
+//         decoration: BoxDecoration(
+//           color: Colors.white,
+//           borderRadius: BorderRadius.circular(width * 0.042),
+//           border: Border.all(
+//             width: 1,
+//             color: Colors.grey.withOpacity(0.5),
+//           ),
+//           boxShadow: [
+//             BoxShadow(
+//               color: Colors.black.withOpacity(0.07),
+//               blurRadius: width * 0.032,
+//               offset: Offset(0, height * 0.005),
+//             ),
+//           ],
+//         ),
+//         child: Column(
+//           crossAxisAlignment: CrossAxisAlignment.center,
+//           mainAxisSize: MainAxisSize.min,
+//           children: [
+//             ClipRRect(
+//               borderRadius: BorderRadius.vertical(
+//                 top: Radius.circular(width * 0.042),
+//               ),
+//               child: Padding(
+//                 padding: EdgeInsets.only(
+//                   top: height * 0.01,
+//                   right: width * 0.024,
+//                   left: width * 0.024,
+//                 ),
+//                 child: Container(
+//                   height: height * 0.10,
+//                   decoration: BoxDecoration(
+//                     borderRadius: BorderRadius.circular(width * 0.042),
+//                     image: DecorationImage(
+//                       image: NetworkImage(food['image'] as String),
+//                       fit: BoxFit.cover,
+//                     ),
+//                   ),
+//                 ),
+//               ),
+//             ),
+//             SizedBox(height: height * 0.011),
+//             Padding(
+//               padding: EdgeInsets.symmetric(horizontal: width * 0.04),
+//               child: Text(
+//                 food['name'] as String,
+//                 style: TextStyle(
+//                   fontFamily: "semibold",
+//                   fontWeight: FontWeight.w900,
+//                   fontSize: responsiveFont(12) / textScale,
+//                   color: Colors.black87,
+//                 ),
+//                 maxLines: 1,
+//                 overflow: TextOverflow.ellipsis,
+//                 textAlign: TextAlign.center,
+//               ),
+//             ),
+//             SizedBox(height: height * 0.011),
+//             Padding(
+//               padding: EdgeInsets.symmetric(horizontal: width * 0.053),
+//               child: SizedBox(
+//                 height: height * 0.041,
+//                 child: OutlinedButton(
+//                   onPressed: () => _onFoodTap(food),
+//                   style: OutlinedButton.styleFrom(
+//                     foregroundColor: const Color(0xFF2E7D32),
+//                     side: const BorderSide(
+//                       color: Color(0xFF2E7D32),
+//                       width: 1.5,
+//                     ),
+//                     shape: RoundedRectangleBorder(
+//                       borderRadius: BorderRadius.circular(width * 0.053),
+//                     ),
+//                     padding: EdgeInsets.symmetric(
+//                       vertical: height * 0.007,
+//                       horizontal: width * 0.037,
+//                     ),
+//                     minimumSize: Size(double.infinity, height * 0.042),
+//                   ),
+//                   child: Text(
+//                     'See Portfolio',
+//                     style: TextStyle(
+//                       fontFamily: "bold",
+//                       fontSize: responsiveFont(11) / textScale,
+//                       fontWeight: FontWeight.w900,
+//                     ),
+//                   ),
+//                 ),
+//               ),
+//             ),
+//             SizedBox(height: height * 0.013),
+//           ],
+//         ),
+//       ),
+//     );
+//   }
+// }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 import 'package:flutter/material.dart';
 import 'package:naijafit/presentation/food_logging_screen/widgets/food_detail_bottom_sheet_widget.dart';
-import 'package:naijafit/widgets/AiFoodEntryBottomSheet.dart';
 
 // ─────────────────────────────────────────────
 //  Dummy Data
@@ -1019,11 +1589,15 @@ class FoodLoggingScreen extends StatefulWidget {
 
 class _FoodLoggingScreenState extends State<FoodLoggingScreen> {
   final TextEditingController _searchController = TextEditingController();
+
   String _searchQuery = '';
   String _selectedRegion = 'All Regions';
   String _selectedFoodType = 'All';
+  String _selectedMealTime = 'Breakfast';
 
-  // ✅ Custom foods added by user via AI
+  final List<String> _mealTimes = ['Breakfast', 'Lunch', 'Dinner'];
+
+  // ✅ Still kept in case later you want to unlock premium flow
   final List<Map<String, dynamic>> _customFoods = [];
 
   List<Map<String, dynamic>> get _allFoods => [..._dummyFoods, ..._customFoods];
@@ -1057,13 +1631,20 @@ class _FoodLoggingScreenState extends State<FoodLoggingScreen> {
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
       builder: (_) => FoodDetailBottomSheetWidget(
-        food: food,
+        food: {
+          ...food,
+          'selectedMealTime': _selectedMealTime,
+        },
         onAdd: (f, serving, servings) {
           Navigator.of(context).pop();
+
+          final int totalCalories =
+          ((f['calories'] as int) * servings).round();
+
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(
-                'Added ${f["name"]} to your food log',
+                '${f["name"]} added to $_selectedMealTime • $totalCalories cal',
                 style: const TextStyle(fontFamily: "Poppins"),
               ),
               duration: const Duration(seconds: 2),
@@ -1075,26 +1656,123 @@ class _FoodLoggingScreenState extends State<FoodLoggingScreen> {
     );
   }
 
-  void _openAiFoodEntry() {
+  void _openPremiumMessage() {
     showModalBottomSheet(
       context: context,
-      isScrollControlled: true,
       backgroundColor: Colors.transparent,
-      builder: (_) => AiFoodEntryBottomSheet(
-        onFoodAdded: (food) {
-          setState(() => _customFoods.add(food));
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(
-                '${food["name"]} added to your food list!',
-                style: const TextStyle(fontFamily: "Poppins"),
-              ),
-              duration: const Duration(seconds: 2),
-              backgroundColor: const Color(0xFF2E7D32),
+      isScrollControlled: true,
+      builder: (_) {
+        return Container(
+          decoration: const BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
+          ),
+          padding: const EdgeInsets.fromLTRB(20, 20, 20, 28),
+          child: SafeArea(
+            top: false,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Container(
+                  width: 42,
+                  height: 5,
+                  decoration: BoxDecoration(
+                    color: Colors.grey.shade300,
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                ),
+                const SizedBox(height: 20),
+                Container(
+                  width: 64,
+                  height: 64,
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFE8F3EA),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: const Icon(
+                    Icons.lock_outline_rounded,
+                    color: Color(0xFF1B7F3A),
+                    size: 30,
+                  ),
+                ),
+                const SizedBox(height: 16),
+                const Text(
+                  'AI Nutrition Coach is a premium feature',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontFamily: "semibold",
+                    fontSize: 18,
+                    fontWeight: FontWeight.w700,
+                    color: Colors.black87,
+                  ),
+                ),
+                const SizedBox(height: 10),
+                const Text(
+                  'Unlock the full features of NaijaFit to get calories for meals not currently on the list.',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontFamily: "regular",
+                    fontSize: 14,
+                    height: 1.5,
+                    color: Colors.black54,
+                  ),
+                ),
+                const SizedBox(height: 22),
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+
+                      // TODO: Replace with your actual paywall screen route
+                      // Navigator.pushNamed(context, AppRoutes.planScreenOne);
+
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text(
+                            'Redirect user to Plan Screen 1 / Paywall',
+                            style: TextStyle(fontFamily: "Poppins"),
+                          ),
+                          backgroundColor: Color(0xFF1B7F3A),
+                        ),
+                      );
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFF1B7F3A),
+                      foregroundColor: Colors.white,
+                      elevation: 0,
+                      padding: const EdgeInsets.symmetric(vertical: 15),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                    ),
+                    child: const Text(
+                      'Unlock Premium',
+                      style: TextStyle(
+                        fontFamily: "semibold",
+                        fontSize: 15,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 10),
+                TextButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: const Text(
+                    'Maybe later',
+                    style: TextStyle(
+                      fontFamily: "regular",
+                      fontSize: 14,
+                      color: Colors.black54,
+                    ),
+                  ),
+                ),
+              ],
             ),
-          );
-        },
-      ),
+          ),
+        );
+      },
     );
   }
 
@@ -1124,6 +1802,18 @@ class _FoodLoggingScreenState extends State<FoodLoggingScreen> {
                 horizontal: width * 0.042,
                 vertical: height * 0.010,
               ),
+              child: _buildMealTimeSelector(
+                width,
+                height,
+                textScale,
+                responsiveFont,
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(
+                horizontal: width * 0.042,
+                vertical: height * 0.004,
+              ),
               child: _buildSearchBar(
                 theme,
                 width,
@@ -1134,11 +1824,18 @@ class _FoodLoggingScreenState extends State<FoodLoggingScreen> {
             ),
             Expanded(
               child: SingleChildScrollView(
-                padding: EdgeInsets.only(bottom: height * 0.03),
+                padding: EdgeInsets.only(bottom: height * 0.14),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     SizedBox(height: height * 0.01),
+                    _buildSelectedMealBanner(
+                      width,
+                      height,
+                      textScale,
+                      responsiveFont,
+                    ),
+                    SizedBox(height: height * 0.012),
                     _buildAllFoodsSection(
                       theme,
                       width,
@@ -1153,10 +1850,11 @@ class _FoodLoggingScreenState extends State<FoodLoggingScreen> {
           ],
         ),
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: Padding(
         padding: EdgeInsets.only(
-          left: width * 0.13,
-          right: width * 0.025,
+          left: width * 0.08,
+          right: width * 0.04,
         ),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.end,
@@ -1164,19 +1862,19 @@ class _FoodLoggingScreenState extends State<FoodLoggingScreen> {
             Expanded(
               child: Container(
                 padding: EdgeInsets.symmetric(
-                  horizontal: width * 0.032,
+                  horizontal: width * 0.035,
                   vertical: height * 0.014,
                 ),
                 decoration: BoxDecoration(
                   color: const Color(0xFFDDE8D8),
-                  borderRadius: BorderRadius.circular(width * 0.037),
+                  borderRadius: BorderRadius.circular(width * 0.040),
                 ),
                 child: Text(
-                  "Can't see your favorite meal on the list? Use AI Nutrition Coach to get calories details of your food and add it to your list",
+                  "Can't find your meal? AI Nutrition Coach is a premium feature that helps estimate calories and add custom foods.",
                   style: TextStyle(
                     fontFamily: "regular",
-                    fontSize: responsiveFont(10) / textScale,
-                    height: 1.4,
+                    fontSize: responsiveFont(10.5) / textScale,
+                    height: 1.45,
                     color: Colors.black87,
                   ),
                 ),
@@ -1207,13 +1905,13 @@ class _FoodLoggingScreenState extends State<FoodLoggingScreen> {
                     ],
                   ),
                   child: FloatingActionButton(
-                    onPressed: _openAiFoodEntry,
+                    onPressed: _openPremiumMessage,
                     elevation: 0,
                     backgroundColor: const Color(0xFF1B7F3A),
                     shape: const CircleBorder(),
                     child: Icon(
-                      Icons.add,
-                      size: width * 0.077,
+                      Icons.auto_awesome_rounded,
+                      size: width * 0.070,
                       color: Colors.white,
                     ),
                   ),
@@ -1247,7 +1945,7 @@ class _FoodLoggingScreenState extends State<FoodLoggingScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
-                  padding: EdgeInsets.only(left: width * 0.032),
+                  padding: EdgeInsets.only(left: width * 0.010),
                   child: Text(
                     'Food Logging',
                     style: TextStyle(
@@ -1259,9 +1957,9 @@ class _FoodLoggingScreenState extends State<FoodLoggingScreen> {
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.only(left: width * 0.032),
+                  padding: EdgeInsets.only(left: width * 0.010, top: 4),
                   child: Text(
-                    'Log Your Daily Food Intake',
+                    'Search and log your meals for the day',
                     style: TextStyle(
                       fontFamily: "regular",
                       fontSize: responsiveFont(14) / textScale,
@@ -1283,6 +1981,70 @@ class _FoodLoggingScreenState extends State<FoodLoggingScreen> {
     );
   }
 
+  Widget _buildMealTimeSelector(
+      double width,
+      double height,
+      double textScale,
+      double Function(double) responsiveFont,
+      ) {
+    return SizedBox(
+      height: height * 0.050,
+      child: ListView.separated(
+        scrollDirection: Axis.horizontal,
+        itemCount: _mealTimes.length,
+        separatorBuilder: (_, __) => SizedBox(width: width * 0.025),
+        itemBuilder: (context, index) {
+          final meal = _mealTimes[index];
+          final bool isSelected = meal == _selectedMealTime;
+
+          return GestureDetector(
+            onTap: () {
+              setState(() {
+                _selectedMealTime = meal;
+              });
+            },
+            child: AnimatedContainer(
+              duration: const Duration(milliseconds: 220),
+              padding: EdgeInsets.symmetric(
+                horizontal: width * 0.055,
+                vertical: height * 0.012,
+              ),
+              decoration: BoxDecoration(
+                color: isSelected ? const Color(0xFF1B7F3A) : Colors.white,
+                borderRadius: BorderRadius.circular(width * 0.08),
+                border: Border.all(
+                  color: isSelected
+                      ? const Color(0xFF1B7F3A)
+                      : Colors.grey.withOpacity(0.25),
+                ),
+                boxShadow: isSelected
+                    ? [
+                  BoxShadow(
+                    color: const Color(0xFF1B7F3A).withOpacity(0.18),
+                    blurRadius: 14,
+                    offset: const Offset(0, 6),
+                  ),
+                ]
+                    : [],
+              ),
+              child: Center(
+                child: Text(
+                  meal,
+                  style: TextStyle(
+                    fontFamily: "semibold",
+                    fontSize: responsiveFont(13) / textScale,
+                    fontWeight: FontWeight.w700,
+                    color: isSelected ? Colors.white : Colors.black87,
+                  ),
+                ),
+              ),
+            ),
+          );
+        },
+      ),
+    );
+  }
+
   Widget _buildSearchBar(
       ThemeData theme,
       double width,
@@ -1297,7 +2059,7 @@ class _FoodLoggingScreenState extends State<FoodLoggingScreen> {
         color: Colors.white,
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.4),
+            color: Colors.black.withOpacity(0.08),
             blurRadius: width * 0.026,
             offset: Offset(0, height * 0.0025),
           ),
@@ -1311,7 +2073,7 @@ class _FoodLoggingScreenState extends State<FoodLoggingScreen> {
           fontSize: responsiveFont(14) / textScale,
         ),
         decoration: InputDecoration(
-          hintText: 'Search...',
+          hintText: 'Search Nigerian meals...',
           hintStyle: TextStyle(
             fontFamily: "regular",
             color: Colors.black38,
@@ -1360,6 +2122,73 @@ class _FoodLoggingScreenState extends State<FoodLoggingScreen> {
     );
   }
 
+  Widget _buildSelectedMealBanner(
+      double width,
+      double height,
+      double textScale,
+      double Function(double) responsiveFont,
+      ) {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: width * 0.042),
+      child: Container(
+        width: double.infinity,
+        padding: EdgeInsets.symmetric(
+          horizontal: width * 0.040,
+          vertical: height * 0.016,
+        ),
+        decoration: BoxDecoration(
+          gradient: const LinearGradient(
+            colors: [Color(0xFF1B7F3A), Color(0xFF2E7D32)],
+          ),
+          borderRadius: BorderRadius.circular(width * 0.045),
+        ),
+        child: Row(
+          children: [
+            Container(
+              padding: const EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                color: Colors.white.withOpacity(0.16),
+                borderRadius: BorderRadius.circular(14),
+              ),
+              child: const Icon(
+                Icons.restaurant_menu_rounded,
+                color: Colors.white,
+                size: 22,
+              ),
+            ),
+            SizedBox(width: width * 0.03),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Logging for $_selectedMealTime',
+                    style: TextStyle(
+                      fontFamily: "semibold",
+                      fontSize: responsiveFont(14) / textScale,
+                      fontWeight: FontWeight.w700,
+                      color: Colors.white,
+                    ),
+                  ),
+                  SizedBox(height: height * 0.003),
+                  Text(
+                    'Choose a meal below and adjust the portion in the next step.',
+                    style: TextStyle(
+                      fontFamily: "regular",
+                      fontSize: responsiveFont(11.5) / textScale,
+                      color: Colors.white.withOpacity(0.92),
+                      height: 1.4,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   Widget _buildAllFoodsSection(
       ThemeData theme,
       double width,
@@ -1374,23 +2203,102 @@ class _FoodLoggingScreenState extends State<FoodLoggingScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(height: height * 0.01),
-          GridView.builder(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              mainAxisSpacing: width * 0.036,
-              crossAxisSpacing: width * 0.036,
-              childAspectRatio: 0.95,
+          Text(
+            'Available meals',
+            style: TextStyle(
+              fontFamily: "semibold",
+              fontSize: responsiveFont(15) / textScale,
+              fontWeight: FontWeight.w700,
+              color: Colors.black87,
             ),
-            itemCount: foods.length,
-            itemBuilder: (context, index) => _buildFoodCard(
-              foods[index],
-              width,
-              height,
-              textScale,
-              responsiveFont,
+          ),
+          SizedBox(height: height * 0.006),
+          Text(
+            '${foods.length} meal${foods.length == 1 ? '' : 's'} found',
+            style: TextStyle(
+              fontFamily: "regular",
+              fontSize: responsiveFont(12.5) / textScale,
+              color: Colors.black54,
+            ),
+          ),
+          SizedBox(height: height * 0.016),
+          if (foods.isEmpty)
+            _buildEmptyState(width, height, textScale, responsiveFont)
+          else
+            GridView.builder(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                mainAxisSpacing: width * 0.036,
+                crossAxisSpacing: width * 0.036,
+                childAspectRatio: 0.84,
+              ),
+              itemCount: foods.length,
+              itemBuilder: (context, index) => _buildFoodCard(
+                foods[index],
+                width,
+                height,
+                textScale,
+                responsiveFont,
+              ),
+            ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildEmptyState(
+      double width,
+      double height,
+      double textScale,
+      double Function(double) responsiveFont,
+      ) {
+    return Container(
+      width: double.infinity,
+      padding: EdgeInsets.symmetric(
+        horizontal: width * 0.06,
+        vertical: height * 0.035,
+      ),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(width * 0.05),
+        border: Border.all(color: Colors.grey.withOpacity(0.15)),
+      ),
+      child: Column(
+        children: [
+          Container(
+            height: width * 0.16,
+            width: width * 0.16,
+            decoration: const BoxDecoration(
+              color: Color(0xFFE8F3EA),
+              shape: BoxShape.circle,
+            ),
+            child: const Icon(
+              Icons.search_off_rounded,
+              color: Color(0xFF1B7F3A),
+              size: 34,
+            ),
+          ),
+          SizedBox(height: height * 0.015),
+          Text(
+            'No meals found',
+            style: TextStyle(
+              fontFamily: "semibold",
+              fontSize: responsiveFont(16) / textScale,
+              fontWeight: FontWeight.w700,
+              color: Colors.black87,
+            ),
+          ),
+          SizedBox(height: height * 0.008),
+          Text(
+            'Try searching with a different keyword or use the AI Nutrition Coach after unlocking premium.',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontFamily: "regular",
+              fontSize: responsiveFont(12.5) / textScale,
+              color: Colors.black54,
+              height: 1.5,
             ),
           ),
         ],
@@ -1413,11 +2321,11 @@ class _FoodLoggingScreenState extends State<FoodLoggingScreen> {
           borderRadius: BorderRadius.circular(width * 0.042),
           border: Border.all(
             width: 1,
-            color: Colors.grey.withOpacity(0.5),
+            color: Colors.grey.withOpacity(0.18),
           ),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.07),
+              color: Colors.black.withOpacity(0.06),
               blurRadius: width * 0.032,
               offset: Offset(0, height * 0.005),
             ),
@@ -1425,7 +2333,6 @@ class _FoodLoggingScreenState extends State<FoodLoggingScreen> {
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisSize: MainAxisSize.min,
           children: [
             ClipRRect(
               borderRadius: BorderRadius.vertical(
@@ -1449,7 +2356,7 @@ class _FoodLoggingScreenState extends State<FoodLoggingScreen> {
                 ),
               ),
             ),
-            SizedBox(height: height * 0.011),
+            SizedBox(height: height * 0.010),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: width * 0.04),
               child: Text(
@@ -1457,7 +2364,7 @@ class _FoodLoggingScreenState extends State<FoodLoggingScreen> {
                 style: TextStyle(
                   fontFamily: "semibold",
                   fontWeight: FontWeight.w900,
-                  fontSize: responsiveFont(12) / textScale,
+                  fontSize: responsiveFont(12.5) / textScale,
                   color: Colors.black87,
                 ),
                 maxLines: 1,
@@ -1465,18 +2372,28 @@ class _FoodLoggingScreenState extends State<FoodLoggingScreen> {
                 textAlign: TextAlign.center,
               ),
             ),
-            SizedBox(height: height * 0.011),
+            SizedBox(height: height * 0.006),
+            Text(
+              '${food['calories']} cal • ${food['servingSize']}',
+              style: TextStyle(
+                fontFamily: "regular",
+                fontSize: responsiveFont(11) / textScale,
+                color: Colors.black54,
+              ),
+              textAlign: TextAlign.center,
+            ),
+            SizedBox(height: height * 0.012),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: width * 0.053),
               child: SizedBox(
-                height: height * 0.041,
+                height: height * 0.043,
                 child: OutlinedButton(
                   onPressed: () => _onFoodTap(food),
                   style: OutlinedButton.styleFrom(
                     foregroundColor: const Color(0xFF2E7D32),
                     side: const BorderSide(
                       color: Color(0xFF2E7D32),
-                      width: 1.5,
+                      width: 1.4,
                     ),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(width * 0.053),
@@ -1488,10 +2405,10 @@ class _FoodLoggingScreenState extends State<FoodLoggingScreen> {
                     minimumSize: Size(double.infinity, height * 0.042),
                   ),
                   child: Text(
-                    'See Portfolio',
+                    'Log Meal',
                     style: TextStyle(
                       fontFamily: "bold",
-                      fontSize: responsiveFont(11) / textScale,
+                      fontSize: responsiveFont(11.5) / textScale,
                       fontWeight: FontWeight.w900,
                     ),
                   ),

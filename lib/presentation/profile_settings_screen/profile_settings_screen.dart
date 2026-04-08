@@ -1,4 +1,11 @@
-import 'dart:io';
+//
+
+
+
+
+
+
+
 import 'package:flutter/material.dart';
 import 'package:naijafit/presentation/Edit_profile_screen.dart';
 import 'package:naijafit/presentation/Privacy_screen.dart';
@@ -51,12 +58,12 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
             (profile?.fullName != null &&
                 profile!.fullName!.trim().isNotEmpty)
                 ? profile.fullName!
-                : 'Henry wick';
+                : 'Henry Wick';
 
             _emailController.text =
             (profile?.email != null && profile!.email.trim().isNotEmpty)
                 ? profile.email
-                : 'Exmple@mail.com';
+                : 'example@mail.com';
 
             _avatarUrl = profile?.avatarUrl;
           });
@@ -64,16 +71,16 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
       } else {
         if (mounted) {
           setState(() {
-            _nameController.text = 'Henry wick';
-            _emailController.text = 'Exmple@mail.com';
+            _nameController.text = 'Henry Wick';
+            _emailController.text = 'example@mail.com';
           });
         }
       }
     } catch (e) {
       if (mounted) {
         setState(() {
-          _nameController.text = 'Henry wick';
-          _emailController.text = 'Exmple@mail.com';
+          _nameController.text = 'Henry Wick';
+          _emailController.text = 'example@mail.com';
         });
 
         ScaffoldMessenger.of(context).showSnackBar(
@@ -169,34 +176,232 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
   }
 
   void _onAccountSettings() {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text(
-          'Account Settings tapped',
-          style: TextStyle(fontFamily: "Poppins"),
-        ),
-      ),
-    );
+    _goToEditProfile();
   }
 
   void _onPreferences() {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text(
-          'Preferences tapped',
-          style: TextStyle(fontFamily: "Poppins"),
-        ),
-      ),
+    final width = MediaQuery.of(context).size.width;
+
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.transparent,
+      builder: (_) {
+        return Container(
+          padding: const EdgeInsets.fromLTRB(20, 18, 20, 24),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.vertical(
+              top: Radius.circular(width * 0.06),
+            ),
+          ),
+          child: SafeArea(
+            top: false,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Container(
+                  width: 44,
+                  height: 5,
+                  decoration: BoxDecoration(
+                    color: Colors.grey.shade300,
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                ),
+                const SizedBox(height: 18),
+                const Text(
+                  'Preferences',
+                  style: TextStyle(
+                    fontFamily: "bold",
+                    fontSize: 18,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+                const SizedBox(height: 10),
+                const Text(
+                  'Preference options like measurement units and nutrition display settings can be managed here.',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontFamily: "Poppins",
+                    fontSize: 14,
+                    height: 1.5,
+                    color: Colors.black54,
+                  ),
+                ),
+                const SizedBox(height: 20),
+                _buildBottomSheetTile(
+                  icon: Icons.straighten,
+                  title: 'Measurement Units',
+                  subtitle: 'Kg/lbs, ft/cm, yrs/months',
+                ),
+                _buildBottomSheetTile(
+                  icon: Icons.restaurant_menu,
+                  title: 'Meal Display Preferences',
+                  subtitle: 'Nutrition and calorie preferences',
+                ),
+                _buildBottomSheetTile(
+                  icon: Icons.language,
+                  title: 'Region Preference',
+                  subtitle: 'Nigeria / Diaspora experience',
+                ),
+                const SizedBox(height: 10),
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 
   void _onNotificationSettings() {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text(
-          'Notifications Settings tapped',
-          style: TextStyle(fontFamily: "Poppins"),
-        ),
+    final width = MediaQuery.of(context).size.width;
+
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.transparent,
+      isScrollControlled: true,
+      builder: (_) {
+        return Container(
+          padding: const EdgeInsets.fromLTRB(20, 18, 20, 28),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.vertical(
+              top: Radius.circular(width * 0.06),
+            ),
+          ),
+          child: SafeArea(
+            top: false,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Container(
+                  width: 44,
+                  height: 5,
+                  decoration: BoxDecoration(
+                    color: Colors.grey.shade300,
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                ),
+                const SizedBox(height: 18),
+                const Text(
+                  'Progress & Notifications',
+                  style: TextStyle(
+                    fontFamily: "bold",
+                    fontSize: 18,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+                const SizedBox(height: 10),
+                const Text(
+                  'Users should be able to access their progress-related reminders and tracking prompts from here.',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontFamily: "Poppins",
+                    fontSize: 14,
+                    height: 1.5,
+                    color: Colors.black54,
+                  ),
+                ),
+                const SizedBox(height: 20),
+                _buildBottomSheetTile(
+                  icon: Icons.monitor_weight_outlined,
+                  title: 'Weekly Weight Tracker',
+                  subtitle: 'Prompt user to enter weight every week',
+                ),
+                _buildBottomSheetTile(
+                  icon: Icons.local_fire_department_outlined,
+                  title: 'Daily Food Log Reminders',
+                  subtitle: 'Bring users back daily to log meals',
+                ),
+                _buildBottomSheetTile(
+                  icon: Icons.check_circle_outline,
+                  title: 'Consistency Tracking',
+                  subtitle: 'Track daily food logging consistency',
+                ),
+                const SizedBox(height: 16),
+                Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.all(14),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFF3FAF4),
+                    borderRadius: BorderRadius.circular(14),
+                    border: Border.all(
+                      color: const Color(0xFF026F1A).withOpacity(0.10),
+                    ),
+                  ),
+                  child: const Text(
+                    'Note: Dedicated progress screens can be connected here later. For now, this section acts as the profile-side entry point for those features.',
+                    style: TextStyle(
+                      fontFamily: "Poppins",
+                      fontSize: 13,
+                      height: 1.5,
+                      color: Colors.black87,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildBottomSheetTile({
+    required IconData icon,
+    required String title,
+    required String subtitle,
+  }) {
+    return Container(
+      margin: const EdgeInsets.only(bottom: 12),
+      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
+      decoration: BoxDecoration(
+        color: const Color(0xFFF8F8F8),
+        borderRadius: BorderRadius.circular(14),
+        border: Border.all(color: const Color(0xFFE4E4E4)),
+      ),
+      child: Row(
+        children: [
+          Container(
+            width: 42,
+            height: 42,
+            decoration: BoxDecoration(
+              color: const Color(0xFFEAF5ED),
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Icon(
+              icon,
+              color: const Color(0xFF026F1A),
+              size: 22,
+            ),
+          ),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  title,
+                  style: const TextStyle(
+                    fontFamily: "bold",
+                    fontSize: 14,
+                    fontWeight: FontWeight.w700,
+                    color: Colors.black87,
+                  ),
+                ),
+                const SizedBox(height: 3),
+                Text(
+                  subtitle,
+                  style: const TextStyle(
+                    fontFamily: "Poppins",
+                    fontSize: 12.5,
+                    color: Colors.black54,
+                    height: 1.4,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -236,19 +441,31 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
                 child: SingleChildScrollView(
                   child: Column(
                     children: [
-                      SizedBox(height: height * 0.03),
+                      SizedBox(height: height * 0.02),
 
-                      Align(
-                        alignment: Alignment.topRight,
-                        child: Image.asset(
-                          'assets/images/LOGO.png',
-                          height: height * 0.07,
-                          width: width * 0.14,
-                          fit: BoxFit.contain,
-                        ),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Text(
+                              'Profile Settings',
+                              style: TextStyle(
+                                fontFamily: "bold",
+                                fontSize: responsiveFont(18) / textScale,
+                                fontWeight: FontWeight.w800,
+                                color: Colors.black,
+                              ),
+                            ),
+                          ),
+                          Image.asset(
+                            'assets/images/LOGO.png',
+                            height: height * 0.07,
+                            width: width * 0.14,
+                            fit: BoxFit.contain,
+                          ),
+                        ],
                       ),
 
-                      SizedBox(height: height * 0.015),
+                      SizedBox(height: height * 0.02),
 
                       CircleAvatar(
                         radius: width * 0.19,
@@ -256,12 +473,12 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
                         backgroundImage: _buildAvatarImage(),
                       ),
 
-                      SizedBox(height: height * 0.01),
+                      SizedBox(height: height * 0.012),
 
                       Text(
                         _nameController.text.isNotEmpty
                             ? _nameController.text
-                            : 'Henry wick',
+                            : 'Henry Wick',
                         style: TextStyle(
                           fontFamily: "bold",
                           fontSize: responsiveFont(13) / textScale,
@@ -275,7 +492,7 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
                       Text(
                         _emailController.text.isNotEmpty
                             ? _emailController.text
-                            : 'Exmple@mail.com',
+                            : 'example@mail.com',
                         style: TextStyle(
                           fontFamily: "semibold",
                           fontSize: responsiveFont(11) / textScale,
@@ -287,7 +504,7 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
                       SizedBox(height: height * 0.025),
 
                       SizedBox(
-                        width: width * 0.4,
+                        width: width * 0.45,
                         height: height * 0.058,
                         child: ElevatedButton.icon(
                           onPressed: _goToEditProfile,
@@ -343,8 +560,8 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
                       SizedBox(height: height * 0.01),
 
                       _buildMenuCard(
-                        icon: Icons.notifications,
-                        title: 'Notifications Settings',
+                        icon: Icons.notifications_active_outlined,
+                        title: 'Progress & Notifications',
                         onTap: _onNotificationSettings,
                         width: width,
                         height: height,
