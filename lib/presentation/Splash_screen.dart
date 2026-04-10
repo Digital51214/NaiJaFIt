@@ -69,6 +69,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:naijafit/presentation/Welcome_screen.dart';
+import 'package:naijafit/presentation/sign_in_screen/sign_in_screen.dart';
 
 class SplashScreen extends StatelessWidget {
   const SplashScreen({super.key});
@@ -82,35 +83,43 @@ class SplashScreen extends StatelessWidget {
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: m.width * 0.08),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              // LOGO
-              Image.asset(
-                "assets/images/LOGO.png",
-                height: m.height * 0.25,
-                fit: BoxFit.contain,
+              SizedBox(height: m.height*0.18,),
+              Stack(
+                children: [
+                  Image.asset(
+                    "assets/images/LOGO.png",
+                    height: m.height * 0.45,
+                    fit: BoxFit.contain,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 280),
+                    child: Positioned(
+                      child: Text(
+                        "Calorie tracking of Nigerian meals\nmade easy",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 17,
+                          fontWeight: FontWeight.w400,
+                          color: Colors.black,
+                          fontFamily: "extralight",
+                          height: 1.4,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
+              // LOGO
+
+
 
               SizedBox(height: m.height * 0.04),
-
-              // MAIN TEXT (Client requirement)
-              Text(
-                "Calorie tracking of Nigerian meals made easy",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.black,
-                  height: 1.4,
-                ),
-              ),
-
-              SizedBox(height: m.height * 0.06),
 
               // GET STARTED BUTTON
               SizedBox(
                 width: double.infinity,
-                height: 52,
+                height: 45,
                 child: ElevatedButton(
                   onPressed: () {
                     Navigator.pushReplacement(
@@ -125,33 +134,45 @@ class SplashScreen extends StatelessWidget {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30),
                     ),
+                    padding: EdgeInsets.symmetric(vertical: 2),
                   ),
                   child: const Text(
                     "Get Started",
                     style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w900,
                       color: Colors.white,
+                      fontFamily: "bold"
                     ),
                   ),
                 ),
               ),
 
-              SizedBox(height: m.height * 0.02),
-
-              // SIGN IN TEXT
-              GestureDetector(
-                onTap: () {
-                  // TODO: Navigate to Login Screen
-                },
-                child: const Text(
-                  "Already have an account? Sign In",
-                  style: TextStyle(
-                    fontSize: 13,
-                    color: Colors.black54,
+              SizedBox(height: m.height * 0.14),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text("Already have an account?",style: TextStyle(
+                    fontFamily: "regular",
+                    fontWeight: FontWeight.w700,
+                    fontSize: 14,
+                    color: Colors.black,
+                  ),),
+                  SizedBox(width: m.width*0.02,),
+                  GestureDetector(
+                    onTap: (){
+                      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>SignInScreen()),
+                          (Route<dynamic>route)=>false);
+                    },
+                    child: Text("Sign In",style: TextStyle(
+                      fontFamily: "regular",
+                      fontWeight: FontWeight.w700,
+                      fontSize: 17,
+                      color: Color(0xFF026F1A),
+                    ),),
                   ),
-                ),
-              ),
+                ],
+              )
             ],
           ),
         ),

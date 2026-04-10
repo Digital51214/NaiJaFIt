@@ -360,6 +360,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:naijafit/presentation/Notification_screen.dart';
+import 'package:naijafit/presentation/SelectMealScreen.dart';
+import 'package:naijafit/presentation/emptyscreen.dart';
 import '../../core/app_export.dart';
 
 class Homescreen extends StatefulWidget {
@@ -383,11 +385,15 @@ class _HomescreenState extends State<Homescreen>
   late final Animation<double> _buttonFade;
 
   // Temporary static dashboard values
-  final int _dailyCalorieTarget = 2057;
+  final int _dailyCalorieTarget = 2000;
   final int _caloriesConsumed = 0;
   final int _mealsLogged = 0;
 
   int get _remainingCalories => _dailyCalorieTarget - _caloriesConsumed;
+
+  // Progress ratio for circular indicator (0.0 to 1.0)
+  double get _progressRatio =>
+      _dailyCalorieTarget == 0 ? 0 : _caloriesConsumed / _dailyCalorieTarget;
 
   @override
   void initState() {
@@ -479,7 +485,6 @@ class _HomescreenState extends State<Homescreen>
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-
     final mediaQuery = MediaQuery.of(context);
     final size = mediaQuery.size;
     final width = size.width;
@@ -501,37 +506,51 @@ class _HomescreenState extends State<Homescreen>
             children: [
               SizedBox(height: height * 0.02),
 
+              // ── Header ──────────────────────────────────────────────
               _animatedEntry(
                 slide: _headerSlide,
                 fade: _headerFade,
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
+                    // Avatar
                     CircleAvatar(
-                      radius: width * 0.058,
+                      radius: width * 0.075,
                       backgroundColor:
                       theme.colorScheme.surfaceContainerHighest,
-                      backgroundImage: const AssetImage(
-                        'assets/images/home2.png',
-                      ),
+                      backgroundImage:
+                      const AssetImage('assets/images/home2.png'),
                       onBackgroundImageError: (_, __) {},
                     ),
-                    Image.asset(
-                      'assets/images/LOGO.png',
-                      height: height * 0.07,
-                      fit: BoxFit.contain,
-                      errorBuilder: (context, error, stackTrace) {
-                        return Text(
-                          'NaijaFit',
-                          style: TextStyle(
-                            fontFamily: "bold",
-                            fontSize: responsiveFont(18) / textScale,
-                            fontWeight: FontWeight.bold,
-                            color: theme.colorScheme.primary,
+                    SizedBox(width: width * 0.04),
+
+                    // Greeting text
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Good Morning!',
+                            style: TextStyle(
+                              fontFamily: "bold",
+                              fontSize: responsiveFont(20) / textScale,
+                              fontWeight: FontWeight.w700,
+                              color: Colors.black87,
+                            ),
                           ),
-                        );
-                      },
+                          const SizedBox(height: 2),
+                          Text(
+                            "Let's stay on your track today",
+                            style: TextStyle(
+                              fontFamily: "regular",
+                              fontSize: responsiveFont(13) / textScale,
+                              color: Colors.black45,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
+
+                    // Notification bell
                     GestureDetector(
                       onTap: () {
                         Navigator.push(
@@ -545,7 +564,7 @@ class _HomescreenState extends State<Homescreen>
                         width: width * 0.135,
                         height: width * 0.135,
                         decoration: const BoxDecoration(
-                          color: Color(0xFFE8F5E9),
+                          color: Color(0xFFDCEFDC),
                           shape: BoxShape.circle,
                         ),
                         child: Icon(
@@ -559,194 +578,232 @@ class _HomescreenState extends State<Homescreen>
                 ),
               ),
 
-              SizedBox(height: height * 0.025),
+              SizedBox(height: height * 0.03),
 
+              // ── Scrollable content ───────────────────────────────────
               Expanded(
                 child: SingleChildScrollView(
+                  physics: const BouncingScrollPhysics(),
                   child: _animatedEntry(
                     slide: _contentSlide,
                     fade: _contentFade,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          'Your Daily Dashboard',
-                          style: TextStyle(
-                            fontFamily: "semibold",
-                            fontSize: responsiveFont(20) / textScale,
-                            fontWeight: FontWeight.w700,
-                            color: Colors.black87,
-                          ),
-                        ),
-                        SizedBox(height: height * 0.008),
-                        Text(
-                          'Track your calories, meals and daily progress from here.',
-                          style: TextStyle(
-                            fontFamily: "regular",
-                            fontSize: responsiveFont(13.5) / textScale,
-                            fontWeight: FontWeight.w400,
-                            color: Colors.black54,
-                            height: 1.5,
-                          ),
-                        ),
-
-                        SizedBox(height: height * 0.025),
-
+                        // ── Calorie ring card ──────────────────────────
                         Container(
                           width: double.infinity,
                           padding: EdgeInsets.symmetric(
-                            horizontal: width * 0.05,
-                            vertical: height * 0.025,
+                            horizontal: width * 0.06,
+                            vertical: height * 0.04,
                           ),
                           decoration: BoxDecoration(
-                            color: const Color(0xFF026F1A),
-                            borderRadius: BorderRadius.circular(width * 0.05),
+                            color: const Color(0xFFE8F5E9),
+                            borderRadius: BorderRadius.circular(width * 0.07),
                           ),
                           child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
+                              // Circular progress ring
+                              SizedBox(
+                                width: width * 0.52,
+                                height: width * 0.52,
+                                child: Stack(
+                                  alignment: Alignment.center,
+                                  children: [
+                                    // Background track
+                                    SizedBox(
+                                      width: width * 0.52,
+                                      height: width * 0.52,
+                                      child: CircularProgressIndicator(
+                                        value: 1.0,
+                                        strokeWidth: width * 0.025,
+                                        backgroundColor: Colors.transparent,
+                                        color: const Color(0xFF026F1A)
+                                            .withOpacity(0.15),
+                                        strokeCap: StrokeCap.round,
+                                      ),
+                                    ),
+                                    // Foreground progress
+                                    SizedBox(
+                                      width: width * 0.52,
+                                      height: width * 0.52,
+                                      child: CircularProgressIndicator(
+                                        value: _progressRatio,
+                                        strokeWidth: width * 0.025,
+                                        backgroundColor: Colors.transparent,
+                                        color: const Color(0xFF026F1A),
+                                        strokeCap: StrokeCap.round,
+                                      ),
+                                    ),
+                                    // Center label
+                                    Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Text(
+                                          '$_caloriesConsumed',
+                                          style: TextStyle(
+                                            fontFamily: "bold",
+                                            fontSize:
+                                            responsiveFont(42) / textScale,
+                                            fontWeight: FontWeight.w800,
+                                            color: Colors.black87,
+                                            height: 1.1,
+                                          ),
+                                        ),
+                                        Text(
+                                          'KCAL USED',
+                                          style: TextStyle(
+                                            fontFamily: "regular",
+                                            fontSize:
+                                            responsiveFont(12) / textScale,
+                                            fontWeight: FontWeight.w500,
+                                            color: Colors.black45,
+                                            letterSpacing: 1.2,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
+
+                              SizedBox(height: height * 0.025),
+
+                              // Remaining label
                               Text(
-                                'Daily calorie target',
+                                'Remaining Calories',
                                 style: TextStyle(
                                   fontFamily: "regular",
-                                  fontSize: responsiveFont(12.5) / textScale,
-                                  color: Colors.white.withOpacity(0.9),
+                                  fontSize: responsiveFont(14) / textScale,
+                                  color: Colors.black54,
                                 ),
                               ),
-                              SizedBox(height: height * 0.008),
+                              SizedBox(height: height * 0.006),
                               Text(
-                                '$_dailyCalorieTarget kcal',
+                                '$_remainingCalories kcal',
                                 style: TextStyle(
                                   fontFamily: "bold",
-                                  fontSize: responsiveFont(24) / textScale,
-                                  fontWeight: FontWeight.w700,
-                                  color: Colors.white,
+                                  fontSize: responsiveFont(28) / textScale,
+                                  fontWeight: FontWeight.w800,
+                                  color: const Color(0xFF026F1A),
                                 ),
                               ),
                             ],
                           ),
                         ),
 
-                        SizedBox(height: height * 0.018),
+                        SizedBox(height: height * 0.024),
 
-                        Row(
-                          children: [
-                            Expanded(
-                              child: _dashboardCard(
-                                title: 'Consumed',
-                                value: '$_caloriesConsumed kcal',
-                                subtitle: 'Calories eaten today',
-                                icon: Icons.local_fire_department_outlined,
+                        // ── Meals Logged row card ───────────────────────
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.push(context, MaterialPageRoute(builder: (context)=>Emptyscreen()));
+                          },
+                          child: Container(
+                            height: 67,
+                            width: double.infinity,
+                            padding: EdgeInsets.symmetric(
+                              horizontal: width * 0.045,
+                              vertical: height * 0.022,
+                            ),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius:
+                              BorderRadius.circular(width * 0.08),
+                              border: Border.all(
+                                color: const Color(0xFFE8E8E8),
+                                width: 1,
                               ),
-                            ),
-                            SizedBox(width: width * 0.035),
-                            Expanded(
-                              child: _dashboardCard(
-                                title: 'Remaining',
-                                value: '$_remainingCalories kcal',
-                                subtitle: 'Left for today',
-                                icon: Icons.track_changes_outlined,
-                              ),
-                            ),
-                          ],
-                        ),
-
-                        SizedBox(height: height * 0.018),
-
-                        _dashboardCard(
-                          title: 'Meals Logged',
-                          value: '$_mealsLogged',
-                          subtitle: 'No meals logged yet',
-                          icon: Icons.restaurant_menu_outlined,
-                          fullWidth: true,
-                        ),
-
-                        SizedBox(height: height * 0.02),
-
-                        Container(
-                          width: double.infinity,
-                          padding: EdgeInsets.symmetric(
-                            horizontal: width * 0.045,
-                            vertical: height * 0.018,
-                          ),
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(width * 0.045),
-                            border: Border.all(
-                              color: const Color(0xFFE5E5E5),
-                            ),
-                          ),
-                          child: Row(
-                            children: [
-                              Container(
-                                width: width * 0.12,
-                                height: width * 0.12,
-                                decoration: const BoxDecoration(
-                                  color: Color(0xFFE8F5E9),
-                                  shape: BoxShape.circle,
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withOpacity(0.03),
+                                  blurRadius: 8,
+                                  offset: const Offset(0, 2),
                                 ),
-                                child: Icon(
-                                  Icons.info_outline,
-                                  color: const Color(0xFF026F1A),
-                                  size: width * 0.06,
-                                ),
-                              ),
-                              SizedBox(width: width * 0.035),
-                              Expanded(
-                                child: Text(
-                                  'Start by adding your first meal to see your calorie impact and remaining balance.',
-                                  style: TextStyle(
-                                    fontFamily: "regular",
-                                    fontSize: responsiveFont(12) / textScale,
-                                    color: Colors.black87,
-                                    height: 1.5,
+                              ],
+                            ),
+                            child: Row(
+                              children: [
+                                // Icon bubble
+                                Container(
+                                  width: width * 0.12,
+                                  height: width * 0.12,
+                                  decoration: const BoxDecoration(
+                                    color: Color(0xFFDCEFDC),
+                                    shape: BoxShape.circle,
+                                  ),
+                                  child: Icon(
+                                    Icons.restaurant_menu_outlined,
+                                    color: const Color(0xFF026F1A),
+                                    size: width * 0.055,
                                   ),
                                 ),
-                              ),
-                            ],
+                                SizedBox(width: width * 0.04),
+                                Expanded(
+                                  child: Text(
+                                    'Meals Logged',
+                                    style: TextStyle(
+                                      fontFamily: "semibold",
+                                      fontSize:
+                                      responsiveFont(15) / textScale,
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.black87,
+                                    ),
+                                  ),
+                                ),
+                                Icon(
+                                  Icons.chevron_right,
+                                  color: Colors.black38,
+                                  size: width * 0.06,
+                                ),
+                              ],
+                            ),
                           ),
                         ),
 
                         SizedBox(height: height * 0.03),
 
+                        // ── Add Meal button ────────────────────────────
                         _animatedEntry(
                           slide: _buttonSlide,
                           fade: _buttonFade,
                           child: SizedBox(
                             width: double.infinity,
                             height: height * 0.058,
-                            child: ElevatedButton(
+                            child: ElevatedButton.icon(
                               onPressed: () {
-                                Navigator.of(context, rootNavigator: true)
-                                    .pushNamed('/food-logging-screen');
+                                Navigator.push(context, MaterialPageRoute(builder: (context)=>Selectmealscreen()));
                               },
+                              icon: Icon(
+                                Icons.add,
+                                color: Colors.white,
+                                size: width * 0.055,
+                              ),
+                              label: Text(
+                                'Add Meal',
+                                style: TextStyle(
+                                  fontFamily: "bold",
+                                  fontSize: responsiveFont(14) / textScale,
+                                  fontWeight: FontWeight.w700,
+                                  letterSpacing: 0.3,
+                                  color: Colors.white,
+                                ),
+                              ),
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: const Color(0xFF026F1A),
                                 foregroundColor: Colors.white,
                                 elevation: 0,
                                 shape: RoundedRectangleBorder(
                                   borderRadius:
-                                  BorderRadius.circular(width * 0.08),
+                                  BorderRadius.circular(width * 0.1),
                                 ),
-                                padding: EdgeInsets.symmetric(
-                                  vertical: height * 0.015,
-                                  horizontal: width * 0.04,
-                                ),
-                              ),
-                              child: Text(
-                                'Add Meal',
-                                style: TextStyle(
-                                  fontFamily: "bold",
-                                  fontSize: responsiveFont(12) / textScale,
-                                  fontWeight: FontWeight.w600,
-                                  letterSpacing: 0.3,
-                                ),
+                                padding: EdgeInsets.symmetric(vertical: 2)
                               ),
                             ),
                           ),
                         ),
 
-                        SizedBox(height: height * 0.03),
+                        SizedBox(height: height * 0.04),
                       ],
                     ),
                   ),
@@ -755,75 +812,6 @@ class _HomescreenState extends State<Homescreen>
             ],
           ),
         ),
-      ),
-    );
-  }
-
-  Widget _dashboardCard({
-    required String title,
-    required String value,
-    required String subtitle,
-    required IconData icon,
-    bool fullWidth = false,
-  }) {
-    return Container(
-      width: fullWidth ? double.infinity : null,
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(18),
-        border: Border.all(
-          color: const Color(0xFFE8E8E8),
-        ),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            width: 42,
-            height: 42,
-            decoration: const BoxDecoration(
-              color: Color(0xFFE8F5E9),
-              shape: BoxShape.circle,
-            ),
-            child: Icon(
-              icon,
-              color: const Color(0xFF026F1A),
-              size: 22,
-            ),
-          ),
-          const SizedBox(height: 14),
-          Text(
-            title,
-            style: const TextStyle(
-              fontFamily: "medium",
-              fontSize: 13,
-              fontWeight: FontWeight.w600,
-              color: Colors.black87,
-            ),
-          ),
-          const SizedBox(height: 6),
-          Text(
-            value,
-            style: const TextStyle(
-              fontFamily: "bold",
-              fontSize: 18,
-              fontWeight: FontWeight.w700,
-              color: Colors.black,
-            ),
-          ),
-          const SizedBox(height: 6),
-          Text(
-            subtitle,
-            style: const TextStyle(
-              fontFamily: "regular",
-              fontSize: 12,
-              fontWeight: FontWeight.w400,
-              color: Colors.black54,
-              height: 1.45,
-            ),
-          ),
-        ],
       ),
     );
   }

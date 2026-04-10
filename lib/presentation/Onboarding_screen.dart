@@ -324,6 +324,7 @@
 
 
 import 'package:flutter/material.dart';
+import 'package:naijafit/presentation/LoadingScreen.dart';
 import 'package:naijafit/presentation/Nagarionsays_screen.dart';
 import 'package:naijafit/presentation/Page1_goalselection.dart';
 import 'package:naijafit/presentation/Page2_goalsetting.dart';
@@ -374,7 +375,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => WhatNigeriansAreSayingScreen(),
+          builder: (context) => Loadingscreen(),
         ),
       );
     }

@@ -56,7 +56,7 @@ class CustomBottomBar extends StatelessWidget {
               onTabChange: onTap,
               tabs: [
                 _buildTab(0, 'assets/images/home.png', 'Home'),
-                _buildTab(1, 'assets/images/food.png', 'Food'),
+                _buildTab(1, 'assets/images/progress.png', 'Progress'),
                 _buildTab(2, 'assets/images/AI.png', 'AI Coach'),
                 _buildTab(3, 'assets/images/profile.png', 'Profile'),
               ],

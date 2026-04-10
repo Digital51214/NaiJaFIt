@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:naijafit/presentation/Planfreetrailscreen.dart';
+import 'package:naijafit/presentation/sign_up_screen/sign_up_screen.dart';
 import 'package:naijafit/widgets/custom_backbutton.dart';
 import 'package:sizer/sizer.dart';
 
@@ -267,7 +268,7 @@ class _WhatNigeriansAreSayingScreenState
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const PlanFreeTrialScreen(),
+                        builder: (context) => const SignUpScreen(),
                       ),
                     );
                   },
