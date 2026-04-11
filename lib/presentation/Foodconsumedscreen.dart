@@ -344,56 +344,57 @@ class FoodConsumedScreen extends StatelessWidget {
                       ],
                     ),
 
-                    SizedBox(height: h * 0.02),
+                    SizedBox(height: h * 0.06),
+                    Padding(
+                      padding: EdgeInsets.fromLTRB(
+                          w * 0.05, 0, w * 0.05, h * 0.030),
+                      child: SizedBox(
+                        width: double.infinity,
+                        height: h * 0.058,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            // TODO: Navigate to next screen
+                            Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>MainDashboardScreen()),
+                                    (Route<dynamic>route)=>false);
+                          },
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: const Color(0xFF1B7F3A),
+                              elevation: 0,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(w * 0.08),
+                              ),
+                              padding: EdgeInsets.symmetric(vertical: 2)
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                'Continue',
+                                style: TextStyle(
+                                    fontSize: w * 0.036,
+                                    fontWeight: FontWeight.w700,
+                                    color: Colors.white,
+                                    fontFamily: "extrabold"
+                                ),
+                              ),
+                              SizedBox(width: w * 0.025),
+                              Icon(
+                                Icons.arrow_forward_rounded,
+                                color: Colors.white,
+                                size: w * 0.055,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
                   ],
                 ),
               ),
             ),
 
             // ── Continue Button ──────────────────────────
-            Padding(
-              padding: EdgeInsets.fromLTRB(
-                  w * 0.05, 0, w * 0.05, h * 0.030),
-              child: SizedBox(
-                width: double.infinity,
-                height: h * 0.058,
-                child: ElevatedButton(
-                  onPressed: () {
-                    // TODO: Navigate to next screen
-                    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>MainDashboardScreen()),
-                        (Route<dynamic>route)=>false);
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF1B7F3A),
-                    elevation: 0,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(w * 0.08),
-                    ),
-                    padding: EdgeInsets.symmetric(vertical: 2)
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        'Continue',
-                        style: TextStyle(
-                          fontSize: w * 0.036,
-                          fontWeight: FontWeight.w700,
-                          color: Colors.white,
-                          fontFamily: "extrabold"
-                        ),
-                      ),
-                      SizedBox(width: w * 0.025),
-                      Icon(
-                        Icons.arrow_forward_rounded,
-                        color: Colors.white,
-                        size: w * 0.055,
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
+
           ],
         ),
       ),
