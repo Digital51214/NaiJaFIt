@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:naijafit/presentation/food_logging_screen/food_logging_screen.dart';
 
 class Selectmealscreen extends StatefulWidget {
   const Selectmealscreen({super.key});
@@ -161,7 +162,6 @@ class _SelectmealscreenState extends State<Selectmealscreen> {
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    // Back Button
                     GestureDetector(
                       onTap: () => Navigator.pop(context),
                       child: Container(
@@ -183,7 +183,6 @@ class _SelectmealscreenState extends State<Selectmealscreen> {
 
                     SizedBox(width: screenWidth * 0.04),
 
-                    // Title + Subtitle
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -207,7 +206,6 @@ class _SelectmealscreenState extends State<Selectmealscreen> {
                       ),
                     ),
 
-                    // Logo
                     Image.asset(
                       'assets/images/LOGO.png',
                       width: screenWidth * 0.15,
@@ -256,6 +254,15 @@ class _SelectmealscreenState extends State<Selectmealscreen> {
                     imagePath: meal['image'],
                     screenWidth: screenWidth,
                     screenHeight: screenHeight,
+                    // ✅ ONLY CHANGE: onTap with Navigator
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => const FoodLoggingScreen(),
+                        ),
+                      );
+                    },
                   ),
                 );
               }).toList(),
@@ -275,6 +282,7 @@ class _MealCard extends StatelessWidget {
   final String imagePath;
   final double screenWidth;
   final double screenHeight;
+  final VoidCallback onTap; // ✅ ONLY CHANGE: new parameter
 
   const _MealCard({
     required this.tag,
@@ -284,133 +292,135 @@ class _MealCard extends StatelessWidget {
     required this.imagePath,
     required this.screenWidth,
     required this.screenHeight,
+    required this.onTap, // ✅ ONLY CHANGE: required
   });
 
   @override
   Widget build(BuildContext context) {
-    return IntrinsicHeight(
-      child: Container(
-        height: 138,
-        width: double.infinity,
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(28),
-          border: Border.all(color: Colors.grey.shade200, width: 1),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.05),
-              blurRadius: 10,
-              offset: const Offset(0, 3),
-            ),
-          ],
-        ),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            // ─── Left: Text Content ───
-            Expanded(
-              flex: 55,
-              child: Padding(
-                padding: EdgeInsets.symmetric(
-                  horizontal: screenWidth * 0.045,
-                  vertical: screenHeight * 0.022,
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    // Tag Row
-                    Row(
-                      children: [
-                        Container(
-                          width: screenWidth * 0.08,
-                          height: screenWidth * 0.08,
-                          decoration: const BoxDecoration(
-                            color: Color(0xFFEAF3DE),
-                            shape: BoxShape.circle,
-                          ),
-                          child: Center(
-                            child: Icon(
-                              icon,
-                              color: const Color(0xFF2E7D32),
-                              size: screenWidth * 0.045,
+    // ✅ ONLY CHANGE: wrapped with GestureDetector
+    return GestureDetector(
+      onTap: onTap,
+      child: IntrinsicHeight(
+        child: Container(
+          height: 138,
+          width: double.infinity,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(28),
+            border: Border.all(color: Colors.grey.shade200, width: 1),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.05),
+                blurRadius: 10,
+                offset: const Offset(0, 3),
+              ),
+            ],
+          ),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              // ─── Left: Text Content ───
+              Expanded(
+                flex: 55,
+                child: Padding(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: screenWidth * 0.045,
+                    vertical: screenHeight * 0.022,
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Row(
+                        children: [
+                          Container(
+                            width: screenWidth * 0.08,
+                            height: screenWidth * 0.08,
+                            decoration: const BoxDecoration(
+                              color: Color(0xFFEAF3DE),
+                              shape: BoxShape.circle,
+                            ),
+                            child: Center(
+                              child: Icon(
+                                icon,
+                                color: const Color(0xFF2E7D32),
+                                size: screenWidth * 0.045,
+                              ),
                             ),
                           ),
-                        ),
-                        SizedBox(width: screenWidth * 0.02),
-                        Flexible(
-                          child: Text(
-                            tag,
-                            style: TextStyle(
-                              fontSize: screenWidth * 0.026,
-                              fontWeight: FontWeight.w600,
-                              color: const Color(0xFF2E7D32),
+                          SizedBox(width: screenWidth * 0.02),
+                          Flexible(
+                            child: Text(
+                              tag,
+                              style: TextStyle(
+                                fontSize: screenWidth * 0.026,
+                                fontWeight: FontWeight.w600,
+                                color: const Color(0xFF2E7D32),
+                              ),
                             ),
                           ),
-                        ),
-                      ],
-                    ),
-
-                    SizedBox(height: screenHeight * 0.009),
-
-                    // Title
-                    Text(
-                      title,
-                      style: TextStyle(
-                        fontSize: screenWidth * 0.06,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black,
+                        ],
                       ),
-                    ),
 
-                    SizedBox(height: screenHeight * 0.004),
+                      SizedBox(height: screenHeight * 0.009),
 
-                    // Description
-                    Text(
-                      description,
-                      style: TextStyle(
-                        fontSize: screenWidth * 0.026,
-                        color: Colors.grey[600],
-                        height: 1.45,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-
-            // ─── Right: Image ───
-            ClipRRect(
-              borderRadius: BorderRadius.only(
-                topRight: Radius.circular(screenWidth * 0.05),
-                bottomRight: Radius.circular(screenWidth * 0.05),
-              ),
-              child: ConstrainedBox(
-                constraints: BoxConstraints(
-                  minWidth: screenWidth * 0.27,
-                  maxWidth: screenWidth * 0.27,
-                  minHeight: screenHeight * 0.15,
-                ),
-                child: Image.asset(
-                  imagePath,
-                  fit: BoxFit.cover,
-                  errorBuilder: (context, error, stackTrace) {
-                    return Container(
-                      width: screenWidth * 0.33,
-                      color: const Color(0xFFEAF3DE),
-                      child: Center(
-                        child: Icon(
-                          Icons.image_outlined,
-                          color: const Color(0xFF2E7D32),
-                          size: screenWidth * 0.1,
+                      Text(
+                        title,
+                        style: TextStyle(
+                          fontSize: screenWidth * 0.06,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black,
                         ),
                       ),
-                    );
-                  },
+
+                      SizedBox(height: screenHeight * 0.004),
+
+                      Text(
+                        description,
+                        style: TextStyle(
+                          fontSize: screenWidth * 0.026,
+                          color: Colors.grey[600],
+                          height: 1.45,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
-            ),
-          ],
+
+              // ─── Right: Image ───
+              ClipRRect(
+                borderRadius: BorderRadius.only(
+                  topRight: Radius.circular(screenWidth * 0.05),
+                  bottomRight: Radius.circular(screenWidth * 0.05),
+                ),
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(
+                    minWidth: screenWidth * 0.27,
+                    maxWidth: screenWidth * 0.27,
+                    minHeight: screenHeight * 0.15,
+                  ),
+                  child: Image.asset(
+                    imagePath,
+                    fit: BoxFit.cover,
+                    errorBuilder: (context, error, stackTrace) {
+                      return Container(
+                        width: screenWidth * 0.33,
+                        color: const Color(0xFFEAF3DE),
+                        child: Center(
+                          child: Icon(
+                            Icons.image_outlined,
+                            color: const Color(0xFF2E7D32),
+                            size: screenWidth * 0.1,
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

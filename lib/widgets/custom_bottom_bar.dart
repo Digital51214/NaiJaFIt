@@ -39,7 +39,7 @@ class CustomBottomBar extends StatelessWidget {
                 ),
               ],
             ),
-            padding: const EdgeInsets.symmetric(horizontal: 6,),
+            padding: const EdgeInsets.symmetric(horizontal: 4,),
             child: GNav(
               rippleColor: Colors.white24,
               hoverColor: Colors.white10,
@@ -75,7 +75,7 @@ class CustomBottomBar extends StatelessWidget {
       text: text,
       backgroundColor: isSelected ? _darkGreen : _lightGreen,
       leading: Container(
-        padding: const EdgeInsets.all(8),
+        padding: const EdgeInsets.all(12),
         decoration: BoxDecoration(
           color: isSelected ? Colors.transparent : Colors.green.withOpacity(0.3),
           shape: BoxShape.circle,
