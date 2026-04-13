@@ -163,7 +163,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
     _isNavigating = true;
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => MainDashboardScreen()),
+      MaterialPageRoute(builder: (context) => OnboardingScreen()),
     ).then((_) {
       setState(() {
         _dragPosition = 0.0;
