@@ -46,10 +46,10 @@ class _DailyProgressScreenState extends State<DailyProgressScreen> {
                         color: Color(0xFFE8F5E0),
                         shape: BoxShape.circle,
                       ),
-                      child: const Icon(
+                      child: Icon(
                         Icons.chevron_left,
-                        color: Color(0xFF2D6A2D),
-                        size: 26,
+                        color: const Color(0xFF2D6A2D),
+                        size: wp * 0.065,
                       ),
                     ),
                   ),
@@ -58,6 +58,7 @@ class _DailyProgressScreenState extends State<DailyProgressScreen> {
                     'Daily Progress',
                     style: TextStyle(
                       fontSize: wp * 0.055,
+                      fontFamily: "semibold",
                       fontWeight: FontWeight.bold,
                       color: Colors.black,
                     ),
@@ -82,7 +83,7 @@ class _DailyProgressScreenState extends State<DailyProgressScreen> {
                 ),
                 decoration: BoxDecoration(
                   color: Colors.green.withOpacity(0.1),
-                  borderRadius: BorderRadius.circular(22),
+                  borderRadius: BorderRadius.circular(wp * 0.055),
                 ),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -109,6 +110,7 @@ class _DailyProgressScreenState extends State<DailyProgressScreen> {
                         Text(
                           'Weekly Insight',
                           style: TextStyle(
+                            fontFamily: "medium",
                             fontSize: wp * 0.05,
                             fontWeight: FontWeight.bold,
                             color: Colors.black,
@@ -118,14 +120,16 @@ class _DailyProgressScreenState extends State<DailyProgressScreen> {
                         Text(
                           'You stayed with in your goal',
                           style: TextStyle(
-                            fontSize: wp * 0.028,
+                            fontSize: wp * 0.032,
+                            fontFamily: "regular",
                             color: Colors.grey[700],
                           ),
                         ),
                         Text(
                           '$daysWithinTarget days this week',
                           style: TextStyle(
-                            fontSize: wp * 0.028,
+                            fontSize: wp * 0.032,
+                            fontFamily: "regular",
                             color: Colors.grey[700],
                           ),
                         ),
@@ -149,7 +153,7 @@ class _DailyProgressScreenState extends State<DailyProgressScreen> {
                       ),
                       decoration: BoxDecoration(
                         color: Colors.grey.shade100,
-                        borderRadius: BorderRadius.circular(20),
+                        borderRadius: BorderRadius.circular(wp * 0.05),
                       ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -158,7 +162,8 @@ class _DailyProgressScreenState extends State<DailyProgressScreen> {
                           Text(
                             'Average Calories',
                             style: TextStyle(
-                              fontSize: wp * 0.028,
+                              fontSize: wp * 0.032,
+                              fontFamily: "regular",
                               color: Colors.grey[600],
                               fontWeight: FontWeight.w500,
                             ),
@@ -171,6 +176,7 @@ class _DailyProgressScreenState extends State<DailyProgressScreen> {
                                   text: '${averageCalories.toInt()}',
                                   style: TextStyle(
                                     fontSize: wp * 0.07,
+                                    fontFamily: "semibold",
                                     fontWeight: FontWeight.bold,
                                     color: const Color(0xFF2D7D2D),
                                   ),
@@ -179,6 +185,7 @@ class _DailyProgressScreenState extends State<DailyProgressScreen> {
                                   text: ' kcal',
                                   style: TextStyle(
                                     fontSize: wp * 0.03,
+                                    fontFamily: "regular",
                                     fontWeight: FontWeight.w500,
                                     color: const Color(0xFF2D7D2D),
                                   ),
@@ -200,7 +207,7 @@ class _DailyProgressScreenState extends State<DailyProgressScreen> {
                       ),
                       decoration: BoxDecoration(
                         color: Colors.grey.shade100,
-                        borderRadius: BorderRadius.circular(20),
+                        borderRadius: BorderRadius.circular(wp * 0.05),
                       ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -209,7 +216,8 @@ class _DailyProgressScreenState extends State<DailyProgressScreen> {
                           Text(
                             'Days within Target',
                             style: TextStyle(
-                              fontSize: wp * 0.028,
+                              fontSize: wp * 0.032,
+                              fontFamily: "regular",
                               color: Colors.grey[600],
                               fontWeight: FontWeight.w500,
                             ),
@@ -222,6 +230,7 @@ class _DailyProgressScreenState extends State<DailyProgressScreen> {
                                   text: '$daysWithinTarget',
                                   style: TextStyle(
                                     fontSize: wp * 0.07,
+                                    fontFamily: "semibold",
                                     fontWeight: FontWeight.bold,
                                     color: const Color(0xFF2D7D2D),
                                   ),
@@ -238,6 +247,7 @@ class _DailyProgressScreenState extends State<DailyProgressScreen> {
                                   text: ' $totalDays days',
                                   style: TextStyle(
                                     fontSize: wp * 0.038,
+                                    fontFamily: "regular",
                                     fontWeight: FontWeight.w500,
                                     color: Colors.grey[600],
                                   ),
@@ -261,7 +271,7 @@ class _DailyProgressScreenState extends State<DailyProgressScreen> {
                 padding: EdgeInsets.all(wp * 0.05),
                 decoration: BoxDecoration(
                   color: Colors.white,
-                  borderRadius: BorderRadius.circular(22),
+                  borderRadius: BorderRadius.circular(wp * 0.055),
                   border: Border.all(color: Colors.grey.shade200),
                 ),
                 child: Column(
@@ -274,7 +284,8 @@ class _DailyProgressScreenState extends State<DailyProgressScreen> {
                         Text(
                           'Calorie Intake',
                           style: TextStyle(
-                            fontSize: wp * 0.052,
+                            fontSize: wp * 0.048,
+                            fontFamily: "semibold",
                             fontWeight: FontWeight.bold,
                             color: Colors.black,
                           ),
@@ -284,8 +295,8 @@ class _DailyProgressScreenState extends State<DailyProgressScreen> {
                         Row(
                           children: [
                             Container(
-                              width: 10,
-                              height: 10,
+                              width: wp * 0.025,
+                              height: wp * 0.025,
                               decoration: const BoxDecoration(
                                 color: Color(0xFF2D7D2D),
                                 shape: BoxShape.circle,
@@ -296,6 +307,7 @@ class _DailyProgressScreenState extends State<DailyProgressScreen> {
                               'Actual',
                               style: TextStyle(
                                 fontSize: wp * 0.03,
+                                fontFamily: "regular",
                                 color: Colors.grey[600],
                               ),
                             ),
@@ -306,8 +318,8 @@ class _DailyProgressScreenState extends State<DailyProgressScreen> {
                         Row(
                           children: [
                             Container(
-                              width: 18,
-                              height: 2,
+                              width: wp * 0.045,
+                              height: hp * 0.003,
                               color: Colors.grey[400],
                             ),
                             SizedBox(width: wp * 0.015),
@@ -315,6 +327,7 @@ class _DailyProgressScreenState extends State<DailyProgressScreen> {
                               'Target\n(${targetCalories.toInt()})',
                               style: TextStyle(
                                 fontSize: wp * 0.028,
+                                fontFamily: "regular",
                                 color: Colors.grey[600],
                                 height: 1.2,
                               ),
@@ -333,11 +346,14 @@ class _DailyProgressScreenState extends State<DailyProgressScreen> {
                         size: Size.infinite,
                         painter: _CalorieChartPainter(
                           targetCalories: targetCalories,
+                          pillFontSize: wp * 0.034,
+                          pillHeight: hp * 0.032,
+                          pillPadH: wp * 0.06,
                         ),
                       ),
                     ),
 
-                    SizedBox(height: hp * 0.035),
+                    SizedBox(height: hp * 0.03),
 
                     // ── Day Labels ──
                     Row(
@@ -361,7 +377,12 @@ class _DailyProgressScreenState extends State<DailyProgressScreen> {
               // ── See Your Consistency ──
               GestureDetector(
                 onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context)=>ConsistencyScreen()));
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ConsistencyScreen(),
+                    ),
+                  );
                 },
                 child: Row(
                   children: [
@@ -369,16 +390,17 @@ class _DailyProgressScreenState extends State<DailyProgressScreen> {
                       'SEE YOUR CONSISTENCY',
                       style: TextStyle(
                         fontSize: wp * 0.025,
+                        fontFamily: "regular",
                         fontWeight: FontWeight.bold,
                         color: const Color(0xFF2D7D2D),
                         letterSpacing: 0.5,
                       ),
                     ),
                     SizedBox(width: wp * 0.02),
-                    const Icon(
+                    Icon(
                       Icons.arrow_forward,
-                      color: Color(0xFF2D7D2D),
-                      size: 20,
+                      color: const Color(0xFF2D7D2D),
+                      size: wp * 0.05,
                     ),
                   ],
                 ),
@@ -405,6 +427,7 @@ class _DayLabel extends StatelessWidget {
       label,
       style: TextStyle(
         fontSize: wp * 0.028,
+        fontFamily: "regular",
         fontWeight: FontWeight.w600,
         color: Colors.grey[500],
         letterSpacing: 0.3,
@@ -414,33 +437,49 @@ class _DayLabel extends StatelessWidget {
 }
 
 // ══════════════════════════════════════════════════════════
-// SIMPLE STATIC CHART PAINTER
-// - Ek seedhi green line left se right tak
-// - Line ke end pe dark green pill jisme "2000" likha ho
-// - Koi animation nahi, koi green fill nahi
+// SIMPLE STATIC CHART PAINTER — fully responsive
 // ══════════════════════════════════════════════════════════
 class _CalorieChartPainter extends CustomPainter {
   final double targetCalories;
+  final double pillFontSize;
+  final double pillHeight;
+  final double pillPadH;
 
   const _CalorieChartPainter({
     required this.targetCalories,
+    required this.pillFontSize,
+    required this.pillHeight,
+    required this.pillPadH,
   });
 
-  // Right side mein pill ke liye space
   static const double padLeft   = 0.0;
-  static const double padRight  = 50.0;
   static const double padTop    = 20.0;
   static const double padBottom = 8.0;
 
   @override
   void paint(Canvas canvas, Size size) {
+    // pill width depends on font size — measure first
+    final pillTp = TextPainter(
+      text: TextSpan(
+        text: '${targetCalories.toInt()}',
+        style: TextStyle(
+          fontSize: pillFontSize,
+          fontFamily: "regular",
+          fontWeight: FontWeight.bold,
+          color: Colors.white,
+        ),
+      ),
+      textDirection: TextDirection.ltr,
+    )..layout();
+
+    final double pillW   = pillTp.width + pillPadH;
+    final double padRight = pillW + 4;
+
     final double chartW = size.width - padLeft - padRight;
     final double chartH = size.height - padTop - padBottom;
+    final double lineY  = padTop + chartH * 0.5;
 
-    // Line vertically center mein rakho
-    final double lineY = padTop + chartH * 0.5;
-
-    // ── Seedhi green line (left se right tak) ──
+    // ── Green line ──
     canvas.drawLine(
       Offset(padLeft, lineY),
       Offset(padLeft + chartW, lineY),
@@ -450,41 +489,24 @@ class _CalorieChartPainter extends CustomPainter {
         ..strokeCap = StrokeCap.round,
     );
 
-    // ── Dark green pill at right end with "2000" ──
-    final pillText = '${targetCalories.toInt()}';
-    final pillTp = TextPainter(
-      text: TextSpan(
-        text: pillText,
-        style: const TextStyle(
-          fontSize: 13,
-          fontWeight: FontWeight.bold,
-          color: Colors.white,
-        ),
-      ),
-      textDirection: TextDirection.ltr,
-    )..layout();
-
-    final double pillW  = pillTp.width + 24;
-    const double pillH  = 24.0;
-    final double pillLeft = padLeft + chartW + 0;
+    // ── Pill ──
+    final double pillLeft = padLeft + chartW;
 
     final pillRect = RRect.fromRectAndRadius(
       Rect.fromLTWH(
         pillLeft,
-        lineY - pillH / 2,
+        lineY - pillHeight / 2,
         pillW,
-        pillH,
+        pillHeight,
       ),
-      const Radius.circular(20),
+      Radius.circular(pillHeight),
     );
 
-    // Pill background
     canvas.drawRRect(
       pillRect,
       Paint()..color = const Color(0xFF1B5E20),
     );
 
-    // Pill text
     pillTp.paint(
       canvas,
       Offset(
@@ -495,5 +517,7 @@ class _CalorieChartPainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(_CalorieChartPainter old) => false;
+  bool shouldRepaint(_CalorieChartPainter old) =>
+      old.targetCalories != targetCalories ||
+          old.pillFontSize != pillFontSize;
 }

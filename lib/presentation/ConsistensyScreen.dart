@@ -164,6 +164,7 @@ class _ConsistencyScreenState extends State<ConsistencyScreen> {
                     'Consistency',
                     style: TextStyle(
                       fontSize: wp * 0.07,
+                      fontFamily: "semibold",
                       fontWeight: FontWeight.bold,
                       color: Colors.black,
                     ),
@@ -213,6 +214,7 @@ class _ConsistencyScreenState extends State<ConsistencyScreen> {
                       '$_currentStreak Day Habbit',
                       style: TextStyle(
                         fontSize: wp * 0.07,
+                        fontFamily: "semibold",
                         fontWeight: FontWeight.w900,
                         color: Colors.black,
                       ),
@@ -222,6 +224,7 @@ class _ConsistencyScreenState extends State<ConsistencyScreen> {
                       'Personal best $_personalBest days',
                       style: TextStyle(
                         fontSize: wp * 0.038,
+                        fontFamily: "regular",
                         color: Colors.grey[600],
                         fontWeight: FontWeight.w400,
                       ),
@@ -253,6 +256,7 @@ class _ConsistencyScreenState extends State<ConsistencyScreen> {
                           '${_monthNames[_displayedMonth.month]} ${_displayedMonth.year}',
                           style: TextStyle(
                             fontSize: wp * 0.055,
+                            fontFamily: "medium",
                             fontWeight: FontWeight.bold,
                             color: Colors.black,
                           ),
@@ -354,6 +358,7 @@ class _ConsistencyScreenState extends State<ConsistencyScreen> {
                             'Consistency Rate',
                             style: TextStyle(
                               fontSize: wp * 0.03,
+                              fontFamily: "regular",
                               color: Colors.grey[600],
                               fontWeight: FontWeight.w500,
                             ),
@@ -363,6 +368,7 @@ class _ConsistencyScreenState extends State<ConsistencyScreen> {
                             '${_consistencyRate.toInt()}%',
                             style: TextStyle(
                               fontSize: wp * 0.07,
+                              fontFamily: "semibold",
                               fontWeight: FontWeight.w900,
                               color: Colors.black,
                             ),
@@ -391,6 +397,7 @@ class _ConsistencyScreenState extends State<ConsistencyScreen> {
                             'Missed Days',
                             style: TextStyle(
                               fontSize: wp * 0.03,
+                              fontFamily: "regular",
                               color: Colors.grey[600],
                               fontWeight: FontWeight.w500,
                             ),
@@ -400,6 +407,7 @@ class _ConsistencyScreenState extends State<ConsistencyScreen> {
                             '$_missedDays',
                             style: TextStyle(
                               fontSize: wp * 0.07,
+                              fontFamily: "semibold",
                               fontWeight: FontWeight.w900,
                               color: Colors.black,
                             ),
@@ -433,6 +441,7 @@ class _WeekLabel extends StatelessWidget {
         label,
         style: TextStyle(
           fontSize: wp * 0.028,
+          fontFamily: "regular",
           fontWeight: FontWeight.w600,
           color: Colors.grey[500],
           letterSpacing: 0.2,
@@ -501,7 +510,8 @@ class _CalendarDay extends StatelessWidget {
               child: Text(
                 '${date.day}',
                 style: TextStyle(
-                  fontSize: cellSize * 0.38,
+                  fontSize: cellSize * 0.40,
+                  fontFamily: "regular",
                   color: textColor,
                   fontWeight: fontWeight,
                 ),

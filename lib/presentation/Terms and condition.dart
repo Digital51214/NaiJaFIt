@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:naijafit/widgets/custom_backbutton.dart';
 import 'package:sizer/sizer.dart';
 
 class TermsAndConditions extends StatefulWidget {
@@ -175,24 +176,9 @@ class _TermsAndConditionsState extends State<TermsAndConditions>
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      GestureDetector(
-                        onTap: () => Navigator.pop(context),
-                        child: Container(
-                          width: 13.5.w,
-                          height: 13.5.w,
-                          decoration: const BoxDecoration(
-                            color: Color(0xFFDDE5DB),
-                            shape: BoxShape.circle,
-                          ),
-                          child: const Center(
-                            child: Icon(
-                              Icons.arrow_back_ios_new,
-                              color: Color(0xFF0A8A2A),
-                              size: 20,
-                            ),
-                          ),
-                        ),
-                      ),
+                      CustomBackButton(onTap: (){
+                        Navigator.pop(context);
+                      }),
                       SizedBox(width: screenWidth * 0.04),
                       const Expanded(
                         child: Text(

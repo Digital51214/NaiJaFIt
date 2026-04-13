@@ -139,6 +139,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:naijafit/presentation/LoadingScreen.dart';
+import 'package:naijafit/presentation/MealHistoryScreen.dart';
 import 'package:naijafit/presentation/Onboarding_screen.dart';
 import 'package:naijafit/presentation/main_dashboard_screen/main_dashboard_screen.dart';
 
@@ -162,7 +163,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
     _isNavigating = true;
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => OnboardingScreen()),
+      MaterialPageRoute(builder: (context) => MainDashboardScreen()),
     ).then((_) {
       setState(() {
         _dragPosition = 0.0;

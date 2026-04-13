@@ -187,7 +187,7 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
       backgroundColor: Colors.transparent,
       builder: (_) {
         return Container(
-          padding: const EdgeInsets.fromLTRB(20, 18, 20, 24),
+          padding: const EdgeInsets.fromLTRB(20, 18, 20, 2),
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.vertical(
@@ -529,6 +529,7 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
                               borderRadius:
                               BorderRadius.circular(width * 0.11),
                             ),
+                            padding: EdgeInsets.symmetric(vertical: 2),
                           ),
                         ),
                       ),

@@ -91,8 +91,9 @@ class _EmptyscreenState extends State<Emptyscreen> {
               child: Text(
                 'No Meals Logged Yet',
                 style: TextStyle(
-                  fontSize: screenWidth * 0.058,
+                  fontSize: screenWidth * 0.056,
                   fontWeight: FontWeight.bold,
+                  fontFamily: "semibold",
                   color: Colors.black,
                 ),
               ),
@@ -106,8 +107,9 @@ class _EmptyscreenState extends State<Emptyscreen> {
               child: Text(
                 'Start by adding your first meal to track your calories and vitality.',
                 style: TextStyle(
-                  fontSize: screenWidth * 0.039,
+                  fontSize: screenWidth * 0.038,
                   color: Colors.grey[600],
+                  fontFamily: "regular",
                   height: 1.5,
                 ),
               ),
@@ -155,7 +157,8 @@ class _EmptyscreenState extends State<Emptyscreen> {
                       child: Text(
                         'Did you know? Logging breakfast before 9 AM improves metabolism by 12%',
                         style: TextStyle(
-                          fontSize: screenWidth * 0.039,
+                          fontSize: screenWidth * 0.038,
+                          fontFamily: "regular",
                           color: Colors.black87,
                           height: 1.5,
                         ),

@@ -174,6 +174,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:naijafit/presentation/Reminder_screen.dart';
+import 'package:naijafit/presentation/main_dashboard_screen/main_dashboard_screen.dart';
 import 'package:naijafit/widgets/custom_backbutton.dart';
 import 'package:sizer/sizer.dart';
 
@@ -213,10 +214,6 @@ class _PlanFreeTrialScreenState extends State<PlanFreeTrialScreen>
     super.dispose();
   }
 
-  void _onTryForFree() {
-    Navigator.of(context, rootNavigator: true).pushNamed('/next-screen');
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -231,9 +228,7 @@ class _PlanFreeTrialScreenState extends State<PlanFreeTrialScreen>
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   CustomBackButton(
-                    onTap: () {
-                      Navigator.of(context).pop();
-                    },
+                    onTap: () => Navigator.of(context).pop(),
                   ),
                   Image.asset(
                     'assets/images/LOGO.png',
@@ -264,9 +259,7 @@ class _PlanFreeTrialScreenState extends State<PlanFreeTrialScreen>
                         TextSpan(text: 'We want you to try '),
                         TextSpan(
                           text: 'Naijafit',
-                          style: TextStyle(
-                            color: Color(0xFF026F1A),
-                          ),
+                          style: TextStyle(color: Color(0xFF026F1A)),
                         ),
                         TextSpan(text: '\nfor free'),
                       ],
@@ -294,11 +287,13 @@ class _PlanFreeTrialScreenState extends State<PlanFreeTrialScreen>
                 height: 45,
                 width: double.infinity,
                 child: ElevatedButton(
+                  // ✅ Continue button: ReminderScreen se aage plan screens
+                  // complete hone ke baad user MainDashboardScreen (HomeScreen2) pe aata hai
                   onPressed: () {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => ReminderScreen(),
+                        builder: (_) => ReminderScreen(),
                       ),
                     );
                   },
@@ -307,9 +302,7 @@ class _PlanFreeTrialScreenState extends State<PlanFreeTrialScreen>
                     elevation: 0,
                     minimumSize: const Size(double.infinity, 50),
                     padding: const EdgeInsets.symmetric(
-                      vertical: 12,
-                      horizontal: 16,
-                    ),
+                        vertical: 12, horizontal: 16),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30),
                     ),

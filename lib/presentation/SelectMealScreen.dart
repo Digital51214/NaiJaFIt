@@ -81,7 +81,7 @@ class _SelectmealscreenState extends State<Selectmealscreen> {
         controller: _searchController,
         onChanged: (v) => setState(() => _searchQuery = v),
         style: TextStyle(
-          fontFamily: "Poppins",
+          fontFamily: "regular",
           fontSize: responsiveFont(14) / textScale,
         ),
         decoration: InputDecoration(
@@ -165,8 +165,8 @@ class _SelectmealscreenState extends State<Selectmealscreen> {
                     GestureDetector(
                       onTap: () => Navigator.pop(context),
                       child: Container(
-                        width: screenWidth * 0.11,
-                        height: screenWidth * 0.11,
+                        width: screenWidth * 0.135,
+                        height: screenWidth * 0.135,
                         decoration: const BoxDecoration(
                           color: Color(0xFFEAF3DE),
                           shape: BoxShape.circle,
@@ -175,7 +175,7 @@ class _SelectmealscreenState extends State<Selectmealscreen> {
                           child: Icon(
                             Icons.chevron_left,
                             color: const Color(0xFF2E7D32),
-                            size: screenWidth * 0.06,
+                            size: screenWidth * 0.07,
                           ),
                         ),
                       ),
@@ -191,6 +191,7 @@ class _SelectmealscreenState extends State<Selectmealscreen> {
                             'Select Meal',
                             style: TextStyle(
                               fontSize: screenWidth * 0.065,
+                              fontFamily: "semibold",
                               fontWeight: FontWeight.bold,
                               color: Colors.black,
                             ),
@@ -199,6 +200,7 @@ class _SelectmealscreenState extends State<Selectmealscreen> {
                             'Fuel your body with vitality',
                             style: TextStyle(
                               fontSize: screenWidth * 0.038,
+                              fontFamily: "regular",
                               color: Colors.grey[600],
                             ),
                           ),
@@ -353,8 +355,9 @@ class _MealCard extends StatelessWidget {
                             child: Text(
                               tag,
                               style: TextStyle(
-                                fontSize: screenWidth * 0.026,
+                                fontSize: screenWidth * 0.03,
                                 fontWeight: FontWeight.w600,
+                                fontFamily: "regular",
                                 color: const Color(0xFF2E7D32),
                               ),
                             ),
@@ -369,6 +372,7 @@ class _MealCard extends StatelessWidget {
                         style: TextStyle(
                           fontSize: screenWidth * 0.06,
                           fontWeight: FontWeight.bold,
+                          fontFamily: "semibold",
                           color: Colors.black,
                         ),
                       ),
@@ -379,6 +383,7 @@ class _MealCard extends StatelessWidget {
                         description,
                         style: TextStyle(
                           fontSize: screenWidth * 0.026,
+                          fontFamily: "regular",
                           color: Colors.grey[600],
                           height: 1.45,
                         ),

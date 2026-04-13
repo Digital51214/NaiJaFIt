@@ -4,6 +4,7 @@ import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:sizer/sizer.dart';
 
 import '../core/app_export.dart';
+import '../core/app_state.dart';          // ✅ naya import
 import '../widgets/custom_error_widget.dart';
 import './services/openai_service.dart';
 import './services/payment_service.dart';
@@ -21,7 +22,7 @@ Future<void> main() async {
   await Stripe.instance.applySettings();
 
   // ✅ CRITICAL: Supabase must initialize BEFORE runApp
-  await SupabaseService.initialize();  // 👈 MUST
+  await SupabaseService.initialize();
 
   // Optional services (non-critical)
   await _initializeOptionalServices();
@@ -64,25 +65,27 @@ class MyApp extends StatelessWidget {
       return const SizedBox.shrink();
     };
 
-    return Sizer(
-      builder: (context, orientation, screenType) {
-        return MaterialApp(
-          title: 'naijafit',
-          debugShowCheckedModeBanner: false,
-          theme: AppTheme.lightTheme,
-          darkTheme: AppTheme.darkTheme,
-          themeMode: ThemeMode.light,
-          routes: AppRoutes.routes,
-          initialRoute: AppRoutes.splash,
-          builder: (context, child) {
-            return MediaQuery(
-              data: MediaQuery.of(context)
-                  .copyWith(textScaler: const TextScaler.linear(1.0)),
-              child: child ?? const SizedBox(),
-            );
-          },
-        );
-      },
+    return AppStateProvider(            // ✅ yahan wrap kiya
+      child: Sizer(
+        builder: (context, orientation, screenType) {
+          return MaterialApp(
+            title: 'naijafit',
+            debugShowCheckedModeBanner: false,
+            theme: AppTheme.lightTheme,
+            darkTheme: AppTheme.darkTheme,
+            themeMode: ThemeMode.light,
+            routes: AppRoutes.routes,
+            initialRoute: AppRoutes.splash,
+            builder: (context, child) {
+              return MediaQuery(
+                data: MediaQuery.of(context)
+                    .copyWith(textScaler: const TextScaler.linear(1.0)),
+                child: child ?? const SizedBox(),
+              );
+            },
+          );
+        },
+      ),
     );
   }
 }

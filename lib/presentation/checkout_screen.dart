@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:naijafit/presentation/SaveYourProgressScreen.dart';
+import 'package:naijafit/presentation/ThankyouScreen.dart';
 import 'package:naijafit/presentation/main_dashboard_screen/main_dashboard_screen.dart';
 import 'package:naijafit/widgets/custom_backbutton.dart';
 import 'package:sizer/sizer.dart';
@@ -173,7 +175,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => MainDashboardScreen(),
+                            builder: (context) => Saveyourprogressscreen(),
                           ),
                         );
                       },

@@ -56,6 +56,7 @@ class _WeightProgressScreenState extends State<WeightProgressScreen> {
                     'Weight Progress',
                     style: TextStyle(
                       fontSize: wp * 0.055,
+                      fontFamily: "semibold",
                       fontWeight: FontWeight.bold,
                       color: Colors.black,
                     ),
@@ -94,6 +95,7 @@ class _WeightProgressScreenState extends State<WeightProgressScreen> {
                             'Weekly Insight',
                             style: TextStyle(
                               fontSize: wp * 0.034,
+                              fontFamily: "regular",
                               fontWeight: FontWeight.w600,
                               color: const Color(0xFF2D7D2D),
                             ),
@@ -102,7 +104,8 @@ class _WeightProgressScreenState extends State<WeightProgressScreen> {
                           Text(
                             'You lost ${weeklyLost}kg this week',
                             style: TextStyle(
-                              fontSize: wp * 0.05,
+                              fontSize: wp * 0.048,
+                              fontFamily: "medium",
                               fontWeight: FontWeight.bold,
                               color: Colors.black,
                             ),
@@ -112,6 +115,7 @@ class _WeightProgressScreenState extends State<WeightProgressScreen> {
                             'Consistency is your superpower! keep it up.',
                             style: TextStyle(
                               fontSize: wp * 0.027,
+                              fontFamily: "regular",
                               color: Colors.grey[600],
                             ),
                           ),
@@ -147,6 +151,7 @@ class _WeightProgressScreenState extends State<WeightProgressScreen> {
                     'Weekly Trend',
                     style: TextStyle(
                       fontSize: wp * 0.04,
+                      fontFamily: "semibold",
                       fontWeight: FontWeight.bold,
                       color: Colors.black,
                     ),
@@ -155,6 +160,7 @@ class _WeightProgressScreenState extends State<WeightProgressScreen> {
                     'PERFORMANCE',
                     style: TextStyle(
                       fontSize: wp * 0.027,
+                      fontFamily: "medium",
                       fontWeight: FontWeight.bold,
                       color: const Color(0xFF2D7D2D),
                       letterSpacing: 0.5,
@@ -209,6 +215,7 @@ class _WeightProgressScreenState extends State<WeightProgressScreen> {
                             'CURRENT',
                             style: TextStyle(
                               fontSize: wp * 0.03,
+                              fontFamily: "regular",
                               fontWeight: FontWeight.w600,
                               color: Colors.grey[600],
                               letterSpacing: 1,
@@ -219,6 +226,7 @@ class _WeightProgressScreenState extends State<WeightProgressScreen> {
                             '${currentWeight.toInt()} kg',
                             style: TextStyle(
                               fontSize: wp * 0.07,
+                              fontFamily: "semibold",
                               fontWeight: FontWeight.bold,
                               color: Colors.black,
                             ),
@@ -228,6 +236,7 @@ class _WeightProgressScreenState extends State<WeightProgressScreen> {
                             '-${totalLost}kg total',
                             style: TextStyle(
                               fontSize: wp * 0.035,
+                              fontFamily: "regular",
                               color: const Color(0xFF2D7D2D),
                               fontWeight: FontWeight.w600,
                             ),
@@ -257,6 +266,7 @@ class _WeightProgressScreenState extends State<WeightProgressScreen> {
                             'TARGET',
                             style: TextStyle(
                               fontSize: wp * 0.03,
+                              fontFamily: "regular",
                               fontWeight: FontWeight.w600,
                               color: Colors.grey[600],
                               letterSpacing: 1,
@@ -267,6 +277,7 @@ class _WeightProgressScreenState extends State<WeightProgressScreen> {
                             '${targetWeight.toInt()} kg',
                             style: TextStyle(
                               fontSize: wp * 0.07,
+                              fontFamily: "semibold",
                               fontWeight: FontWeight.bold,
                               color: const Color(0xFFF5A623),
                             ),
@@ -288,6 +299,7 @@ class _WeightProgressScreenState extends State<WeightProgressScreen> {
                             '35 % Achieved',
                             style: TextStyle(
                               fontSize: wp * 0.03,
+                              fontFamily: "regular",
                               color: Colors.grey[600],
                             ),
                           ),
@@ -312,6 +324,7 @@ class _WeightProgressScreenState extends State<WeightProgressScreen> {
                       style: TextStyle(
                         fontSize: wp * 0.025,
                         fontWeight: FontWeight.bold,
+                        fontFamily: "regular",
                         color: const Color(0xFF2D7D2D),
                         letterSpacing: 0.5,
                       ),
