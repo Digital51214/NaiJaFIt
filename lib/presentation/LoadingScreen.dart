@@ -202,7 +202,7 @@ class _LoadingscreenState extends State<Loadingscreen>
                               width: size.width * 0.5,
                               height: size.width * 0.5,
                               child: const CircularProgressIndicator(
-                                value: 0.25, // arc length ~quarter circle
+                                value: 0.25,
                                 strokeWidth: 8,
                                 valueColor: AlwaysStoppedAnimation<Color>(
                                     Color(0xFF026F1A)),
@@ -255,7 +255,7 @@ class _LoadingscreenState extends State<Loadingscreen>
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Naija Fit- Nutration',
+                      'NaijaFit - Your Personalized Plan In Progress',
                       style: TextStyle(
                         fontSize: 15,
                         fontFamily: "semibold",
@@ -265,7 +265,7 @@ class _LoadingscreenState extends State<Loadingscreen>
                     ),
                     SizedBox(height: 8),
                     Text(
-                      'Updating your plan to include high protein and pounded yam metrics.No compromise on taste.',
+                      'Updating your plan to include the right amount of calories intake and protein that will support your weight goals. No compromise.',
                       style: TextStyle(
                         fontSize: 10,
                         fontFamily: "regular",

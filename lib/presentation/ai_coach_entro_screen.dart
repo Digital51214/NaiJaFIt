@@ -274,6 +274,7 @@
 
 
 import 'package:flutter/material.dart';
+import 'package:naijafit/presentation/ai_nutrition_insights_screen/ai_nutrition_insights_screen.dart';
 import 'package:sizer/sizer.dart';
 
 class AiCoachIntroScreen extends StatefulWidget {
@@ -667,7 +668,10 @@ class _AiCoachIntroScreenState extends State<AiCoachIntroScreen>
                   width: double.infinity,
                   height: 5.8.h,
                   child: ElevatedButton(
-                    onPressed: _onUnlockAiCoach,
+                    // onPressed: _onUnlockAiCoach,
+                    onPressed: (){
+                      Navigator.push(context, MaterialPageRoute(builder: (context)=>AiInsightsScreen()));
+                    },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xFF026F1A),
                       foregroundColor: theme.colorScheme.onPrimary,

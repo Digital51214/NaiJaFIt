@@ -84,39 +84,33 @@ class SplashScreen extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: m.width * 0.08),
           child: Column(
             children: [
-              SizedBox(height: m.height*0.18,),
-              Stack(
-                children: [
-                  Image.asset(
-                    "assets/images/LOGO.png",
-                    height: m.height * 0.45,
-                    fit: BoxFit.contain,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 280),
-                    child: Positioned(
-                      child: Text(
-                        "Calorie tracking of Nigerian meals\nmade easy",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 17,
-                          fontWeight: FontWeight.w400,
-                          color: Colors.black,
-                          fontFamily: "extralight",
-                          height: 1.4,
-                        ),
+              SizedBox(height: m.height * 0.10),
+
+              Expanded(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image.asset(
+                      "assets/images/LOGO.png",
+                      height: m.height * 0.32,
+                      fit: BoxFit.contain,
+                    ),
+                    const SizedBox(height: 24),
+                    const Text(
+                      "Calorie tracking of Nigerian meals\nmade easy",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 17,
+                        fontWeight: FontWeight.w400,
+                        color: Colors.black,
+                        fontFamily: "extralight",
+                        height: 1.4,
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-              // LOGO
 
-
-
-              SizedBox(height: m.height * 0.04),
-
-              // GET STARTED BUTTON
               SizedBox(
                 width: double.infinity,
                 height: 45,
@@ -125,7 +119,7 @@ class SplashScreen extends StatelessWidget {
                     Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const WelcomeScreen(),
+                        builder: (_) => const WelcomeScreen(),
                       ),
                     );
                   },
@@ -134,7 +128,7 @@ class SplashScreen extends StatelessWidget {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30),
                     ),
-                    padding: EdgeInsets.symmetric(vertical: 2),
+                    padding: EdgeInsets.zero,
                   ),
                   child: const Text(
                     "Get Started",
@@ -142,37 +136,51 @@ class SplashScreen extends StatelessWidget {
                       fontSize: 14,
                       fontWeight: FontWeight.w900,
                       color: Colors.white,
-                      fontFamily: "bold"
+                      fontFamily: "bold",
                     ),
                   ),
                 ),
               ),
 
-              SizedBox(height: m.height * 0.14),
+              SizedBox(height: m.height * 0.05),
+
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text("Already have an account?",style: TextStyle(
-                    fontFamily: "regular",
-                    fontWeight: FontWeight.w700,
-                    fontSize: 14,
-                    color: Colors.black,
-                  ),),
-                  SizedBox(width: m.width*0.02,),
-                  GestureDetector(
-                    onTap: (){
-                      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>SignInScreen()),
-                          (Route<dynamic>route)=>false);
-                    },
-                    child: Text("Sign In",style: TextStyle(
+                  const Text(
+                    "Already have an account?",
+                    style: TextStyle(
                       fontFamily: "regular",
                       fontWeight: FontWeight.w700,
-                      fontSize: 17,
-                      color: Color(0xFF026F1A),
-                    ),),
+                      fontSize: 14,
+                      color: Colors.black,
+                    ),
+                  ),
+                  SizedBox(width: m.width * 0.02),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => const SignInScreen(),
+                        ),
+                            (Route<dynamic> route) => false,
+                      );
+                    },
+                    child: const Text(
+                      "Sign In",
+                      style: TextStyle(
+                        fontFamily: "regular",
+                        fontWeight: FontWeight.w700,
+                        fontSize: 17,
+                        color: Color(0xFF026F1A),
+                      ),
+                    ),
                   ),
                 ],
-              )
+              ),
+
+              SizedBox(height: m.height * 0.04),
             ],
           ),
         ),

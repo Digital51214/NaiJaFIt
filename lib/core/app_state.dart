@@ -1,22 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-/// Global app state — tracks whether the first meal has been logged.
-/// Wrap your MaterialApp (or at least MainDashboardScreen) with AppStateProvider.
 class AppStateProvider extends StatefulWidget {
   final Widget child;
-  const AppStateProvider({super.key, required this.child});
+
+  const AppStateProvider({
+    super.key,
+    required this.child,
+  });
 
   @override
   State<AppStateProvider> createState() => _AppStateProviderState();
 
-  /// Access state from anywhere in the tree:
-  ///   AppStateProvider.of(context).hasMealBeenLogged
-  ///   AppStateProvider.of(context).setMealLogged()
   static _AppStateProviderState of(BuildContext context) {
-    return context
-        .dependOnInheritedWidgetOfExactType<_AppStateInherited>()!
-        .state;
+    final inherited =
+    context.dependOnInheritedWidgetOfExactType<_AppStateInherited>();
+
+    if (inherited == null) {
+      throw FlutterError(
+        'AppStateProvider.of(context) called with a context that does not contain AppStateProvider.',
+      );
+    }
+
+    return inherited.state;
   }
 }
 
@@ -32,16 +38,33 @@ class _AppStateProviderState extends State<AppStateProvider> {
   }
 
   Future<void> _loadFromPrefs() async {
-    final prefs = await SharedPreferences.getInstance();
-    final value = prefs.getBool('has_meal_been_logged') ?? false;
-    if (mounted) setState(() => _hasMealBeenLogged = value);
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final value = prefs.getBool('has_meal_been_logged') ?? false;
+
+      if (mounted) {
+        setState(() {
+          _hasMealBeenLogged = value;
+        });
+      }
+    } catch (e) {
+      debugPrint('SharedPreferences load error: $e');
+    }
   }
 
-  /// Call this from FoodConsumedScreen's Continue button.
   Future<void> setMealLogged() async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setBool('has_meal_been_logged', true);
-    if (mounted) setState(() => _hasMealBeenLogged = true);
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setBool('has_meal_been_logged', true);
+
+      if (mounted) {
+        setState(() {
+          _hasMealBeenLogged = true;
+        });
+      }
+    } catch (e) {
+      debugPrint('SharedPreferences save error: $e');
+    }
   }
 
   @override
@@ -62,6 +85,7 @@ class _AppStateInherited extends InheritedWidget {
   });
 
   @override
-  bool updateShouldNotify(_AppStateInherited old) =>
-      state.hasMealBeenLogged != old.state.hasMealBeenLogged;
+  bool updateShouldNotify(_AppStateInherited oldWidget) {
+    return state.hasMealBeenLogged != oldWidget.state.hasMealBeenLogged;
+  }
 }

@@ -217,6 +217,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                             fontSize: 32,
                             fontWeight: FontWeight.w800,
                             color: Colors.black,
+                            fontFamily: "semibold",
                             height: 1.25,
                           ),
                         ),
@@ -268,6 +269,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                     'Track your favorite Nigerian meals\nand stay on top of your daily calories',
                     style: TextStyle(
                       fontSize: 15.5,
+                      fontFamily: "regular",
                       color: Color(0xFF444444),
                       height: 1.5,
                       fontWeight: FontWeight.w400,
@@ -310,6 +312,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                                   style: TextStyle(
                                     color: Colors.white,
                                     fontSize: 13,
+                                    fontFamily: "semibold",
                                     fontWeight: FontWeight.w700,
                                     letterSpacing: 0.3,
                                   ),

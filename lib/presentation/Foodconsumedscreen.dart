@@ -10,6 +10,7 @@ class FoodConsumedScreen extends StatelessWidget {
   final int remainingCalories;
   final double protein;
   final double carbs;
+  final double fats;
   final int savedCalories;
   final double savePercent;
 
@@ -21,6 +22,7 @@ class FoodConsumedScreen extends StatelessWidget {
     this.remainingCalories = 1600,
     this.protein = 22,
     this.carbs = 58,
+    this.fats = 14,
     this.savedCalories = 120,
     this.savePercent = 0.20,
   });
@@ -120,7 +122,6 @@ class FoodConsumedScreen extends StatelessWidget {
                               size: w * 0.09,
                             ),
                           )
-                          // Inner green circle: scale up + fade in
                               .animate()
                               .scale(
                             begin: const Offset(0, 0),
@@ -131,7 +132,6 @@ class FoodConsumedScreen extends StatelessWidget {
                               .fadeIn(duration: 300.ms),
                         ),
                       )
-                      // Outer light circle: fade + scale after inner
                           .animate()
                           .scale(
                         begin: const Offset(0.5, 0.5),
@@ -145,6 +145,7 @@ class FoodConsumedScreen extends StatelessWidget {
 
                     SizedBox(height: h * 0.032),
 
+                    // ── Title ────────────────────────────
                     RichText(
                       text: TextSpan(
                         style: TextStyle(
@@ -179,12 +180,14 @@ class FoodConsumedScreen extends StatelessWidget {
 
                     SizedBox(height: h * 0.034),
 
+                    // ── Meal Card + Venn Diagram Row ─────
                     Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
+                        // Meal name card
                         Container(
-                          width: w * 0.40,
-                          height: h * 0.165,
+                          width: w * 0.38,
+                          height: h * 0.185,
                           decoration: BoxDecoration(
                             color: Colors.white,
                             borderRadius: BorderRadius.circular(w * 0.06),
@@ -201,9 +204,11 @@ class FoodConsumedScreen extends StatelessWidget {
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Icon(Icons.no_food_rounded,
-                                  color: const Color(0xFF1B7F3A),
-                                  size: w * 0.09),
+                              Icon(
+                                Icons.no_food_rounded,
+                                color: const Color(0xFF1B7F3A),
+                                size: w * 0.09,
+                              ),
                               SizedBox(height: h * 0.010),
                               Text(
                                 mealName,
@@ -229,17 +234,19 @@ class FoodConsumedScreen extends StatelessWidget {
                           ),
                         ),
 
-                        SizedBox(width: w * 0.04),
+                        SizedBox(width: w * 0.03),
 
+                        // Venn Diagram Macros
                         Expanded(
-                          child: Column(
-                            children: [
-                              _macroCard(w, h, 'Protein',
-                                  '${protein.toStringAsFixed(0)}g'),
-                              SizedBox(height: h * 0.014),
-                              _macroCard(
-                                  w, h, 'Carbs', '${carbs.toStringAsFixed(0)}g'),
-                            ],
+                          child: SizedBox(
+                            height: h * 0.205,
+                            child: _MacroVennDiagram(
+                              w: w,
+                              h: h,
+                              protein: protein,
+                              carbs: carbs,
+                              fats: fats,
+                            ),
                           ),
                         ),
                       ],
@@ -247,6 +254,7 @@ class FoodConsumedScreen extends StatelessWidget {
 
                     SizedBox(height: h * 0.044),
 
+                    // ── Progress Bar ─────────────────────
                     ClipRRect(
                       borderRadius: BorderRadius.circular(w * 0.05),
                       child: LinearProgressIndicator(
@@ -266,7 +274,10 @@ class FoodConsumedScreen extends StatelessWidget {
                         Text(
                           '$savedCalories calorie',
                           style: TextStyle(
-                              fontSize: w * 0.035,fontFamily: "regular", color: Colors.black54),
+                            fontSize: w * 0.035,
+                            fontFamily: "regular",
+                            color: Colors.black54,
+                          ),
                         ),
                         Text(
                           '${(savePercent * 100).toStringAsFixed(0)}% Save',
@@ -282,6 +293,7 @@ class FoodConsumedScreen extends StatelessWidget {
 
                     SizedBox(height: h * 0.06),
 
+                    // ── Continue Button ──────────────────
                     Padding(
                       padding:
                       EdgeInsets.fromLTRB(w * 0.05, 0, w * 0.05, h * 0.030),
@@ -322,8 +334,11 @@ class FoodConsumedScreen extends StatelessWidget {
                                 ),
                               ),
                               SizedBox(width: w * 0.025),
-                              Icon(Icons.arrow_forward_rounded,
-                                  color: Colors.white, size: w * 0.055),
+                              Icon(
+                                Icons.arrow_forward_rounded,
+                                color: Colors.white,
+                                size: w * 0.055,
+                              ),
                             ],
                           ),
                         ),
@@ -339,35 +354,130 @@ class FoodConsumedScreen extends StatelessWidget {
     );
   }
 
-  Widget _macroCard(double w, double h, String label, String value) {
-    return Container(
-      width: double.infinity,
-      padding: EdgeInsets.symmetric(
-          horizontal: w * 0.035, vertical: h * 0.022),
-      decoration: BoxDecoration(
-        color: Colors.green.withOpacity(0.1),
-        borderRadius: BorderRadius.circular(w * 0.1),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(label,
-              style: TextStyle(
-                  fontSize: w * 0.042,
-                  fontWeight: FontWeight.w700,
-                  fontFamily: "regular",
-                  color: const Color(0xFF1B7F3A))),
-          Text(value,
-              style: TextStyle(fontSize: w * 0.040,fontFamily: "regular", color: Colors.black54)),
-        ],
-      ),
-    );
-  }
-
   String _formatNumber(int number) {
     return number.toString().replaceAllMapped(
       RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'),
           (Match m) => '${m[1]},',
     );
   }
+}
+
+// ── Venn Diagram Widget ──────────────────────────────────────────────────────
+
+class _MacroVennDiagram extends StatelessWidget {
+  final double w;
+  final double h;
+  final double protein;
+  final double carbs;
+  final double fats;
+
+  const _MacroVennDiagram({
+    required this.w,
+    required this.h,
+    required this.protein,
+    required this.carbs,
+    required this.fats,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return CustomPaint(
+      painter: _VennPainter(),
+      child: SizedBox(
+        width: double.infinity,
+        height: double.infinity,
+        child: Stack(
+          clipBehavior: Clip.none,
+          children: [
+            // ── Carbs (top center) ────────────────────
+            Positioned(
+              top: h * 0.005,
+              left: 0,
+              right: 0,
+              child: Center(
+                child: _macroLabel('Carbs', '${carbs.toStringAsFixed(0)}g', w),
+              ),
+            ),
+            // ── Protein (bottom left) ─────────────────
+            Positioned(
+              bottom: h * 0.005,
+              left: w * 0.02,
+              child: _macroLabel(
+                  'Protein', '${protein.toStringAsFixed(0)}g', w),
+            ),
+            // ── Fats (bottom right) ───────────────────
+            Positioned(
+              bottom: h * 0.005,
+              right: w * 0.01,
+              child: _macroLabel('Fats', '${fats.toStringAsFixed(0)}g', w),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _macroLabel(String name, String value, double w) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Text(
+          name,
+          style: TextStyle(
+            fontSize: w * 0.038,
+            fontFamily: "medium",
+            fontWeight: FontWeight.w700,
+            color: const Color(0xFF1B7F3A),
+          ),
+        ),
+        Text(
+          value,
+          style: TextStyle(
+            fontSize: w * 0.033,
+            fontFamily: "regular",
+            color: Colors.black54,
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _VennPainter extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()
+      ..color = const Color(0xFF1B7F3A).withOpacity(0.13)
+      ..style = PaintingStyle.fill;
+
+    final strokePaint = Paint()
+      ..color = const Color(0xFF1B7F3A).withOpacity(0.35)
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 1.2;
+
+    final double r = size.width * 0.36;
+    final double cx = size.width / 2;
+    final double cy = size.height / 2;
+
+    // Offset the three circle centers to form a Venn diagram
+    final double offset = r * 0.52;
+
+    // Top circle (Carbs)
+    final Offset topCenter = Offset(cx, cy - offset * 0.68);
+    // Bottom-left circle (Protein)
+    final Offset bottomLeft = Offset(cx - offset * 0.85, cy + offset * 0.52);
+    // Bottom-right circle (Fats)
+    final Offset bottomRight = Offset(cx + offset * 0.85, cy + offset * 0.52);
+
+    canvas.drawCircle(topCenter, r, paint);
+    canvas.drawCircle(bottomLeft, r, paint);
+    canvas.drawCircle(bottomRight, r, paint);
+
+    canvas.drawCircle(topCenter, r, strokePaint);
+    canvas.drawCircle(bottomLeft, r, strokePaint);
+    canvas.drawCircle(bottomRight, r, strokePaint);
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
 }

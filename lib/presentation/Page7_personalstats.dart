@@ -624,14 +624,8 @@ class _Page6PersonalStatsState extends State<Page6PersonalStats>
   late final Animation<double> _fade;
   late final Animation<Offset> _slide;
 
-  bool get _isAgeValid {
-    return _age != null && _age! > 0;
-  }
-
-  bool get _isHeightValid {
-    return _height != null && _height! > 0;
-  }
-
+  bool get _isAgeValid => _age != null && _age! > 0;
+  bool get _isHeightValid => _height != null && _height! > 0;
   bool get _isFormValid => _isAgeValid && _isHeightValid && _gender != null;
 
   String get _ageHint {
@@ -691,6 +685,7 @@ class _Page6PersonalStatsState extends State<Page6PersonalStats>
     final double heightCm =
     _heightUnit == 'Cm' ? _height! : _height! * 30.48;
 
+    // ✅ FIX: All 6 values properly saved before navigating
     widget.onDataUpdate('age', _age);
     widget.onDataUpdate('height', heightCm);
     widget.onDataUpdate('heightRaw', _height);
@@ -728,10 +723,17 @@ class _Page6PersonalStatsState extends State<Page6PersonalStats>
         _heightUnit = value;
         _heightCtrl.clear();
         _height = null;
+        // ✅ FIX: reset stored height when unit changes
+        widget.onDataUpdate('height', null);
+        widget.onDataUpdate('heightRaw', null);
+        widget.onDataUpdate('heightUnit', value);
       } else if (_activeLink == _ageLink) {
         _ageUnit = value;
         _ageCtrl.clear();
         _age = null;
+        // ✅ FIX: reset stored age when unit changes
+        widget.onDataUpdate('age', null);
+        widget.onDataUpdate('ageUnit', value);
       }
     });
     _checkForm();
@@ -961,17 +963,13 @@ class _Page6PersonalStatsState extends State<Page6PersonalStats>
 
   String? get _ageErrorText {
     if (_ageCtrl.text.isEmpty) return null;
-    if (_age == null || _age! <= 0) {
-      return 'Please enter a valid age';
-    }
+    if (_age == null || _age! <= 0) return 'Please enter a valid age';
     return null;
   }
 
   String? get _heightErrorText {
     if (_heightCtrl.text.isEmpty) return null;
-    if (_height == null || _height! <= 0) {
-      return 'Please enter a valid height';
-    }
+    if (_height == null || _height! <= 0) return 'Please enter a valid height';
     return null;
   }
 
@@ -1053,8 +1051,7 @@ class _Page6PersonalStatsState extends State<Page6PersonalStats>
           position: _slide,
           child: SingleChildScrollView(
             keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-            padding:
-            EdgeInsets.symmetric(horizontal: 5.5.w, vertical: 1.5.h),
+            padding: EdgeInsets.symmetric(horizontal: 5.5.w, vertical: 1.5.h),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -1070,9 +1067,9 @@ class _Page6PersonalStatsState extends State<Page6PersonalStats>
                 ),
                 SizedBox(height: 1.2.h),
                 Text(
-                  'This will help us a lot to tailor a very well\nplan for you',
+                  'This will help us create a personalized nutrition\nplan for you',
                   style: TextStyle(
-                    fontSize: 12.sp,
+                    fontSize: 10.5.sp,
                     fontFamily: "regular",
                     color: const Color(0xFF6E6E6E),
                     height: 1.55,
@@ -1086,12 +1083,14 @@ class _Page6PersonalStatsState extends State<Page6PersonalStats>
                   hint: _ageHint,
                   unit: _ageUnit,
                   errorText: _ageErrorText,
-                  inputFormatters: [
-                    FilteringTextInputFormatter.digitsOnly,
-                  ],
+                  inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                   keyboardType: TextInputType.number,
                   onChanged: (v) {
-                    setState(() => _age = int.tryParse(v));
+                    final parsed = int.tryParse(v);
+                    setState(() => _age = parsed);
+                    // ✅ FIX: Update immediately on every keystroke
+                    widget.onDataUpdate('age', parsed);
+                    widget.onDataUpdate('ageUnit', _ageUnit);
                     _checkForm();
                   },
                 ),
@@ -1109,7 +1108,19 @@ class _Page6PersonalStatsState extends State<Page6PersonalStats>
                   keyboardType:
                   const TextInputType.numberWithOptions(decimal: true),
                   onChanged: (v) {
-                    setState(() => _height = double.tryParse(v));
+                    final parsed = double.tryParse(v);
+                    setState(() => _height = parsed);
+                    // ✅ FIX: Update immediately on every keystroke
+                    // Store both raw value and converted CM value
+                    widget.onDataUpdate('heightRaw', parsed);
+                    widget.onDataUpdate('heightUnit', _heightUnit);
+                    if (parsed != null) {
+                      final double heightCm =
+                      _heightUnit == 'Cm' ? parsed : parsed * 30.48;
+                      widget.onDataUpdate('height', heightCm);
+                    } else {
+                      widget.onDataUpdate('height', null);
+                    }
                     _checkForm();
                   },
                 ),

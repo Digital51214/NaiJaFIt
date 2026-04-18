@@ -975,36 +975,6 @@
 // }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:sizer/sizer.dart';
@@ -1232,6 +1202,16 @@ class _Page2GoalSettingDetailsState extends State<Page2GoalSettingDetails>
         _currentWeightError = null;
       }
     });
+
+    // ✅ FIX: Update data immediately on every change so parent always has latest values
+    if (w != null) {
+      final double currentWeightKg =
+      _currentWeightUnit == 'KG' ? w : w / 2.205;
+      widget.onDataUpdate('currentWeight', currentWeightKg);
+      widget.onDataUpdate('currentWeightRaw', w);
+      widget.onDataUpdate('currentWeightUnit', _currentWeightUnit);
+    }
+
     _checkForm();
   }
 
@@ -1247,6 +1227,16 @@ class _Page2GoalSettingDetailsState extends State<Page2GoalSettingDetails>
         _targetWeightError = null;
       }
     });
+
+    // ✅ FIX: Update data immediately on every change so parent always has latest values
+    if (w != null) {
+      final double targetWeightKg =
+      _targetWeightUnit == 'KG' ? w : w / 2.205;
+      widget.onDataUpdate('targetWeight', targetWeightKg);
+      widget.onDataUpdate('targetWeightRaw', w);
+      widget.onDataUpdate('targetWeightUnit', _targetWeightUnit);
+    }
+
     _checkForm();
   }
 
@@ -1264,6 +1254,7 @@ class _Page2GoalSettingDetailsState extends State<Page2GoalSettingDetails>
         ? _targetWeight!
         : _targetWeight! / 2.205;
 
+    // ✅ FIX: All data updated in handleNext as well (redundant but safe)
     widget.onDataUpdate('currentWeight', currentWeightKg);
     widget.onDataUpdate('targetWeight', targetWeightKg);
     widget.onDataUpdate('currentWeightRaw', _currentWeight);

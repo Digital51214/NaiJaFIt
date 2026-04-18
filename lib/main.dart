@@ -1,10 +1,12 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:sizer/sizer.dart';
 
 import '../core/app_export.dart';
-import '../core/app_state.dart';          // ✅ naya import
+import '../core/app_state.dart';
 import '../widgets/custom_error_widget.dart';
 import './services/openai_service.dart';
 import './services/payment_service.dart';
@@ -13,34 +15,68 @@ import './services/supabase_service.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  await SystemChrome.setPreferredOrientations([
-    DeviceOrientation.portraitUp,
-  ]);
+  FlutterError.onError = (FlutterErrorDetails details) {
+    FlutterError.presentError(details);
+    debugPrint('Flutter Error: ${details.exception}');
+    debugPrintStack(stackTrace: details.stack);
+  };
 
-  // ✅ Stripe Init
-  Stripe.publishableKey = "pk_test_your_publishable_key_here";
-  await Stripe.instance.applySettings();
+  runZonedGuarded(() async {
+    await SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+    ]);
 
-  // ✅ CRITICAL: Supabase must initialize BEFORE runApp
-  await SupabaseService.initialize();
+    await _initializeStripeSafely();
+    await _initializeSupabaseSafely();
 
-  // Optional services (non-critical)
-  await _initializeOptionalServices();
+    runApp(const MyApp());
 
-  runApp(const MyApp());
+    unawaited(_initializeOptionalServices());
+  }, (error, stackTrace) {
+    debugPrint('Unhandled Zone Error: $error');
+    debugPrintStack(stackTrace: stackTrace);
+
+    runApp(
+      StartupErrorApp(
+        message: 'Unhandled startup error: $error',
+      ),
+    );
+  });
+}
+
+Future<void> _initializeStripeSafely() async {
+  try {
+    // Yahan apni REAL publishable key lagani hai
+    Stripe.publishableKey = "pk_test_your_actual_publishable_key";
+    await Stripe.instance.applySettings();
+  } catch (e, stackTrace) {
+    debugPrint('Stripe Init Error: $e');
+    debugPrintStack(stackTrace: stackTrace);
+  }
+}
+
+Future<void> _initializeSupabaseSafely() async {
+  try {
+    await SupabaseService.initialize();
+  } catch (e, stackTrace) {
+    debugPrint('Supabase Init Error: $e');
+    debugPrintStack(stackTrace: stackTrace);
+  }
 }
 
 Future<void> _initializeOptionalServices() async {
   try {
     await PaymentService.initialize();
-  } catch (e) {
-    debugPrint('Stripe Init Error: $e');
+  } catch (e, stackTrace) {
+    debugPrint('PaymentService Init Error: $e');
+    debugPrintStack(stackTrace: stackTrace);
   }
 
   try {
     OpenAIService.instance.initialize();
-  } catch (e) {
+  } catch (e, stackTrace) {
     debugPrint('OpenAI Init Error: $e');
+    debugPrintStack(stackTrace: stackTrace);
   }
 }
 
@@ -49,23 +85,11 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    bool hasShownError = false;
-
     ErrorWidget.builder = (FlutterErrorDetails details) {
-      if (!hasShownError) {
-        hasShownError = true;
-
-        Future.delayed(const Duration(seconds: 5), () {
-          hasShownError = false;
-        });
-
-        return CustomErrorWidget(errorDetails: details);
-      }
-
-      return const SizedBox.shrink();
+      return CustomErrorWidget(errorDetails: details);
     };
 
-    return AppStateProvider(            // ✅ yahan wrap kiya
+    return AppStateProvider(
       child: Sizer(
         builder: (context, orientation, screenType) {
           return MaterialApp(
@@ -78,13 +102,42 @@ class MyApp extends StatelessWidget {
             initialRoute: AppRoutes.splash,
             builder: (context, child) {
               return MediaQuery(
-                data: MediaQuery.of(context)
-                    .copyWith(textScaler: const TextScaler.linear(1.0)),
-                child: child ?? const SizedBox(),
+                data: MediaQuery.of(context).copyWith(
+                  textScaler: const TextScaler.linear(1.0),
+                ),
+                child: child ?? const SizedBox.shrink(),
               );
             },
           );
         },
+      ),
+    );
+  }
+}
+
+class StartupErrorApp extends StatelessWidget {
+  final String message;
+
+  const StartupErrorApp({
+    super.key,
+    required this.message,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: Scaffold(
+        body: Center(
+          child: Padding(
+            padding: const EdgeInsets.all(24.0),
+            child: Text(
+              message,
+              textAlign: TextAlign.center,
+              style: const TextStyle(fontSize: 16),
+            ),
+          ),
+        ),
       ),
     );
   }

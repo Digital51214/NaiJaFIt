@@ -84,7 +84,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
 
                   const _InputField(
                     hintText: 'Zip Code/Postal Code',
-                    keyboardType: TextInputType.number,
+                    keyboardType: TextInputType.text,
                   ),
 
                   SizedBox(height: 3.h),

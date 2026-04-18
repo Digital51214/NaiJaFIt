@@ -1051,580 +1051,506 @@
 
 
 import 'package:flutter/material.dart';
-import 'package:naijafit/widgets/custom_backbutton.dart';
-import 'package:sizer/sizer.dart';
+import 'dart:async';
 
-class AiNutritionChatScreen extends StatefulWidget {
-  final bool autoStartChat;
-
-  const AiNutritionChatScreen({
-    super.key,
-    this.autoStartChat = false,
-  });
+class AiInsightsScreen extends StatefulWidget {
+  const AiInsightsScreen({super.key});
 
   @override
-  State<AiNutritionChatScreen> createState() => _AiNutritionChatScreenState();
+  State<AiInsightsScreen> createState() => _AiInsightsScreenState();
 }
 
-class _AiNutritionChatScreenState extends State<AiNutritionChatScreen>
-    with SingleTickerProviderStateMixin {
-  // ── Animations ──
-  late final AnimationController _controller;
+class _AiInsightsScreenState extends State<AiInsightsScreen> {
+  final TextEditingController _controller = TextEditingController();
+  final ScrollController _scrollController = ScrollController();
 
-  late final Animation<Offset> _headerSlide;
-  late final Animation<double> _headerFade;
+  // Each message: {'role': 'ai' | 'user', 'text': '...'}
+  final List<Map<String, String>> _messages = [];
 
-  late final Animation<Offset> _contentSlide;
-  late final Animation<double> _contentFade;
+  bool _aiTyping = false;
 
-  late final Animation<Offset> _inputSlide;
-  late final Animation<double> _inputFade;
+  static const String _welcomeMessage =
+      "Hello!, I'm your Nigerian Nutrition AI Coach. I can help you with meal planning, calorie tracking, and healthy Nigerian food choices. What would you like to know?";
 
   @override
   void initState() {
     super.initState();
-    _setupAnimations();
-
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (mounted) _controller.forward();
+    // Auto send AI welcome message after short delay (like professional apps)
+    Future.delayed(const Duration(milliseconds: 600), () {
+      if (mounted) {
+        setState(() => _aiTyping = true);
+      }
+      Future.delayed(const Duration(milliseconds: 900), () {
+        if (mounted) {
+          setState(() {
+            _aiTyping = false;
+            _messages.add({'role': 'ai', 'text': _welcomeMessage});
+          });
+          _scrollToBottom();
+        }
+      });
     });
-  }
-
-  void _setupAnimations() {
-    _controller = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 1100),
-    );
-
-    _headerSlide = Tween<Offset>(
-      begin: const Offset(0, -0.35),
-      end: Offset.zero,
-    ).animate(
-      CurvedAnimation(
-        parent: _controller,
-        curve: const Interval(0.00, 0.20, curve: Curves.easeOutCubic),
-      ),
-    );
-
-    _headerFade = Tween<double>(begin: 0, end: 1).animate(
-      CurvedAnimation(
-        parent: _controller,
-        curve: const Interval(0.00, 0.20, curve: Curves.easeOut),
-      ),
-    );
-
-    _contentSlide = Tween<Offset>(
-      begin: const Offset(0, 0.35),
-      end: Offset.zero,
-    ).animate(
-      CurvedAnimation(
-        parent: _controller,
-        curve: const Interval(0.18, 0.88, curve: Curves.easeOutCubic),
-      ),
-    );
-
-    _contentFade = Tween<double>(begin: 0, end: 1).animate(
-      CurvedAnimation(
-        parent: _controller,
-        curve: const Interval(0.18, 0.80, curve: Curves.easeOut),
-      ),
-    );
-
-    _inputSlide = Tween<Offset>(
-      begin: const Offset(0, 0.40),
-      end: Offset.zero,
-    ).animate(
-      CurvedAnimation(
-        parent: _controller,
-        curve: const Interval(0.60, 1.00, curve: Curves.easeOutCubic),
-      ),
-    );
-
-    _inputFade = Tween<double>(begin: 0, end: 1).animate(
-      CurvedAnimation(
-        parent: _controller,
-        curve: const Interval(0.60, 1.00, curve: Curves.easeOut),
-      ),
-    );
-  }
-
-  Widget _animatedEntry({
-    required Animation<Offset> slide,
-    required Animation<double> fade,
-    required Widget child,
-  }) {
-    return FadeTransition(
-      opacity: fade,
-      child: SlideTransition(position: slide, child: child),
-    );
-  }
-
-  Widget _aiAvatar(ThemeData theme) {
-    return ClipOval(
-      child: Image.asset(
-        'assets/images/aiprofile.png',
-        width: 72,
-        height: 72,
-        fit: BoxFit.cover,
-        errorBuilder: (_, __, ___) => Container(
-          width: 72,
-          height: 72,
-          decoration: BoxDecoration(
-            color: theme.colorScheme.primary,
-            shape: BoxShape.circle,
-          ),
-          child: Icon(
-            Icons.smart_toy_rounded,
-            size: 34,
-            color: theme.colorScheme.onPrimary,
-          ),
-        ),
-      ),
-    );
-  }
-
-  void _showPremiumAccessMessage() {
-    final theme = Theme.of(context);
-
-    showModalBottomSheet(
-      context: context,
-      backgroundColor: Colors.transparent,
-      isScrollControlled: true,
-      builder: (_) {
-        return Container(
-          padding: EdgeInsets.fromLTRB(5.w, 2.h, 5.w, 3.h),
-          decoration: BoxDecoration(
-            color: theme.colorScheme.surface,
-            borderRadius: const BorderRadius.vertical(
-              top: Radius.circular(28),
-            ),
-          ),
-          child: SafeArea(
-            top: false,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Container(
-                  width: 12.w,
-                  height: 0.6.h,
-                  decoration: BoxDecoration(
-                    color: theme.colorScheme.onSurface.withValues(alpha: 0.15),
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                ),
-                SizedBox(height: 2.2.h),
-                Container(
-                  width: 18.w,
-                  height: 18.w,
-                  decoration: BoxDecoration(
-                    color: const Color(0xFFE7F4EA),
-                    borderRadius: BorderRadius.circular(18),
-                  ),
-                  child: const Icon(
-                    Icons.lock_outline_rounded,
-                    size: 34,
-                    color: Color(0xFF1B7F3A),
-                  ),
-                ),
-                SizedBox(height: 2.h),
-                Text(
-                  'AI Nutrition Coach is a premium feature',
-                  textAlign: TextAlign.center,
-                  style: theme.textTheme.titleMedium?.copyWith(
-                    fontFamily: "bold",
-                    fontWeight: FontWeight.w700,
-                    color: theme.colorScheme.onSurface,
-                  ),
-                ),
-                SizedBox(height: 1.h),
-                Text(
-                  'Unlock the full features of NaijaFit to chat with your AI coach, get personalized food insights, and receive nutrition guidance.',
-                  textAlign: TextAlign.center,
-                  style: theme.textTheme.bodyMedium?.copyWith(
-                    fontFamily: "regular",
-                    height: 1.5,
-                    color: theme.colorScheme.onSurface.withValues(alpha: 0.70),
-                  ),
-                ),
-                SizedBox(height: 2.5.h),
-                SizedBox(
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-
-                      // TODO: Replace with your actual paywall / Plan Screen 1 route
-                      // Navigator.pushNamed(context, AppRoutes.planScreenOne);
-
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: const Text(
-                            'Redirect user to Plan Screen 1 / Paywall',
-                            style: TextStyle(fontFamily: "semibold"),
-                          ),
-                          backgroundColor: theme.colorScheme.primary,
-                          behavior: SnackBarBehavior.floating,
-                        ),
-                      );
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFF1B7F3A),
-                      foregroundColor: Colors.white,
-                      elevation: 0,
-                      padding: EdgeInsets.symmetric(vertical: 1.7.h),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(16),
-                      ),
-                    ),
-                    child: Text(
-                      'Unlock Premium',
-                      style: TextStyle(
-                        fontFamily: "bold",
-                        fontSize: 12.5.sp,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(height: 1.h),
-                TextButton(
-                  onPressed: () => Navigator.pop(context),
-                  child: Text(
-                    'Maybe later',
-                    style: TextStyle(
-                      fontFamily: "medium",
-                      fontSize: 11.sp,
-                      color: theme.colorScheme.onSurface.withValues(alpha: 0.65),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        );
-      },
-    );
-  }
-
-  Widget _buildLockedChatPreview(ThemeData theme) {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 1.h),
-      child: Column(
-        children: [
-          _previewBubble(
-            theme: theme,
-            isAi: true,
-            text:
-            "Hello! I'm your Nigerian Nutrition AI Coach. I can help you with meal planning and healthy Nigerian food choices.",
-          ),
-          SizedBox(height: 1.3.h),
-          _previewBubble(
-            theme: theme,
-            isAi: false,
-            text: "How can I reduce calories in jollof rice?",
-          ),
-          SizedBox(height: 1.3.h),
-          _previewBubble(
-            theme: theme,
-            isAi: true,
-            text:
-            "Unlock premium to chat with your AI Coach and get personalized nutrition guidance.",
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _previewBubble({
-    required ThemeData theme,
-    required bool isAi,
-    required String text,
-  }) {
-    return Row(
-      mainAxisAlignment:
-      isAi ? MainAxisAlignment.start : MainAxisAlignment.end,
-      crossAxisAlignment: CrossAxisAlignment.end,
-      children: [
-        if (isAi) ...[
-          _aiAvatar(theme),
-          SizedBox(width: 2.5.w),
-        ],
-        Flexible(
-          child: Container(
-            padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 1.5.h),
-            decoration: BoxDecoration(
-              color: isAi
-                  ? theme.colorScheme.surfaceContainerHighest
-                  : theme.colorScheme.primary.withValues(alpha: 0.10),
-              borderRadius: BorderRadius.only(
-                topLeft: const Radius.circular(16),
-                topRight: const Radius.circular(16),
-                bottomLeft: Radius.circular(isAi ? 4 : 16),
-                bottomRight: Radius.circular(isAi ? 16 : 4),
-              ),
-            ),
-            child: Text(
-              text,
-              style: theme.textTheme.bodyMedium?.copyWith(
-                fontFamily: "regular",
-                color: theme.colorScheme.onSurface,
-                height: 1.45,
-              ),
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildLockedStateCard(ThemeData theme) {
-    return Container(
-      margin: EdgeInsets.symmetric(horizontal: 4.w),
-      padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 2.5.h),
-      decoration: BoxDecoration(
-        color: theme.colorScheme.surface,
-        borderRadius: BorderRadius.circular(22),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.06),
-            blurRadius: 18,
-            offset: const Offset(0, 8),
-          ),
-        ],
-        border: Border.all(
-          color: theme.colorScheme.primary.withValues(alpha: 0.08),
-        ),
-      ),
-      child: Column(
-        children: [
-          Container(
-            width: 18.w,
-            height: 18.w,
-            decoration: BoxDecoration(
-              color: const Color(0xFFE7F4EA),
-              shape: BoxShape.circle,
-            ),
-            child: const Icon(
-              Icons.auto_awesome_rounded,
-              size: 34,
-              color: Color(0xFF1B7F3A),
-            ),
-          ),
-          SizedBox(height: 1.8.h),
-          Text(
-            'Premium feature locked',
-            textAlign: TextAlign.center,
-            style: theme.textTheme.titleMedium?.copyWith(
-              fontFamily: "bold",
-              fontWeight: FontWeight.w700,
-              color: theme.colorScheme.onSurface,
-            ),
-          ),
-          SizedBox(height: 1.h),
-          Text(
-            'Your AI Nutrition Coach is available after subscription. Upgrade to unlock personalized nutrition support and smarter meal guidance.',
-            textAlign: TextAlign.center,
-            style: theme.textTheme.bodyMedium?.copyWith(
-              fontFamily: "regular",
-              height: 1.55,
-              color: theme.colorScheme.onSurface.withValues(alpha: 0.72),
-            ),
-          ),
-          SizedBox(height: 2.3.h),
-          SizedBox(
-            width: double.infinity,
-            child: ElevatedButton(
-              onPressed: _showPremiumAccessMessage,
-              style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFF1B7F3A),
-                foregroundColor: Colors.white,
-                elevation: 0,
-                padding: EdgeInsets.symmetric(vertical: 1.6.h),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16),
-                ),
-              ),
-              child: Text(
-                'Unlock the full features of NaijaFit',
-                style: TextStyle(
-                  fontFamily: "bold",
-                  fontSize: 12.sp,
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildDisabledInputBar(ThemeData theme) {
-    return Container(
-      padding: EdgeInsets.only(top: 1.5.h, bottom: 4.h, right: 2.h, left: 2.h),
-      decoration: BoxDecoration(
-        color: theme.colorScheme.primary.withValues(alpha: 0.10),
-      ),
-      child: Row(
-        children: [
-          Icon(
-            Icons.add,
-            color: theme.colorScheme.onSurface.withValues(alpha: 0.30),
-            size: 28,
-          ),
-          SizedBox(width: 3.w),
-          Expanded(
-            child: GestureDetector(
-              onTap: _showPremiumAccessMessage,
-              child: Container(
-                height: 44,
-                padding: EdgeInsets.symmetric(horizontal: 3.w),
-                decoration: BoxDecoration(
-                  color: theme.colorScheme.surface,
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: Text(
-                        'Unlock premium to chat...',
-                        style: theme.textTheme.bodyMedium?.copyWith(
-                          fontFamily: "regular",
-                          color: theme.colorScheme.onSurface
-                              .withValues(alpha: 0.42),
-                        ),
-                      ),
-                    ),
-                    Icon(
-                      Icons.attach_file_rounded,
-                      color:
-                      theme.colorScheme.onSurface.withValues(alpha: 0.28),
-                      size: 22,
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-          SizedBox(width: 3.w),
-          GestureDetector(
-            onTap: _showPremiumAccessMessage,
-            child: Icon(
-              Icons.send_rounded,
-              color: theme.colorScheme.onSurface.withValues(alpha: 0.30),
-              size: 28,
-            ),
-          ),
-        ],
-      ),
-    );
   }
 
   @override
   void dispose() {
     _controller.dispose();
+    _scrollController.dispose();
     super.dispose();
+  }
+
+  void _scrollToBottom() {
+    Future.delayed(const Duration(milliseconds: 100), () {
+      if (_scrollController.hasClients) {
+        _scrollController.animateTo(
+          _scrollController.position.maxScrollExtent,
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.easeOut,
+        );
+      }
+    });
+  }
+
+  void _sendMessage() {
+    final text = _controller.text.trim();
+    if (text.isEmpty) return;
+
+    setState(() {
+      _messages.add({'role': 'user', 'text': text});
+      _controller.clear();
+      _aiTyping = true;
+    });
+    _scrollToBottom();
+
+    // Simulate AI response after delay
+    Future.delayed(const Duration(milliseconds: 1200), () {
+      if (mounted) {
+        setState(() {
+          _aiTyping = false;
+          _messages.add({
+            'role': 'ai',
+            'text':
+            'Thank you for your question! As your Nigerian Nutrition AI Coach, I\'m here to help you achieve your health and fitness goals with the right Nigerian food choices.',
+          });
+        });
+        _scrollToBottom();
+      }
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
+    final size = MediaQuery.of(context).size;
+    final double w = size.width;
+    final double h = size.height;
 
     return Scaffold(
-      backgroundColor: theme.scaffoldBackgroundColor,
+      backgroundColor: Colors.white,
       body: SafeArea(
         child: Column(
           children: [
-            _animatedEntry(
-              slide: _headerSlide,
-              fade: _headerFade,
-              child: Padding(
-                padding: EdgeInsets.symmetric(
-                  horizontal: 4.w,
-                  vertical: 2.h,
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    CustomBackButton(onTap: () => Navigator.pop(context)),
-                    Text(
-                      'AI Nutrition Coach',
-                      style: theme.textTheme.titleMedium?.copyWith(
-                        fontFamily: "bold",
-                        fontWeight: FontWeight.w700,
-                        color: theme.colorScheme.onSurface,
+            // ── Header ──────────────────────────────────────────────────
+            Padding(
+              padding: EdgeInsets.symmetric(
+                horizontal: w * 0.05,
+                vertical: h * 0.018,
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  GestureDetector(
+                    onTap: () => Navigator.of(context).maybePop(),
+                    child: Container(
+                      width: w * 0.135,
+                      height: w * 0.13,
+                      decoration: const BoxDecoration(
+                        color: Color(0xFFEAF3DE),
+                        shape: BoxShape.circle,
                       ),
-                    ),
-                    Image.asset(
-                      'assets/images/LOGO.png',
-                      width: 60,
-                      height: 60,
-                      errorBuilder: (_, __, ___) => Container(
-                        width: 60,
-                        height: 60,
-                        decoration: BoxDecoration(
-                          color:
-                          theme.colorScheme.primary.withValues(alpha: 0.1),
-                          shape: BoxShape.circle,
-                        ),
+                      child: Center(
                         child: Icon(
-                          Icons.restaurant,
-                          color: theme.colorScheme.primary,
-                          size: 28,
+                          Icons.chevron_left_rounded,
+                          color: const Color(0xFF2E7D32),
+                          size: w * 0.075,
                         ),
                       ),
                     ),
-                  ],
-                ),
-              ),
-            ),
-
-            Expanded(
-              child: _animatedEntry(
-                slide: _contentSlide,
-                fade: _contentFade,
-                child: SingleChildScrollView(
-                  padding: EdgeInsets.only(bottom: 2.h),
-                  child: Column(
-                    children: [
-                      SizedBox(height: 1.h),
-                      _buildLockedChatPreview(theme),
-                      SizedBox(height: 2.h),
-                      _buildLockedStateCard(theme),
-                    ],
                   ),
-                ),
+                  Image.asset(
+                    'assets/images/LOGO.png',
+                    width: w * 0.16,
+                    height: w * 0.16,
+                    fit: BoxFit.contain,
+                    errorBuilder: (_, __, ___) => Container(
+                      width: w * 0.16,
+                      height: w * 0.16,
+                      decoration: BoxDecoration(
+                        color: const Color(0xFF1B7F3A),
+                        borderRadius: BorderRadius.circular(w * 0.04),
+                      ),
+                      child: Icon(
+                        Icons.restaurant_menu_rounded,
+                        color: Colors.white,
+                        size: w * 0.08,
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
 
-            _animatedEntry(
-              slide: _inputSlide,
-              fade: _inputFade,
-              child: _buildDisabledInputBar(theme),
+            // ── Chat Messages ────────────────────────────────────────────
+            Expanded(
+              child: ListView.builder(
+                controller: _scrollController,
+                padding: EdgeInsets.symmetric(
+                  horizontal: w * 0.04,
+                  vertical: h * 0.01,
+                ),
+                itemCount: _messages.length + (_aiTyping ? 1 : 0),
+                itemBuilder: (context, index) {
+                  // Typing indicator at the end
+                  if (_aiTyping && index == _messages.length) {
+                    return _buildTypingIndicator(w, h);
+                  }
+
+                  final msg = _messages[index];
+                  final isAi = msg['role'] == 'ai';
+
+                  return isAi
+                      ? _buildAiMessage(msg['text']!, w, h)
+                      : _buildUserMessage(msg['text']!, w, h);
+                },
+              ),
+            ),
+
+            // ── Bottom Input Bar ─────────────────────────────────────────
+            Container(
+              padding: EdgeInsets.symmetric(
+                horizontal: w * 0.04,
+                vertical: h * 0.015,
+              ),
+              decoration: BoxDecoration(
+                color: const Color(0xFFF2F5F2),
+                border: Border(
+                  top: BorderSide(color: Colors.grey.shade200, width: 1),
+                ),
+              ),
+              child: Row(
+                children: [
+                  // + button
+                  GestureDetector(
+                    onTap: () {},
+                    child: Icon(
+                      Icons.add,
+                      color: const Color(0xFF1B7F3A),
+                      size: w * 0.07,
+                    ),
+                  ),
+
+                  SizedBox(width: w * 0.03),
+
+                  // Text field
+                  Expanded(
+                    child: Container(
+                      height: h * 0.055,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(w * 0.025),
+                        border: Border.all(
+                          color: Colors.grey.shade200,
+                          width: 1,
+                        ),
+                      ),
+                      child: TextField(
+                        controller: _controller,
+                        onSubmitted: (_) => _sendMessage(),
+                        style: TextStyle(
+                          fontSize: w * 0.038,
+                          color: Colors.black87,
+                          fontFamily: "regular",
+                        ),
+                        decoration: InputDecoration(
+                          hintText: 'Search...',
+                          hintStyle: TextStyle(
+                            fontSize: w * 0.038,
+                            color: Colors.grey.shade400,
+                            fontFamily: "regular",
+                          ),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(w * 0.025)
+                          ),
+                          suffixIcon: Icon(Icons.attach_file_rounded,color: Color(0xFF1B7F3A),size: w*0.055,),
+                          contentPadding: EdgeInsets.symmetric(
+                            horizontal: w * 0.04,
+                            vertical: 0,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+
+                  SizedBox(width: w * 0.03),
+
+                  // Send button
+                  GestureDetector(
+                    onTap: _sendMessage,
+                    child: Container(
+                      width: w * 0.11,
+                      height: w * 0.11,
+                      decoration: BoxDecoration(
+                        color: const Color(0xFF1B7F3A),
+                        shape: BoxShape.circle,
+                      ),
+                      child: Center(
+                        child: Icon(
+                          Icons.arrow_forward_rounded,
+                          color: Colors.white,
+                          size: w * 0.055,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ],
         ),
       ),
     );
   }
+
+  // ── AI message bubble (left aligned with avatar) ──────────────────────────
+  Widget _buildAiMessage(String text, double w, double h) {
+    return Padding(
+      padding: EdgeInsets.only(bottom: h * 0.018),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+          // AI Avatar
+          Container(
+            width: w * 0.1,
+            height: w * 0.1,
+            decoration: const BoxDecoration(
+              shape: BoxShape.circle,
+              color: Color(0xFF1A2A3A),
+            ),
+            child: ClipOval(
+              child: Image.asset(
+                'assets/images/aiprofile.png',
+                fit: BoxFit.cover,
+                errorBuilder: (_, __, ___) => Icon(
+                  Icons.smart_toy_rounded,
+                  color: Colors.white,
+                  size: w * 0.055,
+                ),
+              ),
+            ),
+          ),
+
+          SizedBox(width: w * 0.03),
+
+          // Message bubble
+          Flexible(
+            child: Container(
+              padding: EdgeInsets.symmetric(
+                horizontal: w * 0.045,
+                vertical: h * 0.018,
+              ),
+              decoration: BoxDecoration(
+                color: const Color(0xFFE8F5E9),
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(w * 0.05),
+                  topRight: Radius.circular(w * 0.05),
+                  bottomRight: Radius.circular(w * 0.05),
+                  bottomLeft: Radius.circular(w * 0.01),
+                ),
+              ),
+              child: _buildRichAiText(text, w),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  // ── User message bubble (right aligned) ──────────────────────────────────
+  Widget _buildUserMessage(String text, double w, double h) {
+    return Padding(
+      padding: EdgeInsets.only(bottom: h * 0.018),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          Flexible(
+            child: Container(
+              padding: EdgeInsets.symmetric(
+                horizontal: w * 0.045,
+                vertical: h * 0.015,
+              ),
+              decoration: BoxDecoration(
+                color: const Color(0xFF1B7F3A),
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(w * 0.05),
+                  topRight: Radius.circular(w * 0.05),
+                  bottomLeft: Radius.circular(w * 0.05),
+                  bottomRight: Radius.circular(w * 0.01),
+                ),
+              ),
+              child: Text(
+                text,
+                style: TextStyle(
+                  fontSize: w * 0.038,
+                  fontFamily: "regular",
+                  color: Colors.white,
+                  height: 1.5,
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  // ── Typing indicator (three dots) ─────────────────────────────────────────
+  Widget _buildTypingIndicator(double w, double h) {
+    return Padding(
+      padding: EdgeInsets.only(bottom: h * 0.018),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+          Container(
+            width: w * 0.1,
+            height: w * 0.1,
+            decoration: const BoxDecoration(
+              shape: BoxShape.circle,
+              color: Color(0xFF1A2A3A),
+            ),
+            child: Icon(
+              Icons.smart_toy_rounded,
+              color: Colors.white,
+              size: w * 0.055,
+            ),
+          ),
+          SizedBox(width: w * 0.03),
+          Container(
+            padding: EdgeInsets.symmetric(
+              horizontal: w * 0.045,
+              vertical: h * 0.018,
+            ),
+            decoration: BoxDecoration(
+              color: const Color(0xFFE8F5E9),
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(w * 0.05),
+                topRight: Radius.circular(w * 0.05),
+                bottomRight: Radius.circular(w * 0.05),
+                bottomLeft: Radius.circular(w * 0.01),
+              ),
+            ),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: List.generate(3, (i) {
+                return _TypingDot(delay: Duration(milliseconds: i * 200));
+              }),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  // ── Rich text for AI message (bold "Nigerian Nutrition AI Coach") ─────────
+  Widget _buildRichAiText(String text, double w) {
+    // Bold the key phrase in welcome message
+    const boldPhrase = 'Nigerian Nutrition AI Coach';
+    if (!text.contains(boldPhrase)) {
+      return Text(
+        text,
+        style: TextStyle(
+          fontSize: w * 0.038,
+          fontFamily: "regular",
+          color: Colors.black87,
+          height: 1.6,
+        ),
+      );
+    }
+
+    final parts = text.split(boldPhrase);
+    return RichText(
+      text: TextSpan(
+        style: TextStyle(
+          fontSize: w * 0.038,
+          fontFamily: "regular",
+          color: Colors.black87,
+          height: 1.6,
+        ),
+        children: [
+          TextSpan(text: parts[0]),
+          TextSpan(
+            text: boldPhrase,
+            style: const TextStyle(fontWeight: FontWeight.w700),
+          ),
+          if (parts.length > 1) TextSpan(text: parts[1]),
+        ],
+      ),
+    );
+  }
 }
 
+// ── Animated typing dot ───────────────────────────────────────────────────────
+class _TypingDot extends StatefulWidget {
+  final Duration delay;
+  const _TypingDot({required this.delay});
 
+  @override
+  State<_TypingDot> createState() => _TypingDotState();
+}
 
+class _TypingDotState extends State<_TypingDot>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _ctrl;
+  late Animation<double> _anim;
 
+  @override
+  void initState() {
+    super.initState();
+    _ctrl = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 600),
+    );
+    _anim = Tween<double>(begin: 0, end: -6).animate(
+      CurvedAnimation(parent: _ctrl, curve: Curves.easeInOut),
+    );
+    Future.delayed(widget.delay, () {
+      if (mounted) _ctrl.repeat(reverse: true);
+    });
+  }
 
+  @override
+  void dispose() {
+    _ctrl.dispose();
+    super.dispose();
+  }
 
-
-
-
-
-
-
-
-
-
-
-// ── Old code preserved (do not remove) ──
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedBuilder(
+      animation: _anim,
+      builder: (_, __) => Transform.translate(
+        offset: Offset(0, _anim.value),
+        child: Container(
+          width: 7,
+          height: 7,
+          margin: const EdgeInsets.symmetric(horizontal: 3),
+          decoration: const BoxDecoration(
+            color: Color(0xFF1B7F3A),
+            shape: BoxShape.circle,
+          ),
+        ),
+      ),
+    );
+  }
+}// ── Old code preserved (do not remove) ──
 
 // import 'package:flutter/material.dart';
 // import 'package:naijafit/presentation/ai_nutrition_insights_screen/widgets/chat_input_widget.dart';

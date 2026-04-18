@@ -421,8 +421,7 @@ class Page7CalorieTargetDisplay extends StatefulWidget {
       _Page7CalorieTargetDisplayState();
 }
 
-class _Page7CalorieTargetDisplayState
-    extends State<Page7CalorieTargetDisplay>
+class _Page7CalorieTargetDisplayState extends State<Page7CalorieTargetDisplay>
     with SingleTickerProviderStateMixin {
   late final AnimationController _anim;
   late final Animation<double> _fade;
@@ -550,13 +549,59 @@ class _Page7CalorieTargetDisplayState
     }
   }
 
+  // ✅ FIX: Smart formatter - shows actual number, never "Not set" if value exists
   String _formatValue(dynamic value) {
     if (value == null) return 'Not set';
     if (value is num) {
+      if (value == 0) return 'Not set';
       if (value % 1 == 0) return value.toInt().toString();
       return value.toStringAsFixed(1);
     }
-    return value.toString();
+    final str = value.toString().trim();
+    return str.isEmpty ? 'Not set' : str;
+  }
+
+  // ✅ FIX: Dedicated weight display helper
+  String _formatWeight(String rawKey, String unitKey) {
+    final data = widget.onboardingData;
+    final raw = data[rawKey];
+    final unit = data[unitKey]?.toString() ?? 'KG';
+
+    if (raw == null) return 'Not set';
+    final num? numVal = raw is num ? raw : num.tryParse(raw.toString());
+    if (numVal == null || numVal == 0) return 'Not set';
+
+    final String formatted =
+    numVal % 1 == 0 ? numVal.toInt().toString() : numVal.toStringAsFixed(1);
+    return '$formatted $unit';
+  }
+
+  // ✅ FIX: Dedicated height display helper
+  String _formatHeight() {
+    final data = widget.onboardingData;
+    final raw = data['heightRaw'];
+    final unit = data['heightUnit']?.toString() ?? 'Cm';
+
+    if (raw == null) return 'Not set';
+    final num? numVal = raw is num ? raw : num.tryParse(raw.toString());
+    if (numVal == null || numVal == 0) return 'Not set';
+
+    final String formatted =
+    numVal % 1 == 0 ? numVal.toInt().toString() : numVal.toStringAsFixed(1);
+    return '$formatted $unit';
+  }
+
+  // ✅ FIX: Dedicated age display helper
+  String _formatAge() {
+    final data = widget.onboardingData;
+    final age = data['age'];
+    final unit = data['ageUnit']?.toString() ?? 'Yrs';
+
+    if (age == null) return 'Not set';
+    final num? numVal = age is num ? age : num.tryParse(age.toString());
+    if (numVal == null || numVal == 0) return 'Not set';
+
+    return '${numVal.toInt()} $unit';
   }
 
   @override
@@ -594,9 +639,11 @@ class _Page7CalorieTargetDisplayState
               ),
               SizedBox(height: 2.6.h),
 
+              // Daily Calorie Card
               Container(
                 width: double.infinity,
-                padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 2.4.h),
+                padding: EdgeInsets.symmetric(
+                    horizontal: 5.w, vertical: 2.4.h),
                 decoration: BoxDecoration(
                   color: const Color(0xFFF7FAF7),
                   borderRadius: BorderRadius.circular(18),
@@ -649,7 +696,8 @@ class _Page7CalorieTargetDisplayState
                     child: _metricCard(
                       title: 'Carbs',
                       value: '${_macros['carbs']}g',
-                      subtitle: '${((_macros['carbsPct'] as double) * 100).round()}%',
+                      subtitle:
+                      '${((_macros['carbsPct'] as double) * 100).round()}%',
                       icon: Icons.grain,
                       iconColor: const Color(0xFF2E7D32),
                     ),
@@ -676,7 +724,8 @@ class _Page7CalorieTargetDisplayState
                     child: _metricCard(
                       title: 'Fats',
                       value: '${_macros['fats']}g',
-                      subtitle: '${((_macros['fatsPct'] as double) * 100).round()}%',
+                      subtitle:
+                      '${((_macros['fatsPct'] as double) * 100).round()}%',
                       icon: Icons.opacity,
                       iconColor: Colors.blue,
                     ),
@@ -696,9 +745,11 @@ class _Page7CalorieTargetDisplayState
 
               SizedBox(height: 2.h),
 
+              // Goal description card
               Container(
                 width: double.infinity,
-                padding: EdgeInsets.symmetric(horizontal: 4.5.w, vertical: 2.1.h),
+                padding: EdgeInsets.symmetric(
+                    horizontal: 4.5.w, vertical: 2.1.h),
                 decoration: BoxDecoration(
                   color: const Color(0xFFEFF7EE),
                   borderRadius: BorderRadius.circular(18),
@@ -752,10 +803,12 @@ class _Page7CalorieTargetDisplayState
 
               SizedBox(height: 1.6.h),
 
+              // ✅ FIX: Summary accordion uses all fixed helper methods
               _accordion(
                 title: 'Plan Summary',
                 expanded: _summaryExpanded,
-                onTap: () => setState(() => _summaryExpanded = !_summaryExpanded),
+                onTap: () =>
+                    setState(() => _summaryExpanded = !_summaryExpanded),
                 child: Padding(
                   padding: EdgeInsets.only(top: 1.5.h),
                   child: Column(
@@ -764,7 +817,7 @@ class _Page7CalorieTargetDisplayState
                       SizedBox(height: 1.h),
                       _summaryRow(
                         'Timeline',
-                        data['timeline']?.toString() ?? 'Not set',
+                        _formatValue(data['timeline']),
                       ),
                       SizedBox(height: 1.h),
                       _summaryRow(
@@ -772,33 +825,25 @@ class _Page7CalorieTargetDisplayState
                         _fmtActivity(data['activityLevel']?.toString()),
                       ),
                       SizedBox(height: 1.h),
+
+                      // ✅ FIX: Uses _formatWeight helper — shows actual user input
                       _summaryRow(
                         'Current Weight',
-                        data['currentWeightRaw'] != null
-                            ? '${_formatValue(data['currentWeightRaw'])} ${data['currentWeightUnit'] ?? 'KG'}'
-                            : 'Not set',
+                        _formatWeight('currentWeightRaw', 'currentWeightUnit'),
                       ),
                       SizedBox(height: 1.h),
                       _summaryRow(
                         'Target Weight',
-                        data['targetWeightRaw'] != null
-                            ? '${_formatValue(data['targetWeightRaw'])} ${data['targetWeightUnit'] ?? 'KG'}'
-                            : 'Not set',
+                        _formatWeight('targetWeightRaw', 'targetWeightUnit'),
                       ),
                       SizedBox(height: 1.h),
-                      _summaryRow(
-                        'Age',
-                        data['age'] != null
-                            ? '${_formatValue(data['age'])} ${data['ageUnit'] ?? 'Yrs'}'
-                            : 'Not set',
-                      ),
+
+                      // ✅ FIX: Uses _formatAge helper — shows actual user input
+                      _summaryRow('Age', _formatAge()),
                       SizedBox(height: 1.h),
-                      _summaryRow(
-                        'Height',
-                        data['heightRaw'] != null
-                            ? '${_formatValue(data['heightRaw'])} ${data['heightUnit'] ?? 'Cm'}'
-                            : 'Not set',
-                      ),
+
+                      // ✅ FIX: Uses _formatHeight helper — shows actual user input
+                      _summaryRow('Height', _formatHeight()),
                       SizedBox(height: 1.h),
                       _summaryRow('Daily Calories', '$_cals kcal'),
                     ],
@@ -837,11 +882,7 @@ class _Page7CalorieTargetDisplayState
               color: iconColor.withOpacity(0.12),
               shape: BoxShape.circle,
             ),
-            child: Icon(
-              icon,
-              size: 4.5.w,
-              color: iconColor,
-            ),
+            child: Icon(icon, size: 4.5.w, color: iconColor),
           ),
           SizedBox(height: 1.3.h),
           Text(
