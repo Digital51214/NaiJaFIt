@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:naijafit/presentation/Nagarionsays_screen.dart';
 import 'dart:async';
-import 'package:naijafit/presentation/sign_in_screen/sign_in_screen.dart';
+import 'package:naijafit/presentation/Page9_clorietarget.dart';
 
 class Loadingscreen extends StatefulWidget {
-  const Loadingscreen({super.key});
+  /// Pass the collected onboarding data map here
+  final Map<String, dynamic> onboardingData;
+
+  const Loadingscreen({super.key, required this.onboardingData});
 
   @override
   State<Loadingscreen> createState() => _LoadingscreenState();
@@ -35,7 +37,7 @@ class _LoadingscreenState extends State<Loadingscreen>
       if (mounted) setState(() => _stepStatus = [0, 0, 1]);
     });
 
-    // 6s: all done → navigate to SignInScreen
+    // 6s: all done → navigate to CalorieTargetDisplay
     Timer(const Duration(seconds: 6), () {
       if (mounted) {
         setState(() => _stepStatus = [0, 0, 0]);
@@ -43,7 +45,11 @@ class _LoadingscreenState extends State<Loadingscreen>
           if (mounted) {
             Navigator.pushAndRemoveUntil(
               context,
-              MaterialPageRoute(builder: (context) => WhatNigeriansAreSayingScreen()),
+              MaterialPageRoute(
+                builder: (context) => Page7CalorieTargetDisplay(
+                  onboardingData: widget.onboardingData,
+                ),
+              ),
                   (Route<dynamic> route) => false,
             );
           }
@@ -195,7 +201,7 @@ class _LoadingscreenState extends State<Loadingscreen>
                             ),
                           ),
 
-                          // Rotating green arc — spins continuously
+                          // Rotating green arc
                           Transform.rotate(
                             angle: _progressController.value * 2 * 3.14159,
                             child: SizedBox(

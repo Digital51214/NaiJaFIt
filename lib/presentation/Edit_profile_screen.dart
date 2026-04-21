@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:naijafit/presentation/profile_settings_screen/profile_settings_screen.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../services/auth_service.dart';
@@ -202,7 +203,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             ),
           ),
         );
-        Navigator.pop(context, true);
+        Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>ProfileSettingsScreen()),
+            (Route<dynamic>route)=>false);
       }
     } catch (e) {
       if (mounted) {

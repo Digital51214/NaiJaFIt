@@ -1,11 +1,14 @@
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import 'package:naijafit/presentation/main_dashboard_screen/main_dashboard_screen.dart';
+import 'package:naijafit/presentation/LoadingScreen.dart';
 import 'package:naijafit/widgets/Backbutton.dart';
 
 class Thankyouscreen extends StatefulWidget {
-  const Thankyouscreen({super.key});
+  /// Onboarding ka sara collected data yahan aata hai
+  final Map<String, dynamic> onboardingData;
+
+  const Thankyouscreen({super.key, required this.onboardingData});
 
   @override
   State<Thankyouscreen> createState() => _ThankyouscreenState();
@@ -16,7 +19,6 @@ class _ThankyouscreenState extends State<Thankyouscreen>
   late final AnimationController _rotateController;
 
   static const Color _green = Color(0xFF1B7F3A);
-  static const Color _greenLight = Color(0xFFE6F0E2);
 
   @override
   void initState() {
@@ -33,13 +35,11 @@ class _ThankyouscreenState extends State<Thankyouscreen>
     super.dispose();
   }
 
-
   @override
   Widget build(BuildContext context) {
     final double w = MediaQuery.of(context).size.width;
     final double h = MediaQuery.of(context).size.height;
     final double ts = MediaQuery.of(context).textScaleFactor;
-    final size = MediaQuery.of(context).size;
 
     double rf(double fs) {
       final scaled = fs * (w / 375);
@@ -56,6 +56,7 @@ class _ThankyouscreenState extends State<Thankyouscreen>
           ),
           child: Column(
             children: [
+              // ── Top Row ──
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -84,14 +85,16 @@ class _ThankyouscreenState extends State<Thankyouscreen>
                   ),
                 ],
               ),
-              SizedBox(height: h*0.03,),
+
+              SizedBox(height: h * 0.03),
+
+              // ── Animated Circle ──
               SizedBox(
                 width: 185,
                 height: 185,
                 child: Stack(
                   alignment: Alignment.center,
                   children: [
-                    // ── Shadow layer (alag container) ──────────────
                     Container(
                       width: 185,
                       height: 185,
@@ -107,8 +110,6 @@ class _ThankyouscreenState extends State<Thankyouscreen>
                         ],
                       ),
                     ),
-
-                    // ── Radial glow (alag container) ───────────────
                     Container(
                       width: 185,
                       height: 185,
@@ -124,8 +125,6 @@ class _ThankyouscreenState extends State<Thankyouscreen>
                         ),
                       ),
                     ),
-
-                    // ── Middle solid light-green ring ───────────────
                     Container(
                       width: 185,
                       height: 185,
@@ -134,8 +133,6 @@ class _ThankyouscreenState extends State<Thankyouscreen>
                         color: Colors.grey.withOpacity(0.6),
                       ),
                     ),
-
-                    // ── White inner circle with dots + hand ─────────
                     Container(
                       width: 150,
                       height: 150,
@@ -146,7 +143,6 @@ class _ThankyouscreenState extends State<Thankyouscreen>
                       child: Stack(
                         alignment: Alignment.center,
                         children: [
-                          // Rotating dots ring
                           RotationTransition(
                             turns: _rotateController,
                             child: SizedBox(
@@ -161,8 +157,6 @@ class _ThankyouscreenState extends State<Thankyouscreen>
                               ),
                             ),
                           ),
-
-                          // Hand icon with bounce animation
                           Icon(
                             Icons.back_hand_rounded,
                             color: _green,
@@ -190,9 +184,10 @@ class _ThankyouscreenState extends State<Thankyouscreen>
                 duration: 600.ms,
                 curve: Curves.easeOutBack,
               ),
+
               SizedBox(height: h * 0.06),
 
-              // ── Title ─────────────────────────────────────────
+              // ── Title ──
               RichText(
                 text: TextSpan(
                   style: TextStyle(
@@ -226,7 +221,7 @@ class _ThankyouscreenState extends State<Thankyouscreen>
 
               SizedBox(height: h * 0.04),
 
-              // ── Privacy card ──────────────────────────────────
+              // ── Privacy Card ──
               Container(
                 width: double.infinity,
                 padding: EdgeInsets.symmetric(
@@ -279,15 +274,25 @@ class _ThankyouscreenState extends State<Thankyouscreen>
                 duration: 500.ms,
                 curve: Curves.easeOut,
               ),
+
+              // ── Continue Button ──
               Padding(
-                padding: EdgeInsets.fromLTRB(w * 0.05, w*0.1, w * 0.05, h * 0.03),
+                padding: EdgeInsets.fromLTRB(
+                    w * 0.05, w * 0.1, w * 0.05, h * 0.03),
                 child: SizedBox(
                   width: double.infinity,
                   height: h * 0.058,
                   child: ElevatedButton(
                     onPressed: () {
-                      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>MainDashboardScreen()),
-                              (Route<dynamic>route)=>false);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => Loadingscreen(
+                            // ✅ FIX: widget.onboardingData pass kar rahe hain
+                            onboardingData: widget.onboardingData,
+                          ),
+                        ),
+                      );
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: _green,
@@ -295,7 +300,7 @@ class _ThankyouscreenState extends State<Thankyouscreen>
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(w * 0.1),
                       ),
-                      padding: EdgeInsets.symmetric(vertical: 2)
+                      padding: const EdgeInsets.symmetric(vertical: 2),
                     ),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -337,7 +342,7 @@ class _ThankyouscreenState extends State<Thankyouscreen>
   }
 }
 
-// ── Dot ring painter ──────────────────────────────────────────────────────
+// ── Dot Ring Painter ──────────────────────────────────────────────────────
 class _DotRingPainter extends CustomPainter {
   final int dotCount;
   final double dotRadius;

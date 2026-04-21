@@ -1,11 +1,3 @@
-//
-
-
-
-
-
-
-
 import 'package:flutter/material.dart';
 import 'package:naijafit/presentation/Edit_profile_screen.dart';
 import 'package:naijafit/presentation/Privacy_screen.dart';
@@ -28,6 +20,13 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
 
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
+
+  bool _notificationsEnabled = true;
+
+  String _selectedGoal = 'Lose weight';
+  String _selectedWorkout = 'Home workouts';
+  String _selectedMeal = 'Low carb';
+  String _selectedReminderTime = '7:00 AM';
 
   @override
   void initState() {
@@ -185,224 +184,237 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
     showModalBottomSheet(
       context: context,
       backgroundColor: Colors.transparent,
-      builder: (_) {
-        return Container(
-          padding: const EdgeInsets.fromLTRB(20, 18, 20, 2),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.vertical(
-              top: Radius.circular(width * 0.06),
-            ),
-          ),
-          child: SafeArea(
-            top: false,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Container(
-                  width: 44,
-                  height: 5,
-                  decoration: BoxDecoration(
-                    color: Colors.grey.shade300,
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                ),
-                const SizedBox(height: 18),
-                const Text(
-                  'Preferences',
-                  style: TextStyle(
-                    fontFamily: "bold",
-                    fontSize: 18,
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-                const SizedBox(height: 10),
-                const Text(
-                  'Preference options like measurement units and nutrition display settings can be managed here.',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontFamily: "Poppins",
-                    fontSize: 14,
-                    height: 1.5,
-                    color: Colors.black54,
-                  ),
-                ),
-                const SizedBox(height: 20),
-                _buildBottomSheetTile(
-                  icon: Icons.straighten,
-                  title: 'Measurement Units',
-                  subtitle: 'Kg/lbs, ft/cm, yrs/months',
-                ),
-                _buildBottomSheetTile(
-                  icon: Icons.restaurant_menu,
-                  title: 'Meal Display Preferences',
-                  subtitle: 'Nutrition and calorie preferences',
-                ),
-                _buildBottomSheetTile(
-                  icon: Icons.language,
-                  title: 'Region Preference',
-                  subtitle: 'Nigeria / Diaspora experience',
-                ),
-                const SizedBox(height: 10),
-              ],
-            ),
-          ),
-        );
-      },
-    );
-  }
-
-  void _onNotificationSettings() {
-    final width = MediaQuery.of(context).size.width;
-
-    showModalBottomSheet(
-      context: context,
-      backgroundColor: Colors.transparent,
       isScrollControlled: true,
       builder: (_) {
-        return Container(
-          padding: const EdgeInsets.fromLTRB(20, 18, 20, 28),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.vertical(
-              top: Radius.circular(width * 0.06),
-            ),
-          ),
-          child: SafeArea(
-            top: false,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Container(
-                  width: 44,
-                  height: 5,
-                  decoration: BoxDecoration(
-                    color: Colors.grey.shade300,
-                    borderRadius: BorderRadius.circular(20),
+        String tempGoal = _selectedGoal;
+        String tempWorkout = _selectedWorkout;
+        String tempMeal = _selectedMeal;
+        String tempReminderTime = _selectedReminderTime;
+
+        return StatefulBuilder(
+          builder: (context, setModalState) {
+            return Container(
+              padding: const EdgeInsets.fromLTRB(20, 18, 20, 28),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.vertical(
+                  top: Radius.circular(width * 0.06),
+                ),
+              ),
+              child: SafeArea(
+                top: false,
+                child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Center(
+                        child: Container(
+                          width: 44,
+                          height: 5,
+                          decoration: BoxDecoration(
+                            color: Colors.grey.shade300,
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 18),
+                      const Center(
+                        child: Text(
+                          'Preferences',
+                          style: TextStyle(
+                            fontFamily: "bold",
+                            fontSize: 18,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 10),
+                      const Center(
+                        child: Text(
+                          'Set your fitness and app preferences here.',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontFamily: "Poppins",
+                            fontSize: 14,
+                            height: 1.5,
+                            color: Colors.black54,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 22),
+
+                      _buildSectionTitle('Fitness Goal'),
+                      const SizedBox(height: 10),
+                      _buildChoiceWrap(
+                        options: const [
+                          'Lose weight',
+                          'Maintain weight',
+                          'Gain weight',
+                        ],
+                        selectedValue: tempGoal,
+                        onSelected: (value) {
+                          setModalState(() => tempGoal = value);
+                        },
+                      ),
+
+                      const SizedBox(height: 22),
+                      _buildSectionTitle('Workout Preference'),
+                      const SizedBox(height: 10),
+                      _buildChoiceWrap(
+                        options: const [
+                          'Home workouts',
+                          'Gym workouts',
+                          'Walking',
+                          'Low impact',
+                        ],
+                        selectedValue: tempWorkout,
+                        onSelected: (value) {
+                          setModalState(() => tempWorkout = value);
+                        },
+                      ),
+
+                      const SizedBox(height: 22),
+                      _buildSectionTitle('Meal Preference'),
+                      const SizedBox(height: 10),
+                      _buildChoiceWrap(
+                        options: const [
+                          'Low carb',
+                          'High protein',
+                          'Traditional meals',
+                          'Quick meals',
+                        ],
+                        selectedValue: tempMeal,
+                        onSelected: (value) {
+                          setModalState(() => tempMeal = value);
+                        },
+                      ),
+
+                      const SizedBox(height: 22),
+                      _buildSectionTitle('Reminder Time'),
+                      const SizedBox(height: 10),
+                      _buildChoiceWrap(
+                        options: const [
+                          '7:00 AM',
+                          '12:00 PM',
+                          '6:00 PM',
+                          '8:00 PM',
+                        ],
+                        selectedValue: tempReminderTime,
+                        onSelected: (value) {
+                          setModalState(() => tempReminderTime = value);
+                        },
+                      ),
+
+                      const SizedBox(height: 24),
+                      SizedBox(
+                        width: double.infinity,
+                        height: 52,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            setState(() {
+                              _selectedGoal = tempGoal;
+                              _selectedWorkout = tempWorkout;
+                              _selectedMeal = tempMeal;
+                              _selectedReminderTime = tempReminderTime;
+                            });
+
+                            Navigator.pop(context);
+
+                            ScaffoldMessenger.of(this.context).showSnackBar(
+                              const SnackBar(
+                                content: Text(
+                                  'Saved Preferences',
+                                  style: TextStyle(
+                                    fontFamily: "bold",
+                                    fontSize: 14,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                backgroundColor: Color(0xFF026F1A),
+                                behavior: SnackBarBehavior.floating,
+                                duration: Duration(seconds: 2),
+                              ),
+                            );
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: const Color(0xFF026F1A),
+                            elevation: 0,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(16),
+                            ),
+                          ),
+                          child: const Text(
+                            'Save Preferences',
+                            style: TextStyle(
+                              fontFamily: "bold",
+                              fontSize: 15,
+                              fontWeight: FontWeight.w700,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-                const SizedBox(height: 18),
-                const Text(
-                  'Progress & Notifications',
-                  style: TextStyle(
-                    fontFamily: "bold",
-                    fontSize: 18,
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-                const SizedBox(height: 10),
-                const Text(
-                  'Users should be able to access their progress-related reminders and tracking prompts from here.',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontFamily: "Poppins",
-                    fontSize: 14,
-                    height: 1.5,
-                    color: Colors.black54,
-                  ),
-                ),
-                const SizedBox(height: 20),
-                _buildBottomSheetTile(
-                  icon: Icons.monitor_weight_outlined,
-                  title: 'Weekly Weight Tracker',
-                  subtitle: 'Prompt user to enter weight every week',
-                ),
-                _buildBottomSheetTile(
-                  icon: Icons.local_fire_department_outlined,
-                  title: 'Daily Food Log Reminders',
-                  subtitle: 'Bring users back daily to log meals',
-                ),
-                _buildBottomSheetTile(
-                  icon: Icons.check_circle_outline,
-                  title: 'Consistency Tracking',
-                  subtitle: 'Track daily food logging consistency',
-                ),
-                const SizedBox(height: 16),
-                Container(
-                  width: double.infinity,
-                  padding: const EdgeInsets.all(14),
-                  decoration: BoxDecoration(
-                    color: const Color(0xFFF3FAF4),
-                    borderRadius: BorderRadius.circular(14),
-                    border: Border.all(
-                      color: const Color(0xFF026F1A).withOpacity(0.10),
-                    ),
-                  ),
-                  child: const Text(
-                    'Note: Dedicated progress screens can be connected here later. For now, this section acts as the profile-side entry point for those features.',
-                    style: TextStyle(
-                      fontFamily: "Poppins",
-                      fontSize: 13,
-                      height: 1.5,
-                      color: Colors.black87,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
+              ),
+            );
+          },
         );
       },
     );
   }
 
-  Widget _buildBottomSheetTile({
-    required IconData icon,
-    required String title,
-    required String subtitle,
+  Widget _buildSectionTitle(String title) {
+    return Text(
+      title,
+      style: const TextStyle(
+        fontFamily: "bold",
+        fontSize: 15,
+        fontWeight: FontWeight.w700,
+        color: Colors.black87,
+      ),
+    );
+  }
+
+  Widget _buildChoiceWrap({
+    required List<String> options,
+    required String selectedValue,
+    required Function(String) onSelected,
   }) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 12),
-      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
-      decoration: BoxDecoration(
-        color: const Color(0xFFF8F8F8),
-        borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: const Color(0xFFE4E4E4)),
-      ),
-      child: Row(
-        children: [
-          Container(
-            width: 42,
-            height: 42,
+    return Wrap(
+      spacing: 8,
+      runSpacing: 10,
+      children: options.map((option) {
+        final isSelected = selectedValue == option;
+        return GestureDetector(
+          onTap: () => onSelected(option),
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
             decoration: BoxDecoration(
-              color: const Color(0xFFEAF5ED),
-              borderRadius: BorderRadius.circular(12),
+              color: isSelected
+                  ? const Color(0xFF026F1A)
+                  : const Color(0xFFF6F6F6),
+              borderRadius: BorderRadius.circular(22),
+              border: Border.all(
+                color: isSelected
+                    ? const Color(0xFF026F1A)
+                    : const Color(0xFFE0E0E0),
+              ),
             ),
-            child: Icon(
-              icon,
-              color: const Color(0xFF026F1A),
-              size: 22,
-            ),
-          ),
-          const SizedBox(width: 12),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  title,
-                  style: const TextStyle(
-                    fontFamily: "bold",
-                    fontSize: 14,
-                    fontWeight: FontWeight.w700,
-                    color: Colors.black87,
-                  ),
-                ),
-                const SizedBox(height: 3),
-                Text(
-                  subtitle,
-                  style: const TextStyle(
-                    fontFamily: "Poppins",
-                    fontSize: 12.5,
-                    color: Colors.black54,
-                    height: 1.4,
-                  ),
-                ),
-              ],
+            child: Text(
+              option,
+              style: TextStyle(
+                fontFamily: "Poppins",
+                fontSize: 13,
+                fontWeight: FontWeight.w600,
+                color: isSelected ? Colors.white : Colors.black87,
+              ),
             ),
           ),
-        ],
-      ),
+        );
+      }).toList(),
     );
   }
 
@@ -529,7 +541,9 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
                               borderRadius:
                               BorderRadius.circular(width * 0.11),
                             ),
-                            padding: EdgeInsets.symmetric(vertical: 2),
+                            padding: const EdgeInsets.symmetric(
+                              vertical: 2,
+                            ),
                           ),
                         ),
                       ),
@@ -560,10 +574,15 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
 
                       SizedBox(height: height * 0.01),
 
-                      _buildMenuCard(
+                      _buildSwitchMenuCard(
                         icon: Icons.notifications_active_outlined,
-                        title: 'Progress & Notifications',
-                        onTap: _onNotificationSettings,
+                        title: 'Notification Settings',
+                        value: _notificationsEnabled,
+                        onChanged: (value) {
+                          setState(() {
+                            _notificationsEnabled = value;
+                          });
+                        },
                         width: width,
                         height: height,
                         textScale: textScale,
@@ -670,6 +689,60 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _buildSwitchMenuCard({
+    required IconData icon,
+    required String title,
+    required bool value,
+    required ValueChanged<bool> onChanged,
+    required double width,
+    required double height,
+    required double textScale,
+    required double Function(double) responsiveFont,
+  }) {
+    return Container(
+      height: height * 0.07,
+      width: double.infinity,
+      padding: EdgeInsets.symmetric(
+        horizontal: width * 0.05,
+        vertical: height * 0.008,
+      ),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(width * 0.048),
+        border: Border.all(
+          color: const Color(0xFFD1D1D1),
+          width: 1,
+        ),
+      ),
+      child: Row(
+        children: [
+          Icon(
+            icon,
+            size: width * 0.065,
+            color: Colors.black,
+          ),
+          SizedBox(width: width * 0.04),
+          Expanded(
+            child: Text(
+              title,
+              style: TextStyle(
+                fontFamily: "bold",
+                fontSize: responsiveFont(11.5) / textScale,
+                fontWeight: FontWeight.w700,
+                color: const Color(0xFF7D7D7D),
+              ),
+            ),
+          ),
+          Switch(
+            value: value,
+            onChanged: onChanged,
+            activeColor: const Color(0xFF026F1A),
+          ),
+        ],
       ),
     );
   }

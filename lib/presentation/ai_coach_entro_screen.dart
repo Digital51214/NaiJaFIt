@@ -274,7 +274,9 @@
 
 
 import 'package:flutter/material.dart';
+import 'package:naijafit/presentation/Planfreetrailscreen.dart';
 import 'package:naijafit/presentation/ai_nutrition_insights_screen/ai_nutrition_insights_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
 
 class AiCoachIntroScreen extends StatefulWidget {
@@ -385,7 +387,28 @@ class _AiCoachIntroScreenState extends State<AiCoachIntroScreen>
     super.dispose();
   }
 
-  void _onUnlockAiCoach() {
+  // ── KEY CHANGE: Check premium status then navigate accordingly ──
+  Future<void> _onUnlockAiCoach() async {
+    final prefs = await SharedPreferences.getInstance();
+    final bool isPremium = prefs.getBool('is_premium') ?? false;
+
+    if (!mounted) return;
+
+    if (isPremium) {
+      // Dobara visit: seedha AI chat screen
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const AiInsightsScreen(),
+        ),
+      );
+    } else {
+      // Pehli baar: popup dikhao
+      _showUnlockBottomSheet();
+    }
+  }
+
+  void _showUnlockBottomSheet() {
     final theme = Theme.of(context);
 
     showModalBottomSheet(
@@ -454,18 +477,11 @@ class _AiCoachIntroScreenState extends State<AiCoachIntroScreen>
                   child: ElevatedButton(
                     onPressed: () {
                       Navigator.pop(context);
-
-                      // TODO: Replace with your actual paywall / Plan Screen 1 route
-                      // Navigator.pushNamed(context, AppRoutes.planScreenOne);
-
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: const Text(
-                            'Redirect user to Plan Screen 1 / Paywall',
-                            style: TextStyle(fontFamily: "semibold"),
-                          ),
-                          backgroundColor: const Color(0xFF026F1A),
-                          behavior: SnackBarBehavior.floating,
+                      // Onboarding flow shuru: PlanFreeTrial → Reminder → Checkout → MainDashboard
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const PlanFreeTrialScreen(),
                         ),
                       );
                     },
@@ -475,7 +491,7 @@ class _AiCoachIntroScreenState extends State<AiCoachIntroScreen>
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(32),
                       ),
-                      padding: EdgeInsets.symmetric(vertical: 2),
+                      padding: const EdgeInsets.symmetric(vertical: 2),
                       elevation: 0,
                     ),
                     child: Text(
@@ -668,10 +684,7 @@ class _AiCoachIntroScreenState extends State<AiCoachIntroScreen>
                   width: double.infinity,
                   height: 5.8.h,
                   child: ElevatedButton(
-                    // onPressed: _onUnlockAiCoach,
-                    onPressed: (){
-                      Navigator.push(context, MaterialPageRoute(builder: (context)=>AiInsightsScreen()));
-                    },
+                    onPressed: _onUnlockAiCoach,
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xFF026F1A),
                       foregroundColor: theme.colorScheme.onPrimary,

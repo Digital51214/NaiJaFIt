@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:naijafit/presentation/MealHistoryScreen.dart';
 import 'package:naijafit/presentation/Notification_screen.dart';
 import 'package:naijafit/presentation/Planfreetrailscreen.dart';
-import 'package:naijafit/presentation/emptyscreen.dart';
-import '../../core/app_export.dart';
+import 'package:naijafit/widgets/ReviewBottomsheet.dart';
 
 class Homescreen2 extends StatefulWidget {
   const Homescreen2({super.key});
@@ -23,7 +22,6 @@ class _Homescreen2State extends State<Homescreen2>
   late final Animation<Offset> _buttonSlide;
   late final Animation<double> _buttonFade;
 
-  // ── Dashboard values ──────────────────────────────────────────────────
   final int _dailyCalorieTarget = 2057;
   final int _caloriesConsumed = 24;
   final int _mealsLogged = 1;
@@ -33,11 +31,12 @@ class _Homescreen2State extends State<Homescreen2>
   double get _progressRatio =>
       _dailyCalorieTarget == 0 ? 0 : _caloriesConsumed / _dailyCalorieTarget;
 
-  // ── Color tokens ──────────────────────────────────────────────────────
   static const Color _green = Color(0xFF026F1A);
   static const Color _greenLight = Color(0xFFDCEFDC);
   static const Color _greenCard = Color(0xFFE8F5E9);
   static const Color _bgColor = Color(0xFFF8F8F8);
+
+  bool _hasShownReviewSheet = false;
 
   @override
   void initState() {
@@ -88,8 +87,40 @@ class _Homescreen2State extends State<Homescreen2>
     ));
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (mounted) _controller.forward();
+      if (mounted) {
+        _controller.forward();
+        _scheduleReviewBottomSheet();
+      }
     });
+  }
+
+  void _scheduleReviewBottomSheet() {
+    Future.delayed(const Duration(seconds: 4), () {
+      if (!mounted || _hasShownReviewSheet) return;
+      _showReviewBottomSheet();
+    });
+  }
+
+  Future<void> _showReviewBottomSheet() async {
+    _hasShownReviewSheet = true;
+
+    await showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      isDismissible: true,
+      enableDrag: true,
+      backgroundColor: Colors.transparent,
+      builder: (_) {
+        return ReviewBottomSheet(
+          onPrimaryTap: () {
+            Navigator.pop(context);
+          },
+          onMaybeLaterTap: () {
+            Navigator.pop(context);
+          },
+        );
+      },
+    );
   }
 
   @override
@@ -126,10 +157,11 @@ class _Homescreen2State extends State<Homescreen2>
       body: SafeArea(
         child: Column(
           children: [
-            // ── Header ─────────────────────────────────────────────────
             Padding(
               padding: EdgeInsets.symmetric(
-                  horizontal: w * 0.05, vertical: h * 0.022),
+                horizontal: w * 0.05,
+                vertical: h * 0.022,
+              ),
               child: _animatedEntry(
                 slide: _headerSlide,
                 fade: _headerFade,
@@ -172,7 +204,8 @@ class _Homescreen2State extends State<Homescreen2>
                       onTap: () => Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (_) => NotificationScreen()),
+                          builder: (_) => NotificationScreen(),
+                        ),
                       ),
                       child: Container(
                         width: w * 0.13,
@@ -181,8 +214,11 @@ class _Homescreen2State extends State<Homescreen2>
                           color: _greenLight,
                           shape: BoxShape.circle,
                         ),
-                        child: Icon(Icons.notifications,
-                            color: _green, size: w * 0.055),
+                        child: Icon(
+                          Icons.notifications,
+                          color: _green,
+                          size: w * 0.055,
+                        ),
                       ),
                     ),
                   ],
@@ -190,7 +226,6 @@ class _Homescreen2State extends State<Homescreen2>
               ),
             ),
 
-            // ── Scrollable body ─────────────────────────────────────────
             Expanded(
               child: SingleChildScrollView(
                 physics: const BouncingScrollPhysics(),
@@ -201,12 +236,10 @@ class _Homescreen2State extends State<Homescreen2>
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // ── Calorie Target card ───────────────────────────
                       Container(
                         height: h * 0.143,
                         width: double.infinity,
-                        padding:
-                        EdgeInsets.symmetric(horizontal: w * 0.06),
+                        padding: EdgeInsets.symmetric(horizontal: w * 0.06),
                         decoration: BoxDecoration(
                           color: _greenCard,
                           borderRadius: BorderRadius.circular(w * 0.07),
@@ -250,8 +283,9 @@ class _Homescreen2State extends State<Homescreen2>
                               padding: const EdgeInsets.all(5),
                               child: Container(
                                 decoration: const BoxDecoration(
-                                    color: _greenCard,
-                                    shape: BoxShape.circle),
+                                  color: _greenCard,
+                                  shape: BoxShape.circle,
+                                ),
                                 padding: const EdgeInsets.all(4),
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
@@ -263,7 +297,7 @@ class _Homescreen2State extends State<Homescreen2>
                                       style: const TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 17,
-                                        fontFamily: "semibold"
+                                        fontFamily: "semibold",
                                       ),
                                     ),
                                     const SizedBox(height: 1),
@@ -285,12 +319,14 @@ class _Homescreen2State extends State<Homescreen2>
 
                       SizedBox(height: h * 0.022),
 
-                      // ── Consumed + Remaining row ──────────────────────
                       Row(
                         children: [
                           Expanded(
                             child: _statCard(
-                              w: w, h: h, ts: ts, rf: rf,
+                              w: w,
+                              h: h,
+                              ts: ts,
+                              rf: rf,
                               label: 'CONSUMED',
                               value: '$_caloriesConsumed kcal',
                               subLabel: 'Calories eaten today',
@@ -299,7 +335,10 @@ class _Homescreen2State extends State<Homescreen2>
                           SizedBox(width: w * 0.035),
                           Expanded(
                             child: _statCard(
-                              w: w, h: h, ts: ts, rf: rf,
+                              w: w,
+                              h: h,
+                              ts: ts,
+                              rf: rf,
                               label: 'REMAINING',
                               value: '$_remainingCalories kcal',
                               subLabel: 'Left for today',
@@ -310,21 +349,25 @@ class _Homescreen2State extends State<Homescreen2>
 
                       SizedBox(height: h * 0.015),
 
-                      // ── Meals Logged ──────────────────────────────────
                       _rowCard(
-                        w: w, h: h, ts: ts, rf: rf,
+                        w: w,
+                        h: h,
+                        ts: ts,
+                        rf: rf,
                         icon: Icons.restaurant_menu_outlined,
                         title: 'Meals Logged',
                         subtitle: '$_mealsLogged',
                         showChevron: false,
-                        onTap: (){}
+                        onTap: () {},
                       ),
 
                       SizedBox(height: h * 0.01),
 
-                      // ── Watch Meal History ────────────────────────────
                       _rowCard2(
-                        w: w, h: h, ts: ts, rf: rf,
+                        w: w,
+                        h: h,
+                        ts: ts,
+                        rf: rf,
                         icon: Icons.history,
                         title: 'Watch Meal History',
                         subtitle: null,
@@ -338,8 +381,6 @@ class _Homescreen2State extends State<Homescreen2>
 
                       SizedBox(height: h * 0.028),
 
-                      // ── Add Meal button ───────────────────────────────
-                      // ✅ Ab ye PlanFreeTrialScreen pe jaata hai
                       _animatedEntry(
                         slide: _buttonSlide,
                         fade: _buttonFade,
@@ -353,8 +394,11 @@ class _Homescreen2State extends State<Homescreen2>
                                 builder: (_) => const PlanFreeTrialScreen(),
                               ),
                             ),
-                            icon: Icon(Icons.add,
-                                color: Colors.white, size: w * 0.055),
+                            icon: Icon(
+                              Icons.add,
+                              color: Colors.white,
+                              size: w * 0.055,
+                            ),
                             label: Text(
                               'Add Meal',
                               style: TextStyle(
@@ -390,7 +434,6 @@ class _Homescreen2State extends State<Homescreen2>
     );
   }
 
-  // ── Stat card ─────────────────────────────────────────────────────────
   Widget _statCard({
     required double w,
     required double h,
@@ -403,7 +446,9 @@ class _Homescreen2State extends State<Homescreen2>
     return Container(
       height: 138,
       padding: EdgeInsets.symmetric(
-          horizontal: w * 0.045, vertical: h * 0.03),
+        horizontal: w * 0.045,
+        vertical: h * 0.03,
+      ),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(w * 0.07),
@@ -420,36 +465,41 @@ class _Homescreen2State extends State<Homescreen2>
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Text(label,
-              style: TextStyle(
-                fontFamily: "semibold",
-                fontSize: rf(10) / ts,
-                fontWeight: FontWeight.w600,
-                color: Colors.black45,
-                letterSpacing: 0.8,
-              )),
+          Text(
+            label,
+            style: TextStyle(
+              fontFamily: "semibold",
+              fontSize: rf(10) / ts,
+              fontWeight: FontWeight.w600,
+              color: Colors.black45,
+              letterSpacing: 0.8,
+            ),
+          ),
           SizedBox(height: h * 0.015),
-          Text(value,
-              style: TextStyle(
-                fontFamily: "bold",
-                fontSize: rf(18) / ts,
-                fontWeight: FontWeight.w800,
-                color: Colors.black87,
-              )),
+          Text(
+            value,
+            style: TextStyle(
+              fontFamily: "bold",
+              fontSize: rf(18) / ts,
+              fontWeight: FontWeight.w800,
+              color: Colors.black87,
+            ),
+          ),
           SizedBox(height: h * 0.01),
-          Text(subLabel,
-              style: TextStyle(
-                fontFamily: "regular",
-                fontSize: rf(11) / ts,
-                color: _green,
-                fontWeight: FontWeight.w600,
-              )),
+          Text(
+            subLabel,
+            style: TextStyle(
+              fontFamily: "regular",
+              fontSize: rf(11) / ts,
+              color: _green,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
         ],
       ),
     );
   }
 
-  // ── Row card (tall — with subtitle count) ────────────────────────────
   Widget _rowCard({
     required double w,
     required double h,
@@ -468,7 +518,9 @@ class _Homescreen2State extends State<Homescreen2>
         height: 85,
         width: double.infinity,
         padding: EdgeInsets.symmetric(
-            horizontal: w * 0.045, vertical: h * 0.018),
+          horizontal: w * 0.045,
+          vertical: h * 0.018,
+        ),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(w * 0.07),
@@ -487,7 +539,9 @@ class _Homescreen2State extends State<Homescreen2>
               width: w * 0.115,
               height: w * 0.115,
               decoration: const BoxDecoration(
-                  color: _greenLight, shape: BoxShape.circle),
+                color: _greenLight,
+                shape: BoxShape.circle,
+              ),
               child: Icon(icon, color: _green, size: w * 0.052),
             ),
             SizedBox(width: w * 0.04),
@@ -496,36 +550,38 @@ class _Homescreen2State extends State<Homescreen2>
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(title,
-                      style: TextStyle(
-                        fontFamily: "semibold",
-                        fontSize: rf(14) / ts,
-                        fontWeight: FontWeight.w600,
-                        color: titleColor,
-                      )),
+                  Text(
+                    title,
+                    style: TextStyle(
+                      fontFamily: "semibold",
+                      fontSize: rf(14) / ts,
+                      fontWeight: FontWeight.w600,
+                      color: titleColor,
+                    ),
+                  ),
                   if (subtitle != null) ...[
                     SizedBox(height: h * 0.004),
-                    Text(subtitle,
-                        style: TextStyle(
-                          fontFamily: "bold",
-                          fontSize: rf(20) / ts,
-                          fontWeight: FontWeight.w800,
-                          color: Colors.black87,
-                        )),
+                    Text(
+                      subtitle,
+                      style: TextStyle(
+                        fontFamily: "bold",
+                        fontSize: rf(20) / ts,
+                        fontWeight: FontWeight.w800,
+                        color: Colors.black87,
+                      ),
+                    ),
                   ],
                 ],
               ),
             ),
             if (showChevron)
-              Icon(Icons.chevron_right,
-                  color: Colors.black38, size: w * 0.06),
+              Icon(Icons.chevron_right, color: Colors.black38, size: w * 0.06),
           ],
         ),
       ),
     );
   }
 
-  // ── Row card (short — no subtitle count) ─────────────────────────────
   Widget _rowCard2({
     required double w,
     required double h,
@@ -544,7 +600,9 @@ class _Homescreen2State extends State<Homescreen2>
         height: 67,
         width: double.infinity,
         padding: EdgeInsets.symmetric(
-            horizontal: w * 0.045, vertical: h * 0.018),
+          horizontal: w * 0.045,
+          vertical: h * 0.018,
+        ),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(w * 0.07),
@@ -563,7 +621,9 @@ class _Homescreen2State extends State<Homescreen2>
               width: w * 0.115,
               height: w * 0.115,
               decoration: const BoxDecoration(
-                  color: _greenLight, shape: BoxShape.circle),
+                color: _greenLight,
+                shape: BoxShape.circle,
+              ),
               child: Icon(icon, color: _green, size: w * 0.052),
             ),
             SizedBox(width: w * 0.04),
@@ -572,29 +632,32 @@ class _Homescreen2State extends State<Homescreen2>
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(title,
-                      style: TextStyle(
-                        fontFamily: "semibold",
-                        fontSize: rf(14) / ts,
-                        fontWeight: FontWeight.w600,
-                        color: titleColor,
-                      )),
+                  Text(
+                    title,
+                    style: TextStyle(
+                      fontFamily: "semibold",
+                      fontSize: rf(14) / ts,
+                      fontWeight: FontWeight.w600,
+                      color: titleColor,
+                    ),
+                  ),
                   if (subtitle != null) ...[
                     SizedBox(height: h * 0.004),
-                    Text(subtitle,
-                        style: TextStyle(
-                          fontFamily: "bold",
-                          fontSize: rf(20) / ts,
-                          fontWeight: FontWeight.w800,
-                          color: Colors.black87,
-                        )),
+                    Text(
+                      subtitle,
+                      style: TextStyle(
+                        fontFamily: "bold",
+                        fontSize: rf(20) / ts,
+                        fontWeight: FontWeight.w800,
+                        color: Colors.black87,
+                      ),
+                    ),
                   ],
                 ],
               ),
             ),
             if (showChevron)
-              Icon(Icons.chevron_right,
-                  color: Colors.black38, size: w * 0.06),
+              Icon(Icons.chevron_right, color: Colors.black38, size: w * 0.06),
           ],
         ),
       ),

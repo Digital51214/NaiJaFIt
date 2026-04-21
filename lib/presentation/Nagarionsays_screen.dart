@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:naijafit/presentation/Planfreetrailscreen.dart';
+import 'package:naijafit/presentation/SaveYourProgressScreen.dart';
 import 'package:naijafit/presentation/sign_up_screen/sign_up_screen.dart';
 import 'package:naijafit/widgets/custom_backbutton.dart';
 import 'package:sizer/sizer.dart';
@@ -187,20 +188,14 @@ class _WhatNigeriansAreSayingScreenState
             // 🔝 Header
             Padding(
               padding: EdgeInsets.fromLTRB(5.w, 4.h, 5.w, 0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  CustomBackButton(onTap: () {
-                    Navigator.pop(context);
-                  }),
-
-                  Image.asset(
-                    'assets/images/LOGO.png',
-                    height: 60,
-                    width: 60,
-                    fit: BoxFit.contain,
-                  ),
-                ],
+              child: Align(
+                alignment: Alignment.centerRight,
+                child: Image.asset(
+                  'assets/images/LOGO.png',
+                  height: 60,
+                  width: 60,
+                  fit: BoxFit.contain,
+                ),
               ),
             ),
 
@@ -268,7 +263,7 @@ class _WhatNigeriansAreSayingScreenState
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const SignUpScreen(),
+                        builder: (context) => const Saveyourprogressscreen(),
                       ),
                     );
                   },

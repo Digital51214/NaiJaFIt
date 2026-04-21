@@ -404,16 +404,17 @@
 
 
 import 'package:flutter/material.dart';
+import 'package:naijafit/presentation/Nagarionsays_screen.dart';
 import 'package:sizer/sizer.dart';
 
+/// Standalone screen — no longer part of onboarding PageView.
+/// Receives all collected data via [onboardingData].
 class Page7CalorieTargetDisplay extends StatefulWidget {
   final Map<String, dynamic> onboardingData;
-  final Function(bool) onNextEnabled;
 
   const Page7CalorieTargetDisplay({
     super.key,
     required this.onboardingData,
-    required this.onNextEnabled,
   });
 
   @override
@@ -430,6 +431,8 @@ class _Page7CalorieTargetDisplayState extends State<Page7CalorieTargetDisplay>
 
   bool _summaryExpanded = true;
 
+  // ── Derived helpers ──────────────────────────────────────────────────────
+
   int get _cals => widget.onboardingData['dailyCalories'] as int? ?? 2000;
 
   String get _goal =>
@@ -441,7 +444,6 @@ class _Page7CalorieTargetDisplayState extends State<Page7CalorieTargetDisplay>
       'gain_weight': {'protein': 0.35, 'carbs': 0.45, 'fats': 0.20},
       'maintain_weight': {'protein': 0.25, 'carbs': 0.50, 'fats': 0.25},
     };
-
     final r = ratios[_goal] ?? ratios['maintain_weight']!;
     return {
       'protein': ((_cals * r['protein']!) / 4).round(),
@@ -459,7 +461,6 @@ class _Page7CalorieTargetDisplayState extends State<Page7CalorieTargetDisplay>
         return 88;
       case 'gain_weight':
         return 84;
-      case 'maintain_weight':
       default:
         return 90;
     }
@@ -471,7 +472,6 @@ class _Page7CalorieTargetDisplayState extends State<Page7CalorieTargetDisplay>
         return 'Fat-loss focused plan';
       case 'gain_weight':
         return 'Healthy weight-gain plan';
-      case 'maintain_weight':
       default:
         return 'Balanced maintenance plan';
     }
@@ -483,41 +483,12 @@ class _Page7CalorieTargetDisplayState extends State<Page7CalorieTargetDisplay>
         return 'Higher protein and a calorie deficit to support steady fat loss.';
       case 'gain_weight':
         return 'Slight calorie surplus with balanced macros to support growth.';
-      case 'maintain_weight':
       default:
         return 'Balanced calorie target and macros to help maintain your weight.';
     }
   }
 
-  @override
-  void initState() {
-    super.initState();
-    _anim = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 900),
-    );
-
-    _fade = CurvedAnimation(parent: _anim, curve: Curves.easeOut)
-        .drive(Tween(begin: 0.0, end: 1.0));
-    _slide = CurvedAnimation(parent: _anim, curve: Curves.easeOut)
-        .drive(Tween(begin: const Offset(0, 0.08), end: Offset.zero));
-
-    _calorieAnim = IntTween(begin: 0, end: _cals).animate(
-      CurvedAnimation(parent: _anim, curve: Curves.easeOutCubic),
-    );
-
-    widget.onNextEnabled(true);
-
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (mounted) _anim.forward();
-    });
-  }
-
-  @override
-  void dispose() {
-    _anim.dispose();
-    super.dispose();
-  }
+  // ── Formatters ───────────────────────────────────────────────────────────
 
   String _fmtGoal(String g) {
     switch (g) {
@@ -549,7 +520,6 @@ class _Page7CalorieTargetDisplayState extends State<Page7CalorieTargetDisplay>
     }
   }
 
-  // ✅ FIX: Smart formatter - shows actual number, never "Not set" if value exists
   String _formatValue(dynamic value) {
     if (value == null) return 'Not set';
     if (value is num) {
@@ -561,7 +531,7 @@ class _Page7CalorieTargetDisplayState extends State<Page7CalorieTargetDisplay>
     return str.isEmpty ? 'Not set' : str;
   }
 
-  // ✅ FIX: Dedicated weight display helper
+  /// Shows current or target weight with unit label
   String _formatWeight(String rawKey, String unitKey) {
     final data = widget.onboardingData;
     final raw = data[rawKey];
@@ -576,7 +546,7 @@ class _Page7CalorieTargetDisplayState extends State<Page7CalorieTargetDisplay>
     return '$formatted $unit';
   }
 
-  // ✅ FIX: Dedicated height display helper
+  /// Shows height with unit label
   String _formatHeight() {
     final data = widget.onboardingData;
     final raw = data['heightRaw'];
@@ -591,7 +561,7 @@ class _Page7CalorieTargetDisplayState extends State<Page7CalorieTargetDisplay>
     return '$formatted $unit';
   }
 
-  // ✅ FIX: Dedicated age display helper
+  /// Shows age with unit label
   String _formatAge() {
     final data = widget.onboardingData;
     final age = data['age'];
@@ -604,260 +574,341 @@ class _Page7CalorieTargetDisplayState extends State<Page7CalorieTargetDisplay>
     return '${numVal.toInt()} $unit';
   }
 
+  // ── Lifecycle ────────────────────────────────────────────────────────────
+
+  @override
+  void initState() {
+    super.initState();
+    _anim = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 900),
+    );
+    _fade = CurvedAnimation(parent: _anim, curve: Curves.easeOut)
+        .drive(Tween(begin: 0.0, end: 1.0));
+    _slide = CurvedAnimation(parent: _anim, curve: Curves.easeOut)
+        .drive(Tween(begin: const Offset(0, 0.08), end: Offset.zero));
+
+    _calorieAnim = IntTween(begin: 0, end: _cals).animate(
+      CurvedAnimation(parent: _anim, curve: Curves.easeOutCubic),
+    );
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) _anim.forward();
+    });
+  }
+
+  @override
+  void dispose() {
+    _anim.dispose();
+    super.dispose();
+  }
+
+  // ── Build ────────────────────────────────────────────────────────────────
+
   @override
   Widget build(BuildContext context) {
     final data = widget.onboardingData;
 
-    return FadeTransition(
-      opacity: _fade,
-      child: SlideTransition(
-        position: _slide,
-        child: SingleChildScrollView(
-          padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 2.h),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Congratulations, your custom plan is ready',
-                style: TextStyle(
-                  fontSize: 15.8.sp,
-                  fontFamily: "semibold",
-                  fontWeight: FontWeight.w700,
-                  color: Colors.black,
-                  height: 1.3,
-                ),
-              ),
-              SizedBox(height: 0.7.h),
-              Text(
-                'Here is your personalized nutrition report based on your goals and body details.',
-                style: TextStyle(
-                  fontSize: 10.8.sp,
-                  fontFamily: "regular",
-                  color: Colors.grey[600],
-                  height: 1.45,
-                ),
-              ),
-              SizedBox(height: 2.6.h),
-
-              // Daily Calorie Card
-              Container(
-                width: double.infinity,
-                padding: EdgeInsets.symmetric(
-                    horizontal: 5.w, vertical: 2.4.h),
-                decoration: BoxDecoration(
-                  color: const Color(0xFFF7FAF7),
-                  borderRadius: BorderRadius.circular(18),
-                  border: Border.all(color: const Color(0xFFE6ECE5)),
-                ),
-                child: Column(
-                  children: [
-                    Text(
-                      'Daily calorie target',
-                      style: TextStyle(
-                        fontSize: 11.sp,
-                        fontFamily: "regular",
-                        color: Colors.grey[700],
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                    SizedBox(height: 1.6.h),
-                    AnimatedBuilder(
-                      animation: _calorieAnim,
-                      builder: (_, __) => Text(
-                        '${_calorieAnim.value}',
-                        style: TextStyle(
-                          fontSize: 28.sp,
-                          fontFamily: "semibold",
-                          fontWeight: FontWeight.w800,
-                          color: const Color(0xFF2E7D32),
-                          height: 1,
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: SafeArea(
+        child: FadeTransition(
+          opacity: _fade,
+          child: SlideTransition(
+            position: _slide,
+            child: SingleChildScrollView(
+              padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 2.h),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // ── Header ──
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        child: Text(
+                          'Congratulations, your custom plan is ready',
+                          style: TextStyle(
+                            fontSize: 15.8.sp,
+                            fontFamily: "semibold",
+                            fontWeight: FontWeight.w700,
+                            color: Colors.black,
+                            height: 1.3,
+                          ),
                         ),
                       ),
-                    ),
-                    SizedBox(height: 0.7.h),
-                    Text(
-                      'Calories per day',
-                      style: TextStyle(
-                        fontSize: 10.5.sp,
-                        fontFamily: "medium",
-                        color: Colors.grey[600],
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-
-              SizedBox(height: 2.h),
-
-              Row(
-                children: [
-                  Expanded(
-                    child: _metricCard(
-                      title: 'Carbs',
-                      value: '${_macros['carbs']}g',
-                      subtitle:
-                      '${((_macros['carbsPct'] as double) * 100).round()}%',
-                      icon: Icons.grain,
-                      iconColor: const Color(0xFF2E7D32),
+                    ],
+                  ),
+                  SizedBox(height: 0.7.h),
+                  Text(
+                    'Here is your personalized nutrition report based on your goals and body details.',
+                    style: TextStyle(
+                      fontSize: 10.8.sp,
+                      fontFamily: "regular",
+                      color: Colors.grey[600],
+                      height: 1.45,
                     ),
                   ),
-                  SizedBox(width: 3.w),
-                  Expanded(
-                    child: _metricCard(
-                      title: 'Protein',
-                      value: '${_macros['protein']}g',
-                      subtitle:
-                      '${((_macros['proteinPct'] as double) * 100).round()}%',
-                      icon: Icons.fitness_center,
-                      iconColor: Colors.orange,
-                    ),
-                  ),
-                ],
-              ),
+                  SizedBox(height: 2.6.h),
 
-              SizedBox(height: 1.4.h),
-
-              Row(
-                children: [
-                  Expanded(
-                    child: _metricCard(
-                      title: 'Fats',
-                      value: '${_macros['fats']}g',
-                      subtitle:
-                      '${((_macros['fatsPct'] as double) * 100).round()}%',
-                      icon: Icons.opacity,
-                      iconColor: Colors.blue,
+                  // ── Daily Calorie Card ──
+                  Container(
+                    width: double.infinity,
+                    padding: EdgeInsets.symmetric(
+                        horizontal: 5.w, vertical: 2.4.h),
+                    decoration: BoxDecoration(
+                      color: const Color(0xFFF7FAF7),
+                      borderRadius: BorderRadius.circular(18),
+                      border: Border.all(color: const Color(0xFFE6ECE5)),
                     ),
-                  ),
-                  SizedBox(width: 3.w),
-                  Expanded(
-                    child: _metricCard(
-                      title: 'Health Score',
-                      value: '$_healthScore/100',
-                      subtitle: 'Based on your plan',
-                      icon: Icons.favorite_outline,
-                      iconColor: const Color(0xFF56A61F),
-                    ),
-                  ),
-                ],
-              ),
-
-              SizedBox(height: 2.h),
-
-              // Goal description card
-              Container(
-                width: double.infinity,
-                padding: EdgeInsets.symmetric(
-                    horizontal: 4.5.w, vertical: 2.1.h),
-                decoration: BoxDecoration(
-                  color: const Color(0xFFEFF7EE),
-                  borderRadius: BorderRadius.circular(18),
-                ),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      width: 11.w,
-                      height: 11.w,
-                      decoration: const BoxDecoration(
-                        color: Color(0xFFDDEED9),
-                        shape: BoxShape.circle,
-                      ),
-                      child: Icon(
-                        Icons.track_changes_rounded,
-                        color: const Color(0xFF2E7D32),
-                        size: 5.5.w,
-                      ),
-                    ),
-                    SizedBox(width: 3.5.w),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            _goalTitle,
+                    child: Column(
+                      children: [
+                        Text(
+                          'Daily calorie target',
+                          style: TextStyle(
+                            fontSize: 11.sp,
+                            fontFamily: "regular",
+                            color: Colors.grey[700],
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                        SizedBox(height: 1.6.h),
+                        AnimatedBuilder(
+                          animation: _calorieAnim,
+                          builder: (_, __) => Text(
+                            '${_calorieAnim.value}',
                             style: TextStyle(
-                              fontSize: 11.5.sp,
+                              fontSize: 28.sp,
                               fontFamily: "semibold",
-                              fontWeight: FontWeight.w700,
+                              fontWeight: FontWeight.w800,
                               color: const Color(0xFF2E7D32),
+                              height: 1,
                             ),
                           ),
-                          SizedBox(height: 0.6.h),
-                          Text(
-                            _goalDescription,
-                            style: TextStyle(
-                              fontSize: 9.5.sp,
-                              fontFamily: "regular",
-                              color: const Color(0xFF5F6B5F),
-                              height: 1.45,
-                            ),
+                        ),
+                        SizedBox(height: 0.7.h),
+                        Text(
+                          'Calories per day',
+                          style: TextStyle(
+                            fontSize: 10.5.sp,
+                            fontFamily: "medium",
+                            color: Colors.grey[600],
+                            fontWeight: FontWeight.w500,
                           ),
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  SizedBox(height: 2.h),
+
+                  // ── Macro Cards Row 1 ──
+                  Row(
+                    children: [
+                      Expanded(
+                        child: _metricCard(
+                          title: 'Carbs',
+                          value: '${_macros['carbs']}g',
+                          subtitle:
+                          '${((_macros['carbsPct'] as double) * 100).round()}%',
+                          icon: Icons.grain,
+                          iconColor: const Color(0xFF2E7D32),
+                        ),
+                      ),
+                      SizedBox(width: 3.w),
+                      Expanded(
+                        child: _metricCard(
+                          title: 'Protein',
+                          value: '${_macros['protein']}g',
+                          subtitle:
+                          '${((_macros['proteinPct'] as double) * 100).round()}%',
+                          icon: Icons.fitness_center,
+                          iconColor: Colors.orange,
+                        ),
+                      ),
+                    ],
+                  ),
+
+                  SizedBox(height: 1.4.h),
+
+                  // ── Macro Cards Row 2 ──
+                  Row(
+                    children: [
+                      Expanded(
+                        child: _metricCard(
+                          title: 'Fats',
+                          value: '${_macros['fats']}g',
+                          subtitle:
+                          '${((_macros['fatsPct'] as double) * 100).round()}%',
+                          icon: Icons.opacity,
+                          iconColor: Colors.blue,
+                        ),
+                      ),
+                      SizedBox(width: 3.w),
+                      Expanded(
+                        child: _metricCard(
+                          title: 'Health Score',
+                          value: '$_healthScore/100',
+                          subtitle: 'Based on your plan',
+                          icon: Icons.favorite_outline,
+                          iconColor: const Color(0xFF56A61F),
+                        ),
+                      ),
+                    ],
+                  ),
+
+                  SizedBox(height: 2.h),
+
+                  // ── Goal Description Card ──
+                  Container(
+                    width: double.infinity,
+                    padding: EdgeInsets.symmetric(
+                        horizontal: 4.5.w, vertical: 2.1.h),
+                    decoration: BoxDecoration(
+                      color: const Color(0xFFEFF7EE),
+                      borderRadius: BorderRadius.circular(18),
+                    ),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          width: 11.w,
+                          height: 11.w,
+                          decoration: const BoxDecoration(
+                            color: Color(0xFFDDEED9),
+                            shape: BoxShape.circle,
+                          ),
+                          child: Icon(
+                            Icons.track_changes_rounded,
+                            color: const Color(0xFF2E7D32),
+                            size: 5.5.w,
+                          ),
+                        ),
+                        SizedBox(width: 3.5.w),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                _goalTitle,
+                                style: TextStyle(
+                                  fontSize: 11.5.sp,
+                                  fontFamily: "semibold",
+                                  fontWeight: FontWeight.w700,
+                                  color: const Color(0xFF2E7D32),
+                                ),
+                              ),
+                              SizedBox(height: 0.6.h),
+                              Text(
+                                _goalDescription,
+                                style: TextStyle(
+                                  fontSize: 9.5.sp,
+                                  fontFamily: "regular",
+                                  color: const Color(0xFF5F6B5F),
+                                  height: 1.45,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  SizedBox(height: 1.6.h),
+
+                  // ── Plan Summary Accordion ──
+                  _accordion(
+                    title: 'Plan Summary',
+                    expanded: _summaryExpanded,
+                    onTap: () =>
+                        setState(() => _summaryExpanded = !_summaryExpanded),
+                    child: Padding(
+                      padding: EdgeInsets.only(top: 1.5.h),
+                      child: Column(
+                        children: [
+                          _summaryRow('Goal', _fmtGoal(_goal)),
+                          SizedBox(height: 1.h),
+                          _summaryRow(
+                            'Timeline',
+                            _formatValue(data['timeline']),
+                          ),
+                          SizedBox(height: 1.h),
+                          _summaryRow(
+                            'Activity Level',
+                            _fmtActivity(data['activityLevel']?.toString()),
+                          ),
+                          SizedBox(height: 1.h),
+
+                          // Current Weight — from Page2
+                          _summaryRow(
+                            'Current Weight',
+                            _formatWeight('currentWeightRaw', 'currentWeightUnit'),
+                          ),
+                          SizedBox(height: 1.h),
+
+                          // Target Weight — from Page2
+                          _summaryRow(
+                            'Target Weight',
+                            _formatWeight('targetWeightRaw', 'targetWeightUnit'),
+                          ),
+                          SizedBox(height: 1.h),
+
+                          // Age — from Page6
+                          _summaryRow('Age', _formatAge()),
+                          SizedBox(height: 1.h),
+
+                          // Height — from Page6
+                          _summaryRow('Height', _formatHeight()),
+                          SizedBox(height: 1.h),
+
+                          _summaryRow('Daily Calories', '$_cals kcal'),
                         ],
                       ),
                     ),
-                  ],
-                ),
-              ),
-
-              SizedBox(height: 1.6.h),
-
-              // ✅ FIX: Summary accordion uses all fixed helper methods
-              _accordion(
-                title: 'Plan Summary',
-                expanded: _summaryExpanded,
-                onTap: () =>
-                    setState(() => _summaryExpanded = !_summaryExpanded),
-                child: Padding(
-                  padding: EdgeInsets.only(top: 1.5.h),
-                  child: Column(
-                    children: [
-                      _summaryRow('Goal', _fmtGoal(_goal)),
-                      SizedBox(height: 1.h),
-                      _summaryRow(
-                        'Timeline',
-                        _formatValue(data['timeline']),
-                      ),
-                      SizedBox(height: 1.h),
-                      _summaryRow(
-                        'Activity Level',
-                        _fmtActivity(data['activityLevel']?.toString()),
-                      ),
-                      SizedBox(height: 1.h),
-
-                      // ✅ FIX: Uses _formatWeight helper — shows actual user input
-                      _summaryRow(
-                        'Current Weight',
-                        _formatWeight('currentWeightRaw', 'currentWeightUnit'),
-                      ),
-                      SizedBox(height: 1.h),
-                      _summaryRow(
-                        'Target Weight',
-                        _formatWeight('targetWeightRaw', 'targetWeightUnit'),
-                      ),
-                      SizedBox(height: 1.h),
-
-                      // ✅ FIX: Uses _formatAge helper — shows actual user input
-                      _summaryRow('Age', _formatAge()),
-                      SizedBox(height: 1.h),
-
-                      // ✅ FIX: Uses _formatHeight helper — shows actual user input
-                      _summaryRow('Height', _formatHeight()),
-                      SizedBox(height: 1.h),
-                      _summaryRow('Daily Calories', '$_cals kcal'),
-                    ],
                   ),
-                ),
-              ),
 
-              SizedBox(height: 2.h),
-            ],
+                  SizedBox(height: 3.h),
+
+                  // ── Continue Button ──
+                  SizedBox(
+                    width: double.infinity,
+                    height: 52,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>WhatNigeriansAreSayingScreen()),
+                            (Route<dynamic>route)=>false);
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(0xFF026F1A),
+                        foregroundColor: Colors.white,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                        elevation: 0,
+                      ),
+                      child: Text(
+                        'Get Started',
+                        style: TextStyle(
+                          fontSize: 14.sp,
+                          fontFamily: 'semibold',
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                    ),
+                  ),
+
+                  SizedBox(height: 2.h),
+                ],
+              ),
+            ),
           ),
         ),
       ),
     );
   }
+
+  // ── Widget helpers ───────────────────────────────────────────────────────
 
   Widget _metricCard({
     required String title,
