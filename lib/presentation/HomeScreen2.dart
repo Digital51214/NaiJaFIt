@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:naijafit/presentation/MealHistoryScreen.dart';
 import 'package:naijafit/presentation/Notification_screen.dart';
@@ -36,7 +37,11 @@ class _Homescreen2State extends State<Homescreen2>
   static const Color _greenCard = Color(0xFFE8F5E9);
   static const Color _bgColor = Color(0xFFF8F8F8);
 
-  bool _hasShownReviewSheet = false;
+  /// ✅ App session me sirf ek dafa bottom sheet show hogi
+  static bool _reviewSheetAlreadyShownInSession = false;
+
+  Timer? _reviewSheetTimer;
+  bool _isBottomSheetOpen = false;
 
   @override
   void initState() {
@@ -50,59 +55,86 @@ class _Homescreen2State extends State<Homescreen2>
     _headerSlide = Tween<Offset>(
       begin: const Offset(0, -0.30),
       end: Offset.zero,
-    ).animate(CurvedAnimation(
-      parent: _controller,
-      curve: const Interval(0.00, 0.28, curve: Curves.easeOutCubic),
-    ));
+    ).animate(
+      CurvedAnimation(
+        parent: _controller,
+        curve: const Interval(0.00, 0.28, curve: Curves.easeOutCubic),
+      ),
+    );
 
-    _headerFade = Tween<double>(begin: 0, end: 1).animate(CurvedAnimation(
-      parent: _controller,
-      curve: const Interval(0.00, 0.25, curve: Curves.easeOut),
-    ));
+    _headerFade = Tween<double>(begin: 0, end: 1).animate(
+      CurvedAnimation(
+        parent: _controller,
+        curve: const Interval(0.00, 0.25, curve: Curves.easeOut),
+      ),
+    );
 
     _contentSlide = Tween<Offset>(
       begin: const Offset(0, 0.20),
       end: Offset.zero,
-    ).animate(CurvedAnimation(
-      parent: _controller,
-      curve: const Interval(0.18, 0.68, curve: Curves.easeOutCubic),
-    ));
+    ).animate(
+      CurvedAnimation(
+        parent: _controller,
+        curve: const Interval(0.18, 0.68, curve: Curves.easeOutCubic),
+      ),
+    );
 
-    _contentFade = Tween<double>(begin: 0, end: 1).animate(CurvedAnimation(
-      parent: _controller,
-      curve: const Interval(0.18, 0.62, curve: Curves.easeOut),
-    ));
+    _contentFade = Tween<double>(begin: 0, end: 1).animate(
+      CurvedAnimation(
+        parent: _controller,
+        curve: const Interval(0.18, 0.62, curve: Curves.easeOut),
+      ),
+    );
 
     _buttonSlide = Tween<Offset>(
       begin: const Offset(0, 0.35),
       end: Offset.zero,
-    ).animate(CurvedAnimation(
-      parent: _controller,
-      curve: const Interval(0.58, 1.00, curve: Curves.easeOutCubic),
-    ));
+    ).animate(
+      CurvedAnimation(
+        parent: _controller,
+        curve: const Interval(0.58, 1.00, curve: Curves.easeOutCubic),
+      ),
+    );
 
-    _buttonFade = Tween<double>(begin: 0, end: 1).animate(CurvedAnimation(
-      parent: _controller,
-      curve: const Interval(0.58, 0.95, curve: Curves.easeOut),
-    ));
+    _buttonFade = Tween<double>(begin: 0, end: 1).animate(
+      CurvedAnimation(
+        parent: _controller,
+        curve: const Interval(0.58, 0.95, curve: Curves.easeOut),
+      ),
+    );
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (mounted) {
-        _controller.forward();
-        _scheduleReviewBottomSheet();
-      }
+      if (!mounted) return;
+      _controller.forward();
+      _scheduleReviewBottomSheet();
     });
   }
 
   void _scheduleReviewBottomSheet() {
-    Future.delayed(const Duration(seconds: 4), () {
-      if (!mounted || _hasShownReviewSheet) return;
+    /// ✅ Agar ek dafa show ho chuki hai to dobara na dikhao
+    if (_reviewSheetAlreadyShownInSession) return;
+
+    _reviewSheetTimer?.cancel();
+
+    _reviewSheetTimer = Timer(const Duration(seconds: 4), () {
+      if (!mounted) return;
+      if (_reviewSheetAlreadyShownInSession) return;
+      if (_isBottomSheetOpen) return;
+
+      final currentRoute = ModalRoute.of(context);
+      if (currentRoute?.isCurrent != true) return;
+
       _showReviewBottomSheet();
     });
   }
 
   Future<void> _showReviewBottomSheet() async {
-    _hasShownReviewSheet = true;
+    if (_isBottomSheetOpen || _reviewSheetAlreadyShownInSession || !mounted) {
+      return;
+    }
+
+    _isBottomSheetOpen = true;
+    _reviewSheetAlreadyShownInSession = true;
 
     await showModalBottomSheet(
       context: context,
@@ -113,18 +145,23 @@ class _Homescreen2State extends State<Homescreen2>
       builder: (_) {
         return ReviewBottomSheet(
           onPrimaryTap: () {
-            Navigator.pop(context);
+            Navigator.of(context).pop();
           },
           onMaybeLaterTap: () {
-            Navigator.pop(context);
+            Navigator.of(context).pop();
           },
         );
       },
     );
+
+    if (mounted) {
+      _isBottomSheetOpen = false;
+    }
   }
 
   @override
   void dispose() {
+    _reviewSheetTimer?.cancel();
     _controller.dispose();
     super.dispose();
   }
@@ -136,7 +173,10 @@ class _Homescreen2State extends State<Homescreen2>
   }) {
     return FadeTransition(
       opacity: fade,
-      child: SlideTransition(position: slide, child: child),
+      child: SlideTransition(
+        position: slide,
+        child: child,
+      ),
     );
   }
 
@@ -375,7 +415,9 @@ class _Homescreen2State extends State<Homescreen2>
                         showChevron: true,
                         onTap: () => Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (_) => MealHistoryScreen()),
+                          MaterialPageRoute(
+                            builder: (_) => MealHistoryScreen(),
+                          ),
                         ),
                       ),
 
@@ -414,8 +456,7 @@ class _Homescreen2State extends State<Homescreen2>
                               foregroundColor: Colors.white,
                               elevation: 0,
                               shape: RoundedRectangleBorder(
-                                borderRadius:
-                                BorderRadius.circular(w * 0.12),
+                                borderRadius: BorderRadius.circular(w * 0.12),
                               ),
                             ),
                           ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:naijafit/presentation/RatingSubmitScreen.dart';
 
 class ReviewBottomSheet extends StatelessWidget {
   final VoidCallback onPrimaryTap;
@@ -11,16 +12,23 @@ class ReviewBottomSheet extends StatelessWidget {
   });
 
   static void show(BuildContext context) {
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
-      builder: (_) => ReviewBottomSheet(
-        onPrimaryTap: () => Navigator.pop(context),
-        onMaybeLaterTap: () => Navigator.pop(context),
-      ),
-    );
-  }
+      showModalBottomSheet(
+        context: context,
+        isScrollControlled: true,
+        backgroundColor: Colors.transparent,
+        builder: (sheetContext) => ReviewBottomSheet(
+          onPrimaryTap: () {
+            Navigator.of(sheetContext).pop();
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (_) => const RatingScreen(),
+              ),
+            );
+          },
+          onMaybeLaterTap: () => Navigator.of(sheetContext).pop(),
+        ),
+      );
+    }
 
   @override
   Widget build(BuildContext context) {
@@ -102,7 +110,6 @@ class ReviewBottomSheet extends StatelessWidget {
                         fit: BoxFit.contain,
                       ),
                     ),
-
                     Expanded(
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
@@ -143,7 +150,6 @@ class ReviewBottomSheet extends StatelessWidget {
                         ],
                       ),
                     ),
-
                     Center(
                       child: Image.asset(
                         "assets/images/rightside.jpg",
@@ -271,7 +277,13 @@ class ReviewBottomSheet extends StatelessWidget {
                 width: double.infinity,
                 height: h * 0.065,
                 child: ElevatedButton(
-                  onPressed: onPrimaryTap,
+                  onPressed: (){
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (_) => const RatingScreen(),
+                      ),
+                    );
+                  },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xFF026F1A),
                     elevation: 0,
@@ -312,7 +324,7 @@ class ReviewBottomSheet extends StatelessWidget {
   }
 }
 
-// ─── Avatar widget ────────────────────────────────────────────────
+// ─── Avatar widget ─────────────────────────────────────────────────
 class _Avatar extends StatelessWidget {
   final double w;
   final String path;
@@ -337,7 +349,7 @@ class _Avatar extends StatelessWidget {
   }
 }
 
-// ─── Laurel icon using CustomPainter ─────────────────────────────
+// ─── Laurel icon ───────────────────────────────────────────────────
 class _LaurelIcon extends StatelessWidget {
   final double w;
   final bool flip;
@@ -365,17 +377,14 @@ class _LaurelPainter extends CustomPainter {
       ..strokeCap = StrokeCap.round;
 
     final path = Path();
-    // Draw a simple laurel curve
     path.moveTo(size.width * 0.8, size.height * 0.95);
     path.cubicTo(
       size.width * 0.1, size.height * 0.85,
       size.width * 0.0, size.height * 0.5,
       size.width * 0.3, size.height * 0.1,
     );
-
     canvas.drawPath(path, paint);
 
-    // Leaf marks
     for (int i = 0; i < 4; i++) {
       final t = 0.15 + i * 0.22;
       final x = _cubicT(0.8, 0.1, 0.0, 0.3, t) * size.width;
